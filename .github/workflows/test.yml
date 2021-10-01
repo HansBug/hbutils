@@ -49,7 +49,7 @@ jobs:
           pip --version
           pip list
           tree .
-          cloc treetensor
+          cloc hbutils
           cloc test
       - name: Run unittest
         env:

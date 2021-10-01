@@ -1,8 +1,10 @@
 .PHONY: docs test unittest
 
-DOC_DIR  := ./docs
-TEST_DIR := ./test
-SRC_DIR  := ./hbutils
+PROJ_DIR := $(shell readlink -f ${CURDIR})
+
+DOC_DIR  := ${PROJ_DIR}/docs
+TEST_DIR := ${PROJ_DIR}/test
+SRC_DIR  := ${PROJ_DIR}/hbutils
 
 RANGE_DIR      ?= .
 RANGE_TEST_DIR := ${TEST_DIR}/${RANGE_DIR}
