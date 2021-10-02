@@ -12,6 +12,12 @@ args\_iter
 .. autofunction:: args_iter
 
 
+sigsupply
+--------------------------------------
+
+.. autofunction:: sigsupply
+
+
 dynamic\_call
 --------------------------------------
 

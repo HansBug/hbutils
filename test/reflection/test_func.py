@@ -5,13 +5,32 @@ from typing import Callable, Any, Union, Optional, List, Tuple
 import pytest
 
 from hbutils.reflection import args_iter, dynamic_call, static_call, post_process, pre_process, freduce, raising, \
-    warning_, get_callable_hint
+    warning_, get_callable_hint, sigsupply
 
 
 @pytest.mark.unittest
 class TestReflectionFunc:
     def test_args_iter(self):
         assert list(args_iter(1, 2, 3, a=1, c=3, b=4)) == [(0, 1), (1, 2), (2, 3), ('a', 1), ('b', 4), ('c', 3)]
+
+    def test_sigsupply(self):
+        with io.StringIO() as sio:
+            f1 = dynamic_call(sigsupply(print, lambda a, b, c, **kwargs: None))
+            f1(2, 3, 5, 7, file=sio)
+            assert '2 3 5' in sio.getvalue()
+            assert '2 3 5 7' not in sio.getvalue()
+
+            f2 = dynamic_call(sigsupply(f1, lambda *args, **kwargs: None))
+            f2(11, 13, 17, 19, file=sio)
+            assert '11 13 17' in sio.getvalue()
+            assert '11 13 17 19' not in sio.getvalue()
+
+            def my_print(*args, **kwargs):
+                print(*args, **kwargs)
+
+            f3 = dynamic_call(sigsupply(my_print, lambda a, b, **kwargs: None))
+            f3(23, 29, 31, 37, file=sio)
+            assert '23 29 31 37' in sio.getvalue()
 
     def test_dynamic_call(self):
         assert dynamic_call(lambda x, y: x ** y)(2, 3) == 8
@@ -21,26 +40,6 @@ class TestReflectionFunc:
         assert dynamic_call(lambda x, y, **kwargs: (kwargs, x, y))(1, k=2, y=3) == ({'k': 2}, 1, 3)
         assert dynamic_call(lambda x, y, *args, t=2, v=4, **kwargs: (args, kwargs, x, y, t, v))(1, 2, 3, 4, p=5, v=7) \
                == ((3, 4), {'p': 5}, 1, 2, 2, 7)
-
-    def test_dynamic_call_with_builtin(self):
-        def f(a, b):
-            return a + b
-
-        assert dynamic_call(f)(3, 5, 7, 11) == 8
-        with io.StringIO() as sio1:
-            with pytest.raises(ValueError):
-                dynamic_call(print)(3, 5, 7, 11, file=sio1)
-
-            assert '3' not in sio1.getvalue()
-
-        with io.StringIO() as sio2:
-            dynamic_call(print, when_builtin=lambda *args, **kwargs: None)(3, 5, 7, 11, file=sio2)
-            assert '3 5 7 11' in sio2.getvalue()
-
-        with io.StringIO() as sio3:
-            dynamic_call(print, when_builtin=lambda a, b, c, **kwargs: None)(3, 5, 7, 11, file=sio3)
-            assert '3 5 7' in sio3.getvalue()
-            assert '3 5 7 11' not in sio3.getvalue()
 
     def __get_wrapped_function(self):
         def _wrapper(func):
@@ -64,7 +63,7 @@ class TestReflectionFunc:
 
     def test_static_call(self):
         f = self.__get_wrapped_function()
-        f = static_call(f, static_ok=False, static_all=True).__wrapped__
+        f = static_call(f, static_ok=False).__wrapped__
         assert f(2) == 4
         with pytest.raises(TypeError):
             _ = f(1, 2, 3, 4)

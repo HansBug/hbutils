@@ -6,12 +6,12 @@ import warnings
 from functools import wraps
 from inspect import signature, Parameter
 from itertools import chain
-from typing import Callable, TypeVar, Union, Type, get_type_hints, Any, Optional
+from typing import Callable, TypeVar, Union, Type, get_type_hints, Any
 
 from ..design import SingletonMark, decolize
 
 __all__ = [
-    'args_iter',
+    'args_iter', 'sigsupply',
     'dynamic_call', 'static_call',
     'pre_process', 'post_process',
     'raising', 'warning_',
@@ -50,19 +50,60 @@ def args_iter(*args, **kwargs):
         yield _index, _item
 
 
+_SIG_WRAPPED = '__sig_wrapped__'
 _DYNAMIC_WRAPPED = '__dynamic_wrapped__'
 
 
+def sigsupply(func, sfunc):
+    """
+    Overview:
+        A solution for :func:`dynamic_call`. When ``func`` is a builtin function or method \
+        (which means its signature can not be captured by ``inspect.signature``), the signature of \
+        ``sfunc`` will take the place, and the builtin function will be able to processed properly by \
+        function :func:`dynamic_call`.
+
+    Arguments:
+        - func: Original function, can be a native function or builtin function.
+        - sfunc: Supplemental function, must be a native python function which has signature. \
+            Its inner logic has no importance, just provide a lambda with arguments format and \
+            ``None`` return.
+
+    Examples::
+
+        >>> dynamic_call(max)([1, 2, 3])  # no sigsupply
+        ValueError: no signature found for builtin <built-in function max>
+        >>> dynamic_call(sigsupply(max, lambda x: None))([1, 2, 3])  # use it as func(x) when builtin
+        3
+    """
+    if getattr(func, _SIG_WRAPPED, None):
+        return func
+
+    try:
+        signature(func, follow_wrapped=False)
+    except ValueError:
+        @wraps(func)
+        def _new_func(*args, **kwargs):
+            return func(*args, **kwargs)
+
+        setattr(_new_func, _SIG_WRAPPED, sfunc)
+        return _new_func
+    else:
+        return func
+
+
+def _getsignature(func):
+    sfunc = getattr(func, _SIG_WRAPPED, func)
+    return signature(sfunc, follow_wrapped=False)
+
+
 @decolize
-def dynamic_call(func: Callable, when_builtin: Optional[Callable] = None):
+def dynamic_call(func: Callable):
     """
     Overview:
         Decorate function to dynamic-call-supported function.
 
     Arguments:
         - func (:obj:`Callable`): Original function to be decorated.
-        - when_buitlin (:obj:`Optional[Callable]`): When the func is a builtin function, \
-            follow the signature of this given ``when_buitlin`` function.
 
     Returns:
         - new_func (:obj:`Callable`): Decorated function.
@@ -76,25 +117,18 @@ def dynamic_call(func: Callable, when_builtin: Optional[Callable] = None):
 
     .. note::
 
-        Simple :func:`dynamic_call` can not support builtin functions for they do not have \
-        python signature. If you need to deal with builtin functions, you can use ``when_builtin`` \
-        argument like this.
+        Simple :func:`dynamic_call` **can not support builtin functions because they do not have \
+        python signature**. If you need to deal with builtin functions, you can use :func:`sigsupply` \
+        to add a signature onto the function when necessary.
 
-        >>> dynamic_call(max, when_builtin=lambda x: None)([1, 2, 3])  # 3
-        >>> dynamic_call(when_builtin=lambda x: None)(max)([1, 2, 3])  # 3
     """
+    if _is_dynamic_call(func):
+        return func
+
     enable_args, args_count = False, 0
     enable_kwargs, kwargs_set = False, set()
 
-    try:
-        sig = signature(func, follow_wrapped=False)
-    except ValueError as err:
-        if callable(when_builtin):
-            sig = signature(when_builtin, follow_wrapped=False)
-        else:
-            raise err
-
-    for name, param in sig.parameters.items():
+    for name, param in _getsignature(func).parameters.items():
         if param.kind in {Parameter.POSITIONAL_ONLY, Parameter.POSITIONAL_OR_KEYWORD}:
             args_count += 1
         if param.kind in (Parameter.KEYWORD_ONLY, Parameter.POSITIONAL_OR_KEYWORD):
@@ -123,7 +157,7 @@ def _is_dynamic_call(func: Callable):
 
 
 @decolize
-def static_call(func: Callable, static_ok: bool = True, static_all: bool = False):
+def static_call(func: Callable, static_ok: bool = True):
     """
     Overview:
         Static call, anti-calculation of dynamic call.
@@ -131,7 +165,6 @@ def static_call(func: Callable, static_ok: bool = True, static_all: bool = False
     Arguments:
         - func (:obj:`Callable`): Given dynamic function.
         - static_ok (:obj:`bool`): Allow given function to be static, default is ``True``.
-        - static_all (:obj:`bool`): Unwrapped all the dynamic wrappers at one time, default is ``False``.
 
     Returns:
         - static (:obj:`Callable`): Static function.
@@ -139,12 +172,7 @@ def static_call(func: Callable, static_ok: bool = True, static_all: bool = False
     if not static_ok and not _is_dynamic_call(func):
         raise TypeError("Given callable is already static.")
 
-    func = getattr(func, _DYNAMIC_WRAPPED, func)
-    if static_all:
-        while _is_dynamic_call(func):
-            func = getattr(func, _DYNAMIC_WRAPPED)
-
-    return func
+    return getattr(func, _DYNAMIC_WRAPPED, func)
 
 
 def pre_process(processor: Callable):
