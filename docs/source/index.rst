@@ -22,6 +22,7 @@ Overview
     :caption: API Documentation
 
     api_doc/config/index
+    api_doc/algorithm/index
 
 
 .. toctree::
