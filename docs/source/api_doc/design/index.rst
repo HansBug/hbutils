@@ -8,4 +8,5 @@ hbutils.design
 .. toctree::
     :maxdepth: 3
 
+    decorator
     singleton
