@@ -24,6 +24,7 @@ Overview
     api_doc/algorithm/index
     api_doc/config/index
     api_doc/design/index
+    api_doc/encoding/index
     api_doc/reflection/index
 
 
