@@ -9,4 +9,5 @@ hbutils.design
     :maxdepth: 3
 
     decorator
+    final
     singleton

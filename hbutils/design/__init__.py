@@ -4,4 +4,5 @@ Overview:
     but some simple packages are often useful, such as singleton patterns.
 """
 from .decorator import *
+from .final import *
 from .singleton import *
