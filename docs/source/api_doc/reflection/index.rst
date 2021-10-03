@@ -9,5 +9,6 @@ hbutils.reflection
     :maxdepth: 3
 
     enum
+    exception
     func
     imports
