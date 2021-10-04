@@ -22,6 +22,7 @@ Overview
     :caption: API Documentation
 
     api_doc/algorithm/index
+    api_doc/color/index
     api_doc/config/index
     api_doc/design/index
     api_doc/encoding/index
