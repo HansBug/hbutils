@@ -8,6 +8,7 @@ hbutils.reflection
 .. toctree::
     :maxdepth: 3
 
+    clazz
     enum
     exception
     func
