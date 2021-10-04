@@ -2,6 +2,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/hbutils)](https://pypi.org/project/hbutils/)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/hbutils)
+![PyPI - Implementation](https://img.shields.io/pypi/implementation/hbutils)
 ![Loc](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/HansBug/1ffdd46a0c79027a7776b262143b20a4/raw/loc.json)
 ![Comments](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/HansBug/1ffdd46a0c79027a7776b262143b20a4/raw/comments.json)
 
@@ -21,3 +22,8 @@
 
 
 Some useful functions and classes in Python infrastructure development.
+
+For further information, take a look at [HBUtils’s Documentation](https://hansbug.github.io/hbutils/main/index.html), 
+the API Documentation part is just the function and classes included now.
+
+This utility set is still under development, more utilities will be added soon afterwards.
