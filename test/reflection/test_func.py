@@ -1,3 +1,4 @@
+import inspect
 import io
 from functools import wraps
 from typing import Callable, Any, Union, Optional, List, Tuple
@@ -8,12 +9,26 @@ from hbutils.reflection import args_iter, dynamic_call, static_call, post_proces
     warning_, get_callable_hint, sigsupply
 
 
-@pytest.mark.unittest
+def _has_signature(func) -> bool:
+    try:
+        inspect.signature(func, follow_wrapped=False)
+    except ValueError:
+        return False
+    else:
+        return True
+
+
+def _nosigmark(func):
+    return pytest.mark.unittest if not _has_signature(func) else pytest.mark.ignore
+
+
 class TestReflectionFunc:
+    @pytest.mark.unittest
     def test_args_iter(self):
         assert list(args_iter(1, 2, 3, a=1, c=3, b=4)) == [(0, 1), (1, 2), (2, 3), ('a', 1), ('b', 4), ('c', 3)]
 
-    def test_sigsupply(self):
+    @_nosigmark(print)
+    def test_sigsupply_print(self):
         with io.StringIO() as sio:
             f1 = dynamic_call(sigsupply(print, lambda a, b, c, **kwargs: None))
             f1(2, 3, 5, 7, file=sio)
@@ -32,6 +47,21 @@ class TestReflectionFunc:
             f3(23, 29, 31, 37, file=sio)
             assert '23 29 31 37' in sio.getvalue()
 
+    @_nosigmark(list)
+    def test_sigsupply_list(self):
+        f1 = dynamic_call(sigsupply(list, lambda x: None))
+        assert f1((1, 2, 3), (3, 2, 1)) == [1, 2, 3]
+
+        f2 = dynamic_call(sigsupply(f1, lambda x, y: None))
+        assert f2((1, 2, 3), (3, 2, 1)) == [1, 2, 3]
+
+        def my_list(x):
+            return list(x)
+
+        f3 = dynamic_call(sigsupply(my_list, lambda x, y: None))
+        assert f3((1, 2, 3), (3, 2, 1)) == [1, 2, 3]
+
+    @pytest.mark.unittest
     def test_dynamic_call(self):
         assert dynamic_call(lambda x, y: x ** y)(2, 3) == 8
         assert dynamic_call(lambda x, y: x ** y)(2, 3, 4) == 8
@@ -57,10 +87,12 @@ class TestReflectionFunc:
 
         return f
 
+    @pytest.mark.unittest
     def test_dynamic_call_nested_with_wrapper(self):
         f = self.__get_wrapped_function()
         assert f(1, 2, 3, 4) == 10 ** 10
 
+    @pytest.mark.unittest
     def test_static_call(self):
         f = self.__get_wrapped_function()
         f = static_call(f, static_ok=False).__wrapped__
@@ -74,6 +106,7 @@ class TestReflectionFunc:
         with pytest.raises(TypeError):
             _ = static_call(another_f, static_ok=False)
 
+    @pytest.mark.unittest
     def test_pre_process(self):
         @pre_process(lambda x, y: (-x, (x + 2) * y))
         def plus(a, b):
@@ -105,6 +138,7 @@ class TestReflectionFunc:
 
         assert pw(-3) == 27
 
+    @pytest.mark.unittest
     def test_post_process(self):
         @post_process(lambda x: -x)
         def plus(a, b):
@@ -118,6 +152,7 @@ class TestReflectionFunc:
 
         assert plus2(1, 2) is None
 
+    @pytest.mark.unittest
     def test_freduce(self):
         @freduce(init=lambda neg=False: 1 if neg else 0)
         def plus(a, b, neg: bool = False):
@@ -151,6 +186,7 @@ class TestReflectionFunc:
         with pytest.warns(SyntaxWarning):
             assert plus3(1, 2, 3, 4, neg=True) == 10
 
+    @pytest.mark.unittest
     def test_raising(self):
         f1 = raising(lambda: RuntimeError)
         f2 = raising(RuntimeError)
@@ -168,6 +204,7 @@ class TestReflectionFunc:
         with pytest.raises(RuntimeError):
             f4(-1)
 
+    @pytest.mark.unittest
     def test_warning(self):
         f1 = warning_(lambda: RuntimeWarning)
         f2 = warning_(RuntimeWarning)
@@ -206,6 +243,7 @@ class TestReflectionFunc:
         with pytest.warns(RuntimeWarning):
             f8(-1)
 
+    @pytest.mark.unittest
     def test_get_callable_hint(self):
         def f1(x, y) -> int:
             pass
