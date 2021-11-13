@@ -1,6 +1,6 @@
 import pytest
 
-from hbutils.reflection import class_wraps
+from hbutils.reflection import class_wraps, visual
 
 
 # noinspection DuplicatedCode
@@ -30,3 +30,66 @@ class TestReflectionClazz:
         assert _MyContainer(1, 2).sum() == 3
         assert _MyContainer.__name__ == '_MyContainer'
         assert 'a mark for __doc__' in _MyContainer.__doc__
+
+    def test_visual(self):
+        @visual()
+        class T:
+            def __init__(self, x, y):
+                self.__x = x
+                self.__y = y
+
+        t = T(1, 2)
+        assert repr(t) in {
+            '<T x: 1, y: 2>',
+            '<T y: 2, x: 1>',
+        }
+
+        @visual(['y', 'x'])
+        class T1:
+            def __init__(self, x, y):
+                self.__x = x
+                self.__y = y
+
+        assert repr(T1(1, 2)) == '<T1 y: 2, x: 1>'
+
+        @visual([])
+        class T2:
+            def __init__(self, x, y):
+                self.__x = x
+                self.__y = y
+
+        assert repr(T2(1, 2)) == '<T2>'
+
+        @visual(['x', 'y'], show_id=True)
+        class T3:
+            def __init__(self, x, y):
+                self.__x = x
+                self.__y = y
+
+        t = T3(1, 2)
+        assert repr(t) == f'<T3 {hex(id(t))} x: 1, y: 2>'
+
+        def _display_ox(v):
+            return 'x' if v else 'o'
+
+        @visual([('x', _display_ox), ('y', _display_ox)])
+        class T4:
+            def __init__(self, x, y):
+                self.__x = x
+                self.__y = y
+
+        assert repr(T4(True, False)) == '<T4 x: x, y: o>'
+
+        def _display_ox_2(v):
+            if v:
+                return 'yes'
+            else:
+                raise ValueError
+
+        @visual([('x', _display_ox_2), ('y', _display_ox_2)])
+        class T5:
+            def __init__(self, x, y):
+                self.__x = x
+                self.__y = y
+
+        assert repr(T5(True, False)) == '<T5 x: yes>'

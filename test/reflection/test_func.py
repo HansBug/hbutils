@@ -6,7 +6,7 @@ from typing import Callable, Any, Union, Optional, List, Tuple
 import pytest
 
 from hbutils.reflection import args_iter, dynamic_call, static_call, post_process, pre_process, freduce, raising, \
-    warning_, get_callable_hint, sigsupply
+    warning_, get_callable_hint, sigsupply, fcopy, frename, fassign
 
 
 def _has_signature(func) -> bool:
@@ -23,6 +23,36 @@ def _nosigmark(func):
 
 
 class TestReflectionFunc:
+    @pytest.mark.unittest
+    def test_fassign(self):
+        def func(a, b):
+            return a + b
+
+        nfunc = fassign(__name__='funcx', __doc__='This is doc for funcx')(func)
+        assert nfunc is func
+        assert nfunc.__name__ == 'funcx'
+        assert nfunc.__doc__ == 'This is doc for funcx'
+        assert nfunc(1, 2) == 3
+
+    @pytest.mark.unittest
+    def test_frename(self):
+        def func(a, b):
+            return a + b
+
+        nfunc = frename('funcx')(func)
+        assert nfunc is func
+        assert nfunc.__name__ == 'funcx'
+        assert nfunc(1, 2) == 3
+
+    @pytest.mark.unittest
+    def test_fcopy(self):
+        def func(a, b):
+            return a + b
+
+        nfunc = fcopy(func)
+        assert nfunc(1, 2) == 3
+        assert nfunc is not func
+
     @pytest.mark.unittest
     def test_args_iter(self):
         assert list(args_iter(1, 2, 3, a=1, c=3, b=4)) == [(0, 1), (1, 2), (2, 3), ('a', 1), ('b', 4), ('c', 3)]

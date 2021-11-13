@@ -11,3 +11,9 @@ class_wraps
 
 .. autofunction:: class_wraps
 
+
+visual
+---------------------
+
+.. autofunction:: visual
+
