@@ -1,6 +1,6 @@
 import pytest
 
-from hbutils.reflection import class_wraps, visual
+from hbutils.reflection import class_wraps, visual, constructor
 
 
 # noinspection DuplicatedCode
@@ -93,3 +93,38 @@ class TestReflectionClazz:
                 self.__y = y
 
         assert repr(T5(True, False)) == '<T5 x: yes>'
+
+    def test_constructor(self):
+        @constructor(['x', ('y', 2)], doc="This is constructor of T.")
+        class T:
+            @property
+            def x(self):
+                return self.__x
+
+            @property
+            def y(self):
+                return self.__y
+
+        t = T(100, 20)
+        assert t.x == 100
+        assert t.y == 20
+
+        t = T(100)
+        assert t.x == 100
+        assert t.y == 2
+
+        assert T.__init__.__doc__ == "This is constructor of T."
+
+        with pytest.raises(TypeError):
+            T(y=2)
+
+        with pytest.raises(SyntaxError):
+            @constructor([('x', 1), 'y'])
+            class T1:
+                @property
+                def x(self):
+                    return self.__x
+
+                @property
+                def y(self):
+                    return self.__y

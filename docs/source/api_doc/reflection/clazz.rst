@@ -17,3 +17,9 @@ visual
 
 .. autofunction:: visual
 
+
+constructor
+---------------------
+
+.. autofunction:: constructor
+
