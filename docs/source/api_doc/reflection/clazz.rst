@@ -12,6 +12,12 @@ class_wraps
 .. autofunction:: class_wraps
 
 
+asitems
+---------------------
+
+.. autofunction:: asitems
+
+
 visual
 ---------------------
 
@@ -22,4 +28,10 @@ constructor
 ---------------------
 
 .. autofunction:: constructor
+
+
+hasheq
+---------------------
+
+.. autofunction:: hasheq
 

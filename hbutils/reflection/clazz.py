@@ -12,7 +12,7 @@ from ..design.singleton import SingletonMark
 
 __all__ = [
     'class_wraps',
-    'visual', 'constructor',
+    'asitems', 'visual', 'constructor', 'hasheq',
 ]
 
 CLASS_WRAPPER_UPDATES = ()
@@ -48,6 +48,69 @@ def _cls_private_prefix(cls):
     return f'_{cls_name}__'
 
 
+def _auto_get_items_from_cls(cls):
+    return cls.__items__
+
+
+def _auto_get_items(obj, cls_prefix=None):
+    _type = type(obj)
+    try:
+        return _auto_get_items_from_cls(_type)
+    except AttributeError:
+        cls_prefix = cls_prefix or _cls_private_prefix(_type)
+
+        items = []
+        for name in dir(obj):
+            if name.startswith(cls_prefix):
+                items.append(name[len(cls_prefix):])
+
+        return sorted(items)
+
+
+def _get_value(self, vname: str, cls_prefix=None):
+    cls_prefix = cls_prefix or _cls_private_prefix(type(self))
+    try:
+        return getattr(self, vname)
+    except AttributeError:
+        return getattr(self, cls_prefix + vname)
+
+
+def asitems(items: Iterable[str]):
+    """
+    Overview:
+        Define fields in the class level.
+
+    Arguments:
+        - items (:obj:`Iterable[str]`): Field name items.
+
+    Returns:
+        - decorator: Decorator to decorate the given class.
+
+    Examples::
+        >>> @visual()
+        >>> @constructor(doc='''
+        >>>     Overview:
+        >>>         This is the constructor of class :class:`T`.
+        >>> ''')
+        >>> @asitems(['x', 'y'])
+        >>> class T:
+        >>>     @property
+        >>>     def x(self):
+        >>>         return self.__x
+        >>>
+        >>>     @property
+        >>>     def y(self):
+        >>>         return self.__y
+    """
+
+    def _decorator(cls):
+        _cls_prefix = _cls_private_prefix(cls)
+        cls.__items__ = list(items)
+        return cls
+
+    return _decorator
+
+
 def visual(items: Optional[Iterable] = None, show_id: bool = False):
     """
     Overview:
@@ -74,29 +137,21 @@ def visual(items: Optional[Iterable] = None, show_id: bool = False):
     def _decorator(cls):
         _cls_prefix = _cls_private_prefix(cls)
 
-        def _get_value(self, vname: str):
-            try:
-                return getattr(self, vname)
-            except AttributeError:
-                return getattr(self, _cls_prefix + vname)
+        def _get_items(self):
+            if items is None:
+                return _auto_get_items(self, _cls_prefix)
+            else:
+                return items
 
         def __repr__(self):
-            if items is not None:
-                actual_items = items
-            else:
-                actual_items = []
-                for name in dir(self):
-                    if name.startswith(_cls_prefix):
-                        actual_items.append(name[len(_cls_prefix):])
-
             str_items = []
-            for item in actual_items:
+            for item in _get_items(self):
                 if isinstance(item, str):
                     _name, _repr = item, repr
                 else:
                     _name, _repr = item
 
-                _value = _get_value(self, _name)
+                _value = _get_value(self, _name, _cls_prefix)
                 try:
                     _vrepr = _repr(_value)
                 except ValueError:
@@ -158,23 +213,27 @@ def constructor(params: Optional[Iterable] = None, doc: Optional[str] = None):
         >>>     def y(self):
         >>>         return self.__y
     """
-    params = params or []
-    actual_items = []
-    arg_items = []
-    for it in params:
-        if isinstance(it, str):
-            itn, itv = it, _NO_DEFAULT_VALUE
-        else:
-            itn, itv = it
-
-        actual_items.append((itn, itv))
-        if itv is _NO_DEFAULT_VALUE:
-            arg_items.append(itn)
-        else:
-            arg_items.append(f'{itn}={repr(itv)}')
 
     def _decorator(cls):
         _cls_prefix = _cls_private_prefix(cls)
+
+        if params is None:
+            items = _auto_get_items_from_cls(cls)
+        else:
+            items = params or []
+        actual_items = []
+        arg_items = []
+        for it in items:
+            if isinstance(it, str):
+                itn, itv = it, _NO_DEFAULT_VALUE
+            else:
+                itn, itv = it
+
+            actual_items.append((itn, itv))
+            if itv is _NO_DEFAULT_VALUE:
+                arg_items.append(itn)
+            else:
+                arg_items.append(f'{itn}={repr(itv)}')
 
         _init_func_str = f"""
 def __init__(self, {', '.join(arg_items)}):
@@ -186,6 +245,65 @@ def __init__(self, {', '.join(arg_items)}):
         _init_func = fres['__init__']
         _init_func = fassign(__doc__=doc)(_init_func)
         cls.__init__ = _init_func
+
+        return cls
+
+    return _decorator
+
+
+def hasheq(items: Optional[Iterable] = None):
+    """
+    Overview:
+        Decorate class to be visible by `repr`.
+
+    Arguments:
+        - items (:obj:`Optional[Iterable]`): Items to be hashed and compared. Default is `None`, \
+            which means automatically find the private fields and display them.
+
+    Returns:
+        - decorator: Decorator to decorate the given class.
+
+    Examples::
+        >>> @hasheq(['x', 'y'])
+        >>> class T:
+        >>>     def __init__(self, x, y):
+        >>>         self.__x = x
+        >>>         self.__y = y
+
+        Using with :func:`asitems`
+
+        >>> @hasheq()
+        >>> @constructor()
+        >>> @asitems(['x', 'y'])
+        >>> class T1:
+        >>>     pass
+    """
+
+    def _decorator(cls):
+        _cls_prefix = _cls_private_prefix(cls)
+
+        def _get_items(self):
+            if items is None:
+                return _auto_get_items(self, _cls_prefix)
+            else:
+                return items
+
+        def _get_obj_values(self):
+            return tuple(_get_value(self, name, _cls_prefix) for name in _get_items(self))
+
+        def __hash__(self):
+            return hash(_get_obj_values(self))
+
+        def __eq__(self, other):
+            if self is other:
+                return True
+            elif type(self) == type(other):
+                return _get_obj_values(self) == _get_obj_values(other)
+            else:
+                return False
+
+        cls.__hash__ = __hash__
+        cls.__eq__ = __eq__
 
         return cls
 

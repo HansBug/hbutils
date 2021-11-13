@@ -1,6 +1,6 @@
 import pytest
 
-from hbutils.reflection import class_wraps, visual, constructor
+from hbutils.reflection import class_wraps, visual, constructor, asitems, hasheq
 
 
 # noinspection DuplicatedCode
@@ -30,6 +30,13 @@ class TestReflectionClazz:
         assert _MyContainer(1, 2).sum() == 3
         assert _MyContainer.__name__ == '_MyContainer'
         assert 'a mark for __doc__' in _MyContainer.__doc__
+
+    def test_asitems(self):
+        @asitems(['x', 'y'])
+        class T:
+            pass
+
+        assert T.__items__ == ['x', 'y']
 
     def test_visual(self):
         @visual()
@@ -94,6 +101,15 @@ class TestReflectionClazz:
 
         assert repr(T5(True, False)) == '<T5 x: yes>'
 
+        @visual()
+        @asitems(['x'])
+        class T6:
+            def __init__(self, x, y):
+                self.__x = x
+                self.__y = y
+
+        assert repr(T6(1, 2)) == '<T6 x: 1>'
+
     def test_constructor(self):
         @constructor(['x', ('y', 2)], doc="This is constructor of T.")
         class T:
@@ -128,3 +144,50 @@ class TestReflectionClazz:
                 @property
                 def y(self):
                     return self.__y
+
+        @constructor(doc="This is constructor of T.")
+        @asitems(['x', 'y'])
+        class T2:
+            @property
+            def x(self):
+                return self.__x
+
+            @property
+            def y(self):
+                return self.__y
+
+        t = T2(100, 20)
+        assert t.x == 100
+        assert t.y == 20
+
+        assert T2.__init__.__doc__ == "This is constructor of T."
+
+    # noinspection PyComparisonWithNone
+    def test_hasheq(self):
+        @hasheq(['x', 'y'])
+        class T:
+            def __init__(self, x, y):
+                self.__x = x
+                self.__y = y
+
+        t = T(1, 2)
+        assert t == t
+        assert t == T(1, 2)
+        assert t != T(10, 20)
+        assert hash(t) == hash(T(1, 2))
+        assert hash(t) != hash(T(10, 20))
+        assert t != None
+
+        @hasheq()
+        @constructor()
+        @asitems(['x', 'y'])
+        class T1:
+            pass
+
+        t = T1(1, 2)
+        assert t == t
+        assert t == T1(1, 2)
+        assert t != T1(10, 20)
+        assert hash(t) == hash(T1(1, 2))
+        assert hash(t) != hash(T1(10, 20))
+        assert t != None
