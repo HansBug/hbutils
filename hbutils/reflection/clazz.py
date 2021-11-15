@@ -12,7 +12,7 @@ from ..design.singleton import SingletonMark
 
 __all__ = [
     'class_wraps',
-    'asitems', 'visual', 'constructor', 'hasheq',
+    'asitems', 'visual', 'constructor', 'hasheq', 'accessor',
 ]
 
 CLASS_WRAPPER_UPDATES = ()
@@ -304,6 +304,95 @@ def hasheq(items: Optional[Iterable] = None):
 
         cls.__hash__ = __hash__
         cls.__eq__ = __eq__
+
+        return cls
+
+    return _decorator
+
+
+_READONLY_MARKS = {'r', 'ro', 'readonly'}
+_WRITABLE_MARKS = {'w', 'rw', 'writable'}
+
+
+def _is_writable(mark: str):
+    if mark.lower() in _READONLY_MARKS:
+        return False
+    elif mark.lower() in _WRITABLE_MARKS:
+        return True
+    else:
+        raise ValueError(f'Unknown accessible mark - {repr(mark)}.')
+
+
+def accessor(items: Optional[Iterable] = None, readonly: bool = False):
+    """
+    Overview:
+        Decorate class to be accessible by the accessors.
+
+    Arguments:
+        - items (:obj:`Optional[Iterable]`): Items to be hashed and compared. Default is `None`, \
+            which means automatically find the private fields and display them.
+        - readonly (:obj:`bool`): Default readonly or not. Default is `False`, which means make \
+            the accessor be writable when ``rw`` option is not given.
+
+    Returns:
+        - decorator: Decorator to decorate the given class.
+
+    Examples::
+        >>> @accessor(readonly=True)
+        >>> @asitems(['x', 'y'])
+        >>> class T:
+        >>>     def __init__(self, x, y):
+        >>>         self.__x = x
+        >>>         self.__y = y
+        >>>
+        >>> t = T(2, 100)
+        >>> t.x  # 2
+        >>> t.y  # 100
+    """
+
+    def _decorator(cls):
+        _cls_prefix = _cls_private_prefix(cls)
+
+        if items is None:
+            actual_items = _auto_get_items_from_cls(cls)
+        elif isinstance(items, str):
+            actual_items = [items]
+        else:
+            actual_items = items or []
+
+        pitems = []
+        for it in actual_items:
+            if isinstance(it, str):
+                itn, itv = it, ('ro' if readonly else 'rw')
+            else:
+                itn, itv = it
+
+            itv = _is_writable(itv)
+            pitems.append((itn, itv))
+
+        for itn, itv in pitems:
+            _getter_func_str = f"""
+def get_{itn}(self):
+{_INDENT}return self.{_cls_prefix}{itn}
+            """
+            fres = {}
+            exec(_getter_func_str, fres)
+            getter_func = fres[f'get_{itn}']
+
+            if itv:
+                _setter_func_str = f"""
+def set_{itn}(self, new_value):
+{_INDENT}self.{_cls_prefix}{itn} = new_value
+                """
+                fres = {}
+                exec(_setter_func_str, fres)
+                setter_func = fres[f'set_{itn}']
+
+                p = property(getter_func, setter_func)
+            else:
+                p = property(getter_func)
+
+            setattr(cls, itn, p)
 
         return cls
 

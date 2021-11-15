@@ -35,3 +35,9 @@ hasheq
 
 .. autofunction:: hasheq
 
+
+accessor
+---------------------
+
+.. autofunction:: accessor
+

@@ -1,6 +1,6 @@
 import pytest
 
-from hbutils.reflection import class_wraps, visual, constructor, asitems, hasheq
+from hbutils.reflection import class_wraps, visual, constructor, asitems, hasheq, accessor
 
 
 # noinspection DuplicatedCode
@@ -191,3 +191,71 @@ class TestReflectionClazz:
         assert hash(t) == hash(T1(1, 2))
         assert hash(t) != hash(T1(10, 20))
         assert t != None
+
+    def test_accessor(self):
+        @accessor()
+        @asitems(['x', 'y'])
+        class T1:
+            def __init__(self, x, y):
+                self.__x = x
+                self.__y = y
+
+        t = T1(2, 100)
+        assert t.x == 2
+        assert t.y == 100
+        t.x, t.y = 3, 7
+        assert t.x == 3
+        assert t.y == 7
+
+        @accessor(readonly=True)
+        @asitems(['x', 'y'])
+        class T2:
+            def __init__(self, x, y):
+                self.__x = x
+                self.__y = y
+
+        t = T2(2, 100)
+        assert t.x == 2
+        assert t.y == 100
+        with pytest.raises(AttributeError):
+            t.x = 3
+        with pytest.raises(AttributeError):
+            t.y = 7
+
+        @accessor([('x', 'ro'), ('y', 'rw')])
+        class T3:
+            def __init__(self, x, y):
+                self.__x = x
+                self.__y = y
+
+        t = T3(2, 100)
+        assert t.x == 2
+        assert t.y == 100
+        with pytest.raises(AttributeError):
+            t.x = 3
+        t.y = 7
+        assert t.x == 2
+        assert t.y == 7
+
+        @accessor('y')
+        @accessor('x', readonly=True)
+        class T4:
+            def __init__(self, x, y):
+                self.__x = x
+                self.__y = y
+
+        t = T4(2, 100)
+        assert t.x == 2
+        assert t.y == 100
+        with pytest.raises(AttributeError):
+            t.x = 3
+        t.y = 7
+        assert t.x == 2
+        assert t.y == 7
+
+        with pytest.raises(ValueError):
+            @accessor([('x', 'rrr'), ('y', 'rw')])
+            class T5:
+                def __init__(self, x, y):
+                    self.__x = x
+                    self.__y = y
