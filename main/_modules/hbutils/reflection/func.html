@@ -175,6 +175,7 @@
 <span class="kn">from</span> <span class="nn">..design</span> <span class="kn">import</span> <span class="n">SingletonMark</span><span class="p">,</span> <span class="n">decolize</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;fassign&#39;</span><span class="p">,</span> <span class="s1">&#39;frename&#39;</span><span class="p">,</span> <span class="s1">&#39;fcopy&#39;</span><span class="p">,</span>
     <span class="s1">&#39;args_iter&#39;</span><span class="p">,</span> <span class="s1">&#39;sigsupply&#39;</span><span class="p">,</span>
     <span class="s1">&#39;dynamic_call&#39;</span><span class="p">,</span> <span class="s1">&#39;static_call&#39;</span><span class="p">,</span>
     <span class="s1">&#39;pre_process&#39;</span><span class="p">,</span> <span class="s1">&#39;post_process&#39;</span><span class="p">,</span>
@@ -182,6 +183,77 @@
     <span class="s1">&#39;freduce&#39;</span><span class="p">,</span>
     <span class="s1">&#39;get_callable_hint&#39;</span><span class="p">,</span>
 <span class="p">]</span>
+
+
+<div class="viewcode-block" id="fassign"><a class="viewcode-back" href="../../../api_doc/reflection/func.html#hbutils.reflection.func.fassign">[docs]</a><span class="k">def</span> <span class="nf">fassign</span><span class="p">(</span><span class="o">**</span><span class="n">assigns</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Do assignments to function.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        - assigns: Assignment values.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - decorator: A decorator for assigning.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; @fassign(__name__=&#39;fff&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; def func(a, b):</span>
+<span class="sd">        &gt;&gt;&gt;     return a + b</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">assigns</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">func</span>
+
+    <span class="k">return</span> <span class="n">_decorator</span></div>
+
+
+<div class="viewcode-block" id="frename"><a class="viewcode-back" href="../../../api_doc/reflection/func.html#hbutils.reflection.func.frename">[docs]</a><span class="k">def</span> <span class="nf">frename</span><span class="p">(</span><span class="n">new_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Rename the given function.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        - new_name (:obj:`str`): New name of function.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - decorator: Decorator to rename the function.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; @frename(&#39;fff&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; def func(a, b):</span>
+<span class="sd">        &gt;&gt;&gt;     return a + b</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">fassign</span><span class="p">(</span><span class="vm">__name__</span><span class="o">=</span><span class="n">new_name</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="fcopy"><a class="viewcode-back" href="../../../api_doc/reflection/func.html#hbutils.reflection.func.fcopy">[docs]</a><span class="k">def</span> <span class="nf">fcopy</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Make a copy of given function.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        - func: Function to be copied.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - new_func: Copied function.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; def func(a, b):</span>
+<span class="sd">        ...     return a + b</span>
+<span class="sd">        &gt;&gt;&gt; nfunc = fcopy(func)</span>
+<span class="sd">        &gt;&gt;&gt; nfunc(1, 2)</span>
+<span class="sd">        3</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_new_func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_new_func</span></div>
 
 
 <div class="viewcode-block" id="args_iter"><a class="viewcode-back" href="../../../api_doc/reflection/func.html#hbutils.reflection.func.args_iter">[docs]</a><span class="k">def</span> <span class="nf">args_iter</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
@@ -636,7 +708,6 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../dev/class/index.html">dev/class</a></dd>
                         <dd><a href="func.html">main</a></dd>
                 </dl>
         </div>

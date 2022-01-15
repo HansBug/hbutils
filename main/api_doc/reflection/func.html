@@ -103,6 +103,9 @@
 <li class="toctree-l2"><a class="reference internal" href="enum.html">hbutils.reflection.enum</a></li>
 <li class="toctree-l2"><a class="reference internal" href="exception.html">hbutils.reflection.exception</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.reflection.func</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#fassign">fassign</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#frename">frename</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#fcopy">fcopy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#args-iter">args_iter</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#sigsupply">sigsupply</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#dynamic-call">dynamic_call</a></li>
@@ -192,6 +195,86 @@
 <dt>Overview:</dt><dd><p>Useful functions for processing python functions.</p>
 </dd>
 </dl>
+<div class="section" id="fassign">
+<h2>fassign<a class="headerlink" href="#fassign" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.reflection.func.fassign">
+<code class="sig-prename descclassname">hbutils.reflection.func.</code><code class="sig-name descname">fassign</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">assigns</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/reflection/func.html#fassign"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.reflection.func.fassign" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Do assignments to function.</p>
+</dd>
+<dt>Arguments:</dt><dd><ul class="simple">
+<li><p>assigns: Assignment values.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>decorator: A decorator for assigning.</p></li>
+</ul>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nd">@fassign</span><span class="p">(</span><span class="vm">__name__</span><span class="o">=</span><span class="s1">&#39;fff&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="frename">
+<h2>frename<a class="headerlink" href="#frename" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.reflection.func.frename">
+<code class="sig-prename descclassname">hbutils.reflection.func.</code><code class="sig-name descname">frename</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">new_name</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/reflection/func.html#frename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.reflection.func.frename" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Rename the given function.</p>
+</dd>
+<dt>Arguments:</dt><dd><ul class="simple">
+<li><p>new_name (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>): New name of function.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>decorator: Decorator to rename the function.</p></li>
+</ul>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nd">@frename</span><span class="p">(</span><span class="s1">&#39;fff&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="fcopy">
+<h2>fcopy<a class="headerlink" href="#fcopy" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.reflection.func.fcopy">
+<code class="sig-prename descclassname">hbutils.reflection.func.</code><code class="sig-name descname">fcopy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/reflection/func.html#fcopy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.reflection.func.fcopy" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Make a copy of given function.</p>
+</dd>
+<dt>Arguments:</dt><dd><ul class="simple">
+<li><p>func: Function to be copied.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>new_func: Copied function.</p></li>
+</ul>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">func</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nfunc</span> <span class="o">=</span> <span class="n">fcopy</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nfunc</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
 <div class="section" id="args-iter">
 <h2>args_iter<a class="headerlink" href="#args-iter" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
@@ -523,7 +606,6 @@ and <strong>the order of the string indices are not approved</strong>.</p>
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/class/api_doc/reflection/func.html">dev/class</a></dd>
                         <dd><a href="func.html">main</a></dd>
                 </dl>
         </div>
