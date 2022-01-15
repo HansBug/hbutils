@@ -28,6 +28,7 @@ Overview
     api_doc/encoding/index
     api_doc/random/index
     api_doc/reflection/index
+    api_doc/scale/index
 
 
 .. toctree::
