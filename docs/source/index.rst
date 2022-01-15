@@ -29,6 +29,7 @@ Overview
     api_doc/random/index
     api_doc/reflection/index
     api_doc/scale/index
+    api_doc/string/index
 
 
 .. toctree::
