@@ -6,6 +6,24 @@ hbutils.reflection.func
 .. automodule:: hbutils.reflection.func
 
 
+fassign
+--------------------------------------
+
+.. autofunction:: fassign
+
+
+frename
+--------------------------------------
+
+.. autofunction:: frename
+
+
+fcopy
+--------------------------------------
+
+.. autofunction:: fcopy
+
+
 args\_iter
 --------------------------------------
 

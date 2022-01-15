@@ -11,6 +11,7 @@ from typing import Callable, TypeVar, Union, Type, get_type_hints, Any
 from ..design import SingletonMark, decolize
 
 __all__ = [
+    'fassign', 'frename', 'fcopy',
     'args_iter', 'sigsupply',
     'dynamic_call', 'static_call',
     'pre_process', 'post_process',
@@ -18,6 +19,77 @@ __all__ = [
     'freduce',
     'get_callable_hint',
 ]
+
+
+def fassign(**assigns):
+    """
+    Overview:
+        Do assignments to function.
+
+    Arguments:
+        - assigns: Assignment values.
+
+    Returns:
+        - decorator: A decorator for assigning.
+
+    Examples::
+        >>> @fassign(__name__='fff')
+        >>> def func(a, b):
+        >>>     return a + b
+    """
+
+    def _decorator(func):
+        for k, v in assigns.items():
+            setattr(func, k, v)
+
+        return func
+
+    return _decorator
+
+
+def frename(new_name: str):
+    """
+    Overview:
+        Rename the given function.
+
+    Arguments:
+        - new_name (:obj:`str`): New name of function.
+
+    Returns:
+        - decorator: Decorator to rename the function.
+
+    Examples::
+        >>> @frename('fff')
+        >>> def func(a, b):
+        >>>     return a + b
+    """
+    return fassign(__name__=new_name)
+
+
+def fcopy(func):
+    """
+    Overview:
+        Make a copy of given function.
+
+    Arguments:
+        - func: Function to be copied.
+
+    Returns:
+        - new_func: Copied function.
+
+    Examples::
+        >>> def func(a, b):
+        ...     return a + b
+        >>> nfunc = fcopy(func)
+        >>> nfunc(1, 2)
+        3
+    """
+
+    @wraps(func)
+    def _new_func(*args, **kwargs):
+        return func(*args, **kwargs)
+
+    return _new_func
 
 
 def args_iter(*args, **kwargs):
