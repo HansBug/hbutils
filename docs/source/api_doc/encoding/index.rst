@@ -10,3 +10,4 @@ hbutils.encoding
 
     base64
     decode
+    hash

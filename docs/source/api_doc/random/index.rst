@@ -8,4 +8,6 @@ hbutils.random
 .. toctree::
     :maxdepth: 3
 
+    binary
     sequence
+    string
