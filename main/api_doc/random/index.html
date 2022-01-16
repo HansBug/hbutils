@@ -37,8 +37,8 @@
   <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="hbutils.random.sequence" href="sequence.html" />
-    <link rel="prev" title="hbutils.encoding.decode" href="../encoding/decode.html" /> 
+    <link rel="next" title="hbutils.random.binary" href="binary.html" />
+    <link rel="prev" title="hbutils.encoding.hash" href="../encoding/hash.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -98,7 +98,9 @@
 <li class="toctree-l1"><a class="reference internal" href="../design/index.html">hbutils.design</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../encoding/index.html">hbutils.encoding</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">hbutils.random</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="binary.html">hbutils.random.binary</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sequence.html">hbutils.random.sequence</a></li>
+<li class="toctree-l2"><a class="reference internal" href="string.html">hbutils.random.string</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../reflection/index.html">hbutils.reflection</a></li>
@@ -178,9 +180,24 @@
 </dl>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="binary.html">hbutils.random.binary</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="binary.html#random-bytes">random_bytes</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="sequence.html">hbutils.random.sequence</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="sequence.html#shuffle">shuffle</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sequence.html#multiple-choice">multiple_choice</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="string.html">hbutils.random.string</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="string.html#random-digits">random_digits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="string.html#random-bin-digits">random_bin_digits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="string.html#random-hex-digits">random_hex_digits</a></li>
+<li class="toctree-l2"><a class="reference internal" href="string.html#random-md5">random_md5</a></li>
+<li class="toctree-l2"><a class="reference internal" href="string.html#random-sha1">random_sha1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="string.html#random-base64">random_base64</a></li>
+<li class="toctree-l2"><a class="reference internal" href="string.html#random-md5-with-timestamp">random_md5_with_timestamp</a></li>
+<li class="toctree-l2"><a class="reference internal" href="string.html#random-sha1-with-timestamp">random_sha1_with_timestamp</a></li>
 </ul>
 </li>
 </ul>
@@ -196,10 +213,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="sequence.html" class="btn btn-neutral float-right" title="hbutils.random.sequence" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="binary.html" class="btn btn-neutral float-right" title="hbutils.random.binary" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../encoding/decode.html" class="btn btn-neutral float-left" title="hbutils.encoding.decode" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../encoding/hash.html" class="btn btn-neutral float-left" title="hbutils.encoding.hash" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -236,7 +253,6 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/random/api_doc/random/index.html">dev/random</a></dd>
                         <dd><a href="index.html">main</a></dd>
                 </dl>
         </div>
