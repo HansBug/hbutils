@@ -5,3 +5,4 @@ Overview:
 """
 from .base64 import *
 from .decode import *
+from .hash import *
