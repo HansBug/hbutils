@@ -101,6 +101,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">hbutils.reflection</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.reflection.clazz</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#class-wraps">class_wraps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#common-base">common_base</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#asitems">asitems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#visual">visual</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#constructor">constructor</a></li>
@@ -214,6 +215,38 @@
 <span class="gp">&gt;&gt;&gt; </span>        <span class="k">pass</span>
 <span class="go">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="k">return</span> <span class="n">_NewClazz</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="common-base">
+<h2>common_base<a class="headerlink" href="#common-base" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.reflection.clazz.common_base">
+<code class="sig-prename descclassname">hbutils.reflection.clazz.</code><code class="sig-name descname">common_base</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cls</span><span class="p">:</span> <span class="n">type</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">clss</span><span class="p">:</span> <span class="n">type</span></em><span class="sig-paren">)</span> &#x2192; type<a class="reference internal" href="../../_modules/hbutils/reflection/clazz.html#common_base"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.reflection.clazz.common_base" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Get common base class of the given classes.
+Only <code class="docutils literal notranslate"><span class="pre">__base__</span></code> is considered.</p>
+</dd>
+<dt>Arguments:</dt><dd><ul class="simple">
+<li><p>cls (<code class="xref py py-obj docutils literal notranslate"><span class="pre">type</span></code>): First class.</p></li>
+<li><p>clss (<code class="xref py py-obj docutils literal notranslate"><span class="pre">type</span></code>): Other classes.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>base (<code class="xref py py-obj docutils literal notranslate"><span class="pre">type</span></code>): Common base class.</p></li>
+</ul>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.reflection</span> <span class="kn">import</span> <span class="n">common_base</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">common_base</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+<span class="go">&lt;class &#39;object&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">common_base</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
+<span class="go">&lt;class &#39;object&#39;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">common_base</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">)</span>
+<span class="go">&lt;class &#39;Exception&#39;&gt;</span>
 </pre></div>
 </div>
 </dd>
@@ -455,7 +488,6 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/class/api_doc/reflection/clazz.html">dev/class</a></dd>
                         <dd><a href="clazz.html">main</a></dd>
                 </dl>
         </div>

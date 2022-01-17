@@ -178,6 +178,7 @@
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;class_wraps&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;common_base&#39;</span><span class="p">,</span>
     <span class="s1">&#39;asitems&#39;</span><span class="p">,</span> <span class="s1">&#39;visual&#39;</span><span class="p">,</span> <span class="s1">&#39;constructor&#39;</span><span class="p">,</span> <span class="s1">&#39;hasheq&#39;</span><span class="p">,</span> <span class="s1">&#39;accessor&#39;</span><span class="p">,</span>
 <span class="p">]</span>
 
@@ -207,6 +208,39 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">partial</span><span class="p">(</span><span class="n">update_wrapper</span><span class="p">,</span> <span class="n">wrapped</span><span class="o">=</span><span class="n">wrapped</span><span class="p">,</span>
                    <span class="n">assigned</span><span class="o">=</span><span class="n">assigned</span><span class="p">,</span> <span class="n">updated</span><span class="o">=</span><span class="n">updated</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="common_base"><a class="viewcode-back" href="../../../api_doc/reflection/clazz.html#hbutils.reflection.clazz.common_base">[docs]</a><span class="k">def</span> <span class="nf">common_base</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="o">*</span><span class="n">clss</span><span class="p">:</span> <span class="nb">type</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">type</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Get common base class of the given classes.</span>
+<span class="sd">        Only ``__base__`` is considered.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        - cls (:obj:`type`): First class.</span>
+<span class="sd">        - clss (:obj:`type`): Other classes.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - base (:obj:`type`): Common base class.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from hbutils.reflection import common_base</span>
+<span class="sd">        &gt;&gt;&gt; common_base(object)</span>
+<span class="sd">        &lt;class &#39;object&#39;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; common_base(object, int, str)</span>
+<span class="sd">        &lt;class &#39;object&#39;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; common_base(RuntimeError, ValueError, KeyError)</span>
+<span class="sd">        &lt;class &#39;Exception&#39;&gt;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">current_cls</span> <span class="o">=</span> <span class="bp">cls</span>
+    <span class="k">for</span> <span class="n">new_cls</span> <span class="ow">in</span> <span class="n">clss</span><span class="p">:</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">new_cls</span><span class="p">,</span> <span class="n">current_cls</span><span class="p">):</span>
+            <span class="n">current_cls</span> <span class="o">=</span> <span class="n">current_cls</span><span class="o">.</span><span class="n">__base__</span>
+
+        <span class="k">if</span> <span class="n">current_cls</span> <span class="ow">is</span> <span class="nb">object</span><span class="p">:</span>
+            <span class="k">break</span>
+
+    <span class="k">return</span> <span class="n">current_cls</span></div>
 
 
 <span class="k">def</span> <span class="nf">_cls_private_prefix</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
@@ -604,7 +638,6 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../dev/class/index.html">dev/class</a></dd>
                         <dd><a href="clazz.html">main</a></dd>
                 </dl>
         </div>
