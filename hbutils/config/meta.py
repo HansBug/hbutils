@@ -7,7 +7,7 @@ Overview:
 __TITLE__ = "hbutils"
 
 #: Version of this project.
-__VERSION__ = "0.0.1"
+__VERSION__ = "0.1.0"
 
 #: Short description of the project, will be included in ``setup.py``.
 __DESCRIPTION__ = 'Some useful functions and classes in Python infrastructure development.'
