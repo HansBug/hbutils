@@ -7,6 +7,8 @@ from typing import Union
 
 from pytimeparse import parse as parse_duration
 
+__all__ = ['time_to_duration', 'time_to_delta_str']
+
 _TIME_TYPING = Union[float, int, str]
 
 

@@ -5,6 +5,8 @@ Overview:
 from string import Template
 from typing import Optional, Mapping
 
+__all__ = ['env_template']
+
 
 def env_template(template: str, environ: Optional[Mapping[str, str]] = None, safe: bool = False) -> str:
     """

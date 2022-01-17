@@ -8,6 +8,8 @@ from typing import Optional
 
 import inflect
 
+__all__ = ['plural_form', 'plural_word', 'singular_form']
+
 
 @lru_cache()
 def _default_engine():

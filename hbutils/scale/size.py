@@ -8,6 +8,8 @@ from typing import Union
 from bitmath import Byte
 from bitmath import parse_string_unsafe as parse_bytes
 
+__all__ = ['size_to_bytes', 'size_to_bytes_str']
+
 _EPS = 1e-10
 
 

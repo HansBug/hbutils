@@ -4,6 +4,8 @@ Overview:
 """
 from textwrap import shorten as _shorten
 
+__all__ = ['truncate']
+
 
 def truncate(text: str, width: int = 70, tail_length: int = 0, show_length: bool = False):
     """
