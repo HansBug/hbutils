@@ -1,6 +1,6 @@
 import pytest
 
-from hbutils.reflection import class_wraps, visual, constructor, asitems, hasheq, accessor
+from hbutils.reflection import class_wraps, visual, constructor, asitems, hasheq, accessor, common_base
 
 
 # noinspection DuplicatedCode
@@ -30,6 +30,12 @@ class TestReflectionClazz:
         assert _MyContainer(1, 2).sum() == 3
         assert _MyContainer.__name__ == '_MyContainer'
         assert 'a mark for __doc__' in _MyContainer.__doc__
+
+    def test_common_base(self):
+        assert common_base(object) == object
+        assert common_base(int) == int
+        assert common_base(int, object, str) == object
+        assert common_base(KeyError, RuntimeError, ValueError) == Exception
 
     def test_asitems(self):
         @asitems(['x', 'y'])

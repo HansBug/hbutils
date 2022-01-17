@@ -12,6 +12,12 @@ class_wraps
 .. autofunction:: class_wraps
 
 
+common_base
+---------------------
+
+.. autofunction:: common_base
+
+
 asitems
 ---------------------
 

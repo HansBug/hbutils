@@ -12,6 +12,7 @@ from ..design.singleton import SingletonMark
 
 __all__ = [
     'class_wraps',
+    'common_base',
     'asitems', 'visual', 'constructor', 'hasheq', 'accessor',
 ]
 
@@ -41,6 +42,39 @@ def class_wraps(wrapped: type,
     """
     return partial(update_wrapper, wrapped=wrapped,
                    assigned=assigned, updated=updated)
+
+
+def common_base(cls: type, *clss: type) -> type:
+    """
+    Overview:
+        Get common base class of the given classes.
+        Only ``__base__`` is considered.
+
+    Arguments:
+        - cls (:obj:`type`): First class.
+        - clss (:obj:`type`): Other classes.
+
+    Returns:
+        - base (:obj:`type`): Common base class.
+
+    Examples::
+        >>> from hbutils.reflection import common_base
+        >>> common_base(object)
+        <class 'object'>
+        >>> common_base(object, int, str)
+        <class 'object'>
+        >>> common_base(RuntimeError, ValueError, KeyError)
+        <class 'Exception'>
+    """
+    current_cls = cls
+    for new_cls in clss:
+        while not issubclass(new_cls, current_cls):
+            current_cls = current_cls.__base__
+
+        if current_cls is object:
+            break
+
+    return current_cls
 
 
 def _cls_private_prefix(cls):
