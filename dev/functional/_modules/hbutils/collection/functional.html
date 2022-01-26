@@ -165,7 +165,11 @@
     
     
   <h1>Source code for hbutils.collection.functional</h1><div class="highlight"><pre>
-<span></span><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Overview:</span>
+<span class="sd">    Function operations for nested structure.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;nested_map&#39;</span>
 <span class="p">]</span>
 
@@ -173,13 +177,22 @@
 <div class="viewcode-block" id="nested_map"><a class="viewcode-back" href="../../../api_doc/collection/functional.html#hbutils.collection.functional.nested_map">[docs]</a><span class="k">def</span> <span class="nf">nested_map</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
+<span class="sd">        Map the nested structure with a function.</span>
 
 <span class="sd">    Arguments:</span>
-<span class="sd">        - f:</span>
-<span class="sd">        - s:</span>
+<span class="sd">        - f: The given function.</span>
+<span class="sd">        - s: Nested structure.</span>
 
 <span class="sd">    Returns:</span>
+<span class="sd">        - result: Mapped nested structure.</span>
 
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from hbutils.collection import nested_map</span>
+<span class="sd">        &gt;&gt;&gt; nested_map(lambda x: x + 1, [</span>
+<span class="sd">        ...     2, 3, (4, {&#39;x&#39;: 2, &#39;y&#39;: 4}),</span>
+<span class="sd">        ...     {&#39;a&#39;: 3, &#39;b&#39;: (4, 5)},</span>
+<span class="sd">        ... ])</span>
+<span class="sd">        [3, 4, (5, {&#39;x&#39;: 3, &#39;y&#39;: 5}), {&#39;a&#39;: 4, &#39;b&#39;: (5, 6)}]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="n">s</span><span class="p">)({</span><span class="n">k</span><span class="p">:</span> <span class="n">nested_map</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>

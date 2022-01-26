@@ -180,12 +180,34 @@
     
   <div class="section" id="module-hbutils.collection.structural">
 <span id="hbutils-collection-structural"></span><h1>hbutils.collection.structural<a class="headerlink" href="#module-hbutils.collection.structural" title="Permalink to this headline">¶</a></h1>
+<dl class="simple">
+<dt>Overview:</dt><dd><p>Structural operations.</p>
+</dd>
+</dl>
 <div class="section" id="sq-flatten">
 <h2>sq_flatten<a class="headerlink" href="#sq-flatten" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="hbutils.collection.structural.sq_flatten">
 <code class="sig-prename descclassname">hbutils.collection.structural.</code><code class="sig-name descname">sq_flatten</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/collection/structural.html#sq_flatten"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.collection.structural.sq_flatten" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Sequence flatten.</p>
+</dd>
+<dt>Arguments:</dt><dd><ul class="simple">
+<li><p>s: The given sequence.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>flatted: Flatted sequence.</p></li>
+</ul>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.collection</span> <span class="kn">import</span> <span class="n">sq_flatten</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sq_flatten</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span> <span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">)],</span> <span class="mi">11</span><span class="p">])</span>
+<span class="go">[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
 
 </div>
 </div>

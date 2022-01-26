@@ -165,7 +165,11 @@
     
     
   <h1>Source code for hbutils.collection.structural</h1><div class="highlight"><pre>
-<span></span><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Overview:</span>
+<span class="sd">    Structural operations.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;sq_flatten&#39;</span><span class="p">,</span>
 <span class="p">]</span>
 
@@ -179,6 +183,20 @@
 
 
 <div class="viewcode-block" id="sq_flatten"><a class="viewcode-back" href="../../../api_doc/collection/structural.html#hbutils.collection.structural.sq_flatten">[docs]</a><span class="k">def</span> <span class="nf">sq_flatten</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Sequence flatten.</span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        - s: The given sequence.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - flatted: Flatted sequence.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from hbutils.collection import sq_flatten</span>
+<span class="sd">        &gt;&gt;&gt; sq_flatten([1, 2, [3, 4], [5, [6, 7], (8, 9, 10)], 11])</span>
+<span class="sd">        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">_g_sq_flatten</span><span class="p">(</span><span class="n">s</span><span class="p">))</span></div>
 </pre></div>
 

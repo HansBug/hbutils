@@ -165,7 +165,11 @@
     
     
   <h1>Source code for hbutils.collection.dimension</h1><div class="highlight"><pre>
-<span></span><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Overview:</span>
+<span class="sd">    Dimension operations.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;cube_shape&#39;</span><span class="p">,</span> <span class="s1">&#39;dimension_switch&#39;</span><span class="p">,</span> <span class="s1">&#39;swap_2d&#39;</span><span class="p">,</span>
 <span class="p">]</span>
 
@@ -189,10 +193,47 @@
 
 
 <div class="viewcode-block" id="cube_shape"><a class="viewcode-back" href="../../../api_doc/collection/dimension.html#hbutils.collection.dimension.cube_shape">[docs]</a><span class="k">def</span> <span class="nf">cube_shape</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Get the shape of cube array.</span>
+<span class="sd">        When it is not a cube, raise ``ValueError``.</span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        - c: The given cube.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - shape: Shape of the cube.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; import numpy</span>
+<span class="sd">        &gt;&gt;&gt; from hbutils.collection import cube_shape</span>
+<span class="sd">        &gt;&gt;&gt; a = numpy.random.randint(-5, 15, (3, 5, 7, 9)).tolist()</span>
+<span class="sd">        &gt;&gt;&gt; cube_shape(a)</span>
+<span class="sd">        (3, 5, 7, 9)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">_s_cube_shape</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="p">())</span></div>
 
 
 <div class="viewcode-block" id="dimension_switch"><a class="viewcode-back" href="../../../api_doc/collection/dimension.html#hbutils.collection.dimension.dimension_switch">[docs]</a><span class="k">def</span> <span class="nf">dimension_switch</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">dimensions</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Switch the dimensions of the cube array.</span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        - c: Multiple dimensioned array.</span>
+<span class="sd">        - dimensions: New order of dimensions, should be a tuple of 0 - N-1.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - switched: Switched array.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; import numpy</span>
+<span class="sd">        &gt;&gt;&gt; from hbutils.collection import cube_shape, dimension_switch</span>
+<span class="sd">        &gt;&gt;&gt; a = numpy.random.randint(-5, 15, (3, 5, 7, 9)).tolist()</span>
+<span class="sd">        &gt;&gt;&gt; cube_shape(a)</span>
+<span class="sd">        (3, 5, 7, 9)</span>
+<span class="sd">        &gt;&gt;&gt; b = dimension_switch(a, (3, 0, 2, 1))</span>
+<span class="sd">        &gt;&gt;&gt; cube_shape(b)</span>
+<span class="sd">        (9, 3, 7, 5)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">shape</span> <span class="o">=</span> <span class="n">cube_shape</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
     <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">dimensions</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">shape</span><span class="p">))):</span>
@@ -215,6 +256,30 @@
 
 
 <div class="viewcode-block" id="swap_2d"><a class="viewcode-back" href="../../../api_doc/collection/dimension.html#hbutils.collection.dimension.swap_2d">[docs]</a><span class="k">def</span> <span class="nf">swap_2d</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Swap 2d array&#39;s dimension.</span>
+<span class="sd">    Arguments:</span>
+<span class="sd">        - c: 2d array.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - swapped: Swapped array.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from hbutils.collection import swap_2d</span>
+<span class="sd">        &gt;&gt;&gt; swap_2d([</span>
+<span class="sd">        ...     [9, 6, 4, 11, 5, -2, 1],</span>
+<span class="sd">        ...     [0, 0, 11, 5, 8, -4, 9],</span>
+<span class="sd">        ...     [0, 2, 13, 7, 0, 13, 0]</span>
+<span class="sd">        ... ])</span>
+<span class="sd">        [[9, 0, 0],</span>
+<span class="sd">         [6, 0, 2],</span>
+<span class="sd">         [4, 11, 13],</span>
+<span class="sd">         [11, 5, 7],</span>
+<span class="sd">         [5, 8, 0],</span>
+<span class="sd">         [-2, -4, 13],</span>
+<span class="sd">         [1, 9, 0]]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">dimension_switch</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span></div>
 </pre></div>
 

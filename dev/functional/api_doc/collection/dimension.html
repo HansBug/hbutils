@@ -182,12 +182,37 @@
     
   <div class="section" id="module-hbutils.collection.dimension">
 <span id="hbutils-collection-dimension"></span><h1>hbutils.collection.dimension<a class="headerlink" href="#module-hbutils.collection.dimension" title="Permalink to this headline">¶</a></h1>
+<dl class="simple">
+<dt>Overview:</dt><dd><p>Dimension operations.</p>
+</dd>
+</dl>
 <div class="section" id="cube-shape">
 <h2>cube_shape<a class="headerlink" href="#cube-shape" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="hbutils.collection.dimension.cube_shape">
 <code class="sig-prename descclassname">hbutils.collection.dimension.</code><code class="sig-name descname">cube_shape</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">c</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/collection/dimension.html#cube_shape"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.collection.dimension.cube_shape" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Get the shape of cube array.
+When it is not a cube, raise <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>.</p>
+</dd>
+<dt>Arguments:</dt><dd><ul class="simple">
+<li><p>c: The given cube.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>shape: Shape of the cube.</p></li>
+</ul>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.collection</span> <span class="kn">import</span> <span class="n">cube_shape</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cube_shape</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">(3, 5, 7, 9)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
 
 </div>
 <div class="section" id="dimension-switch">
@@ -195,7 +220,31 @@
 <dl class="py function">
 <dt id="hbutils.collection.dimension.dimension_switch">
 <code class="sig-prename descclassname">hbutils.collection.dimension.</code><code class="sig-name descname">dimension_switch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">c</span></em>, <em class="sig-param"><span class="n">dimensions</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/collection/dimension.html#dimension_switch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.collection.dimension.dimension_switch" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Switch the dimensions of the cube array.</p>
+</dd>
+<dt>Arguments:</dt><dd><ul class="simple">
+<li><p>c: Multiple dimensioned array.</p></li>
+<li><p>dimensions: New order of dimensions, should be a tuple of 0 - N-1.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>switched: Switched array.</p></li>
+</ul>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.collection</span> <span class="kn">import</span> <span class="n">cube_shape</span><span class="p">,</span> <span class="n">dimension_switch</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cube_shape</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="go">(3, 5, 7, 9)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">b</span> <span class="o">=</span> <span class="n">dimension_switch</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cube_shape</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="go">(9, 3, 7, 5)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
 
 </div>
 <div class="section" id="swap-2d">
@@ -203,7 +252,35 @@
 <dl class="py function">
 <dt id="hbutils.collection.dimension.swap_2d">
 <code class="sig-prename descclassname">hbutils.collection.dimension.</code><code class="sig-name descname">swap_2d</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">c</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/collection/dimension.html#swap_2d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.collection.dimension.swap_2d" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Swap 2d array’s dimension.</p>
+</dd>
+<dt>Arguments:</dt><dd><ul class="simple">
+<li><p>c: 2d array.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>swapped: Swapped array.</p></li>
+</ul>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.collection</span> <span class="kn">import</span> <span class="n">swap_2d</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">swap_2d</span><span class="p">([</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="mi">9</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>
+<span class="gp">... </span>    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="gp">... </span><span class="p">])</span>
+<span class="go">[[9, 0, 0],</span>
+<span class="go"> [6, 0, 2],</span>
+<span class="go"> [4, 11, 13],</span>
+<span class="go"> [11, 5, 7],</span>
+<span class="go"> [5, 8, 0],</span>
+<span class="go"> [-2, -4, 13],</span>
+<span class="go"> [1, 9, 0]]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
 
 </div>
 </div>
