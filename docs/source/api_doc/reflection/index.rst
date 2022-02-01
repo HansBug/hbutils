@@ -9,7 +9,6 @@ hbutils.reflection
     :maxdepth: 3
 
     clazz
-    enum
     exception
     func
     imports
