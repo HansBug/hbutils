@@ -2,7 +2,7 @@ from enum import IntEnum, Enum
 
 import pytest
 
-from hbutils.reflection import int_enum_loads
+from hbutils.model import int_enum_loads
 
 
 # noinspection DuplicatedCode

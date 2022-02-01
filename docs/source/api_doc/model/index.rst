@@ -9,5 +9,6 @@ hbutils.model
     :maxdepth: 3
 
     clazz
+    enum
     repr
 

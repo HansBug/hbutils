@@ -1,9 +1,9 @@
-hbutils.reflection.enum
+hbutils.model.enum
 ========================================
 
-.. currentmodule:: hbutils.reflection.enum
+.. currentmodule:: hbutils.model.enum
 
-.. automodule:: hbutils.reflection.enum
+.. automodule:: hbutils.model.enum
 
 int_enum_loads
 ---------------------
