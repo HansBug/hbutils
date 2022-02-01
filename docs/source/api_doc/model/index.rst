@@ -9,4 +9,5 @@ hbutils.model
     :maxdepth: 3
 
     clazz
+    repr
 
