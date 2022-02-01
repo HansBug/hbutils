@@ -17,33 +17,3 @@ common_base
 
 .. autofunction:: common_base
 
-
-asitems
----------------------
-
-.. autofunction:: asitems
-
-
-visual
----------------------
-
-.. autofunction:: visual
-
-
-constructor
----------------------
-
-.. autofunction:: constructor
-
-
-hasheq
----------------------
-
-.. autofunction:: hasheq
-
-
-accessor
----------------------
-
-.. autofunction:: accessor
-
