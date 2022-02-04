@@ -1,0 +1,424 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hbutils.design.singleton &mdash; hbutils 0.2.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="hbutils.encoding" href="../encoding/index.html" />
+    <link rel="prev" title="hbutils.design.final" href="final.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> hbutils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">hbutils.algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../collection/index.html">hbutils.collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../color/index.html">hbutils.color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/index.html">hbutils.config</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">hbutils.design</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="decorator.html">hbutils.design.decorator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="final.html">hbutils.design.final</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.design.singleton</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#singletonmeta">SingletonMeta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#valuebasedsingletonmeta">ValueBasedSingletonMeta</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#singletonmark">SingletonMark</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/index.html">hbutils.model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../random/index.html">hbutils.random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reflection/index.html">hbutils.reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scale/index.html">hbutils.scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../string/index.html">hbutils.string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/index.html">hbutils.testing</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">hbutils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">hbutils.design</a> &raquo;</li>
+        
+      <li>hbutils.design.singleton</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_doc/design/singleton.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <div class="section" id="module-hbutils.design.singleton">
+<span id="hbutils-design-singleton"></span><h1>hbutils.design.singleton<a class="headerlink" href="#module-hbutils.design.singleton" title="Permalink to this headline">¶</a></h1>
+<dl class="simple">
+<dt>Overview:</dt><dd><p>Implement of singleton design pattern.</p>
+</dd>
+</dl>
+<div class="section" id="singletonmeta">
+<h2>SingletonMeta<a class="headerlink" href="#singletonmeta" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.design.singleton.SingletonMeta">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.design.singleton.</code><code class="sig-name descname">SingletonMeta</code><a class="reference internal" href="../../_modules/hbutils/design/singleton.html#SingletonMeta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.design.singleton.SingletonMeta" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Meta class for singleton mode.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyService</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">SingletonMeta</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span> <span class="nf">get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">return</span> <span class="mi">233</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">MyService</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">get_value</span><span class="p">()</span>    <span class="c1"># 233</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s1</span> <span class="o">=</span> <span class="n">MyService</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s1</span> <span class="ow">is</span> <span class="n">s</span>          <span class="c1"># True</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In native singleton pattern, the constructor is not needed because         only one instance will be created in the whole lifetime. So when         <a class="reference internal" href="#hbutils.design.singleton.SingletonMeta" title="hbutils.design.singleton.SingletonMeta"><code class="xref py py-class docutils literal notranslate"><span class="pre">SingletonMeta</span></code></a> is used as metaclass, please keep the constructor         be non-argument, or just ignore the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> function.</p>
+</div>
+<dl class="py method">
+<dt id="hbutils.design.singleton.SingletonMeta.__call__">
+<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/design/singleton.html#SingletonMeta.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.design.singleton.SingletonMeta.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call self as a function.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="valuebasedsingletonmeta">
+<h2>ValueBasedSingletonMeta<a class="headerlink" href="#valuebasedsingletonmeta" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.design.singleton.ValueBasedSingletonMeta">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.design.singleton.</code><code class="sig-name descname">ValueBasedSingletonMeta</code><a class="reference internal" href="../../_modules/hbutils/design/singleton.html#ValueBasedSingletonMeta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.design.singleton.ValueBasedSingletonMeta" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Meta class for value based singleton mode.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyData</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ValueBasedSingletonMeta</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="bp">self</span><span class="o">.</span><span class="n">__value</span> <span class="o">=</span> <span class="n">value</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nd">@property</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="k">def</span> <span class="nf">value</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__value</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d1</span> <span class="o">=</span> <span class="n">MyData</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d1</span><span class="o">.</span><span class="n">value</span>       <span class="c1"># 1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d2</span> <span class="o">=</span> <span class="n">MyData</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d3</span> <span class="o">=</span> <span class="n">MyData</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d2</span> <span class="ow">is</span> <span class="n">d1</span>       <span class="c1"># True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d2</span> <span class="ow">is</span> <span class="n">d3</span>       <span class="c1"># False</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is an external case of singleton pattern. It can only contain one argument         (must be positional-supported), which differs from the native singleton case.</p>
+</div>
+<dl class="py method">
+<dt id="hbutils.design.singleton.ValueBasedSingletonMeta.__call__">
+<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/design/singleton.html#ValueBasedSingletonMeta.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.design.singleton.ValueBasedSingletonMeta.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Call self as a function.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="singletonmark">
+<h2>SingletonMark<a class="headerlink" href="#singletonmark" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.design.singleton.SingletonMark">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.design.singleton.</code><code class="sig-name descname">SingletonMark</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/design/singleton.html#SingletonMark"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.design.singleton.SingletonMark" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Singleton mark for some situation.
+Can be used when some default value is needed, especially when <cite>None</cite> has meaning which is not default.</p>
+</dd>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">NO_VALUE</span> <span class="o">=</span> <span class="n">SingletonMark</span><span class="p">(</span><span class="s2">&quot;no_value&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">NO_VALUE</span> <span class="ow">is</span> <span class="n">SingletonMark</span><span class="p">(</span><span class="s2">&quot;no_value&quot;</span><span class="p">)</span>  <span class="c1"># True</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#hbutils.design.singleton.SingletonMark" title="hbutils.design.singleton.SingletonMark"><code class="xref py py-class docutils literal notranslate"><span class="pre">SingletonMark</span></code></a> is a value-based singleton class, can be used to create an unique         value, especially in the cases which <code class="docutils literal notranslate"><span class="pre">None</span></code> is not suitable for the default value.</p>
+</div>
+<dl class="py method">
+<dt id="hbutils.design.singleton.SingletonMark.__eq__">
+<code class="sig-name descname">__eq__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/design/singleton.html#SingletonMark.__eq__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.design.singleton.SingletonMark.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p><a class="reference internal" href="#hbutils.design.singleton.SingletonMark" title="hbutils.design.singleton.SingletonMark"><code class="xref py py-class docutils literal notranslate"><span class="pre">SingletonMark</span></code></a> objects can be directly compared with <code class="docutils literal notranslate"><span class="pre">==</span></code>.</p>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mark1</span> <span class="o">=</span> <span class="n">SingletonMark</span><span class="p">(</span><span class="s1">&#39;mark1&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mark1x</span> <span class="o">=</span> <span class="n">SingletonMark</span><span class="p">(</span><span class="s1">&#39;mark1&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mark2</span> <span class="o">=</span> <span class="n">SingletonMark</span><span class="p">(</span><span class="s1">&#39;mark2&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mark1</span> <span class="o">==</span> <span class="n">mark1</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mark1</span> <span class="o">==</span> <span class="n">mark1x</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mark1</span> <span class="o">==</span> <span class="n">mark2</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.design.singleton.SingletonMark.__hash__">
+<code class="sig-name descname">__hash__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/design/singleton.html#SingletonMark.__hash__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.design.singleton.SingletonMark.__hash__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p><a class="reference internal" href="#hbutils.design.singleton.SingletonMark" title="hbutils.design.singleton.SingletonMark"><code class="xref py py-class docutils literal notranslate"><span class="pre">SingletonMark</span></code></a> objects are hash supported. can be directly used             in <code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code> and <code class="xref py py-class docutils literal notranslate"><span class="pre">set</span></code>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.design.singleton.SingletonMark.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mark</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/design/singleton.html#SingletonMark.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.design.singleton.SingletonMark.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Constructor of <a class="reference internal" href="#hbutils.design.singleton.SingletonMark" title="hbutils.design.singleton.SingletonMark"><code class="xref py py-class docutils literal notranslate"><span class="pre">SingletonMark</span></code></a>, can create a singleton mark object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.design.singleton.SingletonMark.__repr__">
+<code class="sig-name descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/design/singleton.html#SingletonMark.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.design.singleton.SingletonMark.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>When you try to print a <a class="reference internal" href="#hbutils.design.singleton.SingletonMark" title="hbutils.design.singleton.SingletonMark"><code class="xref py py-class docutils literal notranslate"><span class="pre">SingletonMark</span></code></a> object, its mark content will be             displayed.</p>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mark1</span> <span class="o">=</span> <span class="n">SingletonMark</span><span class="p">(</span><span class="s1">&#39;mark1&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">mark1</span><span class="p">)</span>
+<span class="go">&lt;SingletonMark mark1&gt;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.design.singleton.SingletonMark.mark">
+<em class="property">property </em><code class="sig-name descname">mark</code><a class="headerlink" href="#hbutils.design.singleton.SingletonMark.mark" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Get mark string of this mark object.</p>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>mark (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>): Mark string</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../encoding/index.html" class="btn btn-neutral float-right" title="hbutils.encoding" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="final.html" class="btn btn-neutral float-left" title="hbutils.design.final" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/testing
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../v0.0.1/api_doc/design/singleton.html">v0.0.1</a></dd>
+                        <dd><a href="../../../../v0.1.0/api_doc/design/singleton.html">v0.1.0</a></dd>
+                        <dd><a href="../../../../v0.1.1/api_doc/design/singleton.html">v0.1.1</a></dd>
+                        <dd><a href="../../../../v0.2.0/api_doc/design/singleton.html">v0.2.0</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="singleton.html">dev/testing</a></dd>
+                        <dd><a href="../../../../main/api_doc/design/singleton.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
