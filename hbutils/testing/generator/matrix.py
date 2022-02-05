@@ -1,12 +1,6 @@
-from typing import Iterator, Mapping, Optional, List, Set
+from typing import Iterator, Mapping, Optional, List
 
-from .base import BaseGenerator, _single_dict_process, _single_to_tuple
-
-
-def _check_keys(item: Mapping[str, object], names: Set[str]):
-    for key in item.keys():
-        if key not in names:
-            raise KeyError(f'Invalid key - {repr(key)}.')
+from .base import BaseGenerator, _single_dict_process, _single_to_tuple, _check_keys
 
 
 class MatrixGenerator(BaseGenerator):
@@ -16,9 +10,8 @@ class MatrixGenerator(BaseGenerator):
 
     def __init__(self, values: Mapping[str, object],
                  names: Optional[List[str]] = None,
-                 include: Optional[List[Mapping[str, object]]] = None,
-                 exclude: Optional[List[Mapping[str, object]]] = None
-                 ):
+                 includes: Optional[List[Mapping[str, object]]] = None,
+                 excludes: Optional[List[Mapping[str, object]]] = None):
         """
         Constructor of the :class:`hbutils.testing.matrix.base.BaseMatrix` class.
         It is similar to GitHub Action's matrix.
@@ -26,35 +19,35 @@ class MatrixGenerator(BaseGenerator):
         :param values: Matrix values, such as ``{'a': [2, 3], 'b': ['b', 'c']}``.
         :param names: Names of the given generator, default is ``None`` which means use the sorted \
             key set of the values.
-        :param include: Include items, such as ``[{'a': 4, 'b': 'b'}]``, \
+        :param includes: Include items, such as ``[{'a': 4, 'b': 'b'}]``, \
             default is ``None`` which means no extra inclusions.
-        :param exclude: Exclude Items, such as ``[{'a': 2, 'b': 'c'}]``, \
+        :param excludes: Exclude Items, such as ``[{'a': 2, 'b': 'c'}]``, \
             default is ``None`` which means no extra exclusions.
         """
         BaseGenerator.__init__(self, values, names)
         _name_set = set(self.names)
 
-        self.__include = [_single_dict_process(inc) for inc in (include or [])]
-        for include in self.__include:
-            _check_keys(include, _name_set)
+        self.__includes = [_single_dict_process(inc) for inc in (includes or [])]
+        for includes in self.__includes:
+            _check_keys(includes, _name_set)
 
-        self.__exclude = [_single_dict_process(exc) for exc in (exclude or [])]
-        for exclude in self.__exclude:
-            _check_keys(exclude, _name_set)
+        self.__excludes = [_single_dict_process(exc) for exc in (excludes or [])]
+        for excludes in self.__excludes:
+            _check_keys(excludes, _name_set)
 
     @property
-    def include(self) -> List[Mapping[str, object]]:
+    def includes(self) -> List[Mapping[str, object]]:
         """
         Include items.
         """
-        return self.__include
+        return self.__includes
 
     @property
-    def exclude(self) -> List[Mapping[str, object]]:
+    def excludes(self) -> List[Mapping[str, object]]:
         """
         Exclude items.
         """
-        return self.__exclude
+        return self.__excludes
 
     def cases(self) -> Iterator[Mapping[str, object]]:
         """
@@ -64,8 +57,8 @@ class MatrixGenerator(BaseGenerator):
             >>> from hbutils.testing import MatrixGenerator
             >>> for p in MatrixGenerator(
             ...         {'a': [1, 2, 3], 'b': ['a', 'b'], 'r': [3, 4, 5]},
-            ...         include=[{'a': 4, 'r': 7}],
-            ...         exclude=[{'a': 1, 'r': 3}, {'a': 3, 'b': 'b'}, {'a': 4, 'b': 'a', 'r': 7}]
+            ...         includes=[{'a': 4, 'r': 7}],
+            ...         excludes=[{'a': 1, 'r': 3}, {'a': 3, 'b': 'b'}, {'a': 4, 'b': 'a', 'r': 7}]
             ... ).cases():
             >>>     print(p)
             {'a': 1, 'b': 'a', 'r': 4}
@@ -114,8 +107,8 @@ class MatrixGenerator(BaseGenerator):
         value_items = [self.values, *({
             name: _single_to_tuple(include[name]) if name in include else self.values[name]
             for name in self.names
-        } for include in self.include)]
-        local_excludes = [*self.exclude]
+        } for include in self.includes)]
+        local_excludes = [*self.excludes]
         for vis in value_items:
             yield from _matrix_recursion(0, {}, vis, local_excludes)
             local_excludes.append(vis)

@@ -1,7 +1,7 @@
 import random
 from functools import reduce
 from operator import __mul__, __add__
-from typing import Iterator, Mapping, Optional, List
+from typing import Iterator, Mapping, Optional, List, Tuple
 
 from hbutils.model import visual, hasheq, accessor, asitems
 from .base import BaseGenerator
@@ -35,18 +35,33 @@ class _AETGPair:
         else:
             self.__first, self.__second = bpair, apair
 
-    def another(self, pair):
-        if pair == self.__first:
-            return self.__second
-        elif pair == self.__second:
-            return self.__first
-        else:
-            raise ValueError(f'Key-value pair not found in this AETG pair - {repr(pair)}.')
-
 
 class AETGGenerator(BaseGenerator):
-    def __init__(self, values, names: Optional[List[str]] = None):
+    def __init__(self, values, names: Optional[List[str]] = None,
+                 pairs: Optional[List[Tuple[str]]] = None):
         BaseGenerator.__init__(self, values, names)
+        _name_set = set(self.names)
+
+        if pairs is None:
+            self.__pairs = []
+            n = len(self.names)
+            for i in range(0, n):
+                self.__pairs.append((self.names[i],))
+
+            for i in range(0, n):
+                for j in range(i + 1, n):
+                    self.__pairs.append((self.names[i], self.names[j]))
+
+        else:
+            self.__pairs = [tuple(px) for px in (pairs or [])]
+            for pair in self.__pairs:
+                for p in pair:
+                    if p not in _name_set:
+                        raise KeyError(f'Invalid key - {repr(p)}.')
+
+    @property
+    def pairs(self) -> List[Tuple[str]]:
+        return self.__pairs
 
     def cases(self) -> Iterator[Mapping[str, object]]:
         n = len(self.names)

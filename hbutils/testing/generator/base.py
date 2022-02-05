@@ -1,8 +1,9 @@
-from typing import Tuple, Mapping, Optional, List, Iterator
+from types import GeneratorType
+from typing import Tuple, Mapping, Optional, List, Iterator, Set
 
 
 def _single_to_tuple(s: object) -> Tuple:
-    if isinstance(s, (list, tuple)):
+    if isinstance(s, (list, tuple, GeneratorType, range)):
         return tuple(s)
     else:
         return (s,)
@@ -10,6 +11,12 @@ def _single_to_tuple(s: object) -> Tuple:
 
 def _single_dict_process(s: Mapping[str, object]) -> Mapping[str, Tuple[object]]:
     return {key: _single_to_tuple(value) for key, value in s.items()}
+
+
+def _check_keys(item: Mapping[str, object], names: Set[str]):
+    for key in item.keys():
+        if key not in names:
+            raise KeyError(f'Invalid key - {repr(key)}.')
 
 
 class BaseGenerator:
