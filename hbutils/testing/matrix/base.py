@@ -6,10 +6,21 @@ __all__ = [
 ]
 
 
-def _check_keys(item: dict, names: Set[str]):
+def _check_keys(item: Mapping[str, object], names: Set[str]):
     for key in item.keys():
         if key not in names:
             raise KeyError(f'Invalid key - {repr(key)}.')
+
+
+def _single_to_tuple(s: object) -> Tuple:
+    if isinstance(s, (list, tuple)):
+        return tuple(s)
+    else:
+        return (s,)
+
+
+def _single_dict_process(s: Mapping[str, object]) -> Mapping[str, Tuple[object]]:
+    return {key: _single_to_tuple(value) for key, value in s.items()}
 
 
 class BaseMatrix(metaclass=ABCMeta):
@@ -31,18 +42,15 @@ class BaseMatrix(metaclass=ABCMeta):
         :param exclude: Exclude Items, such as ``[{'a': 2, 'b': 'c'}]``, \
             default is ``None`` which means no extra exclusions.
         """
-        self.__values = {
-            name: tuple(value) if isinstance(value, (list, tuple)) else (value,)
-            for name, value in values.items()
-        }
+        self.__values = _single_dict_process(values)
         self.__names = sorted(self.__values.keys())
         _name_set = set(self.__names)
 
-        self.__include = include or []
+        self.__include = [_single_dict_process(inc) for inc in (include or [])]
         for include in self.__include:
             _check_keys(include, _name_set)
 
-        self.__exclude = exclude or []
+        self.__exclude = [_single_dict_process(exc) for exc in (exclude or [])]
         for exclude in self.__exclude:
             _check_keys(exclude, _name_set)
 

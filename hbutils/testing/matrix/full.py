@@ -1,6 +1,6 @@
 from typing import Iterator, Mapping
 
-from .base import BaseMatrix
+from .base import BaseMatrix, _single_to_tuple
 
 __all__ = [
     'FullMatrix',
@@ -44,43 +44,34 @@ class FullMatrix(BaseMatrix):
 
         def _check_single_exclude(dict_value, exclude):
             for key, value in exclude.items():
-                if key not in dict_value or dict_value[key] != value:
+                if key not in dict_value or dict_value[key] not in value:
                     return False
 
             return True
 
-        def _check_exclude(dict_value):
-            for exclude in self.exclude:
+        def _check_exclude(dict_value, excludes):
+            for exclude in excludes:
                 if _check_single_exclude(dict_value, exclude):
                     return True
 
             return False
 
-        def _matrix_recursion(depth, dict_value):
-            if _check_exclude(dict_value):
+        def _matrix_recursion(depth, dict_value, values, excludes):
+            if _check_exclude(dict_value, excludes):
                 return
 
             if depth < n:
                 name = self.names[depth]
-                for curitem in self.values[name]:
-                    yield from _matrix_recursion(depth + 1, {**dict_value, name: curitem})
+                for curitem in values[name]:
+                    yield from _matrix_recursion(depth + 1, {**dict_value, name: curitem}, values, excludes)
             else:
                 yield dict_value
 
-        def _include_recursion(depth, dict_value, incs):
-            if _check_exclude(dict_value):
-                return
-
-            if depth < n:
-                name = self.names[depth]
-                if name in incs:
-                    yield from _include_recursion(depth + 1, {**dict_value, name: incs[name]}, incs)
-                else:
-                    for curitem in self.values[name]:
-                        yield from _include_recursion(depth + 1, {**dict_value, name: curitem}, incs)
-            else:
-                yield dict_value
-
-        yield from _matrix_recursion(0, {})
-        for include in self.include:
-            yield from _include_recursion(0, {}, include)
+        value_items = [self.values, *({
+            name: _single_to_tuple(include[name]) if name in include else self.values[name]
+            for name in self.names
+        } for include in self.include)]
+        local_excludes = [*self.exclude]
+        for vis in value_items:
+            yield from _matrix_recursion(0, {}, vis, local_excludes)
+            local_excludes.append(vis)

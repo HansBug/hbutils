@@ -27,5 +27,5 @@ class TestTestingMatrixBase:
         )
         assert m.names == ['a', 'b', 'r']
         assert m.values == {'a': (1, 2, 3), 'b': ('a', 'b'), 'r': (3, 4, 5)}
-        assert m.include == [{'a': 4, 'r': 7}]
-        assert m.exclude == [{'a': 1, 'r': 3}, {'a': 3, 'b': 'b'}]
+        assert m.include == [{'a': (4,), 'r': (7,)}]
+        assert m.exclude == [{'a': (1,), 'r': (3,)}, {'a': (3,), 'b': ('b',)}]
