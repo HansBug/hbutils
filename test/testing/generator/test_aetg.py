@@ -27,6 +27,7 @@ class TestTestingGeneratorAETG:
                         pairset.add((ivalue, jvalue))
 
         assert len(pairset) == 21
+        cnt = 0
         for a, b, r in m.tuple_cases():
             if (a, b) in pairset:
                 pairset.remove((a, b))
@@ -34,5 +35,7 @@ class TestTestingGeneratorAETG:
                 pairset.remove((a, r))
             if (b, r) in pairset:
                 pairset.remove((b, r))
+            cnt += 1
 
         assert len(pairset) == 0
+        assert cnt <= 12
