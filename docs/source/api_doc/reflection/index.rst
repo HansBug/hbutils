@@ -12,3 +12,4 @@ hbutils.reflection
     exception
     func
     imports
+    iter
