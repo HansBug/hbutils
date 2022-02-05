@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>hbutils.random.binary &mdash; hbutils 0.2.0 documentation</title>
+  <title>hbutils.reflection.iter &mdash; hbutils 0.2.0 documentation</title>
   
 
   
@@ -148,7 +148,7 @@
         
           <li><a href="../../index.html">Module code</a> &raquo;</li>
         
-      <li>hbutils.random.binary</li>
+      <li>hbutils.reflection.iter</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -165,46 +165,57 @@
             
     
     
-  <h1>Source code for hbutils.random.binary</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">random</span>
-<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">_inst</span> <span class="k">as</span> <span class="n">_DEFAULT_RANDOM</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+  <h1>Source code for hbutils.reflection.iter</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">tee</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Iterable</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;random_bytes&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;nested_for&#39;</span><span class="p">,</span>
 <span class="p">]</span>
 
 
-<div class="viewcode-block" id="random_bytes"><a class="viewcode-back" href="../../../api_doc/random/binary.html#hbutils.random.binary.random_bytes">[docs]</a><span class="k">def</span> <span class="nf">random_bytes</span><span class="p">(</span><span class="n">length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span> <span class="n">allow_zero</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">rnd</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span><span class="p">:</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Overview:</span>
-<span class="sd">        Generate random bytes.</span>
+<div class="viewcode-block" id="nested_for"><a class="viewcode-back" href="../../../api_doc/reflection/iter.html#hbutils.reflection.iter.nested_for">[docs]</a><span class="k">def</span> <span class="nf">nested_for</span><span class="p">(</span><span class="o">*</span><span class="n">iters</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Nested for based on several iterators.</span>
 
-<span class="sd">    Arguments:</span>
-<span class="sd">        - length (:obj:`int`): Length of bytes, default is 32.</span>
-<span class="sd">        - allow_zero (:obj:`bool`): Allow 0x00 appear in the result, default is ``False``.</span>
-<span class="sd">        - rnd (:obj:`Optional[random.Random]`): Random object you used, \</span>
-<span class="sd">            default is ``None`` which means just use the default one provided by system.</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        - bytes (:obj:`bytes`): Random bytes.</span>
+<span class="sd">    :param iters: Iterators to build this nested for loop.</span>
+<span class="sd">    :return: Nested for loop iteration.</span>
 
 <span class="sd">    Examples::</span>
-<span class="sd">        &gt;&gt;&gt; from hbutils.random import random_bytes</span>
-<span class="sd">        &gt;&gt;&gt; random_bytes()</span>
-<span class="sd">        b&#39;\xdc\xdc$\x05\x83\x04\x812\xfd\xda^\x7f[{\xbc\x99\x88*\xab3\x87}\xd1\xab\xddc\xa2p\xb2\xcb\x07\xc5&#39;</span>
-<span class="sd">        &gt;&gt;&gt; random_bytes(64)</span>
-<span class="sd">        b&quot;i7\x98\xd5\x81\x1d\xdb\xd8\xe1^\xf2\xe4\xbf\xe0O^\xeb\xed\xb0i\xaa\xf3\x16Jx\xf7J\xd7\xae1\x81\xc6\xad\xd21\x15\x8aX\xb6\xc7\x85\xa4\x1c{\xac^6\xdf\x03\x94kR}\x91\x96\xfe\x06{&#39;I\xed5\x03r&quot;</span>
+<span class="sd">        &gt;&gt;&gt; from hbutils.reflection import nested_for</span>
+<span class="sd">        &gt;&gt;&gt; for a, r, b in nested_for(</span>
+<span class="sd">        ...         range(1, 3),</span>
+<span class="sd">        ...         [&#39;a&#39;, &#39;b&#39;],</span>
+<span class="sd">        ...         map(lambda x: x ** 2, range(1, 4))</span>
+<span class="sd">        ... ):</span>
+<span class="sd">        &gt;&gt;&gt;     print(a, r, b)</span>
+<span class="sd">        1 a 1</span>
+<span class="sd">        1 a 4</span>
+<span class="sd">        1 a 9</span>
+<span class="sd">        1 b 1</span>
+<span class="sd">        1 b 4</span>
+<span class="sd">        1 b 9</span>
+<span class="sd">        2 a 1</span>
+<span class="sd">        2 a 4</span>
+<span class="sd">        2 a 9</span>
+<span class="sd">        2 b 1</span>
+<span class="sd">        2 b 4</span>
+<span class="sd">        2 b 9</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">rnd</span> <span class="o">=</span> <span class="n">rnd</span> <span class="ow">or</span> <span class="n">_DEFAULT_RANDOM</span>
-    <span class="n">bits</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">length</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">allow_zero</span><span class="p">:</span>
-            <span class="n">bits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rnd</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">))</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">bits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rnd</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mh">0xff</span><span class="p">))</span>
+    <span class="n">iterators</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">iters</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">iterators</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">bits</span><span class="p">)</span></div>
+    <span class="k">def</span> <span class="nf">_recursion</span><span class="p">(</span><span class="n">deep</span><span class="p">,</span> <span class="n">selections</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">deep</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">selections</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">iterators</span><span class="p">[</span><span class="n">deep</span><span class="p">],</span> <span class="n">new_copy</span> <span class="o">=</span> <span class="n">tee</span><span class="p">(</span><span class="n">iterators</span><span class="p">[</span><span class="n">deep</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">new_copy</span><span class="p">:</span>
+                <span class="n">selections</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                <span class="k">yield from</span> <span class="n">_recursion</span><span class="p">(</span><span class="n">deep</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">selections</span><span class="p">)</span>
+                <span class="n">selections</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+
+    <span class="k">yield from</span> <span class="n">_recursion</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">[])</span></div>
 </pre></div>
 
 
@@ -236,22 +247,21 @@
     <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
   <span class="rst-current-version" data-toggle="rst-current-version">
     <span class="fa fa-book"> Other Versions</span>
-    v: dev/iter
+    v: main
     <span class="fa fa-caret-down"></span>
   </span>
         <div class="rst-other-versions">
                 <dl>
                     <dt>Tags</dt>
-                        <dd><a href="../../../../../v0.0.1/index.html">v0.0.1</a></dd>
-                        <dd><a href="../../../../../v0.1.0/index.html">v0.1.0</a></dd>
-                        <dd><a href="../../../../../v0.1.1/index.html">v0.1.1</a></dd>
-                        <dd><a href="../../../../../v0.2.0/index.html">v0.2.0</a></dd>
+                        <dd><a href="../../../../v0.0.1/index.html">v0.0.1</a></dd>
+                        <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
+                        <dd><a href="../../../../v0.1.1/index.html">v0.1.1</a></dd>
+                        <dd><a href="../../../../v0.2.0/index.html">v0.2.0</a></dd>
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="binary.html">dev/iter</a></dd>
-                        <dd><a href="../../../../testing/index.html">dev/testing</a></dd>
-                        <dd><a href="../../../../../main/index.html">main</a></dd>
+                        <dd><a href="iter.html">main</a></dd>
+                        <dd><a href="../../../../dev/testing/index.html">dev/testing</a></dd>
                 </dl>
         </div>
     </div>
