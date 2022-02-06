@@ -8,4 +8,4 @@ hbutils.testing
 .. toctree::
     :maxdepth: 3
 
-    matrix/index
+    generator
