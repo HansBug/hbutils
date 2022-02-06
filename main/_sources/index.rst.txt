@@ -32,6 +32,7 @@ Overview
     api_doc/reflection/index
     api_doc/scale/index
     api_doc/string/index
+    api_doc/testing/index
 
 
 .. toctree::

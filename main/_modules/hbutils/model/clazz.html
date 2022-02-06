@@ -101,6 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../api_doc/reflection/index.html">hbutils.reflection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api_doc/scale/index.html">hbutils.scale</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api_doc/string/index.html">hbutils.string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/testing/index.html">hbutils.testing</a></li>
 </ul>
 
             
@@ -236,11 +237,11 @@
 <span class="sd">        &gt;&gt;&gt; class T:</span>
 <span class="sd">        &gt;&gt;&gt;     @property</span>
 <span class="sd">        &gt;&gt;&gt;     def x(self):</span>
-<span class="sd">        &gt;&gt;&gt;         return self.__x</span>
+<span class="sd">        &gt;&gt;&gt;         return self.__first</span>
 <span class="sd">        &gt;&gt;&gt;</span>
 <span class="sd">        &gt;&gt;&gt;     @property</span>
 <span class="sd">        &gt;&gt;&gt;     def y(self):</span>
-<span class="sd">        &gt;&gt;&gt;         return self.__y</span>
+<span class="sd">        &gt;&gt;&gt;         return self.__second</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">_decorator</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
@@ -268,8 +269,8 @@
 <span class="sd">        &gt;&gt;&gt; @visual()</span>
 <span class="sd">        &gt;&gt;&gt; class T:</span>
 <span class="sd">        ...     def __init__(self, x, y):</span>
-<span class="sd">        ...         self.__x = x</span>
-<span class="sd">        ...         self.__y = y</span>
+<span class="sd">        ...         self.__first = x</span>
+<span class="sd">        ...         self.__second = y</span>
 <span class="sd">        &gt;&gt;&gt; repr(T(1, 2))</span>
 <span class="sd">        &lt;T x: 1, y: 2&gt;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -347,11 +348,11 @@
 <span class="sd">        &gt;&gt;&gt;</span>
 <span class="sd">        &gt;&gt;&gt;     @property</span>
 <span class="sd">        &gt;&gt;&gt;     def x(self):</span>
-<span class="sd">        &gt;&gt;&gt;         return self.__x</span>
+<span class="sd">        &gt;&gt;&gt;         return self.__first</span>
 <span class="sd">        &gt;&gt;&gt;</span>
 <span class="sd">        &gt;&gt;&gt;     @property</span>
 <span class="sd">        &gt;&gt;&gt;     def y(self):</span>
-<span class="sd">        &gt;&gt;&gt;         return self.__y</span>
+<span class="sd">        &gt;&gt;&gt;         return self.__second</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">_decorator</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
@@ -407,8 +408,8 @@
 <span class="sd">        &gt;&gt;&gt; @hasheq([&#39;x&#39;, &#39;y&#39;])</span>
 <span class="sd">        &gt;&gt;&gt; class T:</span>
 <span class="sd">        &gt;&gt;&gt;     def __init__(self, x, y):</span>
-<span class="sd">        &gt;&gt;&gt;         self.__x = x</span>
-<span class="sd">        &gt;&gt;&gt;         self.__y = y</span>
+<span class="sd">        &gt;&gt;&gt;         self.__first = x</span>
+<span class="sd">        &gt;&gt;&gt;         self.__second = y</span>
 
 <span class="sd">        Using with :func:`asitems`</span>
 
@@ -482,8 +483,8 @@
 <span class="sd">        &gt;&gt;&gt; @asitems([&#39;x&#39;, &#39;y&#39;])</span>
 <span class="sd">        &gt;&gt;&gt; class T:</span>
 <span class="sd">        &gt;&gt;&gt;     def __init__(self, x, y):</span>
-<span class="sd">        &gt;&gt;&gt;         self.__x = x</span>
-<span class="sd">        &gt;&gt;&gt;         self.__y = y</span>
+<span class="sd">        &gt;&gt;&gt;         self.__first = x</span>
+<span class="sd">        &gt;&gt;&gt;         self.__second = y</span>
 <span class="sd">        &gt;&gt;&gt;</span>
 <span class="sd">        &gt;&gt;&gt; t = T(2, 100)</span>
 <span class="sd">        &gt;&gt;&gt; t.x  # 2</span>
@@ -581,7 +582,6 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../dev/testing/index.html">dev/testing</a></dd>
                         <dd><a href="clazz.html">main</a></dd>
                 </dl>
         </div>
