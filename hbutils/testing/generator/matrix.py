@@ -13,7 +13,7 @@ class MatrixGenerator(BaseGenerator):
                  includes: Optional[List[Mapping[str, object]]] = None,
                  excludes: Optional[List[Mapping[str, object]]] = None):
         """
-        Constructor of the :class:`hbutils.testing.matrix.base.BaseMatrix` class.
+        Constructor of the :class:`hbutils.testing.MatrixGenerator` class.
         It is similar to GitHub Action's matrix.
 
         :param values: Matrix values, such as ``{'a': [2, 3], 'b': ['b', 'c']}``.
