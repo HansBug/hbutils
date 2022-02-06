@@ -173,7 +173,7 @@ def random_sha1(rnd: Optional[random.Random] = None) -> str:
 def random_base64(length: int = _RANDOM_BYTES_LENGTH, rnd: Optional[random.Random] = None) -> str:
     """
     Overview:
-        Create random base64, may be useful when generate verification code.
+        Create random base64, may be useful when matrix verification code.
 
     Arguments:
         - length (:obj:`int`): Length of the original binary data, default is 64.

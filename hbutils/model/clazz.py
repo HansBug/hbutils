@@ -68,11 +68,11 @@ def asitems(items: Iterable[str]):
         >>> class T:
         >>>     @property
         >>>     def x(self):
-        >>>         return self.__x
+        >>>         return self.__first
         >>>
         >>>     @property
         >>>     def y(self):
-        >>>         return self.__y
+        >>>         return self.__second
     """
 
     def _decorator(cls):
@@ -100,8 +100,8 @@ def visual(items: Optional[Iterable] = None, show_id: bool = False):
         >>> @visual()
         >>> class T:
         ...     def __init__(self, x, y):
-        ...         self.__x = x
-        ...         self.__y = y
+        ...         self.__first = x
+        ...         self.__second = y
         >>> repr(T(1, 2))
         <T x: 1, y: 2>
     """
@@ -179,11 +179,11 @@ def constructor(params: Optional[Iterable] = None, doc: Optional[str] = None):
         >>>
         >>>     @property
         >>>     def x(self):
-        >>>         return self.__x
+        >>>         return self.__first
         >>>
         >>>     @property
         >>>     def y(self):
-        >>>         return self.__y
+        >>>         return self.__second
     """
 
     def _decorator(cls):
@@ -239,8 +239,8 @@ def hasheq(items: Optional[Iterable] = None):
         >>> @hasheq(['x', 'y'])
         >>> class T:
         >>>     def __init__(self, x, y):
-        >>>         self.__x = x
-        >>>         self.__y = y
+        >>>         self.__first = x
+        >>>         self.__second = y
 
         Using with :func:`asitems`
 
@@ -314,8 +314,8 @@ def accessor(items: Optional[Iterable] = None, readonly: bool = False):
         >>> @asitems(['x', 'y'])
         >>> class T:
         >>>     def __init__(self, x, y):
-        >>>         self.__x = x
-        >>>         self.__y = y
+        >>>         self.__first = x
+        >>>         self.__second = y
         >>>
         >>> t = T(2, 100)
         >>> t.x  # 2
