@@ -28,7 +28,7 @@ class TestTestingGeneratorAETG:
             'd': (7, 8),
             'e': (9, 10),
         }
-        assert m1.pairs == [('d',), ('a', 'b'), ('a', 'e'), ('b', 'c'), ('b', 'e')]
+        assert m1.pairs == [('d',), ('b', 'c'), ('a', 'b', 'e')]
 
     def test_tuple_cases(self):
         ds = {
@@ -94,4 +94,4 @@ class TestTestingGeneratorAETG:
             assert not pairset
             results[cnt] = results.get(cnt, 0) + 1
 
-        assert sum([iv for ik, iv in results.items() if ik >= 7]) <= 7
+        assert sum([iv for ik, iv in results.items() if ik >= 6]) <= 10

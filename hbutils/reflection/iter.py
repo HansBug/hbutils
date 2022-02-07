@@ -1,12 +1,14 @@
 from itertools import tee, chain, islice
-from typing import Iterator, Iterable, Tuple
+from typing import Iterator, Iterable, Tuple, TypeVar
 
 __all__ = [
     'nested_for', 'progressive_for',
 ]
 
+_ItemType = TypeVar('_ItemType')
 
-def nested_for(*iters: Iterable) -> Iterator[Tuple[object, ...]]:
+
+def nested_for(*iters: Iterable[_ItemType]) -> Iterator[Tuple[_ItemType, ...]]:
     """
     Nested for based on several iterators.
 
@@ -50,7 +52,7 @@ def nested_for(*iters: Iterable) -> Iterator[Tuple[object, ...]]:
     yield from _recursion(0, [])
 
 
-def _yield_progressive_for(iterable: Iterable, n: int, offset: int) -> Iterator:
+def _yield_progressive_for(iterable: Iterable[_ItemType], n: int, offset: int) -> Iterator[Tuple[_ItemType, ...]]:
     def _recursion(deep, iters, selections: list):
         if deep >= n:
             yield tuple(selections)
@@ -76,7 +78,7 @@ def _yield_progressive_for(iterable: Iterable, n: int, offset: int) -> Iterator:
     yield from _recursion(0, [iterable], [])
 
 
-def progressive_for(iterable: Iterable, n: int, offset: int = 1) -> Iterator[Tuple[object, ...]]:
+def progressive_for(iterable: Iterable[_ItemType], n: int, offset: int = 1) -> Iterator[Tuple[_ItemType, ...]]:
     """
     Progressive for based on one given ``iterable``.
 
