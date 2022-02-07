@@ -29,6 +29,10 @@ class _AETGValuePair:
         self.__items = tuple(sorted(pairs, key=lambda x: (x.name, x.value)))
 
 
+def _create_init_pairs(names: List[str]) -> List[Tuple[str, ...]]:
+    return [(iname, jname) for iname, jname in progressive_for(names, 2)]
+
+
 def _process_pairs(pairs: List[Tuple[str, ...]], names: List[str]) -> List[Tuple[str, ...]]:
     _name_set = set(names)
     _name_id_dict = {name: i for i, name in enumerate(names)}
@@ -39,19 +43,21 @@ def _process_pairs(pairs: List[Tuple[str, ...]], names: List[str]) -> List[Tuple
         actual_pair = tuple(names[i] for i in actual_pair_ids)
         _init_pairs.append(actual_pair)
 
-    _final_pairs = set()
-    _pair_nodes = set()
+    _init_pairs = sorted(_init_pairs, key=lambda x: (len(x), x), reverse=True)
+    _final_pairs = []
     for pair in _init_pairs:
-        for iname, jname in progressive_for(pair, 2):
-            _final_pairs.add((iname, jname))
-            _pair_nodes.add(iname)
-            _pair_nodes.add(jname)
-    for pair in _init_pairs:
-        for iname in pair:
-            if iname not in _pair_nodes:
-                _final_pairs.add((iname,))
+        sp = set(pair)
+        is_included = False
+        for exist_pair in _final_pairs:
+            sep = set(exist_pair)
+            if sp & sep == sp:
+                is_included = True
+                break
 
-    return sorted(_final_pairs, key=lambda x: (len(x), x))
+        if not is_included:
+            _final_pairs.append(pair)
+
+    return _final_pairs[::-1]
 
 
 # noinspection PyProtectedMember
@@ -78,7 +84,7 @@ class AETGGenerator(BaseGenerator):
         """
         BaseGenerator.__init__(self, values, names)
         if pairs is None:
-            pairs = [tuple(self.names)]
+            pairs = _create_init_pairs(self.names)
         self.__pairs = _process_pairs(pairs, self.names)
         self.__rnd = rnd or _DEFAULT_RANDOM
 
@@ -169,14 +175,17 @@ class AETGGenerator(BaseGenerator):
                 seqs.append(curpair)
 
             px = {pair.name: pair.value for pair in seqs}
-            for one_pair in self.__pairs:
-                new_pair = _AETGValuePair(*(_NameValueTuple(name, px[name]) for name in one_pair))
-                if new_pair in non_exist_pairs:
-                    non_exist_pairs.remove(new_pair)
-                    for np in new_pair.items:
-                        node_cnt[np] -= 1
-
             feat = tuple((name, px[name]) for name in self.names)
             if feat not in repo:
-                yield dict(feat)
-                repo.add(feat)
+                has_new = False
+                for one_pair in self.__pairs:
+                    new_pair = _AETGValuePair(*(_NameValueTuple(name, px[name]) for name in one_pair))
+                    if new_pair in non_exist_pairs:
+                        has_new = True
+                        non_exist_pairs.remove(new_pair)
+                        for np in new_pair.items:
+                            node_cnt[np] -= 1
+
+                if has_new:
+                    yield dict(feat)
+                    repo.add(feat)
