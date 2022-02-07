@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>hbutils.reflection.iter &mdash; hbutils 0.3.0 documentation</title>
+  <title>hbutils.reflection.iter &mdash; hbutils 0.3.1 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.3.0
+                0.3.1
               </div>
             
           
@@ -168,14 +168,16 @@
     
   <h1>Source code for hbutils.reflection.iter</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">tee</span><span class="p">,</span> <span class="n">chain</span><span class="p">,</span> <span class="n">islice</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Tuple</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">TypeVar</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;nested_for&#39;</span><span class="p">,</span> <span class="s1">&#39;progressive_for&#39;</span><span class="p">,</span>
 <span class="p">]</span>
 
+<span class="n">_ItemType</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;_ItemType&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="nested_for"><a class="viewcode-back" href="../../../api_doc/reflection/iter.html#hbutils.reflection.iter.nested_for">[docs]</a><span class="k">def</span> <span class="nf">nested_for</span><span class="p">(</span><span class="o">*</span><span class="n">iters</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">object</span><span class="p">,</span> <span class="o">...</span><span class="p">]]:</span>
+
+<div class="viewcode-block" id="nested_for"><a class="viewcode-back" href="../../../api_doc/reflection/iter.html#hbutils.reflection.iter.nested_for">[docs]</a><span class="k">def</span> <span class="nf">nested_for</span><span class="p">(</span><span class="o">*</span><span class="n">iters</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">_ItemType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">_ItemType</span><span class="p">,</span> <span class="o">...</span><span class="p">]]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Nested for based on several iterators.</span>
 
@@ -219,7 +221,7 @@
     <span class="k">yield from</span> <span class="n">_recursion</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">[])</span></div>
 
 
-<span class="k">def</span> <span class="nf">_yield_progressive_for</span><span class="p">(</span><span class="n">iterable</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_yield_progressive_for</span><span class="p">(</span><span class="n">iterable</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">_ItemType</span><span class="p">],</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">_ItemType</span><span class="p">,</span> <span class="o">...</span><span class="p">]]:</span>
     <span class="k">def</span> <span class="nf">_recursion</span><span class="p">(</span><span class="n">deep</span><span class="p">,</span> <span class="n">iters</span><span class="p">,</span> <span class="n">selections</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">deep</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="p">:</span>
             <span class="k">yield</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">selections</span><span class="p">)</span>
@@ -245,7 +247,7 @@
     <span class="k">yield from</span> <span class="n">_recursion</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">[</span><span class="n">iterable</span><span class="p">],</span> <span class="p">[])</span>
 
 
-<div class="viewcode-block" id="progressive_for"><a class="viewcode-back" href="../../../api_doc/reflection/iter.html#hbutils.reflection.iter.progressive_for">[docs]</a><span class="k">def</span> <span class="nf">progressive_for</span><span class="p">(</span><span class="n">iterable</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">object</span><span class="p">,</span> <span class="o">...</span><span class="p">]]:</span>
+<div class="viewcode-block" id="progressive_for"><a class="viewcode-back" href="../../../api_doc/reflection/iter.html#hbutils.reflection.iter.progressive_for">[docs]</a><span class="k">def</span> <span class="nf">progressive_for</span><span class="p">(</span><span class="n">iterable</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">_ItemType</span><span class="p">],</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">_ItemType</span><span class="p">,</span> <span class="o">...</span><span class="p">]]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Progressive for based on one given ``iterable``.</span>
 
@@ -339,9 +341,11 @@
                         <dd><a href="../../../../v0.1.1/index.html">v0.1.1</a></dd>
                         <dd><a href="../../../../v0.2.0/index.html">v0.2.0</a></dd>
                         <dd><a href="../../../../v0.3.0/index.html">v0.3.0</a></dd>
+                        <dd><a href="../../../../v0.3.1/index.html">v0.3.1</a></dd>
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../../fix/aetg/index.html">fix/aetg</a></dd>
                         <dd><a href="iter.html">main</a></dd>
                 </dl>
         </div>

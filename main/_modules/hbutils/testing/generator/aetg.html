@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>hbutils.testing.generator.aetg &mdash; hbutils 0.3.0 documentation</title>
+  <title>hbutils.testing.generator.aetg &mdash; hbutils 0.3.1 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.3.0
+                0.3.1
               </div>
             
           
@@ -198,6 +198,10 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__items</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">pairs</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">value</span><span class="p">)))</span>
 
 
+<span class="k">def</span> <span class="nf">_create_init_pairs</span><span class="p">(</span><span class="n">names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]]:</span>
+    <span class="k">return</span> <span class="p">[(</span><span class="n">iname</span><span class="p">,</span> <span class="n">jname</span><span class="p">)</span> <span class="k">for</span> <span class="n">iname</span><span class="p">,</span> <span class="n">jname</span> <span class="ow">in</span> <span class="n">progressive_for</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="mi">2</span><span class="p">)]</span>
+
+
 <span class="k">def</span> <span class="nf">_process_pairs</span><span class="p">(</span><span class="n">pairs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]],</span> <span class="n">names</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="o">...</span><span class="p">]]:</span>
     <span class="n">_name_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">names</span><span class="p">)</span>
     <span class="n">_name_id_dict</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">names</span><span class="p">)}</span>
@@ -208,19 +212,21 @@
         <span class="n">actual_pair</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">names</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">actual_pair_ids</span><span class="p">)</span>
         <span class="n">_init_pairs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">actual_pair</span><span class="p">)</span>
 
-    <span class="n">_final_pairs</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
-    <span class="n">_pair_nodes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="n">_init_pairs</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">_init_pairs</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">x</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">_final_pairs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">_init_pairs</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">iname</span><span class="p">,</span> <span class="n">jname</span> <span class="ow">in</span> <span class="n">progressive_for</span><span class="p">(</span><span class="n">pair</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span>
-            <span class="n">_final_pairs</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">iname</span><span class="p">,</span> <span class="n">jname</span><span class="p">))</span>
-            <span class="n">_pair_nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">iname</span><span class="p">)</span>
-            <span class="n">_pair_nodes</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">jname</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">_init_pairs</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">iname</span> <span class="ow">in</span> <span class="n">pair</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">iname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_pair_nodes</span><span class="p">:</span>
-                <span class="n">_final_pairs</span><span class="o">.</span><span class="n">add</span><span class="p">((</span><span class="n">iname</span><span class="p">,))</span>
+        <span class="n">sp</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">pair</span><span class="p">)</span>
+        <span class="n">is_included</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">exist_pair</span> <span class="ow">in</span> <span class="n">_final_pairs</span><span class="p">:</span>
+            <span class="n">sep</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">exist_pair</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">sp</span> <span class="o">&amp;</span> <span class="n">sep</span> <span class="o">==</span> <span class="n">sp</span><span class="p">:</span>
+                <span class="n">is_included</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">break</span>
 
-    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">_final_pairs</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">x</span><span class="p">))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_included</span><span class="p">:</span>
+            <span class="n">_final_pairs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pair</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_final_pairs</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
 
 <span class="c1"># noinspection PyProtectedMember</span>
@@ -247,7 +253,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">BaseGenerator</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">values</span><span class="p">,</span> <span class="n">names</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">pairs</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">pairs</span> <span class="o">=</span> <span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">)]</span>
+            <span class="n">pairs</span> <span class="o">=</span> <span class="n">_create_init_pairs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__pairs</span> <span class="o">=</span> <span class="n">_process_pairs</span><span class="p">(</span><span class="n">pairs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__rnd</span> <span class="o">=</span> <span class="n">rnd</span> <span class="ow">or</span> <span class="n">_DEFAULT_RANDOM</span>
 
@@ -338,17 +344,20 @@
                 <span class="n">seqs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curpair</span><span class="p">)</span>
 
             <span class="n">px</span> <span class="o">=</span> <span class="p">{</span><span class="n">pair</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">pair</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">seqs</span><span class="p">}</span>
-            <span class="k">for</span> <span class="n">one_pair</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__pairs</span><span class="p">:</span>
-                <span class="n">new_pair</span> <span class="o">=</span> <span class="n">_AETGValuePair</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">_NameValueTuple</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">px</span><span class="p">[</span><span class="n">name</span><span class="p">])</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">one_pair</span><span class="p">))</span>
-                <span class="k">if</span> <span class="n">new_pair</span> <span class="ow">in</span> <span class="n">non_exist_pairs</span><span class="p">:</span>
-                    <span class="n">non_exist_pairs</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">new_pair</span><span class="p">)</span>
-                    <span class="k">for</span> <span class="n">np</span> <span class="ow">in</span> <span class="n">new_pair</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
-                        <span class="n">node_cnt</span><span class="p">[</span><span class="n">np</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
-
             <span class="n">feat</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">px</span><span class="p">[</span><span class="n">name</span><span class="p">])</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">feat</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">repo</span><span class="p">:</span>
-                <span class="k">yield</span> <span class="nb">dict</span><span class="p">(</span><span class="n">feat</span><span class="p">)</span>
-                <span class="n">repo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feat</span><span class="p">)</span></div></div>
+                <span class="n">has_new</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">for</span> <span class="n">one_pair</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__pairs</span><span class="p">:</span>
+                    <span class="n">new_pair</span> <span class="o">=</span> <span class="n">_AETGValuePair</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">_NameValueTuple</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">px</span><span class="p">[</span><span class="n">name</span><span class="p">])</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">one_pair</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="n">new_pair</span> <span class="ow">in</span> <span class="n">non_exist_pairs</span><span class="p">:</span>
+                        <span class="n">has_new</span> <span class="o">=</span> <span class="kc">True</span>
+                        <span class="n">non_exist_pairs</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">new_pair</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">np</span> <span class="ow">in</span> <span class="n">new_pair</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
+                            <span class="n">node_cnt</span><span class="p">[</span><span class="n">np</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+
+                <span class="k">if</span> <span class="n">has_new</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="nb">dict</span><span class="p">(</span><span class="n">feat</span><span class="p">)</span>
+                    <span class="n">repo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feat</span><span class="p">)</span></div></div>
 </pre></div>
 
 
@@ -391,9 +400,11 @@
                         <dd><a href="../../../../../v0.1.1/index.html">v0.1.1</a></dd>
                         <dd><a href="../../../../../v0.2.0/index.html">v0.2.0</a></dd>
                         <dd><a href="../../../../../v0.3.0/index.html">v0.3.0</a></dd>
+                        <dd><a href="../../../../../v0.3.1/index.html">v0.3.1</a></dd>
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../../../fix/aetg/index.html">fix/aetg</a></dd>
                         <dd><a href="aetg.html">main</a></dd>
                 </dl>
         </div>
