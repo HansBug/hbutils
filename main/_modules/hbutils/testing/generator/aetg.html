@@ -312,7 +312,7 @@
 <span class="sd">            {&#39;a&#39;: 1, &#39;b&#39;: 3, &#39;c&#39;: 6, &#39;d&#39;: 7, &#39;e&#39;: 10}</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
-        <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__pairs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__pairs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__pairs</span> <span class="k">else</span> <span class="mi">0</span>
         <span class="n">node_cnt</span><span class="p">,</span> <span class="n">non_exist_pairs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_init_info</span><span class="p">()</span>
 
         <span class="n">repo</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
@@ -336,7 +336,7 @@
                         <span class="k">if</span> <span class="n">now_pair</span> <span class="ow">in</span> <span class="n">non_exist_pairs</span><span class="p">:</span>
                             <span class="n">non_exists</span> <span class="o">+=</span> <span class="mi">1</span>
 
-                    <span class="n">xk</span> <span class="o">=</span> <span class="p">(</span><span class="n">non_exists</span><span class="p">,</span> <span class="n">node_cnt</span><span class="p">[</span><span class="n">ituple</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rnd</span><span class="o">.</span><span class="n">random</span><span class="p">())</span>
+                    <span class="n">xk</span> <span class="o">=</span> <span class="p">(</span><span class="n">non_exists</span><span class="p">,</span> <span class="n">node_cnt</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ituple</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">__rnd</span><span class="o">.</span><span class="n">random</span><span class="p">())</span>
                     <span class="k">if</span> <span class="n">curxk</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">xk</span> <span class="o">&gt;</span> <span class="n">curxk</span><span class="p">:</span>
                         <span class="n">curpair</span> <span class="o">=</span> <span class="n">ituple</span>
                         <span class="n">curxk</span> <span class="o">=</span> <span class="n">xk</span>
@@ -401,11 +401,11 @@
                         <dd><a href="../../../../../v0.2.0/index.html">v0.2.0</a></dd>
                         <dd><a href="../../../../../v0.3.0/index.html">v0.3.0</a></dd>
                         <dd><a href="../../../../../v0.3.1/index.html">v0.3.1</a></dd>
+                        <dd><a href="../../../../../v0.3.2/index.html">v0.3.2</a></dd>
                 </dl>
                 <dl>
                     <dt>Branches</dt>
                         <dd><a href="aetg.html">main</a></dd>
-                        <dd><a href="../../../../../fix/aetg/index.html">fix/aetg</a></dd>
                 </dl>
         </div>
     </div>
