@@ -143,7 +143,7 @@ class AETGGenerator(BaseGenerator):
             {'a': 1, 'b': 3, 'c': 6, 'd': 7, 'e': 10}
         """
         n = len(self.names)
-        m = len(self.__pairs[-1])
+        m = len(self.__pairs[-1]) if self.__pairs else 0
         node_cnt, non_exist_pairs = self.__get_init_info()
 
         repo = set()
@@ -167,7 +167,7 @@ class AETGGenerator(BaseGenerator):
                         if now_pair in non_exist_pairs:
                             non_exists += 1
 
-                    xk = (non_exists, node_cnt[ituple], self.__rnd.random())
+                    xk = (non_exists, node_cnt.get(ituple, 0), self.__rnd.random())
                     if curxk is None or xk > curxk:
                         curpair = ituple
                         curxk = xk
