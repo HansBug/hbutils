@@ -122,8 +122,8 @@ class AETGGenerator(BaseGenerator):
 
         Examples::
             >>> from hbutils.testing import AETGGenerator
-            >>> m = AETGGenerator({'a': (1, 2), 'b': (3, 4), 'c': (5, 6), 'd': (7, 8), 'e': (9, 10)})
-            >>> for p in m.cases():
+            >>> gene = AETGGenerator({'a': (1, 2), 'b': (3, 4), 'c': (5, 6), 'd': (7, 8), 'e': (9, 10)})
+            >>> for p in gene.cases():
             ...     print(p)
             {'a': 1, 'b': 3, 'c': 6, 'd': 8, 'e': 10}
             {'a': 2, 'b': 4, 'c': 5, 'd': 7, 'e': 9}
@@ -131,11 +131,11 @@ class AETGGenerator(BaseGenerator):
             {'a': 2, 'b': 4, 'c': 6, 'd': 8, 'e': 10}
             {'a': 1, 'b': 3, 'c': 5, 'd': 7, 'e': 10}
             {'a': 1, 'b': 4, 'c': 5, 'd': 8, 'e': 9}
-            >>> m = AETGGenerator(
+            >>> gene = AETGGenerator(
             ...     {'a': (1, 2), 'b': (3, 4), 'c': (5, 6), 'd': (7, 8), 'e': (9, 10)},
             ...     pairs=[('a', 'c'), ('b', 'd'), ('e',)]
             ... )
-            >>> for p in m.cases():
+            >>> for p in gene.cases():
             ...     print(p)
             {'a': 2, 'b': 3, 'c': 6, 'd': 8, 'e': 9}
             {'a': 1, 'b': 4, 'c': 5, 'd': 7, 'e': 10}
@@ -146,13 +146,22 @@ class AETGGenerator(BaseGenerator):
         m = len(self.__pairs[-1]) if self.__pairs else 0
         node_cnt, non_exist_pairs = self.__get_init_info()
 
-        repo = set()
         while non_exist_pairs:
-            tnames = list(self.names)
-            self.__rnd.shuffle(tnames)
+            first_pair = non_exist_pairs.pop()
+            non_exist_pairs.add(first_pair)
 
+            tnames = []
             seqs = []
-            for i in range(0, n):
+            for pair_item in first_pair.items:
+                tnames.append(pair_item.name)
+                seqs.append(pair_item)
+
+            _tname_set = set(tnames)
+            other_names = [name for name in self.names if name not in _tname_set]
+            self.__rnd.shuffle(other_names)
+            tnames += other_names
+
+            for i in range(len(seqs), n):
                 iname = tnames[i]
                 curpair, curxk = None, None
                 for ivalue in self.values[iname]:
@@ -175,17 +184,11 @@ class AETGGenerator(BaseGenerator):
                 seqs.append(curpair)
 
             px = {pair.name: pair.value for pair in seqs}
-            feat = tuple((name, px[name]) for name in self.names)
-            if feat not in repo:
-                has_new = False
-                for one_pair in self.__pairs:
-                    new_pair = _AETGValuePair(*(_NameValueTuple(name, px[name]) for name in one_pair))
-                    if new_pair in non_exist_pairs:
-                        has_new = True
-                        non_exist_pairs.remove(new_pair)
-                        for np in new_pair.items:
-                            node_cnt[np] -= 1
+            for one_pair in self.__pairs:
+                new_pair = _AETGValuePair(*(_NameValueTuple(name, px[name]) for name in one_pair))
+                if new_pair in non_exist_pairs:
+                    non_exist_pairs.remove(new_pair)
+                    for np in new_pair.items:
+                        node_cnt[np] -= 1
 
-                if has_new:
-                    yield dict(feat)
-                    repo.add(feat)
+            yield {name: px[name] for name in self.names}
