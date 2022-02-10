@@ -291,8 +291,8 @@
 
 <span class="sd">        Examples::</span>
 <span class="sd">            &gt;&gt;&gt; from hbutils.testing import AETGGenerator</span>
-<span class="sd">            &gt;&gt;&gt; m = AETGGenerator({&#39;a&#39;: (1, 2), &#39;b&#39;: (3, 4), &#39;c&#39;: (5, 6), &#39;d&#39;: (7, 8), &#39;e&#39;: (9, 10)})</span>
-<span class="sd">            &gt;&gt;&gt; for p in m.cases():</span>
+<span class="sd">            &gt;&gt;&gt; gene = AETGGenerator({&#39;a&#39;: (1, 2), &#39;b&#39;: (3, 4), &#39;c&#39;: (5, 6), &#39;d&#39;: (7, 8), &#39;e&#39;: (9, 10)})</span>
+<span class="sd">            &gt;&gt;&gt; for p in gene.cases():</span>
 <span class="sd">            ...     print(p)</span>
 <span class="sd">            {&#39;a&#39;: 1, &#39;b&#39;: 3, &#39;c&#39;: 6, &#39;d&#39;: 8, &#39;e&#39;: 10}</span>
 <span class="sd">            {&#39;a&#39;: 2, &#39;b&#39;: 4, &#39;c&#39;: 5, &#39;d&#39;: 7, &#39;e&#39;: 9}</span>
@@ -300,11 +300,11 @@
 <span class="sd">            {&#39;a&#39;: 2, &#39;b&#39;: 4, &#39;c&#39;: 6, &#39;d&#39;: 8, &#39;e&#39;: 10}</span>
 <span class="sd">            {&#39;a&#39;: 1, &#39;b&#39;: 3, &#39;c&#39;: 5, &#39;d&#39;: 7, &#39;e&#39;: 10}</span>
 <span class="sd">            {&#39;a&#39;: 1, &#39;b&#39;: 4, &#39;c&#39;: 5, &#39;d&#39;: 8, &#39;e&#39;: 9}</span>
-<span class="sd">            &gt;&gt;&gt; m = AETGGenerator(</span>
+<span class="sd">            &gt;&gt;&gt; gene = AETGGenerator(</span>
 <span class="sd">            ...     {&#39;a&#39;: (1, 2), &#39;b&#39;: (3, 4), &#39;c&#39;: (5, 6), &#39;d&#39;: (7, 8), &#39;e&#39;: (9, 10)},</span>
 <span class="sd">            ...     pairs=[(&#39;a&#39;, &#39;c&#39;), (&#39;b&#39;, &#39;d&#39;), (&#39;e&#39;,)]</span>
 <span class="sd">            ... )</span>
-<span class="sd">            &gt;&gt;&gt; for p in m.cases():</span>
+<span class="sd">            &gt;&gt;&gt; for p in gene.cases():</span>
 <span class="sd">            ...     print(p)</span>
 <span class="sd">            {&#39;a&#39;: 2, &#39;b&#39;: 3, &#39;c&#39;: 6, &#39;d&#39;: 8, &#39;e&#39;: 9}</span>
 <span class="sd">            {&#39;a&#39;: 1, &#39;b&#39;: 4, &#39;c&#39;: 5, &#39;d&#39;: 7, &#39;e&#39;: 10}</span>
@@ -315,13 +315,22 @@
         <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__pairs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__pairs</span> <span class="k">else</span> <span class="mi">0</span>
         <span class="n">node_cnt</span><span class="p">,</span> <span class="n">non_exist_pairs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_init_info</span><span class="p">()</span>
 
-        <span class="n">repo</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
         <span class="k">while</span> <span class="n">non_exist_pairs</span><span class="p">:</span>
-            <span class="n">tnames</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__rnd</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">tnames</span><span class="p">)</span>
+            <span class="n">first_pair</span> <span class="o">=</span> <span class="n">non_exist_pairs</span><span class="o">.</span><span class="n">pop</span><span class="p">()</span>
+            <span class="n">non_exist_pairs</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">first_pair</span><span class="p">)</span>
 
+            <span class="n">tnames</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="n">seqs</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">pair_item</span> <span class="ow">in</span> <span class="n">first_pair</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
+                <span class="n">tnames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pair_item</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="n">seqs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pair_item</span><span class="p">)</span>
+
+            <span class="n">_tname_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">tnames</span><span class="p">)</span>
+            <span class="n">other_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">name</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span> <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_tname_set</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__rnd</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">other_names</span><span class="p">)</span>
+            <span class="n">tnames</span> <span class="o">+=</span> <span class="n">other_names</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">seqs</span><span class="p">),</span> <span class="n">n</span><span class="p">):</span>
                 <span class="n">iname</span> <span class="o">=</span> <span class="n">tnames</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
                 <span class="n">curpair</span><span class="p">,</span> <span class="n">curxk</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
                 <span class="k">for</span> <span class="n">ivalue</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">iname</span><span class="p">]:</span>
@@ -344,20 +353,14 @@
                 <span class="n">seqs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">curpair</span><span class="p">)</span>
 
             <span class="n">px</span> <span class="o">=</span> <span class="p">{</span><span class="n">pair</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">pair</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">seqs</span><span class="p">}</span>
-            <span class="n">feat</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">((</span><span class="n">name</span><span class="p">,</span> <span class="n">px</span><span class="p">[</span><span class="n">name</span><span class="p">])</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">feat</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">repo</span><span class="p">:</span>
-                <span class="n">has_new</span> <span class="o">=</span> <span class="kc">False</span>
-                <span class="k">for</span> <span class="n">one_pair</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__pairs</span><span class="p">:</span>
-                    <span class="n">new_pair</span> <span class="o">=</span> <span class="n">_AETGValuePair</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">_NameValueTuple</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">px</span><span class="p">[</span><span class="n">name</span><span class="p">])</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">one_pair</span><span class="p">))</span>
-                    <span class="k">if</span> <span class="n">new_pair</span> <span class="ow">in</span> <span class="n">non_exist_pairs</span><span class="p">:</span>
-                        <span class="n">has_new</span> <span class="o">=</span> <span class="kc">True</span>
-                        <span class="n">non_exist_pairs</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">new_pair</span><span class="p">)</span>
-                        <span class="k">for</span> <span class="n">np</span> <span class="ow">in</span> <span class="n">new_pair</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
-                            <span class="n">node_cnt</span><span class="p">[</span><span class="n">np</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="k">for</span> <span class="n">one_pair</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__pairs</span><span class="p">:</span>
+                <span class="n">new_pair</span> <span class="o">=</span> <span class="n">_AETGValuePair</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">_NameValueTuple</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">px</span><span class="p">[</span><span class="n">name</span><span class="p">])</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">one_pair</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">new_pair</span> <span class="ow">in</span> <span class="n">non_exist_pairs</span><span class="p">:</span>
+                    <span class="n">non_exist_pairs</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">new_pair</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">np</span> <span class="ow">in</span> <span class="n">new_pair</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
+                        <span class="n">node_cnt</span><span class="p">[</span><span class="n">np</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
 
-                <span class="k">if</span> <span class="n">has_new</span><span class="p">:</span>
-                    <span class="k">yield</span> <span class="nb">dict</span><span class="p">(</span><span class="n">feat</span><span class="p">)</span>
-                    <span class="n">repo</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">feat</span><span class="p">)</span></div></div>
+            <span class="k">yield</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">px</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">names</span><span class="p">}</span></div></div>
 </pre></div>
 
 
@@ -405,7 +408,6 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../../dev/aetg/index.html">dev/aetg</a></dd>
                         <dd><a href="aetg.html">main</a></dd>
                 </dl>
         </div>
