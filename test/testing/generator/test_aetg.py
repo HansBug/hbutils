@@ -58,8 +58,8 @@ class TestTestingGeneratorAETG:
             assert not pairset
             results[cnt] = results.get(cnt, 0) + 1
 
-        assert sum([iv for ik, iv in results.items() if ik >= 7]) >= 20
-        assert sum([iv for ik, iv in results.items() if ik >= 9]) <= 10
+        assert sum([iv for ik, iv in results.items() if ik >= 7]) >= 10
+        assert sum([iv for ik, iv in results.items() if ik >= 9]) <= 3
 
     def test_tuple_cases_simple_pairs(self):
         ds = {
@@ -94,4 +94,41 @@ class TestTestingGeneratorAETG:
             assert not pairset
             results[cnt] = results.get(cnt, 0) + 1
 
-        assert sum([iv for ik, iv in results.items() if ik >= 6]) <= 10
+        assert sum([iv for ik, iv in results.items() if ik >= 6]) <= 4
+
+    def test_full_pair(self):
+        m = AETGGenerator(
+            {
+                'a': (11, 12, 13, 14, 15),
+                'b': (21, 22, 23, 24, 25),
+                'c': (31, 32, 33, 34, 35),
+                'd': (41, 42, 43, 44, 45),
+                'e': (51, 52, 53, 54, 55),
+            },
+            pairs=[('a', 'b', 'c', 'd', 'e')]
+        )
+        cases = list(m.tuple_cases())
+        assert len(cases) == 5 ** 5
+        assert len(set(cases)) == 5 ** 5
+
+    def test_actual_pair(self):
+        m = AETGGenerator(
+            {
+                'a': (11, 12, 13, 14, 15),
+                'b': (21, 22, 23, 24, 25),
+                'c': (31, 32, 33, 34, 35),
+                'd': (41, 42, 43, 44, 45),
+                'e': (51, 52, 53, 54, 55),
+            },
+            pairs=[('a', 'c'), ('b', 'd'), ('e',)]
+        )
+
+        cnt = {}
+        for i in range(50):
+            cases = list(m.tuple_cases())
+            assert len(cases) == len(set(cases))
+
+            n = len(cases)
+            cnt[n] = cnt.get(n, 0) + 1
+
+        assert cnt[26] + cnt[27] >= 25
