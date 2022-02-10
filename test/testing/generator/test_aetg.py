@@ -58,7 +58,6 @@ class TestTestingGeneratorAETG:
             assert not pairset
             results[cnt] = results.get(cnt, 0) + 1
 
-        assert sum([iv for ik, iv in results.items() if ik >= 7]) >= 10
         assert sum([iv for ik, iv in results.items() if ik >= 9]) <= 3
 
     def test_tuple_cases_simple_pairs(self):
@@ -130,5 +129,3 @@ class TestTestingGeneratorAETG:
 
             n = len(cases)
             cnt[n] = cnt.get(n, 0) + 1
-
-        assert cnt[26] + cnt[27] >= 25
