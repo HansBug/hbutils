@@ -9,3 +9,4 @@ hbutils.color
     :maxdepth: 3
 
     model
+    utils
