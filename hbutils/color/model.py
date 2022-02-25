@@ -10,6 +10,8 @@ import re
 import warnings
 from typing import Optional, Union, Tuple
 
+import webcolors
+
 from ..reflection.func import post_process, raising, freduce, dynamic_call, warning_
 
 __all__ = ['Color']
@@ -224,7 +226,7 @@ _ratio_to_hex = post_process(lambda x: '%02x' % (x,))(_ratio_to_255)
 _hex_to_255 = lambda x: int(x, base=16) if x is not None else None
 _hex_to_ratio = post_process(lambda x: x / 255.0 if x is not None else None)(_hex_to_255)
 
-_RGB_COLOR_PATTERN = re.compile(r'^#?([a-zA-Z\d]{2})([a-zA-Z\d]{2})([a-zA-Z\d]{2})([a-zA-Z\d]{2}|)$')
+_RGB_COLOR_PATTERN = re.compile(r'^#?([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2}|)$')
 
 
 @freduce(init=None)
@@ -253,26 +255,32 @@ class Color:
             self.__r, self.__g, self.__b = _r_mapper(c[0]), _g_mapper(c[1]), _b_mapper(c[2])
             self.__alpha = _a_mapper(alpha) if alpha is not None else None
         elif isinstance(c, str):
-            _finding = _RGB_COLOR_PATTERN.findall(c)
-            if _finding:
-                _first = _finding[0]
-                rs, gs, bs, as_ = _first
-                as_ = None if not as_ else as_
-
-                r, g, b, a = map(_hex_to_ratio, (rs, gs, bs, as_))
-                if alpha is not None:
-                    if a is None:
-                        a = alpha
-                    else:
-                        warnings.warn(UserWarning('The alpha value has already been included in '
-                                                  f'the given hex color {repr(c)}, the assigned '
-                                                  f'argument alpha will be ignored.'), stacklevel=2)
-
-                self.__init__((r, g, b), a)
+            if _RGB_COLOR_PATTERN.fullmatch(c):
+                _rgb_hex = c
             else:
-                raise ValueError("Invalid string color, matching of pattern {pattern} "
-                                 "expected but {actual} found.".format(pattern=repr(_RGB_COLOR_PATTERN.pattern),
-                                                                       actual=repr(c), ))
+                try:
+                    _rgb_hex = webcolors.name_to_hex(c)
+                except ValueError:
+                    raise ValueError("Invalid string color, matching of pattern {pattern} or english name "
+                                     "expected but {actual} found.".format(pattern=repr(_RGB_COLOR_PATTERN.pattern),
+                                                                           actual=repr(c), ))
+
+            _finding = _RGB_COLOR_PATTERN.findall(_rgb_hex)
+            _first = _finding[0]
+            rs, gs, bs, as_ = _first
+            as_ = None if not as_ else as_
+
+            r, g, b, a = map(_hex_to_ratio, (rs, gs, bs, as_))
+            if alpha is not None:
+                if a is None:
+                    a = alpha
+                else:
+                    warnings.warn(UserWarning('The alpha value has already been included in '
+                                              f'the given hex color {repr(c)}, the assigned '
+                                              f'argument alpha will be ignored.'), stacklevel=2)
+
+            self.__init__((r, g, b), a)
+
         else:
             raise TypeError('Unknown color value - {c}.'.format(c=repr(c)))
 
