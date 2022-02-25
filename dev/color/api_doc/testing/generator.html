@@ -1,0 +1,473 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hbutils.testing.generator &mdash; hbutils 0.3.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="hbutils.testing" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> hbutils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.3.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">hbutils.algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../collection/index.html">hbutils.collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../color/index.html">hbutils.color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/index.html">hbutils.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/index.html">hbutils.design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/index.html">hbutils.model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../random/index.html">hbutils.random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reflection/index.html">hbutils.reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scale/index.html">hbutils.scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../string/index.html">hbutils.string</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">hbutils.testing</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.testing.generator</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#basegenerator">BaseGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#matrixgenerator">MatrixGenerator</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#aetggenerator">AETGGenerator</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">hbutils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">hbutils.testing</a> &raquo;</li>
+        
+      <li>hbutils.testing.generator</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_doc/testing/generator.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <div class="section" id="module-hbutils.testing.generator">
+<span id="hbutils-testing-generator"></span><h1>hbutils.testing.generator<a class="headerlink" href="#module-hbutils.testing.generator" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="basegenerator">
+<h2>BaseGenerator<a class="headerlink" href="#basegenerator" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.testing.generator.BaseGenerator">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.testing.generator.</code><code class="sig-name descname">BaseGenerator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">values</span></em>, <em class="sig-param"><span class="n">names</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/generator/base.html#BaseGenerator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.generator.BaseGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base generator class.</p>
+<dl class="py method">
+<dt id="hbutils.testing.generator.BaseGenerator.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">values</span></em>, <em class="sig-param"><span class="n">names</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/generator/base.html#BaseGenerator.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.generator.BaseGenerator.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of the <code class="xref py py-class docutils literal notranslate"><span class="pre">hbutils.testing.BaseGenerator</span></code> class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>values</strong> – Selection values, such as <code class="docutils literal notranslate"><span class="pre">{'a':</span> <span class="pre">[2,</span> <span class="pre">3],</span> <span class="pre">'b':</span> <span class="pre">['b',</span> <span class="pre">'c']}</span></code>.</p></li>
+<li><p><strong>names</strong> – Names of the given generator, default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means use the sorted             key set of the values.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.generator.BaseGenerator.cases">
+<code class="sig-name descname">cases</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Iterator<span class="p">[</span>Mapping<span class="p">[</span>str<span class="p">, </span>object<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/testing/generator/base.html#BaseGenerator.cases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.generator.BaseGenerator.cases" title="Permalink to this definition">¶</a></dt>
+<dd><p>Virtual method for cases, will be implemented in child classes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.generator.BaseGenerator.names">
+<em class="property">property </em><code class="sig-name descname">names</code><a class="headerlink" href="#hbutils.testing.generator.BaseGenerator.names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of the given generator.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.generator.BaseGenerator.tuple_cases">
+<code class="sig-name descname">tuple_cases</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Iterator<span class="p">[</span>Tuple<span class="p">[</span>object<span class="p">, </span><span class="p">…</span><span class="p">]</span><span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/testing/generator/base.html#BaseGenerator.tuple_cases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.generator.BaseGenerator.tuple_cases" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tuple-formatted cases, can be used to iterate.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.generator.BaseGenerator.values">
+<em class="property">property </em><code class="sig-name descname">values</code><a class="headerlink" href="#hbutils.testing.generator.BaseGenerator.values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Selection values.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="matrixgenerator">
+<h2>MatrixGenerator<a class="headerlink" href="#matrixgenerator" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.testing.generator.MatrixGenerator">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.testing.generator.</code><code class="sig-name descname">MatrixGenerator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">values</span><span class="p">:</span> <span class="n">Mapping<span class="p">[</span>str<span class="p">, </span>object<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">names</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">includes</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>Mapping<span class="p">[</span>str<span class="p">, </span>object<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">excludes</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>Mapping<span class="p">[</span>str<span class="p">, </span>object<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/generator/matrix.html#MatrixGenerator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.generator.MatrixGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Full matrix model, all the cases in this matrix will be iterated.</p>
+<dl class="py method">
+<dt id="hbutils.testing.generator.MatrixGenerator.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">values</span><span class="p">:</span> <span class="n">Mapping<span class="p">[</span>str<span class="p">, </span>object<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">names</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">includes</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>Mapping<span class="p">[</span>str<span class="p">, </span>object<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">excludes</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>Mapping<span class="p">[</span>str<span class="p">, </span>object<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/generator/matrix.html#MatrixGenerator.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.generator.MatrixGenerator.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of the <code class="xref py py-class docutils literal notranslate"><span class="pre">hbutils.testing.MatrixGenerator</span></code> class.
+It is similar to GitHub Action’s matrix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>values</strong> – Matrix values, such as <code class="docutils literal notranslate"><span class="pre">{'a':</span> <span class="pre">[2,</span> <span class="pre">3],</span> <span class="pre">'b':</span> <span class="pre">['b',</span> <span class="pre">'c']}</span></code>.</p></li>
+<li><p><strong>names</strong> – Names of the given generator, default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means use the sorted             key set of the values.</p></li>
+<li><p><strong>includes</strong> – Include items, such as <code class="docutils literal notranslate"><span class="pre">[{'a':</span> <span class="pre">4,</span> <span class="pre">'b':</span> <span class="pre">'b'}]</span></code>,             default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means no extra inclusions.</p></li>
+<li><p><strong>excludes</strong> – Exclude Items, such as <code class="docutils literal notranslate"><span class="pre">[{'a':</span> <span class="pre">2,</span> <span class="pre">'b':</span> <span class="pre">'c'}]</span></code>,             default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means no extra exclusions.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.generator.MatrixGenerator.cases">
+<code class="sig-name descname">cases</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Iterator<span class="p">[</span>Mapping<span class="p">[</span>str<span class="p">, </span>object<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/testing/generator/matrix.html#MatrixGenerator.cases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.generator.MatrixGenerator.cases" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the cases in this matrix.</p>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">MatrixGenerator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">MatrixGenerator</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">],</span> <span class="s1">&#39;r&#39;</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]},</span>
+<span class="gp">... </span>        <span class="n">includes</span><span class="o">=</span><span class="p">[{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">}],</span>
+<span class="gp">... </span>        <span class="n">excludes</span><span class="o">=</span><span class="p">[{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="s1">&#39;b&#39;</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">}]</span>
+<span class="gp">... </span><span class="p">)</span><span class="o">.</span><span class="n">cases</span><span class="p">():</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="go">{&#39;a&#39;: 1, &#39;b&#39;: &#39;a&#39;, &#39;r&#39;: 4}</span>
+<span class="go">{&#39;a&#39;: 1, &#39;b&#39;: &#39;a&#39;, &#39;r&#39;: 5}</span>
+<span class="go">{&#39;a&#39;: 1, &#39;b&#39;: &#39;b&#39;, &#39;r&#39;: 4}</span>
+<span class="go">{&#39;a&#39;: 1, &#39;b&#39;: &#39;b&#39;, &#39;r&#39;: 5}</span>
+<span class="go">{&#39;a&#39;: 2, &#39;b&#39;: &#39;a&#39;, &#39;r&#39;: 3}</span>
+<span class="go">{&#39;a&#39;: 2, &#39;b&#39;: &#39;a&#39;, &#39;r&#39;: 4}</span>
+<span class="go">{&#39;a&#39;: 2, &#39;b&#39;: &#39;a&#39;, &#39;r&#39;: 5}</span>
+<span class="go">{&#39;a&#39;: 2, &#39;b&#39;: &#39;b&#39;, &#39;r&#39;: 3}</span>
+<span class="go">{&#39;a&#39;: 2, &#39;b&#39;: &#39;b&#39;, &#39;r&#39;: 4}</span>
+<span class="go">{&#39;a&#39;: 2, &#39;b&#39;: &#39;b&#39;, &#39;r&#39;: 5}</span>
+<span class="go">{&#39;a&#39;: 3, &#39;b&#39;: &#39;a&#39;, &#39;r&#39;: 3}</span>
+<span class="go">{&#39;a&#39;: 3, &#39;b&#39;: &#39;a&#39;, &#39;r&#39;: 4}</span>
+<span class="go">{&#39;a&#39;: 3, &#39;b&#39;: &#39;a&#39;, &#39;r&#39;: 5}</span>
+<span class="go">{&#39;a&#39;: 4, &#39;b&#39;: &#39;b&#39;, &#39;r&#39;: 7}</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.generator.MatrixGenerator.excludes">
+<em class="property">property </em><code class="sig-name descname">excludes</code><a class="headerlink" href="#hbutils.testing.generator.MatrixGenerator.excludes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exclude items.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.generator.MatrixGenerator.includes">
+<em class="property">property </em><code class="sig-name descname">includes</code><a class="headerlink" href="#hbutils.testing.generator.MatrixGenerator.includes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Include items.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.generator.MatrixGenerator.names">
+<em class="property">property </em><code class="sig-name descname">names</code><a class="headerlink" href="#hbutils.testing.generator.MatrixGenerator.names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of the given generator.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.generator.MatrixGenerator.tuple_cases">
+<code class="sig-name descname">tuple_cases</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Iterator<span class="p">[</span>Tuple<span class="p">[</span>object<span class="p">, </span><span class="p">…</span><span class="p">]</span><span class="p">]</span><a class="headerlink" href="#hbutils.testing.generator.MatrixGenerator.tuple_cases" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tuple-formatted cases, can be used to iterate.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.generator.MatrixGenerator.values">
+<em class="property">property </em><code class="sig-name descname">values</code><a class="headerlink" href="#hbutils.testing.generator.MatrixGenerator.values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Selection values.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="aetggenerator">
+<h2>AETGGenerator<a class="headerlink" href="#aetggenerator" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.testing.generator.AETGGenerator">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.testing.generator.</code><code class="sig-name descname">AETGGenerator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">values</span></em>, <em class="sig-param"><span class="n">names</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pairs</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>Tuple<span class="p">[</span>str<span class="p">, </span><span class="p">…</span><span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">rnd</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>random.Random<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/generator/aetg.html#AETGGenerator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.generator.AETGGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Full AETG model, test cases will be generated to make sure the required pairs will be all tested..</p>
+<dl class="py method">
+<dt id="hbutils.testing.generator.AETGGenerator.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">values</span></em>, <em class="sig-param"><span class="n">names</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pairs</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>Tuple<span class="p">[</span>str<span class="p">, </span><span class="p">…</span><span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">rnd</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>random.Random<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/generator/aetg.html#AETGGenerator.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.generator.AETGGenerator.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of the <code class="xref py py-class docutils literal notranslate"><span class="pre">hbutils.testing.AETGGenerator</span></code> class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>values</strong> – Selection values, such as <code class="docutils literal notranslate"><span class="pre">{'a':</span> <span class="pre">[2,</span> <span class="pre">3],</span> <span class="pre">'b':</span> <span class="pre">['b',</span> <span class="pre">'c']}</span></code>.</p></li>
+<li><p><strong>names</strong> – Names of the given generator, default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means use the sorted             key set of the values.</p></li>
+<li><p><strong>pairs</strong> – Pairs required to be all tested, default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means all the             binary pairs will be included.</p></li>
+<li><p><strong>rnd</strong> – Random object, default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means the default random object will be used.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.generator.AETGGenerator.cases">
+<code class="sig-name descname">cases</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Iterator<span class="p">[</span>Mapping<span class="p">[</span>str<span class="p">, </span>object<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/testing/generator/aetg.html#AETGGenerator.cases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.generator.AETGGenerator.cases" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the cases in this AETG model.</p>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">AETGGenerator</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gene</span> <span class="o">=</span> <span class="n">AETGGenerator</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">)})</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">gene</span><span class="o">.</span><span class="n">cases</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="go">{&#39;a&#39;: 1, &#39;b&#39;: 3, &#39;c&#39;: 6, &#39;d&#39;: 8, &#39;e&#39;: 10}</span>
+<span class="go">{&#39;a&#39;: 2, &#39;b&#39;: 4, &#39;c&#39;: 5, &#39;d&#39;: 7, &#39;e&#39;: 9}</span>
+<span class="go">{&#39;a&#39;: 2, &#39;b&#39;: 3, &#39;c&#39;: 6, &#39;d&#39;: 7, &#39;e&#39;: 9}</span>
+<span class="go">{&#39;a&#39;: 2, &#39;b&#39;: 4, &#39;c&#39;: 6, &#39;d&#39;: 8, &#39;e&#39;: 10}</span>
+<span class="go">{&#39;a&#39;: 1, &#39;b&#39;: 3, &#39;c&#39;: 5, &#39;d&#39;: 7, &#39;e&#39;: 10}</span>
+<span class="go">{&#39;a&#39;: 1, &#39;b&#39;: 4, &#39;c&#39;: 5, &#39;d&#39;: 8, &#39;e&#39;: 9}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">gene</span> <span class="o">=</span> <span class="n">AETGGenerator</span><span class="p">(</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">),</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">),</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">)},</span>
+<span class="gp">... </span>    <span class="n">pairs</span><span class="o">=</span><span class="p">[(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;e&#39;</span><span class="p">,)]</span>
+<span class="gp">... </span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">gene</span><span class="o">.</span><span class="n">cases</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+<span class="go">{&#39;a&#39;: 2, &#39;b&#39;: 3, &#39;c&#39;: 6, &#39;d&#39;: 8, &#39;e&#39;: 9}</span>
+<span class="go">{&#39;a&#39;: 1, &#39;b&#39;: 4, &#39;c&#39;: 5, &#39;d&#39;: 7, &#39;e&#39;: 10}</span>
+<span class="go">{&#39;a&#39;: 2, &#39;b&#39;: 4, &#39;c&#39;: 5, &#39;d&#39;: 8, &#39;e&#39;: 9}</span>
+<span class="go">{&#39;a&#39;: 1, &#39;b&#39;: 3, &#39;c&#39;: 6, &#39;d&#39;: 7, &#39;e&#39;: 10}</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.generator.AETGGenerator.names">
+<em class="property">property </em><code class="sig-name descname">names</code><a class="headerlink" href="#hbutils.testing.generator.AETGGenerator.names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of the given generator.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.generator.AETGGenerator.pairs">
+<em class="property">property </em><code class="sig-name descname">pairs</code><a class="headerlink" href="#hbutils.testing.generator.AETGGenerator.pairs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pairs required to be all tested.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.generator.AETGGenerator.tuple_cases">
+<code class="sig-name descname">tuple_cases</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Iterator<span class="p">[</span>Tuple<span class="p">[</span>object<span class="p">, </span><span class="p">…</span><span class="p">]</span><span class="p">]</span><a class="headerlink" href="#hbutils.testing.generator.AETGGenerator.tuple_cases" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tuple-formatted cases, can be used to iterate.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.generator.AETGGenerator.values">
+<em class="property">property </em><code class="sig-name descname">values</code><a class="headerlink" href="#hbutils.testing.generator.AETGGenerator.values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Selection values.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="hbutils.testing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/color
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../v0.0.1/index.html">v0.0.1</a></dd>
+                        <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
+                        <dd><a href="../../../../v0.1.1/index.html">v0.1.1</a></dd>
+                        <dd><a href="../../../../v0.2.0/index.html">v0.2.0</a></dd>
+                        <dd><a href="../../../../v0.3.0/api_doc/testing/generator.html">v0.3.0</a></dd>
+                        <dd><a href="../../../../v0.3.1/api_doc/testing/generator.html">v0.3.1</a></dd>
+                        <dd><a href="../../../../v0.3.2/api_doc/testing/generator.html">v0.3.2</a></dd>
+                        <dd><a href="../../../../v0.3.3/api_doc/testing/generator.html">v0.3.3</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="generator.html">dev/color</a></dd>
+                        <dd><a href="../../../../main/api_doc/testing/generator.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
