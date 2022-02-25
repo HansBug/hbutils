@@ -206,3 +206,10 @@ class TestColorModel:
         assert c1.rgb.green == int('bb', 16) / 255
         assert c1.rgb.blue == int('cc', 16) / 255
         assert c1.alpha == int('dd', 16) / 255
+
+    def test_init_with_name(self):
+        assert str(Color('red')) == '#ff0000'
+        assert str(Color('gold')) == '#ffd700'
+
+        with pytest.raises(ValueError):
+            Color('golden')
