@@ -26,6 +26,7 @@ Overview
     api_doc/color/index
     api_doc/config/index
     api_doc/design/index
+    api_doc/docstring/index
     api_doc/encoding/index
     api_doc/model/index
     api_doc/random/index
