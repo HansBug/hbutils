@@ -3,8 +3,11 @@ Overview:
     Useful functions for build class models.
 """
 import os
+import textwrap
 from typing import Optional, Iterable
 
+from ._info import _PACKAGE_RST
+from ..config.meta import __VERSION__
 from ..design.singleton import SingletonMark
 from ..reflection import fassign
 
@@ -116,6 +119,12 @@ def visual(items: Optional[Iterable] = None, show_id: bool = False):
                 return items
 
         def __repr__(self):
+            f"""
+            Get representation format of class {cls.__name__}.
+
+            .. note::
+                Created by {_PACKAGE_RST}, v{__VERSION__}.
+            """
             str_items = []
             for item in _get_items(self):
                 if isinstance(item, str):
@@ -215,7 +224,15 @@ def __init__(self, {', '.join(arg_items)}):
         exec(_init_func_str, fres)
 
         _init_func = fres['__init__']
-        _init_func = fassign(__doc__=doc)(_init_func)
+        _init_func = fassign(__doc__=doc or textwrap.dedent(f'''
+        Constructor of class {cls.__name__}.
+
+        .. note::
+            Created by {_PACKAGE_RST}, v{__VERSION__}.
+
+            The values of arguments supplied to this constructor \
+            will be put into the fields specified.
+        '''))(_init_func)
         cls.__init__ = _init_func
 
         return cls
@@ -264,9 +281,29 @@ def hasheq(items: Optional[Iterable] = None):
             return tuple(_get_value(self, name, _cls_prefix) for name in _get_items(self))
 
         def __hash__(self):
+            f"""
+            Hash value of class {cls.__name__}'s instances.
+
+            .. note::
+                Created by {_PACKAGE_RST}, v{__VERSION__}.
+
+                The return value is calculated based on the \
+                values of the internally specified fields.
+            """
             return hash(_get_obj_values(self))
 
         def __eq__(self, other):
+            f"""
+            Equality between class {cls.__name__}'s instances.
+
+            .. note::
+                Created by {_PACKAGE_RST}, v{__VERSION__}.
+
+                Currently, the return value is True only if both objects \\
+                are of class XXX (subclasses are not permitted) and the \\
+                values of the internally specified fields are all equal; \\
+                otherwise, it is always False.
+            """
             if self is other:
                 return True
             elif type(self) == type(other):
@@ -350,6 +387,16 @@ def get_{itn}(self):
             fres = {}
             exec(_getter_func_str, fres)
             getter_func = fres[f'get_{itn}']
+            getter_func = fassign(__doc__=f"""
+            Overview:
+                Property {itn}.
+
+                .. note::
+                    Created by {_PACKAGE_RST}, v{__VERSION__}.
+
+                    {'Both reading and writing are' if itv else 'Only reading is'} \\
+                    permitted with the accessor ``{itn}``.
+            """)(getter_func)
 
             if itv:
                 _setter_func_str = f"""
