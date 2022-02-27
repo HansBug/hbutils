@@ -180,10 +180,56 @@
             
     
     
-  <div class="section" id="hbutils-model-repr">
-<h1>hbutils.model.repr<a class="headerlink" href="#hbutils-model-repr" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-hbutils.model.repr">
+<span id="hbutils-model-repr"></span><h1>hbutils.model.repr<a class="headerlink" href="#module-hbutils.model.repr" title="Permalink to this headline">¶</a></h1>
+<dl class="simple">
+<dt>Overview:</dt><dd><p>Useful functions for build representation format of object.</p>
+</dd>
+</dl>
 <div class="section" id="get-repr-info">
 <h2>get_repr_info<a class="headerlink" href="#get-repr-info" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.model.repr.get_repr_info">
+<code class="sig-prename descclassname">hbutils.model.repr.</code><code class="sig-name descname">get_repr_info</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cls</span><span class="p">:</span> <span class="n">type</span></em>, <em class="sig-param"><span class="n">args</span><span class="p">:</span> <span class="n">List<span class="p">[</span>Tuple<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/model/repr.html#get_repr_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.model.repr.get_repr_info" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Get representation information for object.
+Can be used in <code class="docutils literal notranslate"><span class="pre">__repr__</span></code> method for class.</p>
+</dd>
+<dt>Arguments:</dt><dd><ul class="simple">
+<li><p>cls (<code class="xref py py-obj docutils literal notranslate"><span class="pre">type</span></code>): Object’s type.</p></li>
+<li><p>args (<code class="xref py py-obj docutils literal notranslate"><span class="pre">List[Tuple]</span></code>): Argument display information.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>repr (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>): Representation string.</p></li>
+</ul>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.model</span> <span class="kn">import</span> <span class="n">get_repr_info</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">Sum</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">__a</span> <span class="o">=</span> <span class="n">a</span>
+<span class="gp">... </span>        <span class="bp">self</span><span class="o">.</span><span class="n">__b</span> <span class="o">=</span> <span class="n">b</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">get_repr_info</span><span class="p">(</span>
+<span class="gp">... </span>            <span class="bp">cls</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span>
+<span class="gp">... </span>            <span class="n">args</span><span class="o">=</span><span class="p">[</span>
+<span class="gp">... </span>                <span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__b</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__b</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">),</span>
+<span class="gp">... </span>                <span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__a</span><span class="p">),</span>
+<span class="gp">... </span>            <span class="p">]</span>
+<span class="gp">... </span>        <span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Sum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="go">&lt;Sum b: 2, a: 1&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Sum</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="go">&lt;Sum a: 1&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">Sum</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+<span class="go">&lt;Sum a: None&gt;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 </div>
 
