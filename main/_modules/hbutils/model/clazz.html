@@ -172,8 +172,11 @@
 <span class="sd">    Useful functions for build class models.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">textwrap</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Iterable</span>
 
+<span class="kn">from</span> <span class="nn">._info</span> <span class="kn">import</span> <span class="n">_PACKAGE_RST</span>
+<span class="kn">from</span> <span class="nn">..config.meta</span> <span class="kn">import</span> <span class="n">__VERSION__</span>
 <span class="kn">from</span> <span class="nn">..design.singleton</span> <span class="kn">import</span> <span class="n">SingletonMark</span>
 <span class="kn">from</span> <span class="nn">..reflection</span> <span class="kn">import</span> <span class="n">fassign</span>
 
@@ -285,6 +288,12 @@
                 <span class="k">return</span> <span class="n">items</span>
 
         <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            Get representation format of class </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.</span>
+
+<span class="s2">            .. note::</span>
+<span class="s2">                Created by </span><span class="si">{</span><span class="n">_PACKAGE_RST</span><span class="si">}</span><span class="s2">, v</span><span class="si">{</span><span class="n">__VERSION__</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">            &quot;&quot;&quot;</span>
             <span class="n">str_items</span> <span class="o">=</span> <span class="p">[]</span>
             <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">_get_items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -384,7 +393,15 @@
         <span class="n">exec</span><span class="p">(</span><span class="n">_init_func_str</span><span class="p">,</span> <span class="n">fres</span><span class="p">)</span>
 
         <span class="n">_init_func</span> <span class="o">=</span> <span class="n">fres</span><span class="p">[</span><span class="s1">&#39;__init__&#39;</span><span class="p">]</span>
-        <span class="n">_init_func</span> <span class="o">=</span> <span class="n">fassign</span><span class="p">(</span><span class="vm">__doc__</span><span class="o">=</span><span class="n">doc</span><span class="p">)(</span><span class="n">_init_func</span><span class="p">)</span>
+        <span class="n">_init_func</span> <span class="o">=</span> <span class="n">fassign</span><span class="p">(</span><span class="vm">__doc__</span><span class="o">=</span><span class="n">doc</span> <span class="ow">or</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        Constructor of class </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">.</span>
+
+<span class="s1">        .. note::</span>
+<span class="s1">            Created by </span><span class="si">{</span><span class="n">_PACKAGE_RST</span><span class="si">}</span><span class="s1">, v</span><span class="si">{</span><span class="n">__VERSION__</span><span class="si">}</span><span class="s1">.</span>
+
+<span class="s1">            The values of arguments supplied to this constructor </span><span class="se">\</span>
+<span class="s1">            will be put into the fields specified.</span>
+<span class="s1">        &#39;&#39;&#39;</span><span class="p">))(</span><span class="n">_init_func</span><span class="p">)</span>
         <span class="bp">cls</span><span class="o">.</span><span class="fm">__init__</span> <span class="o">=</span> <span class="n">_init_func</span>
 
         <span class="k">return</span> <span class="bp">cls</span>
@@ -433,9 +450,29 @@
             <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">_get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">_cls_prefix</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">_get_items</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
 
         <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            Hash value of class </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39;s instances.</span>
+
+<span class="s2">            .. note::</span>
+<span class="s2">                Created by </span><span class="si">{</span><span class="n">_PACKAGE_RST</span><span class="si">}</span><span class="s2">, v</span><span class="si">{</span><span class="n">__VERSION__</span><span class="si">}</span><span class="s2">.</span>
+
+<span class="s2">                The return value is calculated based on the </span><span class="se">\</span>
+<span class="s2">                values of the internally specified fields.</span>
+<span class="s2">            &quot;&quot;&quot;</span>
             <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="n">_get_obj_values</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
 
         <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+            <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            Equality between class </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39;s instances.</span>
+
+<span class="s2">            .. note::</span>
+<span class="s2">                Created by </span><span class="si">{</span><span class="n">_PACKAGE_RST</span><span class="si">}</span><span class="s2">, v</span><span class="si">{</span><span class="n">__VERSION__</span><span class="si">}</span><span class="s2">.</span>
+
+<span class="s2">                Currently, the return value is True only if both objects </span><span class="se">\\</span><span class="s2"></span>
+<span class="s2">                are of class XXX (subclasses are not permitted) and the </span><span class="se">\\</span><span class="s2"></span>
+<span class="s2">                values of the internally specified fields are all equal; </span><span class="se">\\</span><span class="s2"></span>
+<span class="s2">                otherwise, it is always False.</span>
+<span class="s2">            &quot;&quot;&quot;</span>
             <span class="k">if</span> <span class="bp">self</span> <span class="ow">is</span> <span class="n">other</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">True</span>
             <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
@@ -519,6 +556,16 @@
             <span class="n">fres</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="n">exec</span><span class="p">(</span><span class="n">_getter_func_str</span><span class="p">,</span> <span class="n">fres</span><span class="p">)</span>
             <span class="n">getter_func</span> <span class="o">=</span> <span class="n">fres</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;get_</span><span class="si">{</span><span class="n">itn</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span>
+            <span class="n">getter_func</span> <span class="o">=</span> <span class="n">fassign</span><span class="p">(</span><span class="vm">__doc__</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            Overview:</span>
+<span class="s2">                Property </span><span class="si">{</span><span class="n">itn</span><span class="si">}</span><span class="s2">.</span>
+
+<span class="s2">                .. note::</span>
+<span class="s2">                    Created by </span><span class="si">{</span><span class="n">_PACKAGE_RST</span><span class="si">}</span><span class="s2">, v</span><span class="si">{</span><span class="n">__VERSION__</span><span class="si">}</span><span class="s2">.</span>
+
+<span class="s2">                    </span><span class="si">{</span><span class="s1">&#39;Both reading and writing are&#39;</span> <span class="k">if</span> <span class="n">itv</span> <span class="k">else</span> <span class="s1">&#39;Only reading is&#39;</span><span class="si">}</span><span class="s2"> </span><span class="se">\\</span><span class="s2"></span>
+<span class="s2">                    permitted with the accessor ``</span><span class="si">{</span><span class="n">itn</span><span class="si">}</span><span class="s2">``.</span>
+<span class="s2">            &quot;&quot;&quot;</span><span class="p">)(</span><span class="n">getter_func</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">itv</span><span class="p">:</span>
                 <span class="n">_setter_func_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
@@ -587,7 +634,6 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../dev/model/index.html">dev/model</a></dd>
                         <dd><a href="clazz.html">main</a></dd>
                 </dl>
         </div>
