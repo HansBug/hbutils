@@ -10,5 +10,6 @@ hbutils.model
 
     clazz
     enum
+    raw
     repr
 
