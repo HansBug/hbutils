@@ -171,6 +171,8 @@
 <span class="sd">Overview:</span>
 <span class="sd">    Function operations for nested structure.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">..reflection</span> <span class="kn">import</span> <span class="n">dynamic_call</span>
+
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;nested_map&#39;</span>
 <span class="p">]</span>
@@ -195,13 +197,28 @@
 <span class="sd">        ...     {&#39;a&#39;: 3, &#39;b&#39;: (4, 5)},</span>
 <span class="sd">        ... ])</span>
 <span class="sd">        [3, 4, (5, {&#39;x&#39;: 3, &#39;y&#39;: 5}), {&#39;a&#39;: 4, &#39;b&#39;: (5, 6)}]</span>
+<span class="sd">        &gt;&gt;&gt; nested_map(lambda x, p: (x + 1) *  len(p), [</span>
+<span class="sd">        ...     2, 3, (4, {&#39;x&#39;: 2, &#39;y&#39;: 4}),</span>
+<span class="sd">        ...     {&#39;a&#39;: 3, &#39;b&#39;: (4, 5)},</span>
+<span class="sd">        ... ])</span>
+<span class="sd">        [3, 4, (10, {&#39;x&#39;: 9, &#39;y&#39;: 15}), {&#39;a&#39;: 8, &#39;b&#39;: (15, 18)}]</span>
+<span class="sd">        &gt;&gt;&gt; nested_map(lambda: 233, [</span>
+<span class="sd">        ...     2, 3, (4, {&#39;x&#39;: 2, &#39;y&#39;: 4}),</span>
+<span class="sd">        ...     {&#39;a&#39;: 3, &#39;b&#39;: (4, 5)},</span>
+<span class="sd">        ... ])</span>
+<span class="sd">        [233, 233, (233, {&#39;x&#39;: 233, &#39;y&#39;: 233}), {&#39;a&#39;: 233, &#39;b&#39;: (233, 233)}]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="n">s</span><span class="p">)({</span><span class="n">k</span><span class="p">:</span> <span class="n">nested_map</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
-    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
-        <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="n">s</span><span class="p">)(</span><span class="n">nested_map</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">s</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">f</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+    <span class="n">_df</span> <span class="o">=</span> <span class="n">dynamic_call</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_recursion</span><span class="p">(</span><span class="n">sval</span><span class="p">,</span> <span class="n">p</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sval</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="n">sval</span><span class="p">)({</span><span class="n">k</span><span class="p">:</span> <span class="n">_recursion</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">sval</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">sval</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="nb">type</span><span class="p">(</span><span class="n">sval</span><span class="p">)(</span><span class="n">_recursion</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="o">*</span><span class="n">p</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sval</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_df</span><span class="p">(</span><span class="n">sval</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_recursion</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">())</span></div>
 </pre></div>
 
 
@@ -253,7 +270,6 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../dev/mapping/index.html">dev/mapping</a></dd>
                         <dd><a href="functional.html">main</a></dd>
                 </dl>
         </div>

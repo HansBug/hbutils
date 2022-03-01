@@ -209,6 +209,16 @@
 <span class="gp">... </span>    <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)},</span>
 <span class="gp">... </span><span class="p">])</span>
 <span class="go">[3, 4, (5, {&#39;x&#39;: 3, &#39;y&#39;: 5}), {&#39;a&#39;: 4, &#39;b&#39;: (5, 6)}]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nested_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span>  <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}),</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)},</span>
+<span class="gp">... </span><span class="p">])</span>
+<span class="go">[3, 4, (10, {&#39;x&#39;: 9, &#39;y&#39;: 15}), {&#39;a&#39;: 8, &#39;b&#39;: (15, 18)}]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nested_map</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="mi">233</span><span class="p">,</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}),</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)},</span>
+<span class="gp">... </span><span class="p">])</span>
+<span class="go">[233, 233, (233, {&#39;x&#39;: 233, &#39;y&#39;: 233}), {&#39;a&#39;: 233, &#39;b&#39;: (233, 233)}]</span>
 </pre></div>
 </div>
 </dd>
@@ -277,7 +287,6 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/mapping/api_doc/collection/functional.html">dev/mapping</a></dd>
                         <dd><a href="functional.html">main</a></dd>
                 </dl>
         </div>
