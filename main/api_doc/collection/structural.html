@@ -98,6 +98,8 @@
 <li class="toctree-l2"><a class="reference internal" href="functional.html">hbutils.collection.functional</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.collection.structural</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#sq-flatten">sq_flatten</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nested-walk">nested_walk</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nested-flatten">nested_flatten</a></li>
 </ul>
 </li>
 </ul>
@@ -212,6 +214,65 @@
 </dd></dl>
 
 </div>
+<div class="section" id="nested-walk">
+<h2>nested_walk<a class="headerlink" href="#nested-walk" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.collection.structural.nested_walk">
+<code class="sig-prename descclassname">hbutils.collection.structural.</code><code class="sig-name descname">nested_walk</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em><span class="sig-paren">)</span> &#x2192; Iterator<span class="p">[</span>Tuple<span class="p">[</span>Tuple<span class="p">[</span>Union<span class="p">[</span>int<span class="p">, </span>str<span class="p">]</span><span class="p">, </span><span class="p">…</span><span class="p">]</span><span class="p">, </span>object<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/collection/structural.html#nested_walk"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.collection.structural.nested_walk" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Walk for nested structure.</p>
+</dd>
+<dt>Arguments:</dt><dd><ul class="simple">
+<li><p>s: Given structure.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>walk_iter (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Iterator[Tuple[Tuple[Union[int,</span> <span class="pre">str],</span> <span class="pre">...],</span> <span class="pre">object]]</span></code>): Iterator of the walk result.</p></li>
+</ul>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.collection</span> <span class="kn">import</span> <span class="n">nested_walk</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">p</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">nested_walk</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="s1">&#39;f&#39;</span><span class="p">}]}):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">(&#39;a&#39;,) 1</span>
+<span class="go">(&#39;b&#39;, 0) c</span>
+<span class="go">(&#39;b&#39;, 1) d</span>
+<span class="go">(&#39;b&#39;, 2, &#39;x&#39;, 0) 3</span>
+<span class="go">(&#39;b&#39;, 2, &#39;x&#39;, 1) 4</span>
+<span class="go">(&#39;b&#39;, 2, &#39;y&#39;) f</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="nested-flatten">
+<h2>nested_flatten<a class="headerlink" href="#nested-flatten" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.collection.structural.nested_flatten">
+<code class="sig-prename descclassname">hbutils.collection.structural.</code><code class="sig-name descname">nested_flatten</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>Tuple<span class="p">[</span>Tuple<span class="p">[</span>Union<span class="p">[</span>int<span class="p">, </span>str<span class="p">]</span><span class="p">, </span><span class="p">…</span><span class="p">]</span><span class="p">, </span>object<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/collection/structural.html#nested_flatten"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.collection.structural.nested_flatten" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Flatten for nested structure.</p>
+</dd>
+<dt>Arguments:</dt><dd><ul class="simple">
+<li><p>s: Given structure.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>flatted (<code class="xref py py-obj docutils literal notranslate"><span class="pre">List[Tuple[Tuple[Union[int,</span> <span class="pre">str],</span> <span class="pre">...],</span> <span class="pre">object]]</span></code>): List of the flatted result.</p></li>
+</ul>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.collection</span> <span class="kn">import</span> <span class="n">nested_flatten</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">nested_flatten</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="s1">&#39;f&#39;</span><span class="p">}]}))</span>
+<span class="go">[((&#39;a&#39;,), 1), ((&#39;b&#39;, 0), &#39;c&#39;), ((&#39;b&#39;, 1), &#39;d&#39;), ((&#39;b&#39;, 2, &#39;x&#39;, 0), 3), ((&#39;b&#39;, 2, &#39;x&#39;, 1), 4), ((&#39;b&#39;, 2, &#39;y&#39;), &#39;f&#39;)]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
 </div>
 
 
@@ -272,7 +333,6 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/flatten/api_doc/collection/structural.html">dev/flatten</a></dd>
                         <dd><a href="structural.html">main</a></dd>
                 </dl>
         </div>

@@ -171,8 +171,11 @@
 <span class="sd">Overview:</span>
 <span class="sd">    Structural operations.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span>
+
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;sq_flatten&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;nested_walk&#39;</span><span class="p">,</span> <span class="s1">&#39;nested_flatten&#39;</span><span class="p">,</span>
 <span class="p">]</span>
 
 
@@ -200,6 +203,62 @@
 <span class="sd">        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">_g_sq_flatten</span><span class="p">(</span><span class="n">s</span><span class="p">))</span></div>
+
+
+<span class="k">def</span> <span class="nf">_nested_walk</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">yield from</span> <span class="n">_nested_walk</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+            <span class="k">yield from</span> <span class="n">_nested_walk</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">path</span><span class="p">,</span> <span class="n">s</span>
+
+
+<div class="viewcode-block" id="nested_walk"><a class="viewcode-back" href="../../../api_doc/collection/structural.html#hbutils.collection.structural.nested_walk">[docs]</a><span class="k">def</span> <span class="nf">nested_walk</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span> <span class="nb">object</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Walk for nested structure.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        - s: Given structure.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - walk_iter (:obj:`Iterator[Tuple[Tuple[Union[int, str], ...], object]]`): Iterator of the walk result.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from hbutils.collection import nested_walk</span>
+<span class="sd">        &gt;&gt;&gt; for p, v in nested_walk({&#39;a&#39;: 1, &#39;b&#39;: [&#39;c&#39;, &#39;d&#39;, {&#39;x&#39;: (3, 4), &#39;y&#39;: &#39;f&#39;}]}):</span>
+<span class="sd">        ...     print(p, v)</span>
+<span class="sd">        ...</span>
+<span class="sd">        (&#39;a&#39;,) 1</span>
+<span class="sd">        (&#39;b&#39;, 0) c</span>
+<span class="sd">        (&#39;b&#39;, 1) d</span>
+<span class="sd">        (&#39;b&#39;, 2, &#39;x&#39;, 0) 3</span>
+<span class="sd">        (&#39;b&#39;, 2, &#39;x&#39;, 1) 4</span>
+<span class="sd">        (&#39;b&#39;, 2, &#39;y&#39;) f</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">yield from</span> <span class="n">_nested_walk</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="nested_flatten"><a class="viewcode-back" href="../../../api_doc/collection/structural.html#hbutils.collection.structural.nested_flatten">[docs]</a><span class="k">def</span> <span class="nf">nested_flatten</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span> <span class="o">...</span><span class="p">],</span> <span class="nb">object</span><span class="p">]]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Flatten for nested structure.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        - s: Given structure.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - flatted (:obj:`List[Tuple[Tuple[Union[int, str], ...], object]]`): List of the flatted result.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from hbutils.collection import nested_flatten</span>
+<span class="sd">        &gt;&gt;&gt; print(nested_flatten({&#39;a&#39;: 1, &#39;b&#39;: [&#39;c&#39;, &#39;d&#39;, {&#39;x&#39;: (3, 4), &#39;y&#39;: &#39;f&#39;}]}))</span>
+<span class="sd">        [((&#39;a&#39;,), 1), ((&#39;b&#39;, 0), &#39;c&#39;), ((&#39;b&#39;, 1), &#39;d&#39;), ((&#39;b&#39;, 2, &#39;x&#39;, 0), 3), ((&#39;b&#39;, 2, &#39;x&#39;, 1), 4), ((&#39;b&#39;, 2, &#39;y&#39;), &#39;f&#39;)]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">nested_walk</span><span class="p">(</span><span class="n">s</span><span class="p">))</span></div>
 </pre></div>
 
 
@@ -250,7 +309,6 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../dev/flatten/index.html">dev/flatten</a></dd>
                         <dd><a href="structural.html">main</a></dd>
                 </dl>
         </div>
