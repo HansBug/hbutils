@@ -388,14 +388,13 @@ def get_{itn}(self):
             exec(_getter_func_str, fres)
             getter_func = fres[f'get_{itn}']
             getter_func = fassign(__doc__=f"""
-            Overview:
-                Property {itn}.
+            Property {itn}.
 
-                .. note::
-                    Created by {_PACKAGE_RST}, v{__VERSION__}.
+            .. note::
+                Created by {_PACKAGE_RST}, v{__VERSION__}.
 
-                    {'Both reading and writing are' if itv else 'Only reading is'} \\
-                    permitted with the accessor ``{itn}``.
+                {'Both reading and writing are' if itv else 'Only reading is'} \\
+                permitted with the accessor ``{itn}``.
             """)(getter_func)
 
             if itv:
