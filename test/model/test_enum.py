@@ -2,7 +2,7 @@ from enum import IntEnum, Enum
 
 import pytest
 
-from hbutils.model import int_enum_loads
+from hbutils.model import int_enum_loads, AutoIntEnum
 
 
 # noinspection DuplicatedCode
@@ -141,3 +141,36 @@ class TestReflectionEnum:
         assert Enum1.loads('C') is Enum1.C
         assert Enum1.loads(None) is None
         assert Enum1.loads([1, 2]) is None
+
+    def test_auto_int_enum(self):
+        class MyEnum(AutoIntEnum):
+            def __init__(self, v):
+                self.v = v
+
+            A = 'a_v'
+            B = 'b_vv'
+            C = 'c_vvv'
+
+        assert MyEnum.A.value == 1
+        assert MyEnum.A.v == 'a_v'
+        assert MyEnum.B.value == 2
+        assert MyEnum.B.v == 'b_vv'
+        assert MyEnum.C.value == 3
+        assert MyEnum.C.v == 'c_vvv'
+
+    def test_auto_int_enum_with_int_enum_loads(self):
+        @int_enum_loads(name_preprocess=str.upper)
+        class MyEnum(AutoIntEnum):
+            def __init__(self, v):
+                self.v = v
+
+            A = 'a_v'
+            B = 'b_vv'
+            C = 'c_vvv'
+
+        assert MyEnum.loads('a') == MyEnum.A
+        assert MyEnum.loads(1) == MyEnum.A
+        assert MyEnum.loads('B') == MyEnum.B
+        assert MyEnum.loads(2) == MyEnum.B
+        assert MyEnum.loads('c') == MyEnum.C
+        assert MyEnum.loads(3) == MyEnum.C

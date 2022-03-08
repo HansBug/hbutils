@@ -7,7 +7,45 @@ from functools import lru_cache
 from types import MethodType
 from typing import Type, Optional, Callable, TypeVar, Any
 
-__all__ = ['int_enum_loads']
+__all__ = [
+    'AutoIntEnum', 'int_enum_loads'
+]
+
+
+class AutoIntEnum(IntEnum):
+    """
+    Overview:
+        An example from `official documentation <https://docs.python.org/3/library/enum.html#using-a-custom-new>`_.
+
+    Examples::
+        >>> from hbutils.model import AutoIntEnum
+        >>> class MyEnum(AutoIntEnum):
+        ...     def __init__(self, v):
+        ...         self.v = v
+        ...     A = 'a_v'
+        ...     B = 'b_vv'
+        ...     C = 'c_vvv'
+        ...
+        >>> MyEnum.A
+        <MyEnum.A: 1>
+        >>> MyEnum.A.value
+        1
+        >>> MyEnum.A.v
+        'a_v'
+        >>> MyEnum.C
+        <MyEnum.C: 3>
+        >>> MyEnum.C.value
+        3
+        >>> MyEnum.C.v
+        'c_vvv'
+    """
+
+    def __new__(cls, *args, **kwargs):
+        value = len(cls.__members__) + 1
+        obj = int.__new__(cls)
+        obj._value_ = value
+        return obj
+
 
 _EnumType = TypeVar('_EnumType', bound=IntEnum)
 
