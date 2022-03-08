@@ -5,6 +5,14 @@ hbutils.model.enum
 
 .. automodule:: hbutils.model.enum
 
+
+AutoIntEnum
+---------------------
+
+.. autoclass:: AutoIntEnum
+    :members:
+
+
 int_enum_loads
 ---------------------
 
