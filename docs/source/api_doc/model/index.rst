@@ -9,6 +9,7 @@ hbutils.model
     :maxdepth: 3
 
     clazz
+    compare
     enum
     raw
     repr
