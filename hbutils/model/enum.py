@@ -42,7 +42,7 @@ class AutoIntEnum(IntEnum):
 
     def __new__(cls, *args, **kwargs):
         value = len(cls.__members__) + 1
-        obj = int.__new__(cls)
+        obj = int.__new__(cls, value)
         obj._value_ = value
         return obj
 

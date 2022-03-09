@@ -1,4 +1,5 @@
 from enum import IntEnum, Enum
+from random import shuffle
 
 import pytest
 
@@ -157,6 +158,37 @@ class TestReflectionEnum:
         assert MyEnum.B.v == 'b_vv'
         assert MyEnum.C.value == 3
         assert MyEnum.C.v == 'c_vvv'
+
+        assert MyEnum.A == MyEnum.A
+        assert MyEnum.A != MyEnum.B
+        assert MyEnum.A != MyEnum.C
+        assert MyEnum.B != MyEnum.A
+        assert MyEnum.B == MyEnum.B
+        assert MyEnum.B != MyEnum.C
+        assert MyEnum.C != MyEnum.A
+        assert MyEnum.C != MyEnum.B
+        assert MyEnum.C == MyEnum.C
+
+        for i in range(100):
+            l = [MyEnum.A, MyEnum.B, MyEnum.C]
+            shuffle(l)
+            assert sorted(l) == [MyEnum.A, MyEnum.B, MyEnum.C]
+
+        d = {}
+        d[MyEnum.A] = 1
+        d[MyEnum.B] = 2
+        d[MyEnum.C] = 3
+        assert len(d.items()) == 3
+        assert d[MyEnum.A] == 1
+        assert d[MyEnum.B] == 2
+        assert d[MyEnum.C] == 3
+
+        d[MyEnum.C] = 4
+        assert d == {
+            MyEnum.A: 1,
+            MyEnum.B: 2,
+            MyEnum.C: 4,
+        }
 
     def test_auto_int_enum_with_int_enum_loads(self):
         @int_enum_loads(name_preprocess=str.upper)
