@@ -1,0 +1,559 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hbutils.dependency.grammar &mdash; hbutils 0.4.7 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="hbutils.dependency.marker" href="marker.html" />
+    <link rel="prev" title="hbutils.dependency" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> hbutils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.7
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">hbutils.algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../collection/index.html">hbutils.collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../color/index.html">hbutils.color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/index.html">hbutils.config</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">hbutils.dependency</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.dependency.grammar</a></li>
+<li class="toctree-l2"><a class="reference internal" href="marker.html">hbutils.dependency.marker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="model.html">hbutils.dependency.model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="parse.html">hbutils.dependency.parse</a></li>
+<li class="toctree-l2"><a class="reference internal" href="version.html">hbutils.dependency.version</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../design/index.html">hbutils.design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/index.html">hbutils.model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../random/index.html">hbutils.random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reflection/index.html">hbutils.reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scale/index.html">hbutils.scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../string/index.html">hbutils.string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/index.html">hbutils.testing</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">hbutils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">hbutils.dependency</a> &raquo;</li>
+        
+      <li>hbutils.dependency.grammar</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_doc/dependency/grammar.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <div class="section" id="module-hbutils.dependency.grammar">
+<span id="hbutils-dependency-grammar"></span><h1>hbutils.dependency.grammar<a class="headerlink" href="#module-hbutils.dependency.grammar" title="Permalink to this headline">¶</a></h1>
+<dl>
+<dt>Overview:</dt><dd><p>Grammar of python dependencies, based on <a class="reference external" href="https://peps.python.org/pep-0508/">PEP-0508</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>How to get all the environment values.</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">platform</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+
+<span class="k">def</span> <span class="nf">_format_full_version</span><span class="p">(</span><span class="n">info</span><span class="p">):</span>
+    <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{0.major}</span><span class="s1">.</span><span class="si">{0.minor}</span><span class="s1">.</span><span class="si">{0.micro}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+    <span class="n">kind</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">releaselevel</span>
+    <span class="k">if</span> <span class="n">kind</span> <span class="o">!=</span> <span class="s1">&#39;final&#39;</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">+=</span> <span class="n">kind</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">serial</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">version</span>
+
+
+<span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">sys</span><span class="p">,</span> <span class="s1">&#39;implementation&#39;</span><span class="p">):</span>
+    <span class="n">implementation_version</span> <span class="o">=</span> <span class="n">_format_full_version</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">implementation</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
+    <span class="n">implementation_name</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">implementation</span><span class="o">.</span><span class="n">name</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">implementation_version</span> <span class="o">=</span> <span class="s1">&#39;0&#39;</span>
+    <span class="n">implementation_name</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+
+<span class="n">bindings</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;implementation_name&#39;</span><span class="p">:</span> <span class="n">implementation_name</span><span class="p">,</span>
+    <span class="s1">&#39;implementation_version&#39;</span><span class="p">:</span> <span class="n">implementation_version</span><span class="p">,</span>
+    <span class="s1">&#39;os_name&#39;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+    <span class="s1">&#39;platform_machine&#39;</span><span class="p">:</span> <span class="n">platform</span><span class="o">.</span><span class="n">machine</span><span class="p">(),</span>
+    <span class="s1">&#39;platform_python_implementation&#39;</span><span class="p">:</span> <span class="n">platform</span><span class="o">.</span><span class="n">python_implementation</span><span class="p">(),</span>
+    <span class="s1">&#39;platform_release&#39;</span><span class="p">:</span> <span class="n">platform</span><span class="o">.</span><span class="n">release</span><span class="p">(),</span>
+    <span class="s1">&#39;platform_system&#39;</span><span class="p">:</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">(),</span>
+    <span class="s1">&#39;platform_version&#39;</span><span class="p">:</span> <span class="n">platform</span><span class="o">.</span><span class="n">version</span><span class="p">(),</span>
+    <span class="s1">&#39;python_full_version&#39;</span><span class="p">:</span> <span class="n">platform</span><span class="o">.</span><span class="n">python_version</span><span class="p">(),</span>
+    <span class="s1">&#39;python_version&#39;</span><span class="p">:</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">platform</span><span class="o">.</span><span class="n">python_version_tuple</span><span class="p">()[:</span><span class="mi">2</span><span class="p">]),</span>
+    <span class="s1">&#39;sys_platform&#39;</span><span class="p">:</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="p">,</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>And this is the grammar of this dependency</p>
+<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">  1</span>
+<span class="normal">  2</span>
+<span class="normal">  3</span>
+<span class="normal">  4</span>
+<span class="normal">  5</span>
+<span class="normal">  6</span>
+<span class="normal">  7</span>
+<span class="normal">  8</span>
+<span class="normal">  9</span>
+<span class="normal"> 10</span>
+<span class="normal"> 11</span>
+<span class="normal"> 12</span>
+<span class="normal"> 13</span>
+<span class="normal"> 14</span>
+<span class="normal"> 15</span>
+<span class="normal"> 16</span>
+<span class="normal"> 17</span>
+<span class="normal"> 18</span>
+<span class="normal"> 19</span>
+<span class="normal"> 20</span>
+<span class="normal"> 21</span>
+<span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span>wsp           = &#39; &#39; | &#39;	&#39;
+version_cmp   = wsp* &lt;&#39;&lt;=&#39; | &#39;&lt;&#39; | &#39;!=&#39; | &#39;==&#39; | &#39;&gt;=&#39; | &#39;&gt;&#39; | &#39;~=&#39; | &#39;===&#39;&gt;
+version       = wsp* &lt;( letterOrDigit | &#39;-&#39; | &#39;_&#39; | &#39;.&#39; | &#39;*&#39; | &#39;+&#39; | &#39;!&#39; )+&gt;
+version_one   = version_cmp:op version:v wsp* -&gt; (op, v)
+version_many  = version_one:v1 (wsp* &#39;,&#39; version_one)*:v2 -&gt; [v1] + v2
+versionspec   = (&#39;(&#39; version_many:v &#39;)&#39; -&gt; v) | version_many
+urlspec       = &#39;@&#39; wsp* &lt;URI_reference&gt;
+marker_op     = version_cmp | (wsp* &#39;in&#39;) | (wsp* &#39;not&#39; wsp+ &#39;in&#39; -&gt; &#39;not in&#39;)
+python_str_c  = (wsp | letter | digit | &#39;(&#39; | &#39;)&#39; | &#39;.&#39; | &#39;{&#39; | &#39;}&#39; |
+                 &#39;-&#39; | &#39;_&#39; | &#39;*&#39; | &#39;#&#39; | &#39;:&#39; | &#39;;&#39; | &#39;,&#39; | &#39;/&#39; | &#39;?&#39; |
+                 &#39;[&#39; | &#39;]&#39; | &#39;!&#39; | &#39;~&#39; | &#39;`&#39; | &#39;@&#39; | &#39;$&#39; | &#39;%&#39; | &#39;^&#39; |
+                 &#39;&amp;&#39; | &#39;=&#39; | &#39;+&#39; | &#39;|&#39; | &#39;&lt;&#39; | &#39;&gt;&#39; )
+dquote        = &#39;&quot;&#39;
+squote        = &#39;\&#39;&#39;
+python_str    = (squote &lt;(python_str_c | dquote)*&gt;:s squote |
+                 dquote &lt;(python_str_c | squote)*&gt;:s dquote) -&gt; (&#39;val&#39;, s)
+env_var       = (&#39;python_version&#39; | &#39;python_full_version&#39; |
+                 &#39;os_name&#39; | &#39;sys_platform&#39; | &#39;platform_release&#39; |
+                 &#39;platform_system&#39; | &#39;platform_version&#39; |
+                 &#39;platform_machine&#39; | &#39;platform_python_implementation&#39; |
+                 &#39;implementation_name&#39; | &#39;implementation_version&#39; |
+                 &#39;extra&#39; # ONLY when defined by a containing layer
+                 ):varname -&gt; (&#39;env&#39;, lookup(varname))
+marker_var    = wsp* (env_var | python_str)
+marker_expr   = marker_var:l marker_op:o marker_var:r -&gt; (o, l, r)
+              | wsp* &#39;(&#39; marker:m wsp* &#39;)&#39; -&gt; m
+marker_and    = marker_and:l wsp* &#39;and&#39; marker_expr:r -&gt; (&#39;and&#39;, l, r)
+              | marker_expr:m -&gt; m
+marker_or     = marker_or:l wsp* &#39;or&#39; marker_and:r -&gt; (&#39;or&#39;, l, r)
+              | marker_and:m -&gt; m
+marker        = marker_or
+quoted_marker = &#39;;&#39; wsp* marker
+identifier_end = letterOrDigit | ((&#39;-&#39; | &#39;_&#39; | &#39;.&#39; )* letterOrDigit)
+identifier    = &lt; letterOrDigit identifier_end* &gt;
+name          = identifier
+extra         = identifier
+extras_list   = extra:i (wsp* &#39;,&#39; wsp* extra)*:ids -&gt; [i] + ids
+extras        = &#39;[&#39; wsp* extras_list?:e wsp* &#39;]&#39; -&gt; e
+name_req      = (name:n wsp* extras?:e wsp* versionspec?:v wsp* quoted_marker?:m
+                 -&gt; (n, e or [], v or [], m))
+url_req       = (name:n wsp* extras?:e wsp* urlspec:v (wsp+ | end) quoted_marker?:m
+                 -&gt; (n, e or [], v, m))
+specification = wsp* ( url_req | name_req ):s wsp* -&gt; s
+# The result is a tuple - name, list-of-extras,
+# list-of-version-constraints-or-a-url, marker-ast or None
+
+
+URI_reference = &lt;URI | relative_ref&gt;
+URI           = scheme &#39;:&#39; hier_part (&#39;?&#39; query )? ( &#39;#&#39; fragment)?
+hier_part     = (&#39;//&#39; authority path_abempty) | path_absolute | path_rootless | path_empty
+absolute_URI  = scheme &#39;:&#39; hier_part ( &#39;?&#39; query )?
+relative_ref  = relative_part ( &#39;?&#39; query )? ( &#39;#&#39; fragment )?
+relative_part = &#39;//&#39; authority path_abempty | path_absolute | path_noscheme | path_empty
+scheme        = letter ( letter | digit | &#39;+&#39; | &#39;-&#39; | &#39;.&#39;)*
+authority     = ( userinfo &#39;@&#39; )? host ( &#39;:&#39; port )?
+userinfo      = ( unreserved | pct_encoded | sub_delims | &#39;:&#39;)*
+host          = IP_literal | IPv4address | reg_name
+port          = digit*
+IP_literal    = &#39;[&#39; ( IPv6address | IPvFuture) &#39;]&#39;
+IPvFuture     = &#39;v&#39; hexdig+ &#39;.&#39; ( unreserved | sub_delims | &#39;:&#39;)+
+IPv6address   = (
+                  ( h16 &#39;:&#39;){6} ls32
+                  | &#39;::&#39; ( h16 &#39;:&#39;){5} ls32
+                  | ( h16 )?  &#39;::&#39; ( h16 &#39;:&#39;){4} ls32
+                  | ( ( h16 &#39;:&#39;)? h16 )? &#39;::&#39; ( h16 &#39;:&#39;){3} ls32
+                  | ( ( h16 &#39;:&#39;){0,2} h16 )? &#39;::&#39; ( h16 &#39;:&#39;){2} ls32
+                  | ( ( h16 &#39;:&#39;){0,3} h16 )? &#39;::&#39; h16 &#39;:&#39; ls32
+                  | ( ( h16 &#39;:&#39;){0,4} h16 )? &#39;::&#39; ls32
+                  | ( ( h16 &#39;:&#39;){0,5} h16 )? &#39;::&#39; h16
+                  | ( ( h16 &#39;:&#39;){0,6} h16 )? &#39;::&#39; )
+h16           = hexdig{1,4}
+ls32          = ( h16 &#39;:&#39; h16) | IPv4address
+IPv4address   = dec_octet &#39;.&#39; dec_octet &#39;.&#39; dec_octet &#39;.&#39; dec_octet
+nz            = ~&#39;0&#39; digit
+dec_octet     = (
+                  digit # 0-9
+                  | nz digit # 10-99
+                  | &#39;1&#39; digit{2} # 100-199
+                  | &#39;2&#39; (&#39;0&#39; | &#39;1&#39; | &#39;2&#39; | &#39;3&#39; | &#39;4&#39;) digit # 200-249
+                  | &#39;25&#39; (&#39;0&#39; | &#39;1&#39; | &#39;2&#39; | &#39;3&#39; | &#39;4&#39; | &#39;5&#39;) )# %250-255
+reg_name = ( unreserved | pct_encoded | sub_delims)*
+path = (
+        path_abempty # begins with &#39;/&#39; or is empty
+        | path_absolute # begins with &#39;/&#39; but not &#39;//&#39;
+        | path_noscheme # begins with a non-colon segment
+        | path_rootless # begins with a segment
+        | path_empty ) # zero characters
+path_abempty  = ( &#39;/&#39; segment)*
+path_absolute = &#39;/&#39; ( segment_nz ( &#39;/&#39; segment)* )?
+path_noscheme = segment_nz_nc ( &#39;/&#39; segment)*
+path_rootless = segment_nz ( &#39;/&#39; segment)*
+path_empty    = pchar{0}
+segment       = pchar*
+segment_nz    = pchar+
+segment_nz_nc = ( unreserved | pct_encoded | sub_delims | &#39;@&#39;)+
+                # non-zero-length segment without any colon &#39;:&#39;
+pchar         = unreserved | pct_encoded | sub_delims | &#39;:&#39; | &#39;@&#39;
+query         = ( pchar | &#39;/&#39; | &#39;?&#39;)*
+fragment      = ( pchar | &#39;/&#39; | &#39;?&#39;)*
+pct_encoded   = &#39;%&#39; hexdig
+unreserved    = letter | digit | &#39;-&#39; | &#39;.&#39; | &#39;_&#39; | &#39;~&#39;
+reserved      = gen_delims | sub_delims
+gen_delims    = &#39;:&#39; | &#39;/&#39; | &#39;?&#39; | &#39;#&#39; | &#39;(&#39; | &#39;)?&#39; | &#39;@&#39;
+sub_delims    = &#39;!&#39; | &#39;$&#39; | &#39;&amp;&#39; | &#39;\&#39;&#39; | &#39;(&#39; | &#39;)&#39; | &#39;*&#39; | &#39;+&#39; | &#39;,&#39; | &#39;;&#39; | &#39;=&#39;
+hexdig        = digit | &#39;a&#39; | &#39;A&#39; | &#39;b&#39; | &#39;B&#39; | &#39;c&#39; | &#39;C&#39; | &#39;d&#39; | &#39;D&#39; | &#39;e&#39; | &#39;E&#39; | &#39;f&#39; | &#39;F&#39;
+</pre></div>
+</td></tr></table></div>
+</div>
+</dd>
+</dl>
+</div>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="marker.html" class="btn btn-neutral float-right" title="hbutils.dependency.marker" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="hbutils.dependency" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/dependency
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../v0.0.1/index.html">v0.0.1</a></dd>
+                        <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
+                        <dd><a href="../../../../v0.1.1/index.html">v0.1.1</a></dd>
+                        <dd><a href="../../../../v0.2.0/index.html">v0.2.0</a></dd>
+                        <dd><a href="../../../../v0.3.0/index.html">v0.3.0</a></dd>
+                        <dd><a href="../../../../v0.3.1/index.html">v0.3.1</a></dd>
+                        <dd><a href="../../../../v0.3.2/index.html">v0.3.2</a></dd>
+                        <dd><a href="../../../../v0.3.3/index.html">v0.3.3</a></dd>
+                        <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
+                        <dd><a href="../../../../v0.4.1/index.html">v0.4.1</a></dd>
+                        <dd><a href="../../../../v0.4.2/index.html">v0.4.2</a></dd>
+                        <dd><a href="../../../../v0.4.3/index.html">v0.4.3</a></dd>
+                        <dd><a href="../../../../v0.4.4/index.html">v0.4.4</a></dd>
+                        <dd><a href="../../../../v0.4.5/index.html">v0.4.5</a></dd>
+                        <dd><a href="../../../../v0.4.6/index.html">v0.4.6</a></dd>
+                        <dd><a href="../../../../v0.4.7/index.html">v0.4.7</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="grammar.html">dev/dependency</a></dd>
+                        <dd><a href="../../../../main/index.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
