@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; hbutils 0.4.7 documentation</title>
+  <title>Index &mdash; hbutils 0.5.0 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.4.7
+                0.5.0
               </div>
             
           
@@ -101,6 +101,7 @@
 <li class="toctree-l1"><a class="reference internal" href="api_doc/reflection/index.html">hbutils.reflection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api_doc/scale/index.html">hbutils.scale</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api_doc/string/index.html">hbutils.string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api_doc/system/index.html">hbutils.system</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api_doc/testing/index.html">hbutils.testing</a></li>
 </ul>
 
@@ -180,6 +181,7 @@
  | <a href="#I"><strong>I</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
  | <a href="#P"><strong>P</strong></a>
  | <a href="#Q"><strong>Q</strong></a>
  | <a href="#R"><strong>R</strong></a>
@@ -231,6 +233,8 @@
 </li>
         <li><a href="api_doc/design/singleton.html#hbutils.design.singleton.SingletonMark.__init__">(hbutils.design.singleton.SingletonMark method)</a>
 </li>
+        <li><a href="api_doc/testing/capture.html#hbutils.testing.capture.OutputCaptureResult.__init__">(hbutils.testing.capture.OutputCaptureResult method)</a>
+</li>
         <li><a href="api_doc/testing/generator.html#hbutils.testing.generator.AETGGenerator.__init__">(hbutils.testing.generator.AETGGenerator method)</a>
 </li>
         <li><a href="api_doc/testing/generator.html#hbutils.testing.generator.BaseGenerator.__init__">(hbutils.testing.generator.BaseGenerator method)</a>
@@ -276,6 +280,8 @@
 </li>
       <li><a href="api_doc/color/model.html#hbutils.color.model.Color.alpha">alpha() (hbutils.color.model.Color property)</a>
 </li>
+      <li><a href="api_doc/encoding/ansi.html#hbutils.encoding.ansi.ansi_unescape">ansi_unescape() (in module hbutils.encoding.ansi)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api_doc/reflection/func.html#hbutils.reflection.func.args_iter">args_iter() (in module hbutils.reflection.func)</a>
@@ -306,6 +312,8 @@
 <h2 id="C">C</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api_doc/testing/capture.html#hbutils.testing.capture.capture_output">capture_output() (in module hbutils.testing.capture)</a>
+</li>
       <li><a href="api_doc/testing/generator.html#hbutils.testing.generator.AETGGenerator.cases">cases() (hbutils.testing.generator.AETGGenerator method)</a>
 
       <ul>
@@ -323,6 +331,8 @@
       <li><a href="api_doc/reflection/clazz.html#hbutils.reflection.clazz.common_base">common_base() (in module hbutils.reflection.clazz)</a>
 </li>
       <li><a href="api_doc/model/clazz.html#hbutils.model.clazz.constructor">constructor() (in module hbutils.model.clazz)</a>
+</li>
+      <li><a href="api_doc/system/filesystem.html#hbutils.system.filesystem.copy">copy() (in module hbutils.system.filesystem)</a>
 </li>
       <li><a href="api_doc/collection/dimension.html#hbutils.collection.dimension.cube_shape">cube_shape() (in module hbutils.collection.dimension)</a>
 </li>
@@ -511,6 +521,13 @@
 </li>
       </ul></li>
       <li>
+    hbutils.encoding.ansi
+
+      <ul>
+        <li><a href="api_doc/encoding/ansi.html#module-hbutils.encoding.ansi">module</a>
+</li>
+      </ul></li>
+      <li>
     hbutils.encoding.base64
 
       <ul>
@@ -552,8 +569,6 @@
         <li><a href="api_doc/model/compare.html#module-hbutils.model.compare">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     hbutils.model.enum
 
@@ -568,6 +583,8 @@
         <li><a href="api_doc/model/raw.html#module-hbutils.model.raw">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     hbutils.model.repr
 
@@ -695,6 +712,20 @@
 </li>
       </ul></li>
       <li>
+    hbutils.system
+
+      <ul>
+        <li><a href="api_doc/system/index.html#module-hbutils.system">module</a>
+</li>
+      </ul></li>
+      <li>
+    hbutils.system.filesystem
+
+      <ul>
+        <li><a href="api_doc/system/filesystem.html#module-hbutils.system.filesystem">module</a>
+</li>
+      </ul></li>
+      <li>
     hbutils.testing
 
       <ul>
@@ -702,10 +733,24 @@
 </li>
       </ul></li>
       <li>
+    hbutils.testing.capture
+
+      <ul>
+        <li><a href="api_doc/testing/capture.html#module-hbutils.testing.capture">module</a>
+</li>
+      </ul></li>
+      <li>
     hbutils.testing.generator
 
       <ul>
         <li><a href="api_doc/testing/generator.html#module-hbutils.testing.generator">module</a>
+</li>
+      </ul></li>
+      <li>
+    hbutils.testing.isolated
+
+      <ul>
+        <li><a href="api_doc/testing/isolated.html#module-hbutils.testing.isolated">module</a>
 </li>
       </ul></li>
       <li><a href="api_doc/color/model.html#hbutils.color.model.Color.hls">hls() (hbutils.color.model.Color property)</a>
@@ -722,11 +767,13 @@
 </li>
       <li><a href="api_doc/reflection/imports.html#hbutils.reflection.imports.import_object">import_object() (in module hbutils.reflection.imports)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api_doc/testing/generator.html#hbutils.testing.generator.MatrixGenerator.includes">includes() (hbutils.testing.generator.MatrixGenerator property)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api_doc/model/enum.html#hbutils.model.enum.int_enum_loads">int_enum_loads() (in module hbutils.model.enum)</a>
+</li>
+      <li><a href="api_doc/testing/isolated.html#hbutils.testing.isolated.isolated_directory">isolated_directory() (in module hbutils.testing.isolated)</a>
 </li>
       <li><a href="api_doc/reflection/imports.html#hbutils.reflection.imports.iter_import_objects">iter_import_objects() (in module hbutils.reflection.imports)</a>
 </li>
@@ -777,6 +824,8 @@
         <li><a href="api_doc/design/singleton.html#module-hbutils.design.singleton">hbutils.design.singleton</a>
 </li>
         <li><a href="api_doc/encoding/index.html#module-hbutils.encoding">hbutils.encoding</a>
+</li>
+        <li><a href="api_doc/encoding/ansi.html#module-hbutils.encoding.ansi">hbutils.encoding.ansi</a>
 </li>
         <li><a href="api_doc/encoding/base64.html#module-hbutils.encoding.base64">hbutils.encoding.base64</a>
 </li>
@@ -830,9 +879,17 @@
 </li>
         <li><a href="api_doc/string/trunc.html#module-hbutils.string.trunc">hbutils.string.trunc</a>
 </li>
+        <li><a href="api_doc/system/index.html#module-hbutils.system">hbutils.system</a>
+</li>
+        <li><a href="api_doc/system/filesystem.html#module-hbutils.system.filesystem">hbutils.system.filesystem</a>
+</li>
         <li><a href="api_doc/testing/index.html#module-hbutils.testing">hbutils.testing</a>
 </li>
+        <li><a href="api_doc/testing/capture.html#module-hbutils.testing.capture">hbutils.testing.capture</a>
+</li>
         <li><a href="api_doc/testing/generator.html#module-hbutils.testing.generator">hbutils.testing.generator</a>
+</li>
+        <li><a href="api_doc/testing/isolated.html#module-hbutils.testing.isolated">hbutils.testing.isolated</a>
 </li>
       </ul></li>
   </ul></td>
@@ -862,6 +919,14 @@
       <li><a href="api_doc/collection/functional.html#hbutils.collection.functional.nested_map">nested_map() (in module hbutils.collection.functional)</a>
 </li>
       <li><a href="api_doc/collection/structural.html#hbutils.collection.structural.nested_walk">nested_walk() (in module hbutils.collection.structural)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api_doc/testing/capture.html#hbutils.testing.capture.OutputCaptureResult">OutputCaptureResult (class in hbutils.testing.capture)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -985,6 +1050,8 @@
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api_doc/system/filesystem.html#hbutils.system.filesystem.touch">touch() (in module hbutils.system.filesystem)</a>
+</li>
       <li><a href="api_doc/string/trunc.html#hbutils.string.trunc.truncate">truncate() (in module hbutils.string.trunc)</a>
 </li>
       <li><a href="api_doc/testing/generator.html#hbutils.testing.generator.AETGGenerator.tuple_cases">tuple_cases() (hbutils.testing.generator.AETGGenerator method)</a>
@@ -1083,9 +1150,8 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../dev/testings/index.html">dev/testings</a></dd>
-                        <dd><a href="../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="genindex.html">main</a></dd>
+                        <dd><a href="../dev/dependency/index.html">dev/dependency</a></dd>
                 </dl>
         </div>
     </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>hbutils.testing &mdash; hbutils 0.4.7 documentation</title>
+  <title>hbutils.testing &mdash; hbutils 0.5.0 documentation</title>
   
 
   
@@ -37,8 +37,8 @@
   <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="hbutils.testing.generator" href="generator.html" />
-    <link rel="prev" title="hbutils.string.trunc" href="../string/trunc.html" /> 
+    <link rel="next" title="hbutils.testing.capture" href="capture.html" />
+    <link rel="prev" title="hbutils.system.filesystem" href="../system/filesystem.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -62,7 +62,7 @@
             
             
               <div class="version">
-                0.4.7
+                0.5.0
               </div>
             
           
@@ -103,8 +103,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../reflection/index.html">hbutils.reflection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../scale/index.html">hbutils.scale</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../string/index.html">hbutils.string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../system/index.html">hbutils.system</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">hbutils.testing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="capture.html">hbutils.testing.capture</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generator.html">hbutils.testing.generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="isolated.html">hbutils.testing.isolated</a></li>
 </ul>
 </li>
 </ul>
@@ -181,10 +184,19 @@
 </dl>
 <div class="toctree-wrapper compound">
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="capture.html">hbutils.testing.capture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="capture.html#capture-output">capture_output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="capture.html#outputcaptureresult">OutputCaptureResult</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="generator.html">hbutils.testing.generator</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="generator.html#basegenerator">BaseGenerator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generator.html#matrixgenerator">MatrixGenerator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="generator.html#aetggenerator">AETGGenerator</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="isolated.html">hbutils.testing.isolated</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="isolated.html#isolated-directory">isolated_directory</a></li>
 </ul>
 </li>
 </ul>
@@ -200,10 +212,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="generator.html" class="btn btn-neutral float-right" title="hbutils.testing.generator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="capture.html" class="btn btn-neutral float-right" title="hbutils.testing.capture" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../string/trunc.html" class="btn btn-neutral float-left" title="hbutils.string.trunc" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../system/filesystem.html" class="btn btn-neutral float-left" title="hbutils.system.filesystem" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -255,9 +267,8 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/testings/api_doc/testing/index.html">dev/testings</a></dd>
-                        <dd><a href="../../../dev/dependency/api_doc/testing/index.html">dev/dependency</a></dd>
                         <dd><a href="index.html">main</a></dd>
+                        <dd><a href="../../../dev/dependency/api_doc/testing/index.html">dev/dependency</a></dd>
                 </dl>
         </div>
     </div>
