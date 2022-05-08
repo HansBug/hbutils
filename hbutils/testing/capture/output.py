@@ -36,8 +36,6 @@ def capture_output() -> ContextManager[OutputCaptureResult]:
     Overview:
         Capture all the output to ``sys.stdout`` and ``sys.stderr`` in this ``with`` block.
 
-    :param no_ansi: Unescape all the ansi escaped string.
-
     Examples::
         >>> from hbutils.testing import capture_output
         >>> import sys
