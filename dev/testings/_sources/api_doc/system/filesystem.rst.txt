@@ -12,3 +12,10 @@ touch
 .. autofunction:: touch
 
 
+copy
+---------------------
+
+.. autofunction:: copy
+
+
+

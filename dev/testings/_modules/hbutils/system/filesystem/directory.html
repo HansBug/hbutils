@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>hbutils.testing.isolated.directory &mdash; hbutils 0.4.7 documentation</title>
+  <title>hbutils.system.filesystem.directory &mdash; hbutils 0.4.7 documentation</title>
   
 
   
@@ -150,7 +150,7 @@
         
           <li><a href="../../../index.html">Module code</a> &raquo;</li>
         
-      <li>hbutils.testing.isolated.directory</li>
+      <li>hbutils.system.filesystem.directory</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -167,79 +167,38 @@
             
     
     
-  <h1>Source code for hbutils.testing.isolated.directory</h1><div class="highlight"><pre>
+  <h1>Source code for hbutils.system.filesystem.directory</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Overview:</span>
-<span class="sd">    Isolation for directory.</span>
+<span class="sd">    Functions for directory processing.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">tempfile</span>
-<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">ContextManager</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Optional</span>
-
-<span class="kn">from</span> <span class="nn">...system</span> <span class="kn">import</span> <span class="n">copy</span>
+<span class="kn">import</span> <span class="nn">errno</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;isolated_directory&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;copy&#39;</span><span class="p">,</span>
 <span class="p">]</span>
 
 
-<div class="viewcode-block" id="isolated_directory"><a class="viewcode-back" href="../../../../api_doc/testing/isolated.html#hbutils.testing.isolated.isolated_directory">[docs]</a><span class="nd">@contextmanager</span>
-<span class="k">def</span> <span class="nf">isolated_directory</span><span class="p">(</span><span class="n">mapping</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">:</span>
+<div class="viewcode-block" id="copy"><a class="viewcode-back" href="../../../../api_doc/system/filesystem.html#hbutils.system.filesystem.copy">[docs]</a><span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
-<span class="sd">        Do something in an isolated directory.</span>
+<span class="sd">        Copy a file or a directory from ``src`` to ``dst``.</span>
+<span class="sd">        ``src`` can be a file or a directory, both are supported.</span>
 
-<span class="sd">    :param mapping: Mappings for the isolated directory.</span>
+<span class="sd">        From `Stack Overflow - Copy file or directories recursively in Python \</span>
+<span class="sd">        &lt;https://stackoverflow.com/a/1994840/6995899&gt;`_.</span>
 
-<span class="sd">    Examples::</span>
-<span class="sd">        - Simple usage</span>
-
-<span class="sd">        &gt;&gt;&gt; import os</span>
-<span class="sd">        &gt;&gt;&gt; import pathlib</span>
-<span class="sd">        &gt;&gt;&gt; from hbutils.testing import isolated_directory</span>
-<span class="sd">        &gt;&gt;&gt;</span>
-<span class="sd">        &gt;&gt;&gt; with isolated_directory():</span>
-<span class="sd">        ...     with open(&#39;file.txt&#39;, &#39;w&#39;) as f:</span>
-<span class="sd">        ...         print(&quot;Line 1&quot;, file=f)</span>
-<span class="sd">        ...         print(&quot;Line 2rd&quot;, file=f)</span>
-<span class="sd">        ...     print(os.listdir(&#39;.&#39;))</span>
-<span class="sd">        ...     print(pathlib.Path(&#39;file.txt&#39;).read_text())</span>
-<span class="sd">        [&#39;file.txt&#39;]</span>
-<span class="sd">        Line 1</span>
-<span class="sd">        Line 2rd</span>
-<span class="sd">        &gt;&gt;&gt; print(os.listdir(&#39;.&#39;))</span>
-<span class="sd">        [&#39;hbutils&#39;, &#39;README.md&#39;, &#39;requirements.txt&#39;, ...]</span>
-
-
-<span class="sd">        - Mapping files and directory inside</span>
-
-<span class="sd">        &gt;&gt;&gt; import os</span>
-<span class="sd">        &gt;&gt;&gt; from hbutils.testing import isolated_directory</span>
-<span class="sd">        &gt;&gt;&gt;</span>
-<span class="sd">        &gt;&gt;&gt; with isolated_directory({</span>
-<span class="sd">        ...     &#39;ts&#39;: &#39;hbutils/testing&#39;,</span>
-<span class="sd">        ...     &#39;README.md&#39;: &#39;README.md&#39;,</span>
-<span class="sd">        ... }):</span>
-<span class="sd">        ...     print(os.listdir(&#39;.&#39;))</span>
-<span class="sd">        ...     print(os.listdir(&#39;ts&#39;))</span>
-<span class="sd">        [&#39;README.md&#39;, &#39;ts&#39;]</span>
-<span class="sd">        [&#39;capture&#39;, &#39;generator&#39;, &#39;isolated&#39;, &#39;__init__.py&#39;]</span>
-
+<span class="sd">    :param src: Source path.</span>
+<span class="sd">    :param dst: Destination path.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">_original_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">curdir</span><span class="p">)</span>
-    <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">dirname</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">dst</span><span class="p">,</span> <span class="n">src</span> <span class="ow">in</span> <span class="p">(</span><span class="n">mapping</span> <span class="ow">or</span> <span class="p">{})</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="n">copy</span><span class="p">(</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">_original_path</span><span class="p">,</span> <span class="n">src</span><span class="p">),</span>
-                <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">dirname</span><span class="p">,</span> <span class="n">dst</span><span class="p">),</span>
-            <span class="p">)</span>
-
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">dirname</span><span class="p">)</span>
-            <span class="k">yield</span>
-        <span class="k">finally</span><span class="p">:</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">_original_path</span><span class="p">)</span></div>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copytree</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">exc</span><span class="o">.</span><span class="n">errno</span> <span class="ow">in</span> <span class="p">(</span><span class="n">errno</span><span class="o">.</span><span class="n">ENOTDIR</span><span class="p">,</span> <span class="n">errno</span><span class="o">.</span><span class="n">EINVAL</span><span class="p">):</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">dst</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span>  <span class="c1"># pragma: no cover</span></div>
 </pre></div>
 
 

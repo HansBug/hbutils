@@ -190,11 +190,21 @@
 <h2>isolated_directory<a class="headerlink" href="#isolated-directory" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="hbutils.testing.isolated.isolated_directory">
-<code class="sig-prename descclassname">hbutils.testing.isolated.</code><code class="sig-name descname">isolated_directory</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; AbstractContextManager<a class="reference internal" href="../../_modules/hbutils/testing/isolated/directory.html#isolated_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.isolated.isolated_directory" title="Permalink to this definition">¶</a></dt>
-<dd><dl>
+<code class="sig-prename descclassname">hbutils.testing.isolated.</code><code class="sig-name descname">isolated_directory</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mapping</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; AbstractContextManager<a class="reference internal" href="../../_modules/hbutils/testing/isolated/directory.html#isolated_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.isolated.isolated_directory" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
 <dt>Overview:</dt><dd><p>Do something in an isolated directory.</p>
 </dd>
-<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mapping</strong> – Mappings for the isolated directory.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pathlib</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">isolated_directory</span>
 <span class="go">&gt;&gt;&gt;</span>
@@ -209,6 +219,22 @@
 <span class="go">Line 2rd</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">))</span>
 <span class="go">[&#39;hbutils&#39;, &#39;README.md&#39;, &#39;requirements.txt&#39;, ...]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Mapping files and directory inside</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">isolated_directory</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">isolated_directory</span><span class="p">({</span>
+<span class="gp">... </span>    <span class="s1">&#39;ts&#39;</span><span class="p">:</span> <span class="s1">&#39;hbutils/testing&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;README.md&#39;</span><span class="p">:</span> <span class="s1">&#39;README.md&#39;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">}):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;ts&#39;</span><span class="p">))</span>
+<span class="go">[&#39;README.md&#39;, &#39;ts&#39;]</span>
+<span class="go">[&#39;capture&#39;, &#39;generator&#39;, &#39;isolated&#39;, &#39;__init__.py&#39;]</span>
 </pre></div>
 </div>
 </dd>
