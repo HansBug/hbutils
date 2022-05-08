@@ -8,4 +8,7 @@ hbutils.testing
 .. toctree::
     :maxdepth: 3
 
+    capture
     generator
+    isolated
+

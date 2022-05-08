@@ -8,6 +8,7 @@ hbutils.encoding
 .. toctree::
     :maxdepth: 3
 
+    ansi
     base64
     decode
     hash
