@@ -25,3 +25,15 @@ class TestLoggingIsolatedDirectory:
 
         assert not os.path.exists(_filename)
         assert os.path.exists('README.md')
+
+    def test_isolated_directory_with_mapping(self):
+        readme = pathlib.Path('README.md').read_text()
+        testing_init = pathlib.Path('hbutils/testing/__init__.py').read_text()
+        testing_dirs = os.listdir('hbutils/testing')
+        with isolated_directory({
+            'README.md': 'README.md',
+            'ts': 'hbutils/testing',
+        }):
+            assert pathlib.Path('README.md').read_text() == readme
+            assert pathlib.Path('ts/__init__.py').read_text() == testing_init
+            assert os.listdir('ts') == testing_dirs

@@ -5,7 +5,9 @@ Overview:
 import os
 import tempfile
 from contextlib import contextmanager
-from typing import ContextManager
+from typing import ContextManager, Dict, Optional
+
+from ...system import copy
 
 __all__ = [
     'isolated_directory',
@@ -13,12 +15,16 @@ __all__ = [
 
 
 @contextmanager
-def isolated_directory() -> ContextManager:
+def isolated_directory(mapping: Optional[Dict[str, str]] = None) -> ContextManager:
     """
     Overview:
         Do something in an isolated directory.
 
+    :param mapping: Mappings for the isolated directory.
+
     Examples::
+        - Simple usage
+
         >>> import os
         >>> import pathlib
         >>> from hbutils.testing import isolated_directory
@@ -35,9 +41,30 @@ def isolated_directory() -> ContextManager:
         >>> print(os.listdir('.'))
         ['hbutils', 'README.md', 'requirements.txt', ...]
 
+
+        - Mapping files and directory inside
+
+        >>> import os
+        >>> from hbutils.testing import isolated_directory
+        >>>
+        >>> with isolated_directory({
+        ...     'ts': 'hbutils/testing',
+        ...     'README.md': 'README.md',
+        ... }):
+        ...     print(os.listdir('.'))
+        ...     print(os.listdir('ts'))
+        ['README.md', 'ts']
+        ['capture', 'generator', 'isolated', '__init__.py']
+
     """
     _original_path = os.path.abspath(os.curdir)
     with tempfile.TemporaryDirectory() as dirname:
+        for dst, src in (mapping or {}).items():
+            copy(
+                os.path.join(_original_path, src),
+                os.path.join(dirname, dst),
+            )
+
         try:
             os.chdir(dirname)
             yield
