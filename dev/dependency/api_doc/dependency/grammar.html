@@ -187,7 +187,7 @@
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>How to get all the environment values.</p>
-<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<div class="highlight-python notranslate"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -219,7 +219,7 @@
 <span class="normal">30</span>
 <span class="normal">31</span>
 <span class="normal">32</span>
-<span class="normal">33</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="normal">33</span></pre></div></td><td class="code"><div><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">platform</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 
@@ -252,13 +252,13 @@
     <span class="s1">&#39;python_version&#39;</span><span class="p">:</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">platform</span><span class="o">.</span><span class="n">python_version_tuple</span><span class="p">()[:</span><span class="mi">2</span><span class="p">]),</span>
     <span class="s1">&#39;sys_platform&#39;</span><span class="p">:</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="p">,</span>
 <span class="p">}</span>
-</pre></div>
-</td></tr></table></div>
+</pre></div></td></tr></table></div>
+</div>
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>And this is the grammar of this dependency</p>
-<div class="highlight-text notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">  1</span>
+<div class="highlight-text notranslate"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">  1</span>
 <span class="normal">  2</span>
 <span class="normal">  3</span>
 <span class="normal">  4</span>
@@ -362,7 +362,7 @@
 <span class="normal">102</span>
 <span class="normal">103</span>
 <span class="normal">104</span>
-<span class="normal">105</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span>wsp           = &#39; &#39; | &#39;	&#39;
+<span class="normal">105</span></pre></div></td><td class="code"><div><pre><span></span>wsp           = &#39; &#39; | &#39;	&#39;
 version_cmp   = wsp* &lt;&#39;&lt;=&#39; | &#39;&lt;&#39; | &#39;!=&#39; | &#39;==&#39; | &#39;&gt;=&#39; | &#39;&gt;&#39; | &#39;~=&#39; | &#39;===&#39;&gt;
 version       = wsp* &lt;( letterOrDigit | &#39;-&#39; | &#39;_&#39; | &#39;.&#39; | &#39;*&#39; | &#39;+&#39; | &#39;!&#39; )+&gt;
 version_one   = version_cmp:op version:v wsp* -&gt; (op, v)
@@ -467,8 +467,8 @@ reserved      = gen_delims | sub_delims
 gen_delims    = &#39;:&#39; | &#39;/&#39; | &#39;?&#39; | &#39;#&#39; | &#39;(&#39; | &#39;)?&#39; | &#39;@&#39;
 sub_delims    = &#39;!&#39; | &#39;$&#39; | &#39;&amp;&#39; | &#39;\&#39;&#39; | &#39;(&#39; | &#39;)&#39; | &#39;*&#39; | &#39;+&#39; | &#39;,&#39; | &#39;;&#39; | &#39;=&#39;
 hexdig        = digit | &#39;a&#39; | &#39;A&#39; | &#39;b&#39; | &#39;B&#39; | &#39;c&#39; | &#39;C&#39; | &#39;d&#39; | &#39;D&#39; | &#39;e&#39; | &#39;E&#39; | &#39;f&#39; | &#39;F&#39;
-</pre></div>
-</td></tr></table></div>
+</pre></div></td></tr></table></div>
+</div>
 </div>
 </dd>
 </dl>
@@ -538,6 +538,7 @@ hexdig        = digit | &#39;a&#39; | &#39;A&#39; | &#39;b&#39; | &#39;B&#39; | 
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../testings/index.html">dev/testings</a></dd>
                         <dd><a href="grammar.html">dev/dependency</a></dd>
                         <dd><a href="../../../../main/index.html">main</a></dd>
                 </dl>
