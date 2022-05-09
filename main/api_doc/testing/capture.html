@@ -219,10 +219,48 @@
 <dl class="py class">
 <dt id="hbutils.testing.capture.OutputCaptureResult">
 <em class="property">class </em><code class="sig-prename descclassname">hbutils.testing.capture.</code><code class="sig-name descname">OutputCaptureResult</code><a class="reference internal" href="../../_modules/hbutils/testing/capture/output.html#OutputCaptureResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.capture.OutputCaptureResult" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py method">
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Result model of output capturing.</p>
+</dd>
+</dl>
+<dl class="py method">
 <dt id="hbutils.testing.capture.OutputCaptureResult.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/capture/output.html#OutputCaptureResult.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.capture.OutputCaptureResult.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+<dd><p>Constructor of <a class="reference internal" href="#hbutils.testing.capture.OutputCaptureResult" title="hbutils.testing.capture.OutputCaptureResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">OutputCaptureResult</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.capture.OutputCaptureResult.put_result">
+<code class="sig-name descname">put_result</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">stdout</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">stderr</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/capture/output.html#OutputCaptureResult.put_result"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.capture.OutputCaptureResult.put_result" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put result inside this model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stdout</strong> – Stdout result.</p></li>
+<li><p><strong>stderr</strong> – Stderr result.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.capture.OutputCaptureResult.stderr">
+<em class="property">property </em><code class="sig-name descname">stderr</code><a class="headerlink" href="#hbutils.testing.capture.OutputCaptureResult.stderr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stderr of the output result.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Do not use this property when <a class="reference internal" href="#hbutils.testing.capture.capture_output" title="hbutils.testing.capture.capture_output"><code class="xref py py-func docutils literal notranslate"><span class="pre">capture_output()</span></code></a>’s with block is not quited,             or this property will be jammed due to the deadlock inside.</p>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.capture.OutputCaptureResult.stdout">
+<em class="property">property </em><code class="sig-name descname">stdout</code><a class="headerlink" href="#hbutils.testing.capture.OutputCaptureResult.stdout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stdout of the output result.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Do not use this property when <a class="reference internal" href="#hbutils.testing.capture.capture_output" title="hbutils.testing.capture.capture_output"><code class="xref py py-func docutils literal notranslate"><span class="pre">capture_output()</span></code></a>’s with block is not quited,             or this property will be jammed due to the deadlock inside.</p>
+</div>
 </dd></dl>
 
 </dd></dl>
@@ -295,8 +333,8 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="capture.html">main</a></dd>
+                        <dd><a href="../../../dev/dependency/index.html">dev/dependency</a></dd>
                 </dl>
         </div>
     </div>
