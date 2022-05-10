@@ -10,8 +10,7 @@ import re
 import warnings
 from typing import Optional, Union, Tuple
 
-import webcolors
-
+from .base import _name_to_hex
 from ..reflection.func import post_process, raising, freduce, dynamic_call, warning_
 
 __all__ = ['Color']
@@ -259,7 +258,7 @@ class Color:
                 _rgb_hex = c
             else:
                 try:
-                    _rgb_hex = webcolors.name_to_hex(c)
+                    _rgb_hex = _name_to_hex(c)
                 except ValueError:
                     raise ValueError("Invalid string color, matching of pattern {pattern} or english name "
                                      "expected but {actual} found.".format(pattern=repr(_RGB_COLOR_PATTERN.pattern),
