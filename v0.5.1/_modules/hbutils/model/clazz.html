@@ -1,0 +1,664 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hbutils.model.clazz &mdash; hbutils 0.5.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> hbutils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.5.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/installation/index.html">Installation</a></li>
+</ul>
+<p class="caption"><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/algorithm/index.html">hbutils.algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/collection/index.html">hbutils.collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/color/index.html">hbutils.color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/config/index.html">hbutils.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/design/index.html">hbutils.design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/model/index.html">hbutils.model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/random/index.html">hbutils.random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/reflection/index.html">hbutils.reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/scale/index.html">hbutils.scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/string/index.html">hbutils.string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/system/index.html">hbutils.system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/testing/index.html">hbutils.testing</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">hbutils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>hbutils.model.clazz</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <h1>Source code for hbutils.model.clazz</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Overview:</span>
+<span class="sd">    Useful functions for build class models.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">textwrap</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Iterable</span>
+
+<span class="kn">from</span> <span class="nn">._info</span> <span class="kn">import</span> <span class="n">_PACKAGE_RST</span>
+<span class="kn">from</span> <span class="nn">..config.meta</span> <span class="kn">import</span> <span class="n">__VERSION__</span>
+<span class="kn">from</span> <span class="nn">..design.singleton</span> <span class="kn">import</span> <span class="n">SingletonMark</span>
+<span class="kn">from</span> <span class="nn">..reflection</span> <span class="kn">import</span> <span class="n">fassign</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;asitems&#39;</span><span class="p">,</span> <span class="s1">&#39;visual&#39;</span><span class="p">,</span> <span class="s1">&#39;constructor&#39;</span><span class="p">,</span> <span class="s1">&#39;hasheq&#39;</span><span class="p">,</span> <span class="s1">&#39;accessor&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">CLASS_WRAPPER_UPDATES</span> <span class="o">=</span> <span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">_cls_private_prefix</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+    <span class="n">cls_name</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;_</span><span class="si">{</span><span class="n">cls_name</span><span class="si">}</span><span class="s1">__&#39;</span>
+
+
+<span class="k">def</span> <span class="nf">_auto_get_items_from_cls</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__items__</span>
+
+
+<span class="k">def</span> <span class="nf">_auto_get_items</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">cls_prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_auto_get_items_from_cls</span><span class="p">(</span><span class="n">_type</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="n">cls_prefix</span> <span class="o">=</span> <span class="n">cls_prefix</span> <span class="ow">or</span> <span class="n">_cls_private_prefix</span><span class="p">(</span><span class="n">_type</span><span class="p">)</span>
+
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">cls_prefix</span><span class="p">):</span>
+                <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">cls_prefix</span><span class="p">):])</span>
+
+        <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vname</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">cls_prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="n">cls_prefix</span> <span class="o">=</span> <span class="n">cls_prefix</span> <span class="ow">or</span> <span class="n">_cls_private_prefix</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">vname</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cls_prefix</span> <span class="o">+</span> <span class="n">vname</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="asitems"><a class="viewcode-back" href="../../../api_doc/model/clazz.html#hbutils.model.clazz.asitems">[docs]</a><span class="k">def</span> <span class="nf">asitems</span><span class="p">(</span><span class="n">items</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Define fields in the class level.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        - items (:obj:`Iterable[str]`): Field name items.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - decorator: Decorator to decorate the given class.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; @visual()</span>
+<span class="sd">        &gt;&gt;&gt; @constructor(doc=&#39;&#39;&#39;</span>
+<span class="sd">        &gt;&gt;&gt;     Overview:</span>
+<span class="sd">        &gt;&gt;&gt;         This is the constructor of class :class:`T`.</span>
+<span class="sd">        &gt;&gt;&gt; &#39;&#39;&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; @asitems([&#39;x&#39;, &#39;y&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; class T:</span>
+<span class="sd">        &gt;&gt;&gt;     @property</span>
+<span class="sd">        &gt;&gt;&gt;     def x(self):</span>
+<span class="sd">        &gt;&gt;&gt;         return self.__first</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt;     @property</span>
+<span class="sd">        &gt;&gt;&gt;     def y(self):</span>
+<span class="sd">        &gt;&gt;&gt;         return self.__second</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_decorator</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="n">_cls_prefix</span> <span class="o">=</span> <span class="n">_cls_private_prefix</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">__items__</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span>
+
+    <span class="k">return</span> <span class="n">_decorator</span></div>
+
+
+<div class="viewcode-block" id="visual"><a class="viewcode-back" href="../../../api_doc/model/clazz.html#hbutils.model.clazz.visual">[docs]</a><span class="k">def</span> <span class="nf">visual</span><span class="p">(</span><span class="n">items</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">show_id</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Decorate class to be visible by `repr`.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        - items (:obj:`Optional[Iterable]`): Items to be displayed. Default is `None`, which means \</span>
+<span class="sd">            automatically find the private fields and display them.</span>
+<span class="sd">        - show_id (:obj:`bool`): Show hex id in representation string or not.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - decorator: Decorator to decorate the given class.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; @visual()</span>
+<span class="sd">        &gt;&gt;&gt; class T:</span>
+<span class="sd">        ...     def __init__(self, x, y):</span>
+<span class="sd">        ...         self.__first = x</span>
+<span class="sd">        ...         self.__second = y</span>
+<span class="sd">        &gt;&gt;&gt; repr(T(1, 2))</span>
+<span class="sd">        &lt;T x: 1, y: 2&gt;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_decorator</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="n">_cls_prefix</span> <span class="o">=</span> <span class="n">_cls_private_prefix</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">_get_items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">items</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">_auto_get_items</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_cls_prefix</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">items</span>
+
+        <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            Get representation format of class </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.</span>
+
+<span class="s2">            .. note::</span>
+<span class="s2">                Created by </span><span class="si">{</span><span class="n">_PACKAGE_RST</span><span class="si">}</span><span class="s2">, v</span><span class="si">{</span><span class="n">__VERSION__</span><span class="si">}</span><span class="s2">.</span>
+<span class="s2">            &quot;&quot;&quot;</span>
+            <span class="n">str_items</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">_get_items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                    <span class="n">_name</span><span class="p">,</span> <span class="n">_repr</span> <span class="o">=</span> <span class="n">item</span><span class="p">,</span> <span class="nb">repr</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">_name</span><span class="p">,</span> <span class="n">_repr</span> <span class="o">=</span> <span class="n">item</span>
+
+                <span class="n">_value</span> <span class="o">=</span> <span class="n">_get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_name</span><span class="p">,</span> <span class="n">_cls_prefix</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">_vrepr</span> <span class="o">=</span> <span class="n">_repr</span><span class="p">(</span><span class="n">_value</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="k">pass</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">str_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">_name</span><span class="si">}</span><span class="s1">: </span><span class="si">{</span><span class="n">_vrepr</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+            <span class="n">sentences</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">if</span> <span class="n">show_id</span><span class="p">:</span>
+                <span class="n">sentences</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">hex</span><span class="p">(</span><span class="nb">id</span><span class="p">(</span><span class="bp">self</span><span class="p">)))</span>
+            <span class="k">if</span> <span class="n">str_items</span><span class="p">:</span>
+                <span class="n">sentences</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">str_items</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">sentences</span><span class="p">:</span>
+                <span class="n">str_sentences</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">sentences</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">str_sentences</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+            <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;&lt;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}{</span><span class="n">str_sentences</span><span class="si">}</span><span class="s1">&gt;&#39;</span>
+
+        <span class="bp">cls</span><span class="o">.</span><span class="fm">__repr__</span> <span class="o">=</span> <span class="fm">__repr__</span>
+        <span class="k">return</span> <span class="bp">cls</span>
+
+    <span class="k">return</span> <span class="n">_decorator</span></div>
+
+
+<span class="n">_NO_DEFAULT_VALUE</span> <span class="o">=</span> <span class="n">SingletonMark</span><span class="p">(</span><span class="s1">&#39;no_default_value&#39;</span><span class="p">)</span>
+<span class="n">_INDENT</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="mi">4</span>
+
+
+<div class="viewcode-block" id="constructor"><a class="viewcode-back" href="../../../api_doc/model/clazz.html#hbutils.model.clazz.constructor">[docs]</a><span class="k">def</span> <span class="nf">constructor</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">doc</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Decorate class to create a init function.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        - params (:obj:`Optional[Iterable]`): Parameters of constructor, should be a iterator of items, \</span>
+<span class="sd">            each item should be a single string or a tuple of string and default value. Default is `None`, \</span>
+<span class="sd">            which means no arguments.</span>
+<span class="sd">        - doc (:obj:`Optional[str]`): Documentation of constructor function.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - decorator: Decorator to decorate the given class.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; @constructor([&#39;x&#39;, (&#39;y&#39;, 2)], &#39;&#39;&#39;</span>
+<span class="sd">        &gt;&gt;&gt;     Overview:</span>
+<span class="sd">        &gt;&gt;&gt;         This is the constructor of class :class:`T`.</span>
+<span class="sd">        &gt;&gt;&gt; &#39;&#39;&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; class T:</span>
+<span class="sd">        &gt;&gt;&gt;     # the same as:</span>
+<span class="sd">        &gt;&gt;&gt;     # def __init__(self, x, y=2):</span>
+<span class="sd">        &gt;&gt;&gt;     #     self.__x = x</span>
+<span class="sd">        &gt;&gt;&gt;     #     self.__y = y</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt;     @property</span>
+<span class="sd">        &gt;&gt;&gt;     def x(self):</span>
+<span class="sd">        &gt;&gt;&gt;         return self.__first</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt;     @property</span>
+<span class="sd">        &gt;&gt;&gt;     def y(self):</span>
+<span class="sd">        &gt;&gt;&gt;         return self.__second</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_decorator</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="n">_cls_prefix</span> <span class="o">=</span> <span class="n">_cls_private_prefix</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">items</span> <span class="o">=</span> <span class="n">_auto_get_items_from_cls</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">items</span> <span class="o">=</span> <span class="n">params</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="n">actual_items</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">arg_items</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">itn</span><span class="p">,</span> <span class="n">itv</span> <span class="o">=</span> <span class="n">it</span><span class="p">,</span> <span class="n">_NO_DEFAULT_VALUE</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">itn</span><span class="p">,</span> <span class="n">itv</span> <span class="o">=</span> <span class="n">it</span>
+
+            <span class="n">actual_items</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">itn</span><span class="p">,</span> <span class="n">itv</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">itv</span> <span class="ow">is</span> <span class="n">_NO_DEFAULT_VALUE</span><span class="p">:</span>
+                <span class="n">arg_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">itn</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">arg_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">itn</span><span class="si">}</span><span class="s1">=</span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">itv</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+        <span class="n">_init_func_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">def __init__(self, </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">arg_items</span><span class="p">)</span><span class="si">}</span><span class="s2">):</span>
+<span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">_INDENT</span><span class="si">}</span><span class="s1">self.</span><span class="si">{</span><span class="n">_cls_prefix</span><span class="si">}{</span><span class="n">name</span><span class="si">}</span><span class="s1"> = </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">actual_items</span><span class="p">)</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">        &quot;&quot;&quot;</span>
+        <span class="n">fres</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">exec</span><span class="p">(</span><span class="n">_init_func_str</span><span class="p">,</span> <span class="n">fres</span><span class="p">)</span>
+
+        <span class="n">_init_func</span> <span class="o">=</span> <span class="n">fres</span><span class="p">[</span><span class="s1">&#39;__init__&#39;</span><span class="p">]</span>
+        <span class="n">_init_func</span> <span class="o">=</span> <span class="n">fassign</span><span class="p">(</span><span class="vm">__doc__</span><span class="o">=</span><span class="n">doc</span> <span class="ow">or</span> <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="s1">        Constructor of class </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s1">.</span>
+
+<span class="s1">        .. note::</span>
+<span class="s1">            Created by </span><span class="si">{</span><span class="n">_PACKAGE_RST</span><span class="si">}</span><span class="s1">, v</span><span class="si">{</span><span class="n">__VERSION__</span><span class="si">}</span><span class="s1">.</span>
+
+<span class="s1">            The values of arguments supplied to this constructor </span><span class="se">\</span>
+<span class="s1">            will be put into the fields specified.</span>
+<span class="s1">        &#39;&#39;&#39;</span><span class="p">))(</span><span class="n">_init_func</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="fm">__init__</span> <span class="o">=</span> <span class="n">_init_func</span>
+
+        <span class="k">return</span> <span class="bp">cls</span>
+
+    <span class="k">return</span> <span class="n">_decorator</span></div>
+
+
+<div class="viewcode-block" id="hasheq"><a class="viewcode-back" href="../../../api_doc/model/clazz.html#hbutils.model.clazz.hasheq">[docs]</a><span class="k">def</span> <span class="nf">hasheq</span><span class="p">(</span><span class="n">items</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Decorate class to be visible by `repr`.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        - items (:obj:`Optional[Iterable]`): Items to be hashed and compared. Default is `None`, \</span>
+<span class="sd">            which means automatically find the private fields and display them.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - decorator: Decorator to decorate the given class.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; @hasheq([&#39;x&#39;, &#39;y&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; class T:</span>
+<span class="sd">        &gt;&gt;&gt;     def __init__(self, x, y):</span>
+<span class="sd">        &gt;&gt;&gt;         self.__first = x</span>
+<span class="sd">        &gt;&gt;&gt;         self.__second = y</span>
+
+<span class="sd">        Using with :func:`asitems`</span>
+
+<span class="sd">        &gt;&gt;&gt; @hasheq()</span>
+<span class="sd">        &gt;&gt;&gt; @constructor()</span>
+<span class="sd">        &gt;&gt;&gt; @asitems([&#39;x&#39;, &#39;y&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; class T1:</span>
+<span class="sd">        &gt;&gt;&gt;     pass</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_decorator</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="n">_cls_prefix</span> <span class="o">=</span> <span class="n">_cls_private_prefix</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">_get_items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">items</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">_auto_get_items</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_cls_prefix</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">items</span>
+
+        <span class="k">def</span> <span class="nf">_get_obj_values</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">_get_value</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">_cls_prefix</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">_get_items</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+        <span class="k">def</span> <span class="fm">__hash__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            Hash value of class </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39;s instances.</span>
+
+<span class="s2">            .. note::</span>
+<span class="s2">                Created by </span><span class="si">{</span><span class="n">_PACKAGE_RST</span><span class="si">}</span><span class="s2">, v</span><span class="si">{</span><span class="n">__VERSION__</span><span class="si">}</span><span class="s2">.</span>
+
+<span class="s2">                The return value is calculated based on the </span><span class="se">\</span>
+<span class="s2">                values of the internally specified fields.</span>
+<span class="s2">            &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="nb">hash</span><span class="p">(</span><span class="n">_get_obj_values</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span>
+
+        <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+            <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            Equality between class </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39;s instances.</span>
+
+<span class="s2">            .. note::</span>
+<span class="s2">                Created by </span><span class="si">{</span><span class="n">_PACKAGE_RST</span><span class="si">}</span><span class="s2">, v</span><span class="si">{</span><span class="n">__VERSION__</span><span class="si">}</span><span class="s2">.</span>
+
+<span class="s2">                Currently, the return value is True only if both objects </span><span class="se">\\</span><span class="s2"></span>
+<span class="s2">                are of class XXX (subclasses are not permitted) and the </span><span class="se">\\</span><span class="s2"></span>
+<span class="s2">                values of the internally specified fields are all equal; </span><span class="se">\\</span><span class="s2"></span>
+<span class="s2">                otherwise, it is always False.</span>
+<span class="s2">            &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="bp">self</span> <span class="ow">is</span> <span class="n">other</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">True</span>
+            <span class="k">elif</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">_get_obj_values</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="n">_get_obj_values</span><span class="p">(</span><span class="n">other</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="bp">cls</span><span class="o">.</span><span class="fm">__hash__</span> <span class="o">=</span> <span class="fm">__hash__</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="fm">__eq__</span> <span class="o">=</span> <span class="fm">__eq__</span>
+
+        <span class="k">return</span> <span class="bp">cls</span>
+
+    <span class="k">return</span> <span class="n">_decorator</span></div>
+
+
+<span class="n">_READONLY_MARKS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="s1">&#39;ro&#39;</span><span class="p">,</span> <span class="s1">&#39;readonly&#39;</span><span class="p">}</span>
+<span class="n">_WRITABLE_MARKS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="s1">&#39;rw&#39;</span><span class="p">,</span> <span class="s1">&#39;writable&#39;</span><span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_is_writable</span><span class="p">(</span><span class="n">mark</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">mark</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">_READONLY_MARKS</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">elif</span> <span class="n">mark</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">_WRITABLE_MARKS</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unknown accessible mark - </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">mark</span><span class="p">)</span><span class="si">}</span><span class="s1">.&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="accessor"><a class="viewcode-back" href="../../../api_doc/model/clazz.html#hbutils.model.clazz.accessor">[docs]</a><span class="k">def</span> <span class="nf">accessor</span><span class="p">(</span><span class="n">items</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">readonly</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Decorate class to be accessible by the accessors.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        - items (:obj:`Optional[Iterable]`): Items to be hashed and compared. Default is `None`, \</span>
+<span class="sd">            which means automatically find the private fields and display them.</span>
+<span class="sd">        - readonly (:obj:`bool`): Default readonly or not. Default is `False`, which means make \</span>
+<span class="sd">            the accessor be writable when ``rw`` option is not given.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - decorator: Decorator to decorate the given class.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; @accessor(readonly=True)</span>
+<span class="sd">        &gt;&gt;&gt; @asitems([&#39;x&#39;, &#39;y&#39;])</span>
+<span class="sd">        &gt;&gt;&gt; class T:</span>
+<span class="sd">        &gt;&gt;&gt;     def __init__(self, x, y):</span>
+<span class="sd">        &gt;&gt;&gt;         self.__first = x</span>
+<span class="sd">        &gt;&gt;&gt;         self.__second = y</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; t = T(2, 100)</span>
+<span class="sd">        &gt;&gt;&gt; t.x  # 2</span>
+<span class="sd">        &gt;&gt;&gt; t.y  # 100</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">_decorator</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="n">_cls_prefix</span> <span class="o">=</span> <span class="n">_cls_private_prefix</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">items</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">actual_items</span> <span class="o">=</span> <span class="n">_auto_get_items_from_cls</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">actual_items</span> <span class="o">=</span> <span class="p">[</span><span class="n">items</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">actual_items</span> <span class="o">=</span> <span class="n">items</span> <span class="ow">or</span> <span class="p">[]</span>
+
+        <span class="n">pitems</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">it</span> <span class="ow">in</span> <span class="n">actual_items</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">it</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+                <span class="n">itn</span><span class="p">,</span> <span class="n">itv</span> <span class="o">=</span> <span class="n">it</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;ro&#39;</span> <span class="k">if</span> <span class="n">readonly</span> <span class="k">else</span> <span class="s1">&#39;rw&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">itn</span><span class="p">,</span> <span class="n">itv</span> <span class="o">=</span> <span class="n">it</span>
+
+            <span class="n">itv</span> <span class="o">=</span> <span class="n">_is_writable</span><span class="p">(</span><span class="n">itv</span><span class="p">)</span>
+            <span class="n">pitems</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">itn</span><span class="p">,</span> <span class="n">itv</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">itn</span><span class="p">,</span> <span class="n">itv</span> <span class="ow">in</span> <span class="n">pitems</span><span class="p">:</span>
+            <span class="n">_getter_func_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">def get_</span><span class="si">{</span><span class="n">itn</span><span class="si">}</span><span class="s2">(self):</span>
+<span class="si">{</span><span class="n">_INDENT</span><span class="si">}</span><span class="s2">return self.</span><span class="si">{</span><span class="n">_cls_prefix</span><span class="si">}{</span><span class="n">itn</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">            &quot;&quot;&quot;</span>
+            <span class="n">fres</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">exec</span><span class="p">(</span><span class="n">_getter_func_str</span><span class="p">,</span> <span class="n">fres</span><span class="p">)</span>
+            <span class="n">getter_func</span> <span class="o">=</span> <span class="n">fres</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;get_</span><span class="si">{</span><span class="n">itn</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span>
+            <span class="n">getter_func</span> <span class="o">=</span> <span class="n">fassign</span><span class="p">(</span><span class="vm">__doc__</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            Property </span><span class="si">{</span><span class="n">itn</span><span class="si">}</span><span class="s2">.</span>
+
+<span class="s2">            .. note::</span>
+<span class="s2">                Created by </span><span class="si">{</span><span class="n">_PACKAGE_RST</span><span class="si">}</span><span class="s2">, v</span><span class="si">{</span><span class="n">__VERSION__</span><span class="si">}</span><span class="s2">.</span>
+
+<span class="s2">                </span><span class="si">{</span><span class="s1">&#39;Both reading and writing are&#39;</span> <span class="k">if</span> <span class="n">itv</span> <span class="k">else</span> <span class="s1">&#39;Only reading is&#39;</span><span class="si">}</span><span class="s2"> </span><span class="se">\\</span><span class="s2"></span>
+<span class="s2">                permitted with the accessor ``</span><span class="si">{</span><span class="n">itn</span><span class="si">}</span><span class="s2">``.</span>
+<span class="s2">            &quot;&quot;&quot;</span><span class="p">)(</span><span class="n">getter_func</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">itv</span><span class="p">:</span>
+                <span class="n">_setter_func_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">def set_</span><span class="si">{</span><span class="n">itn</span><span class="si">}</span><span class="s2">(self, new_value):</span>
+<span class="si">{</span><span class="n">_INDENT</span><span class="si">}</span><span class="s2">self.</span><span class="si">{</span><span class="n">_cls_prefix</span><span class="si">}{</span><span class="n">itn</span><span class="si">}</span><span class="s2"> = new_value</span>
+<span class="s2">                &quot;&quot;&quot;</span>
+                <span class="n">fres</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="n">exec</span><span class="p">(</span><span class="n">_setter_func_str</span><span class="p">,</span> <span class="n">fres</span><span class="p">)</span>
+                <span class="n">setter_func</span> <span class="o">=</span> <span class="n">fres</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;set_</span><span class="si">{</span><span class="n">itn</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">]</span>
+
+                <span class="n">p</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">getter_func</span><span class="p">,</span> <span class="n">setter_func</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">getter_func</span><span class="p">)</span>
+
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">itn</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">cls</span>
+
+    <span class="k">return</span> <span class="n">_decorator</span></div>
+</pre></div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: v0.5.1
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../v0.0.1/index.html">v0.0.1</a></dd>
+                        <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
+                        <dd><a href="../../../../v0.1.1/index.html">v0.1.1</a></dd>
+                        <dd><a href="../../../../v0.2.0/index.html">v0.2.0</a></dd>
+                        <dd><a href="../../../../v0.3.0/index.html">v0.3.0</a></dd>
+                        <dd><a href="../../../../v0.3.1/index.html">v0.3.1</a></dd>
+                        <dd><a href="../../../../v0.3.2/index.html">v0.3.2</a></dd>
+                        <dd><a href="../../../../v0.3.3/index.html">v0.3.3</a></dd>
+                        <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
+                        <dd><a href="../../../../v0.4.1/index.html">v0.4.1</a></dd>
+                        <dd><a href="../../../../v0.4.2/index.html">v0.4.2</a></dd>
+                        <dd><a href="../../../../v0.4.3/index.html">v0.4.3</a></dd>
+                        <dd><a href="../../../../v0.4.4/index.html">v0.4.4</a></dd>
+                        <dd><a href="../../../../v0.4.5/index.html">v0.4.5</a></dd>
+                        <dd><a href="../../../../v0.4.6/index.html">v0.4.6</a></dd>
+                        <dd><a href="../../../../v0.4.7/index.html">v0.4.7</a></dd>
+                        <dd><a href="../../../../v0.5.0/index.html">v0.5.0</a></dd>
+                        <dd><a href="clazz.html">v0.5.1</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="../../../../dev/dependency/index.html">dev/dependency</a></dd>
+                        <dd><a href="../../../../main/index.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
