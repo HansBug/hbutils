@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; hbutils 0.5.1 documentation</title>
+  <title>Index &mdash; hbutils 0.5.2 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.5.1
+                0.5.2
               </div>
             
           
@@ -179,6 +179,7 @@
  | <a href="#G"><strong>G</strong></a>
  | <a href="#H"><strong>H</strong></a>
  | <a href="#I"><strong>I</strong></a>
+ | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
  | <a href="#N"><strong>N</strong></a>
  | <a href="#O"><strong>O</strong></a>
@@ -229,6 +230,12 @@
       <li><a href="api_doc/color/model.html#hbutils.color.model.Color.__init__">__init__() (hbutils.color.model.Color method)</a>
 
       <ul>
+        <li><a href="api_doc/color/model.html#hbutils.color.model.HLSColorProxy.__init__">(hbutils.color.model.HLSColorProxy method)</a>
+</li>
+        <li><a href="api_doc/color/model.html#hbutils.color.model.HSVColorProxy.__init__">(hbutils.color.model.HSVColorProxy method)</a>
+</li>
+        <li><a href="api_doc/color/model.html#hbutils.color.model.RGBColorProxy.__init__">(hbutils.color.model.RGBColorProxy method)</a>
+</li>
         <li><a href="api_doc/design/final.html#hbutils.design.final.FinalMeta.__init__">(hbutils.design.final.FinalMeta method)</a>
 </li>
         <li><a href="api_doc/design/singleton.html#hbutils.design.singleton.SingletonMark.__init__">(hbutils.design.singleton.SingletonMark method)</a>
@@ -244,6 +251,14 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api_doc/color/model.html#hbutils.color.model.HLSColorProxy.__iter__">__iter__() (hbutils.color.model.HLSColorProxy method)</a>
+
+      <ul>
+        <li><a href="api_doc/color/model.html#hbutils.color.model.HSVColorProxy.__iter__">(hbutils.color.model.HSVColorProxy method)</a>
+</li>
+        <li><a href="api_doc/color/model.html#hbutils.color.model.RGBColorProxy.__iter__">(hbutils.color.model.RGBColorProxy method)</a>
+</li>
+      </ul></li>
       <li><a href="api_doc/model/compare.html#hbutils.model.compare.IComparable.__le__">__le__() (hbutils.model.compare.IComparable method)</a>
 </li>
       <li><a href="api_doc/model/compare.html#hbutils.model.compare.IComparable.__lt__">__lt__() (hbutils.model.compare.IComparable method)</a>
@@ -255,6 +270,12 @@
       <li><a href="api_doc/color/model.html#hbutils.color.model.Color.__repr__">__repr__() (hbutils.color.model.Color method)</a>
 
       <ul>
+        <li><a href="api_doc/color/model.html#hbutils.color.model.HLSColorProxy.__repr__">(hbutils.color.model.HLSColorProxy method)</a>
+</li>
+        <li><a href="api_doc/color/model.html#hbutils.color.model.HSVColorProxy.__repr__">(hbutils.color.model.HSVColorProxy method)</a>
+</li>
+        <li><a href="api_doc/color/model.html#hbutils.color.model.RGBColorProxy.__repr__">(hbutils.color.model.RGBColorProxy method)</a>
+</li>
         <li><a href="api_doc/design/singleton.html#hbutils.design.singleton.SingletonMark.__repr__">(hbutils.design.singleton.SingletonMark method)</a>
 </li>
       </ul></li>
@@ -300,11 +321,15 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api_doc/encoding/base64.html#hbutils.encoding.base64.base64_decode">base64_decode() (in module hbutils.encoding.base64)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api_doc/encoding/base64.html#hbutils.encoding.base64.base64_encode">base64_encode() (in module hbutils.encoding.base64)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api_doc/testing/generator.html#hbutils.testing.generator.BaseGenerator">BaseGenerator (class in hbutils.testing.generator)</a>
+</li>
+      <li><a href="api_doc/color/model.html#hbutils.color.model.RGBColorProxy.blue">blue() (hbutils.color.model.RGBColorProxy property)</a>
+</li>
+      <li><a href="api_doc/color/model.html#hbutils.color.model.HSVColorProxy.brightness">brightness() (hbutils.color.model.HSVColorProxy property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -396,11 +421,13 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api_doc/reflection/func.html#hbutils.reflection.func.get_callable_hint">get_callable_hint() (in module hbutils.reflection.func)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api_doc/model/clazz.html#hbutils.model.clazz.get_field">get_field() (in module hbutils.model.clazz)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api_doc/model/repr.html#hbutils.model.repr.get_repr_info">get_repr_info() (in module hbutils.model.repr)</a>
+</li>
+      <li><a href="api_doc/color/model.html#hbutils.color.model.RGBColorProxy.green">green() (hbutils.color.model.RGBColorProxy property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -585,8 +612,6 @@
         <li><a href="api_doc/model/raw.html#module-hbutils.model.raw">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     hbutils.model.repr
 
@@ -594,6 +619,8 @@
         <li><a href="api_doc/model/repr.html#module-hbutils.model.repr">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     hbutils.random
 
@@ -757,8 +784,18 @@
       </ul></li>
       <li><a href="api_doc/color/model.html#hbutils.color.model.Color.hls">hls() (hbutils.color.model.Color property)</a>
 </li>
+      <li><a href="api_doc/color/model.html#hbutils.color.model.HLSColorProxy">HLSColorProxy (class in hbutils.color.model)</a>
+</li>
       <li><a href="api_doc/color/model.html#hbutils.color.model.Color.hsv">hsv() (hbutils.color.model.Color property)</a>
 </li>
+      <li><a href="api_doc/color/model.html#hbutils.color.model.HSVColorProxy">HSVColorProxy (class in hbutils.color.model)</a>
+</li>
+      <li><a href="api_doc/color/model.html#hbutils.color.model.HLSColorProxy.hue">hue() (hbutils.color.model.HLSColorProxy property)</a>
+
+      <ul>
+        <li><a href="api_doc/color/model.html#hbutils.color.model.HSVColorProxy.hue">(hbutils.color.model.HSVColorProxy property)</a>
+</li>
+      </ul></li>
   </ul></td>
 </tr></table>
 
@@ -778,6 +815,14 @@
       <li><a href="api_doc/testing/isolated.html#hbutils.testing.isolated.isolated_directory">isolated_directory() (in module hbutils.testing.isolated)</a>
 </li>
       <li><a href="api_doc/reflection/imports.html#hbutils.reflection.imports.iter_import_objects">iter_import_objects() (in module hbutils.reflection.imports)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api_doc/color/model.html#hbutils.color.model.HLSColorProxy.lightness">lightness() (hbutils.color.model.HLSColorProxy property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -980,10 +1025,10 @@
 </li>
       <li><a href="api_doc/random/string.html#hbutils.random.string.random_hex_digits">random_hex_digits() (in module hbutils.random.string)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api_doc/random/string.html#hbutils.random.string.random_md5">random_md5() (in module hbutils.random.string)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api_doc/random/string.html#hbutils.random.string.random_md5_with_timestamp">random_md5_with_timestamp() (in module hbutils.random.string)</a>
 </li>
       <li><a href="api_doc/random/string.html#hbutils.random.string.random_sha1">random_sha1() (in module hbutils.random.string)</a>
@@ -992,7 +1037,11 @@
 </li>
       <li><a href="api_doc/model/raw.html#hbutils.model.raw.raw_support">raw_support() (in module hbutils.model.raw)</a>
 </li>
+      <li><a href="api_doc/color/model.html#hbutils.color.model.RGBColorProxy.red">red() (hbutils.color.model.RGBColorProxy property)</a>
+</li>
       <li><a href="api_doc/color/model.html#hbutils.color.model.Color.rgb">rgb() (hbutils.color.model.Color property)</a>
+</li>
+      <li><a href="api_doc/color/model.html#hbutils.color.model.RGBColorProxy">RGBColorProxy (class in hbutils.color.model)</a>
 </li>
       <li><a href="api_doc/color/utils.html#hbutils.color.utils.rnd_colors">rnd_colors() (in module hbutils.color.utils)</a>
 </li>
@@ -1002,6 +1051,12 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api_doc/color/model.html#hbutils.color.model.HLSColorProxy.saturation">saturation() (hbutils.color.model.HLSColorProxy property)</a>
+
+      <ul>
+        <li><a href="api_doc/color/model.html#hbutils.color.model.HSVColorProxy.saturation">(hbutils.color.model.HSVColorProxy property)</a>
+</li>
+      </ul></li>
       <li><a href="api_doc/encoding/hash.html#hbutils.encoding.hash.sha1">sha1() (in module hbutils.encoding.hash)</a>
 </li>
       <li><a href="api_doc/encoding/hash.html#hbutils.encoding.hash.sha224">sha224() (in module hbutils.encoding.hash)</a>
@@ -1018,10 +1073,10 @@
 </li>
       <li><a href="api_doc/reflection/func.html#hbutils.reflection.func.sigsupply">sigsupply() (in module hbutils.reflection.func)</a>
 </li>
-      <li><a href="api_doc/design/singleton.html#hbutils.design.singleton.SingletonMark">SingletonMark (class in hbutils.design.singleton)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api_doc/design/singleton.html#hbutils.design.singleton.SingletonMark">SingletonMark (class in hbutils.design.singleton)</a>
+</li>
       <li><a href="api_doc/design/singleton.html#hbutils.design.singleton.SingletonMeta">SingletonMeta (class in hbutils.design.singleton)</a>
 </li>
       <li><a href="api_doc/string/plural.html#hbutils.string.plural.singular_form">singular_form() (in module hbutils.string.plural)</a>
@@ -1076,6 +1131,8 @@
 <h2 id="V">V</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api_doc/color/model.html#hbutils.color.model.HSVColorProxy.value">value() (hbutils.color.model.HSVColorProxy property)</a>
+</li>
       <li><a href="api_doc/design/singleton.html#hbutils.design.singleton.ValueBasedSingletonMeta">ValueBasedSingletonMeta (class in hbutils.design.singleton)</a>
 </li>
       <li><a href="api_doc/testing/generator.html#hbutils.testing.generator.AETGGenerator.values">values() (hbutils.testing.generator.AETGGenerator property)</a>
@@ -1157,10 +1214,10 @@
                         <dd><a href="../v0.4.7/index.html">v0.4.7</a></dd>
                         <dd><a href="../v0.5.0/index.html">v0.5.0</a></dd>
                         <dd><a href="../v0.5.1/index.html">v0.5.1</a></dd>
+                        <dd><a href="../v0.5.2/index.html">v0.5.2</a></dd>
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../doc/color/index.html">doc/color</a></dd>
                         <dd><a href="../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="genindex.html">main</a></dd>
                 </dl>
