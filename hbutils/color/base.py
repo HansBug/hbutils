@@ -148,6 +148,11 @@ _CSS3_COLOR_MAPS = {
     "yellowgreen": "#9acd32",
 }
 
+_CSS3_NAME_MAPS = {
+    value.lower(): key
+    for key, value in _CSS3_COLOR_MAPS.items()
+}
+
 
 def _name_to_hex(name: str) -> str:
     """
