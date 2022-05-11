@@ -182,10 +182,39 @@
 <span class="kn">from</span> <span class="nn">..reflection</span> <span class="kn">import</span> <span class="n">fassign</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;get_field&#39;</span><span class="p">,</span>
     <span class="s1">&#39;asitems&#39;</span><span class="p">,</span> <span class="s1">&#39;visual&#39;</span><span class="p">,</span> <span class="s1">&#39;constructor&#39;</span><span class="p">,</span> <span class="s1">&#39;hasheq&#39;</span><span class="p">,</span> <span class="s1">&#39;accessor&#39;</span><span class="p">,</span>
 <span class="p">]</span>
 
 <span class="n">CLASS_WRAPPER_UPDATES</span> <span class="o">=</span> <span class="p">()</span>
+
+
+<span class="k">def</span> <span class="nf">_cls_field_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;_</span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">__</span><span class="si">{</span><span class="n">name</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">name</span>
+
+
+<span class="n">_NO_DEFAULT_VALUE</span> <span class="o">=</span> <span class="n">SingletonMark</span><span class="p">(</span><span class="s1">&#39;no_default_value&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="get_field"><a class="viewcode-back" href="../../../api_doc/model/clazz.html#hbutils.model.clazz.get_field">[docs]</a><span class="k">def</span> <span class="nf">get_field</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">_NO_DEFAULT_VALUE</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Get field from object.</span>
+<span class="sd">        Private field is supported.</span>
+
+<span class="sd">    :param obj: The given object.</span>
+<span class="sd">    :param name: Field to be got.</span>
+<span class="sd">    :param default: Default value when failed.</span>
+<span class="sd">    :return: Field value of the field.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_field_name</span> <span class="o">=</span> <span class="n">_cls_field_name</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">),</span> <span class="n">name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">default</span> <span class="ow">is</span> <span class="n">_NO_DEFAULT_VALUE</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">_field_name</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">_field_name</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span></div>
 
 
 <span class="k">def</span> <span class="nf">_cls_private_prefix</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
@@ -327,7 +356,6 @@
     <span class="k">return</span> <span class="n">_decorator</span></div>
 
 
-<span class="n">_NO_DEFAULT_VALUE</span> <span class="o">=</span> <span class="n">SingletonMark</span><span class="p">(</span><span class="s1">&#39;no_default_value&#39;</span><span class="p">)</span>
 <span class="n">_INDENT</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="mi">4</span>
 
 
@@ -470,7 +498,7 @@
 <span class="s2">                Created by </span><span class="si">{</span><span class="n">_PACKAGE_RST</span><span class="si">}</span><span class="s2">, v</span><span class="si">{</span><span class="n">__VERSION__</span><span class="si">}</span><span class="s2">.</span>
 
 <span class="s2">                Currently, the return value is True only if both objects </span><span class="se">\\</span><span class="s2"></span>
-<span class="s2">                are of class XXX (subclasses are not permitted) and the </span><span class="se">\\</span><span class="s2"></span>
+<span class="s2">                are of class </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> (subclasses are not permitted) and the </span><span class="se">\\</span><span class="s2"></span>
 <span class="s2">                values of the internally specified fields are all equal; </span><span class="se">\\</span><span class="s2"></span>
 <span class="s2">                otherwise, it is always False.</span>
 <span class="s2">            &quot;&quot;&quot;</span>
@@ -481,8 +509,23 @@
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span> <span class="kc">False</span>
 
+        <span class="k">def</span> <span class="fm">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+            <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            Non-equality between class </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&#39;s instances.</span>
+<span class="s2">            </span>
+<span class="s2">            .. note::</span>
+<span class="s2">                Created by </span><span class="si">{</span><span class="n">_PACKAGE_RST</span><span class="si">}</span><span class="s2">, v</span><span class="si">{</span><span class="n">__VERSION__</span><span class="si">}</span><span class="s2">.</span>
+
+<span class="s2">                Currently, the return value is False only if both objects </span><span class="se">\\</span><span class="s2"></span>
+<span class="s2">                are of class </span><span class="si">{</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> (subclasses are not permitted) and the </span><span class="se">\\</span><span class="s2"></span>
+<span class="s2">                values of the internally specified fields are all equal; </span><span class="se">\\</span><span class="s2"></span>
+<span class="s2">                otherwise, it is always True.</span>
+<span class="s2">            &quot;&quot;&quot;</span>
+            <span class="k">return</span> <span class="ow">not</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+
         <span class="bp">cls</span><span class="o">.</span><span class="fm">__hash__</span> <span class="o">=</span> <span class="fm">__hash__</span>
         <span class="bp">cls</span><span class="o">.</span><span class="fm">__eq__</span> <span class="o">=</span> <span class="fm">__eq__</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="fm">__ne__</span> <span class="o">=</span> <span class="fm">__ne__</span>
 
         <span class="k">return</span> <span class="bp">cls</span>
 
@@ -643,9 +686,9 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="clazz.html">main</a></dd>
                         <dd><a href="../../../../dev/clz/index.html">dev/clz</a></dd>
                         <dd><a href="../../../../dev/dependency/index.html">dev/dependency</a></dd>
-                        <dd><a href="clazz.html">main</a></dd>
                 </dl>
         </div>
     </div>

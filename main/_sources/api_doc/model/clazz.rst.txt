@@ -6,6 +6,12 @@ hbutils.model.clazz
 .. automodule:: hbutils.model.clazz
 
 
+get_field
+---------------------
+
+.. autofunction:: get_field
+
+
 asitems
 ---------------------
 

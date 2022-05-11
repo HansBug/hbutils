@@ -100,6 +100,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../encoding/index.html">hbutils.encoding</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">hbutils.model</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.model.clazz</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#get-field">get_field</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#asitems">asitems</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#visual">visual</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#constructor">constructor</a></li>
@@ -193,6 +194,31 @@
 <dt>Overview:</dt><dd><p>Useful functions for build class models.</p>
 </dd>
 </dl>
+<div class="section" id="get-field">
+<h2>get_field<a class="headerlink" href="#get-field" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.model.clazz.get_field">
+<code class="sig-prename descclassname">hbutils.model.clazz.</code><code class="sig-name descname">get_field</code><span class="sig-paren">(</span><em class="sig-param">obj</em>, <em class="sig-param">name: str</em>, <em class="sig-param">default=&lt;SingletonMark 'no_default_value'&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/model/clazz.html#get_field"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.model.clazz.get_field" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Get field from object.
+Private field is supported.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> – The given object.</p></li>
+<li><p><strong>name</strong> – Field to be got.</p></li>
+<li><p><strong>default</strong> – Default value when failed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Field value of the field.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
 <div class="section" id="asitems">
 <h2>asitems<a class="headerlink" href="#asitems" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
@@ -444,9 +470,9 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="clazz.html">main</a></dd>
                         <dd><a href="../../../dev/clz/api_doc/model/clazz.html">dev/clz</a></dd>
                         <dd><a href="../../../dev/dependency/api_doc/model/clazz.html">dev/dependency</a></dd>
-                        <dd><a href="clazz.html">main</a></dd>
                 </dl>
         </div>
     </div>
