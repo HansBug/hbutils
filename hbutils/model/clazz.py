@@ -342,7 +342,7 @@ def hasheq(items: Optional[Iterable] = None):
         def __ne__(self, other):
             f"""
             Non-equality between class {cls.__name__}'s instances.
-            
+
             .. note::
                 Created by {_PACKAGE_RST}, v{__VERSION__}.
 
