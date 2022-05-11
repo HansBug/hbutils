@@ -47,6 +47,14 @@ class TestColorModel:
         assert str(c1) == '#ccb280'
         assert repr(c1) == '<Color #ccb280>'
 
+        c2 = Color('#ff0000')
+        assert str(c2) == '#ff0000'
+        assert repr(c2) == '<Color red>'
+
+        c3 = Color('lime')
+        assert str(c3) == '#00ff00'
+        assert repr(c3) == '<Color lime>'
+
     def test_basic_with_alpha(self):
         c1 = Color((0.8, 0.7, 0.5), 0.6)
         assert float_eq(c1.rgb.red, 0.8)
