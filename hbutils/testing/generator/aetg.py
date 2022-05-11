@@ -1,7 +1,7 @@
 import random
-from typing import Iterator, Mapping, Optional, List, Tuple
+from typing import Iterator, Mapping, Optional, List, Tuple, Union
 
-from hbutils.model import visual, hasheq, accessor, asitems
+from hbutils.model import visual, hasheq, accessor, asitems, IComparable
 from .base import BaseGenerator
 from ...reflection import nested_for, progressive_for
 
@@ -14,19 +14,25 @@ __all__ = [
 @visual()
 @accessor(readonly=True)
 @asitems(['name', 'value'])
-class _NameValueTuple:
+class _NameValueTuple(IComparable):
     def __init__(self, name, value):
         self.__name = name
         self.__value = value
+
+    def _cmpkey(self):
+        return self.__name, self.__value
 
 
 @hasheq()
 @visual()
 @accessor(readonly=True)
 @asitems(['items'])
-class _AETGValuePair:
+class _AETGValuePair(IComparable):
     def __init__(self, *pairs):
         self.__items = tuple(sorted(pairs, key=lambda x: (x.name, x.value)))
+
+    def _cmpkey(self):
+        return self.__items
 
 
 def _create_init_pairs(names: List[str]) -> List[Tuple[str, ...]]:
@@ -64,14 +70,25 @@ def _process_pairs(pairs: List[Tuple[str, ...]], names: List[str]) -> List[Tuple
 _DEFAULT_RANDOM = random._inst
 
 
+def _to_random(rnd: Optional[Union[random.Random, int]] = None):
+    if isinstance(rnd, random.Random):
+        return rnd
+    elif isinstance(rnd, int):
+        return random.Random(rnd)
+    elif rnd is None:
+        return _DEFAULT_RANDOM
+    else:
+        raise TypeError(f'Unknown random type - {repr(rnd)}.')
+
+
 class AETGGenerator(BaseGenerator):
     """
-    Full AETG model, test cases will be generated to make sure the required pairs will be all tested..
+    Full AETG model, test cases will be generated to make sure the required pairs will be all tested.
     """
 
     def __init__(self, values, names: Optional[List[str]] = None,
                  pairs: Optional[List[Tuple[str, ...]]] = None,
-                 rnd: Optional[random.Random] = None):
+                 rnd: Optional[Union[random.Random, int]] = None):
         """
         Constructor of the :class:`hbutils.testing.AETGGenerator` class.
 
@@ -80,13 +97,14 @@ class AETGGenerator(BaseGenerator):
             key set of the values.
         :param pairs: Pairs required to be all tested, default is ``None`` which means all the \
             binary pairs will be included.
-        :param rnd: Random object, default is ``None`` which means the default random object will be used.
+        :param rnd: Random object or int-formatted random seed, \
+            default is ``None`` which means the default random object will be used.
         """
         BaseGenerator.__init__(self, values, names)
         if pairs is None:
             pairs = _create_init_pairs(self.names)
         self.__pairs = _process_pairs(pairs, self.names)
-        self.__rnd = rnd or _DEFAULT_RANDOM
+        self.__rnd = _to_random(rnd)
 
         self.__node_cnt = None
         self.__non_exist_pairs = None
@@ -98,7 +116,7 @@ class AETGGenerator(BaseGenerator):
         """
         return self.__pairs
 
-    def __get_init_info(self):
+    def __get_init_info(self) -> Tuple[dict, list, set]:
         if self.__node_cnt is None:
             node_cnt = {}
             non_exist_pairs = set()
@@ -112,9 +130,9 @@ class AETGGenerator(BaseGenerator):
                     non_exist_pairs.add(_AETGValuePair(*pair_items))
 
             self.__node_cnt = node_cnt
-            self.__non_exist_pairs = non_exist_pairs
+            self.__non_exist_pairs = sorted(non_exist_pairs)
 
-        return dict(self.__node_cnt), set(self.__non_exist_pairs)
+        return dict(self.__node_cnt), list(self.__non_exist_pairs), set(self.__non_exist_pairs)
 
     def cases(self) -> Iterator[Mapping[str, object]]:
         """
@@ -144,11 +162,16 @@ class AETGGenerator(BaseGenerator):
         """
         n = len(self.names)
         m = len(self.__pairs[-1]) if self.__pairs else 0
-        node_cnt, non_exist_pairs = self.__get_init_info()
+        node_cnt, non_exist_pairs_list, non_exist_pairs_set = self.__get_init_info()
 
-        while non_exist_pairs:
-            first_pair = non_exist_pairs.pop()
-            non_exist_pairs.add(first_pair)
+        while non_exist_pairs_set:
+            first_pair = None
+            while non_exist_pairs_list:
+                _pair = non_exist_pairs_list.pop()
+                if _pair in non_exist_pairs_set:
+                    non_exist_pairs_list.append(_pair)
+                    first_pair = _pair
+                    break
 
             tnames = []
             seqs = []
@@ -173,7 +196,7 @@ class AETGGenerator(BaseGenerator):
                         if j > 0:
                             litems.append(seqs[i - j])
                         now_pair = _AETGValuePair(*litems)
-                        if now_pair in non_exist_pairs:
+                        if now_pair in non_exist_pairs_set:
                             non_exists += 1
 
                     xk = (non_exists, node_cnt.get(ituple, 0), self.__rnd.random())
@@ -186,8 +209,8 @@ class AETGGenerator(BaseGenerator):
             px = {pair.name: pair.value for pair in seqs}
             for one_pair in self.__pairs:
                 new_pair = _AETGValuePair(*(_NameValueTuple(name, px[name]) for name in one_pair))
-                if new_pair in non_exist_pairs:
-                    non_exist_pairs.remove(new_pair)
+                if new_pair in non_exist_pairs_set:
+                    non_exist_pairs_set.remove(new_pair)
                     for np in new_pair.items:
                         node_cnt[np] -= 1
 
