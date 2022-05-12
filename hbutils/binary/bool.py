@@ -11,10 +11,8 @@ __all__ = [
 
 class CBoolType(CFixedType):
     def __init__(self, size: int):
+        CFixedType.__init__(self, size)
         self.__size = size
-
-    def _size(self) -> int:
-        return self.__size
 
     def read(self, file: BinaryIO) -> bool:
         return any(file.read(self.__size))
@@ -24,3 +22,29 @@ class CBoolType(CFixedType):
 
 
 c_bool = CBoolType(ctypes.sizeof(ctypes.c_bool))
+"""
+Overview:
+    Reading and writing bool value like C language.
+
+Examples::
+    >>> import io
+    >>> from hbutils.binary import c_bool
+    >>> 
+    >>> with io.BytesIO(b'\\x01\\x00\\x01\\x00') as file:
+    ...     print(c_bool.read(file))
+    ...     print(c_bool.read(file))
+    ...     print(c_bool.read(file))
+    ...     print(c_bool.read(file))
+    True
+    False
+    True
+    False
+    >>> with io.BytesIO() as file:
+    ...     c_bool.write(file, True)
+    ...     c_bool.write(file, False)
+    ...     c_bool.write(file, True)
+    ...     c_bool.write(file, False)
+    ...     print(file.getvalue())
+    ... 
+    b'\\x01\\x00\\x01\\x00'
+"""
