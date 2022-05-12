@@ -10,7 +10,7 @@ CBoolType
 ------------------------
 
 .. autoclass:: CBoolType
-    :members: __init__, read, write
+    :members: __init__, size, read, write
 
 
 c_bool

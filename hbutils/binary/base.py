@@ -62,6 +62,11 @@ class CFixedType(CIOType):
 
 
 class CRangedIntType(CFixedType):
+    """
+    Overview:
+        Type with fixed size and range (such as ``int`` and ``uint``).
+    """
+
     def __init__(self, size: int, minimum: int, maximum: int):
         """
         Constructor of :class:`CRangedIntType`.

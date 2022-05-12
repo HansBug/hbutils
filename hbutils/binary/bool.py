@@ -10,14 +10,36 @@ __all__ = [
 
 
 class CBoolType(CFixedType):
+    """
+    Overview:
+        Boolean type.
+    """
+
     def __init__(self, size: int):
+        """
+        Constructor of :class:`CBoolType`.
+
+        :param size: Size of boolean type.
+        """
         CFixedType.__init__(self, size)
         self.__size = size
 
     def read(self, file: BinaryIO) -> bool:
+        """
+        Read boolean value.
+
+        :param file: Binary file, ``io.BytesIO`` is supported as well.
+        :return: Boolean value.
+        """
         return any(file.read(self.__size))
 
     def write(self, file: BinaryIO, val: bool):
+        """
+        Write boolean value to binary IO object.
+
+        :param file: Binary file, ``io.BytesIO`` is supported as well.
+        :param val: Boolean value to write.
+        """
         file.write(b'\x00' * (self.__size - 1) + (b'\x01' if val else b'\x00'))
 
 

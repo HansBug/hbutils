@@ -10,4 +10,8 @@ hbutils.binary
 
     base
     bool
+    buffer
+    int
+    str
+    uint
 
