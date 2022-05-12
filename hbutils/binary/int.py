@@ -1,5 +1,5 @@
 import ctypes
-from typing import Dict, BinaryIO
+from typing import Dict, BinaryIO, List
 
 from .base import CRangedIntType
 from .uint import CUnsignedIntType
@@ -45,11 +45,15 @@ c_int16 = CSignedIntType(2)
 c_int32 = CSignedIntType(4)
 c_int64 = CSignedIntType(8)
 
+_EXIST_TYPES: List[CSignedIntType] = [
+    c_int8,
+    c_int16,
+    c_int32,
+    c_int64,
+]
 _SIZE_TO_INT_TYPE: Dict[int, CSignedIntType] = {
-    1: c_int8,
-    2: c_int16,
-    4: c_int32,
-    8: c_int64,
+    item.size: item
+    for item in _EXIST_TYPES
 }
 
 
