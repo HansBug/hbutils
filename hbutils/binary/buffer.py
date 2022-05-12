@@ -52,7 +52,7 @@ class CBufferType(CIOType):
             raise ValueError(f'Size is expected to be no more than {self.__size}, but actual length is {len(val)}.')
 
         fval = val[:self.__size]
-        fval = fval + b'\\x00' * (self.__size - len(fval))
+        fval = fval + b'\x00' * (self.__size - len(fval))
         file.write(fval)
 
 
