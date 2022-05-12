@@ -32,6 +32,7 @@ class TestTestingGeneratorAETG:
         }
         assert m1.pairs == [('d',), ('b', 'c'), ('a', 'b', 'e')]
 
+    @pytest.mark.flaky(reruns=3, reruns_delay=2)
     def test_tuple_cases(self):
         ds = {
             'a': range(1, 3),
@@ -62,6 +63,7 @@ class TestTestingGeneratorAETG:
 
         assert sum([iv for ik, iv in results.items() if ik >= 9]) <= 3
 
+    @pytest.mark.flaky(reruns=3, reruns_delay=2)
     def test_tuple_cases_simple_pairs(self):
         ds = {
             'a': range(1, 3),
