@@ -196,46 +196,54 @@
 <dl class="py class">
 <dt id="hbutils.binary.str.CStringType">
 <em class="property">class </em><code class="sig-prename descclassname">hbutils.binary.str.</code><code class="sig-name descname">CStringType</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/binary/str.html#CStringType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.str.CStringType" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py method">
+<dd><dl>
+<dt>Overview:</dt><dd><p>Simple string type.</p>
+<p>It should end with a single <code class="docutils literal notranslate"><span class="pre">\x00</span></code>, which is quite common in C language.</p>
+</dd>
+</dl>
+<dl class="py method">
 <dt id="hbutils.binary.str.CStringType.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/binary/str.html#CStringType.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.str.CStringType.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+<dd><p>Constructor of <a class="reference internal" href="#hbutils.binary.str.CStringType" title="hbutils.binary.str.CStringType"><code class="xref py py-class docutils literal notranslate"><span class="pre">CStringType</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>encoding</strong> – Encoding type, default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means auto-detect the encodings.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.binary.str.CStringType.encoding">
+<em class="property">property </em><code class="sig-name descname">encoding</code><a class="headerlink" href="#hbutils.binary.str.CStringType.encoding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encoding type.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="hbutils.binary.str.CStringType.read">
 <code class="sig-name descname">read</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/binary/str.html#CStringType.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.str.CStringType.read" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read from binary IO object.</p>
+<dd><p>Read simple string value.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>file</strong> – Binary file, <code class="docutils literal notranslate"><span class="pre">io.BytesIO</span></code> is supported as well.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Reading result.</p>
+<dd class="field-even"><p>String value.</p>
 </dd>
 </dl>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Need to be implemented.</p>
-</div>
 </dd></dl>
 
 <dl class="py method">
 <dt id="hbutils.binary.str.CStringType.write">
 <code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span></em>, <em class="sig-param"><span class="n">val</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/binary/str.html#CStringType.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.str.CStringType.write" title="Permalink to this definition">¶</a></dt>
-<dd><p>Write object to binary IO object.</p>
+<dd><p>Write simple string value to binary IO object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>file</strong> – Binary file, <code class="docutils literal notranslate"><span class="pre">io.BytesIO</span></code> is supported as well.</p></li>
-<li><p><strong>val</strong> – Object to write.</p></li>
+<li><p><strong>val</strong> – String to write.</p></li>
 </ul>
 </dd>
 </dl>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Need to be implemented.</p>
-</div>
 </dd></dl>
 
 </dd></dl>
@@ -246,7 +254,37 @@
 <dl class="py data">
 <dt id="hbutils.binary.str.c_str">
 <code class="sig-prename descclassname">hbutils.binary.str.</code><code class="sig-name descname">c_str</code><em class="property"> = &lt;hbutils.binary.str.CStringType object&gt;</em><a class="headerlink" href="#hbutils.binary.str.c_str" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Reading and writing simple string, ends with a single <code class="docutils literal notranslate"><span class="pre">\x00</span></code>.</p>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">io</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.binary</span> <span class="kn">import</span> <span class="n">c_str</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="sa">b</span><span class="s1">&#39;kdsfjldsjflkdsmgds</span><span class="se">\x00</span><span class="s1">&#39;</span>
+<span class="gp">... </span>        <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xd0\x94\xd0\xbe\xd0\xb1\xd1\x80\xd1\x8b\xd0\xb9</span><span class="s1"> </span><span class="se">\xd0</span><span class="s1">&#39;</span>
+<span class="gp">... </span>        <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xb2\xd0\xb5\xd1\x87\xd0\xb5\xd1\x80\x00</span><span class="s1">&#39;</span>
+<span class="gp">... </span>        <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xa4\xb3\xa4\xf3\xa4\xd0\xa4\xf3\xa4\xcf\x00</span><span class="s1">&#39;</span>
+<span class="gp">... </span>        <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xcd\xed\xc9\xcf\xba\xc3\x00</span><span class="s1">&#39;</span>
+<span class="gp">... </span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_str</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_str</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_str</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_str</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="go">kdsfjldsjflkdsmgds</span>
+<span class="go">Добрый вечер</span>
+<span class="go">こんばんは</span>
+<span class="go">晚上好</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">c_str</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">&quot;kdsfjld&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">c_str</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">&quot;Добрый&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
+<span class="go">b&#39;kdsfjld\x00\xd0\x94\xd0\xbe\xd0\xb1\xd1\x80\xd1\x8b\xd0\xb9\x00&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 <section id="csizedstringtype">
@@ -254,46 +292,63 @@
 <dl class="py class">
 <dt id="hbutils.binary.str.CSizedStringType">
 <em class="property">class </em><code class="sig-prename descclassname">hbutils.binary.str.</code><code class="sig-name descname">CSizedStringType</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/binary/str.html#CSizedStringType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.str.CSizedStringType" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py method">
+<dd><dl>
+<dt>Overview:</dt><dd><p>Sized string type.</p>
+<p>It should have a fixed size, which is defined like <code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">s[size]</span></code> in C language.</p>
+</dd>
+</dl>
+<dl class="py method">
 <dt id="hbutils.binary.str.CSizedStringType.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/binary/str.html#CSizedStringType.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.str.CSizedStringType.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+<dd><p>Constructor of <a class="reference internal" href="#hbutils.binary.str.CStringType" title="hbutils.binary.str.CStringType"><code class="xref py py-class docutils literal notranslate"><span class="pre">CStringType</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>size</strong> – Size of the string’s space.</p></li>
+<li><p><strong>encoding</strong> – Encoding type, default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means auto-detect the encodings.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.binary.str.CSizedStringType.encoding">
+<em class="property">property </em><code class="sig-name descname">encoding</code><a class="headerlink" href="#hbutils.binary.str.CSizedStringType.encoding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encoding type.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="hbutils.binary.str.CSizedStringType.read">
 <code class="sig-name descname">read</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/binary/str.html#CSizedStringType.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.str.CSizedStringType.read" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read from binary IO object.</p>
+<dd><p>Read sized string value.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>file</strong> – Binary file, <code class="docutils literal notranslate"><span class="pre">io.BytesIO</span></code> is supported as well.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Reading result.</p>
+<dd class="field-even"><p>String value.</p>
 </dd>
 </dl>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Need to be implemented.</p>
-</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.binary.str.CSizedStringType.size">
+<em class="property">property </em><code class="sig-name descname">size</code><a class="headerlink" href="#hbutils.binary.str.CSizedStringType.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Size of the string’s space.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt id="hbutils.binary.str.CSizedStringType.write">
 <code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span></em>, <em class="sig-param"><span class="n">val</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/binary/str.html#CSizedStringType.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.str.CSizedStringType.write" title="Permalink to this definition">¶</a></dt>
-<dd><p>Write object to binary IO object.</p>
+<dd><p>Write sized string value to binary IO object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>file</strong> – Binary file, <code class="docutils literal notranslate"><span class="pre">io.BytesIO</span></code> is supported as well.</p></li>
-<li><p><strong>val</strong> – Object to write.</p></li>
+<li><p><strong>val</strong> – String to write.</p></li>
 </ul>
 </dd>
 </dl>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Need to be implemented.</p>
-</div>
 </dd></dl>
 
 </dd></dl>
@@ -304,7 +359,37 @@
 <dl class="py function">
 <dt id="hbutils.binary.str.c_sized_str">
 <code class="sig-prename descclassname">hbutils.binary.str.</code><code class="sig-name descname">c_sized_str</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#hbutils.binary.str.CSizedStringType" title="hbutils.binary.str.CSizedStringType">hbutils.binary.str.CSizedStringType</a><a class="reference internal" href="../../_modules/hbutils/binary/str.html#c_sized_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.str.c_sized_str" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Reading and writing sized string, which occupy a fixed space..</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>size</strong> – Size of the string’s space.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">io</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.binary</span> <span class="kn">import</span> <span class="n">c_sized_str</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="sa">b</span><span class="s1">&#39;kdsfjld</span><span class="se">\x00\x00\x00\x00\x00\x00\x00\x00</span><span class="s1">&#39;</span>
+<span class="gp">... </span>        <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xd0\x94\xd0\xbe\xd0\xb1\xd1\x80\xd1\x8b\xd0\xb9\x00\x00\x00</span><span class="s1">&#39;</span>
+<span class="gp">... </span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_sized_str</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_sized_str</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="go">kdsfjld</span>
+<span class="go">Добрый</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">c_sized_str</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">&quot;kdsfjld&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">c_sized_str</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">&quot;Добрый&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
+<span class="go">b&#39;kdsfjld\x00\x00\x00\x00\x00\x00\x00\x00\xd0\x94\xd0\xbe\xd0\xb1\xd1\x80\xd1\x8b\xd0\xb9\x00\x00\x00&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 </section>
