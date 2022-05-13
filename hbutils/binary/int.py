@@ -58,7 +58,7 @@ class CSignedIntType(CRangedIntType):
             raise ValueError(f'Signed int value within '
                              f'[{self.minimum}, {self.maximum}] expected, but {repr(val)} found.')
 
-        fval = val if val > 0 else val + (self.__half << 1)
+        fval = val if val >= 0 else val + (self.__half << 1)
         self._unit.write(file, fval)
 
 
