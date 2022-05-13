@@ -12,6 +12,8 @@ jobs:
       matrix:
         os:
           - 'ubuntu-18.04'
+          - 'windows-2019'
+          - 'macos-10.15'
         python-version:
           - '3.6'
           - '3.7'
@@ -23,30 +25,60 @@ jobs:
           - 'pypy-3.8'
 
     steps:
+      - name: Get system version for Linux
+        if: ${{ contains(matrix.os, 'ubuntu') }}
+        shell: bash
+        run: |
+          echo "OS_NAME=Linux" >> $GITHUB_ENV
+          echo "IS_WIN=" >> $GITHUB_ENV
+          echo "IS_MAC=" >> $GITHUB_ENV
+      - name: Get system version for Windows
+        if: ${{ contains(matrix.os, 'windows') }}
+        shell: bash
+        run: |
+          echo "OS_NAME=Windows" >> $GITHUB_ENV
+          echo "IS_WIN=1" >> $GITHUB_ENV
+          echo "IS_MAC=" >> $GITHUB_ENV
+      - name: Get system version for MacOS
+        if: ${{ contains(matrix.os, 'macos') }}
+        shell: bash
+        run: |
+          echo "OS_NAME=MacOS" >> $GITHUB_ENV
+          echo "IS_WIN=" >> $GITHUB_ENV
+          echo "IS_MAC=1" >> $GITHUB_ENV
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           fetch-depth: 20
-      - name: Set up system dependences on linux
-        if: ${{ runner.os == 'Linux' }}
+      - name: Set up system dependences on Linux
+        if: ${{ env.OS_NAME == 'Linux' }}
+        shell: bash
         run: |
           sudo apt-get update
-          sudo apt-get install -y tree cloc wget curl make graphviz
+          sudo apt-get install -y tree cloc wget curl make zip
           sudo apt-get install -y libxml2-dev libxslt-dev python-dev  # need by pypy3
-          dot -V
+      - name: Set up system dependences on Windows
+        if: ${{ env.OS_NAME == 'Windows' }}
+        shell: bash
+        run: |
+          choco install tree cloc wget curl make zip
+      - name: Set up system dependences on MacOS
+        if: ${{ env.OS_NAME == 'MacOS' }}
+        run: |
+          brew install tree cloc wget curl make zip
       - name: Set up python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install basic dependencies
+      - name: Install dependencies
+        shell: bash
         run: |
           python -m pip install --upgrade pip
           pip install --upgrade flake8 setuptools wheel twine
-      - name: Install dependencies
-        run: |
           pip install -r requirements.txt
           pip install -r requirements-test.txt
       - name: Test the basic environment
+        shell: bash
         run: |
           python -V
           pip --version
@@ -57,8 +89,9 @@ jobs:
       - name: Run unittest
         env:
           CI: 'true'
+        shell: bash
         run: |
-          make unittest
+          make unittest IS_WIN=${{ env.IS_WIN }} IS_MAC=${{ env.IS_MAC }}
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
         with:

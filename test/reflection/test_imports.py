@@ -2,6 +2,7 @@ import pytest
 from easydict import EasyDict
 
 from hbutils.reflection import import_object, quick_import_object, iter_import_objects
+from ..testings import linux_mark, windows_mark
 
 OBJ = 1
 P_1 = 2
@@ -14,27 +15,35 @@ QQ3 = EasyDict(
 )
 
 
-@pytest.mark.unittest
 class TestReflectionImports:
-
+    @pytest.mark.unittest
     def test_import_object(self):
         assert import_object('OBJ', 'test.reflection.test_imports') == 1
         assert import_object('zip') == zip
 
+    @pytest.mark.unittest
     def test_quick_import_object(self):
         assert quick_import_object('test.reflection.test_imports.OBJ') == (1, 'test.reflection.test_imports', 'OBJ')
         assert quick_import_object('zip') == (zip, '', 'zip')
         assert quick_import_object('zip.__dict__') == (zip.__dict__, '', 'zip.__dict__')
-        assert quick_import_object('z*') == (zip, '', 'zip')
         assert quick_import_object('test.reflection.test_imports.P_?') == (P_1, 'test.reflection.test_imports', 'P_1')
         assert quick_import_object('test.reflection.test_imports.???.*') == (
-        P_1, 'test.reflection.test_imports', 'QQ3.P_1')
+            P_1, 'test.reflection.test_imports', 'QQ3.P_1')
 
         with pytest.raises(ImportError):
             quick_import_object('p233')
         with pytest.raises(ImportError):
             quick_import_object('zip.no_such_attr')
 
+    @linux_mark
+    def test_quick_import_object_linux(self):
+        assert quick_import_object('z*') == (zip, '', 'zip')
+
+    @windows_mark
+    def test_quick_import_object_windows(self):
+        assert quick_import_object('z*') == (ZeroDivisionError, '', 'ZeroDivisionError')
+
+    @pytest.mark.unittest
     def test_iter_import_objects(self):
         assert list(iter_import_objects('test.reflection.test_imports.P_*')) == [
             (P_1, 'test.reflection.test_imports', 'P_1'),
