@@ -27,3 +27,10 @@ CRangedIntType
     :members: __init__, size, minimum, maximum, read, write
 
 
+CMarkedType
+------------------------
+
+.. autoclass:: CMarkedType
+    :members: __init__, size, mark, read, write
+
+

@@ -99,10 +99,12 @@
 <li class="toctree-l3"><a class="reference internal" href="#ciotype">CIOType</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#cfixedtype">CFixedType</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#crangedinttype">CRangedIntType</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cmarkedtype">CMarkedType</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="bool.html">hbutils.binary.bool</a></li>
 <li class="toctree-l2"><a class="reference internal" href="buffer.html">hbutils.binary.buffer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="float.html">hbutils.binary.float</a></li>
 <li class="toctree-l2"><a class="reference internal" href="int.html">hbutils.binary.int</a></li>
 <li class="toctree-l2"><a class="reference internal" href="str.html">hbutils.binary.str</a></li>
 <li class="toctree-l2"><a class="reference internal" href="uint.html">hbutils.binary.uint</a></li>
@@ -381,6 +383,72 @@ Used as base class of all the IO types.</p>
 <p class="admonition-title">Warning</p>
 <p>Need to be implemented.</p>
 </div>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="cmarkedtype">
+<h2>CMarkedType<a class="headerlink" href="#cmarkedtype" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.binary.base.CMarkedType">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.binary.base.</code><code class="sig-name descname">CMarkedType</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mark</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">size</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/binary/base.html#CMarkedType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.base.CMarkedType" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Type with struct mark, which can be directly read by <code class="docutils literal notranslate"><span class="pre">struct</span></code> module.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="hbutils.binary.base.CMarkedType.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mark</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">size</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/binary/base.html#CMarkedType.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.base.CMarkedType.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of <a class="reference internal" href="#hbutils.binary.base.CMarkedType" title="hbutils.binary.base.CMarkedType"><code class="xref py py-class docutils literal notranslate"><span class="pre">CMarkedType</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mark</strong> – Mark of the type.</p></li>
+<li><p><strong>size</strong> – Size of the type.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.binary.base.CMarkedType.mark">
+<em class="property">property </em><code class="sig-name descname">mark</code><a class="headerlink" href="#hbutils.binary.base.CMarkedType.mark" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mark of the type, will be used to read from binary data with <code class="docutils literal notranslate"><span class="pre">struct</span></code> module.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.binary.base.CMarkedType.read">
+<code class="sig-name descname">read</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/binary/base.html#CMarkedType.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.base.CMarkedType.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read from binary with <code class="docutils literal notranslate"><span class="pre">struct</span></code> module.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file</strong> – Binary file, <code class="docutils literal notranslate"><span class="pre">io.BytesIO</span></code> is supported as well.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Result value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.binary.base.CMarkedType.size">
+<em class="property">property </em><code class="sig-name descname">size</code><a class="headerlink" href="#hbutils.binary.base.CMarkedType.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Size of the given type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.binary.base.CMarkedType.write">
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span></em>, <em class="sig-param"><span class="n">val</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/binary/base.html#CMarkedType.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.base.CMarkedType.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write value to binary IO with <code class="docutils literal notranslate"><span class="pre">struct</span></code> module.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> – Binary file, <code class="docutils literal notranslate"><span class="pre">io.BytesIO</span></code> is supported as well.</p></li>
+<li><p><strong>val</strong> – Writing value.</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

@@ -244,7 +244,7 @@
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructor of :class:`CRangedIntType`.</span>
 
-<span class="sd">        :param size: Size of the type. </span>
+<span class="sd">        :param size: Size of the type.</span>
 <span class="sd">        :param minimum: Min value of the type.</span>
 <span class="sd">        :param maximum: Max value of the type.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -274,21 +274,47 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma: no cover</span></div></div>
 
 
-<span class="k">class</span> <span class="nc">CMarkedType</span><span class="p">(</span><span class="n">CFixedType</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mark</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<div class="viewcode-block" id="CMarkedType"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CMarkedType">[docs]</a><span class="k">class</span> <span class="nc">CMarkedType</span><span class="p">(</span><span class="n">CFixedType</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Type with struct mark, which can be directly read by ``struct`` module.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="CMarkedType.__init__"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CMarkedType.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mark</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of :class:`CMarkedType`.</span>
+
+<span class="sd">        :param mark: Mark of the type.</span>
+<span class="sd">        :param size: Size of the type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">CFixedType</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__mark</span> <span class="o">=</span> <span class="n">mark</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__mark</span> <span class="o">=</span> <span class="n">mark</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">mark</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Mark of the type, will be used to read from binary data with ``struct`` module.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mark</span>
 
-    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span><span class="p">):</span>
-        <span class="n">r</span><span class="p">,</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mark</span><span class="p">,</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">r</span>
+<div class="viewcode-block" id="CMarkedType.read"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CMarkedType.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read from binary with ``struct`` module.</span>
 
-    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mark</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)))</span>
+<span class="sd">        :param file: Binary file, ``io.BytesIO`` is supported as well.</span>
+<span class="sd">        :return: Result value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">r</span><span class="p">,</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mark</span><span class="p">,</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">r</span></div>
+
+<div class="viewcode-block" id="CMarkedType.write"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CMarkedType.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Write value to binary IO with ``struct`` module.</span>
+
+<span class="sd">        :param file: Binary file, ``io.BytesIO`` is supported as well.</span>
+<span class="sd">        :param val: Writing value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mark</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)))</span></div></div>
 </pre></div>
 
 

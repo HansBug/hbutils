@@ -13,6 +13,12 @@ CSignedIntType
     :members: __init__, size, read, write
 
 
+c_byte
+------------------------
+
+.. autodata:: c_byte
+
+
 c_short
 ------------------------
 
