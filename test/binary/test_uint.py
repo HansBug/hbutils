@@ -6,8 +6,8 @@ from hbutils.binary import c_uint8, c_uint16, c_uint32, c_uint64, c_byte, c_usho
 from .base import linux_mark, windows_mark, macos_mark
 
 
-@pytest.mark.unittest
 class TestBinaryUint:
+    @pytest.mark.unittest
     def test_int8(self):
         assert c_uint8.size == 1
         assert c_uint8.minimum == 0
@@ -42,6 +42,7 @@ class TestBinaryUint:
 
             assert file.getvalue() == b'\xde\xad\xbe\xef\x12\x34\x56\x78'
 
+    @pytest.mark.unittest
     def test_uint16(self):
         assert c_uint16.size == 2
         assert c_uint16.minimum == 0
@@ -68,6 +69,7 @@ class TestBinaryUint:
 
             assert file.getvalue() == b'\xde\xad\xbe\xef\x12\x34\x56\x78'
 
+    @pytest.mark.unittest
     def test_uint32(self):
         assert c_uint32.size == 4
         assert c_uint32.minimum == 0
@@ -90,6 +92,7 @@ class TestBinaryUint:
 
             assert file.getvalue() == b'\xde\xad\xbe\xef\x12\x34\x56\x78'
 
+    @pytest.mark.unittest
     def test_uint64(self):
         assert c_uint64.size == 8
         assert c_uint64.minimum == 0
