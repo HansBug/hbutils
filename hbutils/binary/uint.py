@@ -6,7 +6,7 @@ from .base import CRangedIntType
 __all__ = [
     'CUnsignedIntType',
     'c_uint8', 'c_uint16', 'c_uint32', 'c_uint64',
-    'c_byte', 'c_ushort', 'c_uint', 'c_ulong', 'c_ulonglong',
+    'c_ubyte', 'c_ushort', 'c_uint', 'c_ulong', 'c_ulonglong',
 ]
 
 
@@ -167,7 +167,7 @@ def _get_from_raw(tp) -> CUnsignedIntType:
     return _SIZE_TO_INT_TYPE[ctypes.sizeof(tp)]
 
 
-c_byte = _get_from_raw(ctypes.c_byte)
+c_ubyte = _get_from_raw(ctypes.c_ubyte)
 """
 Alias for :data:`c_uint8`.
 """

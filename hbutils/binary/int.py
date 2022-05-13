@@ -7,7 +7,7 @@ from .uint import CUnsignedIntType
 __all__ = [
     'CSignedIntType',
     'c_int8', 'c_int16', 'c_int32', 'c_int64',
-    'c_short', 'c_int', 'c_long', 'c_longlong',
+    'c_byte', 'c_short', 'c_int', 'c_long', 'c_longlong',
 ]
 
 
@@ -58,7 +58,7 @@ class CSignedIntType(CRangedIntType):
             raise ValueError(f'Signed int value within '
                              f'[{self.minimum}, {self.maximum}] expected, but {repr(val)} found.')
 
-        fval = val if val > 0 else val + (self.__half << 1)
+        fval = val if val >= 0 else val + (self.__half << 1)
         self._unit.write(file, fval)
 
 
@@ -168,6 +168,10 @@ def _get_from_raw(tp) -> CSignedIntType:
     return _SIZE_TO_INT_TYPE[ctypes.sizeof(tp)]
 
 
+c_byte = _get_from_raw(ctypes.c_byte)
+"""
+Alias for :data:`c_uint8`.
+"""
 c_short = _get_from_raw(ctypes.c_short)
 """
 Alias for :data:`c_int16`.

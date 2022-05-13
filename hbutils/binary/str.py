@@ -1,7 +1,7 @@
 import io
 from typing import BinaryIO, Optional
 
-from .base import CIOType
+from .base import CIOType, CFixedType
 from .buffer import c_buffer
 from ..encoding import auto_decode
 
@@ -102,7 +102,7 @@ Examples::
 """
 
 
-class CSizedStringType(CIOType):
+class CSizedStringType(CFixedType):
     """
     Overview:
         Sized string type.
@@ -117,7 +117,7 @@ class CSizedStringType(CIOType):
         :param size: Size of the string's space.
         :param encoding: Encoding type, default is ``None`` which means auto-detect the encodings.
         """
-        self.__size = size
+        CFixedType.__init__(self, size)
         self.__encoding = encoding
         self._buffer = c_buffer(size)
 
@@ -127,13 +127,6 @@ class CSizedStringType(CIOType):
         Encoding type.
         """
         return self.__encoding
-
-    @property
-    def size(self) -> int:
-        """
-        Size of the string's space.
-        """
-        return self.__size
 
     def read(self, file: BinaryIO) -> str:
         """

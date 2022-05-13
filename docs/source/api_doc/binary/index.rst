@@ -11,6 +11,7 @@ hbutils.binary
     base
     bool
     buffer
+    float
     int
     str
     uint

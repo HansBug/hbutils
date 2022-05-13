@@ -1,3 +1,4 @@
+import struct
 from typing import BinaryIO
 
 
@@ -71,7 +72,7 @@ class CRangedIntType(CFixedType):
         """
         Constructor of :class:`CRangedIntType`.
 
-        :param size: Size of the type. 
+        :param size: Size of the type.
         :param minimum: Min value of the type.
         :param maximum: Max value of the type.
         """
@@ -99,3 +100,46 @@ class CRangedIntType(CFixedType):
 
     def write(self, file: BinaryIO, val):
         raise NotImplementedError  # pragma: no cover
+
+
+class CMarkedType(CFixedType):
+    """
+    Overview:
+        Type with struct mark, which can be directly read by ``struct`` module.
+    """
+
+    def __init__(self, mark: str, size: int):
+        """
+        Constructor of :class:`CMarkedType`.
+
+        :param mark: Mark of the type.
+        :param size: Size of the type.
+        """
+        CFixedType.__init__(self, size)
+        self.__mark = mark
+
+    @property
+    def mark(self) -> str:
+        """
+        Mark of the type, will be used to read from binary data with ``struct`` module.
+        """
+        return self.__mark
+
+    def read(self, file: BinaryIO):
+        """
+        Read from binary with ``struct`` module.
+
+        :param file: Binary file, ``io.BytesIO`` is supported as well.
+        :return: Result value.
+        """
+        r, = struct.unpack(self.mark, file.read(self.size))
+        return r
+
+    def write(self, file: BinaryIO, val):
+        """
+        Write value to binary IO with ``struct`` module.
+
+        :param file: Binary file, ``io.BytesIO`` is supported as well.
+        :param val: Writing value.
+        """
+        file.write(struct.pack(self.mark, float(val)))

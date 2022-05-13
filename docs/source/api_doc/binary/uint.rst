@@ -13,10 +13,10 @@ CUnsignedIntType
     :members: __init__, size, read, write
 
 
-c_byte
+c_ubyte
 ------------------------
 
-.. autodata:: c_byte
+.. autodata:: c_ubyte
 
 
 c_ushort

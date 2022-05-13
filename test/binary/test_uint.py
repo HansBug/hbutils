@@ -2,7 +2,7 @@ import io
 
 import pytest
 
-from hbutils.binary import c_uint8, c_uint16, c_uint32, c_uint64, c_byte, c_ushort, c_uint, c_ulong, c_ulonglong
+from hbutils.binary import c_uint8, c_uint16, c_uint32, c_uint64, c_ushort, c_uint, c_ulong, c_ulonglong, c_ubyte
 from ..testings import linux_mark, windows_mark, macos_mark
 
 
@@ -119,7 +119,7 @@ class TestBinaryUint:
 
     @linux_mark
     def test_eq_ubuntu_1804(self):
-        assert c_byte is c_uint8
+        assert c_ubyte is c_uint8
         assert c_ushort is c_uint16
         assert c_uint is c_uint32
         assert c_ulong is c_uint64
@@ -127,7 +127,7 @@ class TestBinaryUint:
 
     @windows_mark
     def test_eq_windows_2019(self):
-        assert c_byte is c_uint8
+        assert c_ubyte is c_uint8
         assert c_ushort is c_uint16
         assert c_uint is c_uint32
         assert c_ulong is c_uint32
@@ -135,7 +135,7 @@ class TestBinaryUint:
 
     @macos_mark
     def test_eq_macos_10(self):
-        assert c_byte is c_uint8
+        assert c_ubyte is c_uint8
         assert c_ushort is c_uint16
         assert c_uint is c_uint32
         assert c_ulong is c_uint64

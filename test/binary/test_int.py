@@ -2,7 +2,7 @@ import io
 
 import pytest
 
-from hbutils.binary import c_int8, c_int16, c_int32, c_int64, c_short, c_int, c_long, c_longlong
+from hbutils.binary import c_int8, c_int16, c_int32, c_int64, c_short, c_int, c_long, c_longlong, c_byte
 from ..testings import linux_mark, windows_mark, macos_mark
 
 
@@ -13,7 +13,7 @@ class TestBinaryUint:
         assert c_int8.minimum == -128
         assert c_int8.maximum == 127
 
-        with io.BytesIO(b'\xde\xad\xbe\xef\x12\x34\x56\x78') as file:
+        with io.BytesIO(b'\xde\xad\xbe\xef\x12\x34\x56\x78\x80') as file:
             assert c_int8.read(file) == -34
             assert c_int8.read(file) == -83
             assert c_int8.read(file) == -66
@@ -22,6 +22,7 @@ class TestBinaryUint:
             assert c_int8.read(file) == 52
             assert c_int8.read(file) == 86
             assert c_int8.read(file) == 120
+            assert c_int8.read(file) == -128
 
         with io.BytesIO() as file:
             with pytest.raises(TypeError):
@@ -39,8 +40,9 @@ class TestBinaryUint:
             c_int8.write(file, 52)
             c_int8.write(file, 86)
             c_int8.write(file, 120)
+            c_int8.write(file, 0)
 
-            assert file.getvalue() == b'\xde\xad\xbe\xef\x12\x34\x56\x78'
+            assert file.getvalue() == b'\xde\xad\xbe\xef\x12\x34\x56\x78\x00'
 
     @pytest.mark.unittest
     def test_int16(self):
@@ -48,11 +50,12 @@ class TestBinaryUint:
         assert c_int16.minimum == -32768
         assert c_int16.maximum == 32767
 
-        with io.BytesIO(b'\xde\xad\xbe\xef\x12\x34\x56\x78') as file:
+        with io.BytesIO(b'\xde\xad\xbe\xef\x12\x34\x56\x78\x00\x80') as file:
             assert c_int16.read(file) == -21026
             assert c_int16.read(file) == -4162
             assert c_int16.read(file) == 13330
             assert c_int16.read(file) == 30806
+            assert c_int16.read(file) == -32768
 
         with io.BytesIO() as file:
             with pytest.raises(TypeError):
@@ -66,8 +69,9 @@ class TestBinaryUint:
             c_int16.write(file, -4162)
             c_int16.write(file, 13330)
             c_int16.write(file, 30806)
+            c_int16.write(file, 0)
 
-            assert file.getvalue() == b'\xde\xad\xbe\xef\x12\x34\x56\x78'
+            assert file.getvalue() == b'\xde\xad\xbe\xef\x12\x34\x56\x78\x00\x00'
 
     @pytest.mark.unittest
     def test_int32(self):
@@ -75,9 +79,10 @@ class TestBinaryUint:
         assert c_int32.minimum == -2147483648
         assert c_int32.maximum == 2147483647
 
-        with io.BytesIO(b'\xde\xad\xbe\xef\x12\x34\x56\x78') as file:
+        with io.BytesIO(b'\xde\xad\xbe\xef\x12\x34\x56\x78\x00\x00\x00\x80') as file:
             assert c_int32.read(file) == -272716322
             assert c_int32.read(file) == 2018915346
+            assert c_int32.read(file) == -2147483648
 
         with io.BytesIO() as file:
             with pytest.raises(TypeError):
@@ -89,8 +94,9 @@ class TestBinaryUint:
 
             c_int32.write(file, -272716322)
             c_int32.write(file, 2018915346)
+            c_int32.write(file, 0)
 
-            assert file.getvalue() == b'\xde\xad\xbe\xef\x12\x34\x56\x78'
+            assert file.getvalue() == b'\xde\xad\xbe\xef\x12\x34\x56\x78\x00\x00\x00\x00'
 
     @pytest.mark.unittest
     def test_int64(self):
@@ -99,9 +105,11 @@ class TestBinaryUint:
         assert c_int64.maximum == (1 << 63) - 1
 
         with io.BytesIO(b'\xde\xad\xbe\xef\x12\x34\x56\x78'
-                        b'xV4\x12xV4\x12') as file:
+                        b'xV4\x12xV4\x12'
+                        b'\x00\x00\x00\x00\x00\x00\x00\x80') as file:
             assert c_int64.read(file) == 8671175388484775390
             assert c_int64.read(file) == 1311768465173141112
+            assert c_int64.read(file) == -9223372036854775808
 
         with io.BytesIO() as file:
             with pytest.raises(TypeError):
@@ -113,12 +121,15 @@ class TestBinaryUint:
 
             c_int64.write(file, 8671175388484775390)
             c_int64.write(file, 1311768465173141112)
+            c_int64.write(file, 0)
 
             assert file.getvalue() == b'\xde\xad\xbe\xef\x12\x34\x56\x78' \
-                                      b'xV4\x12xV4\x12'
+                                      b'xV4\x12xV4\x12' \
+                                      b'\x00\x00\x00\x00\x00\x00\x00\x00'
 
     @linux_mark
     def test_eq_ubuntu_1804(self):
+        assert c_byte is c_int8
         assert c_short is c_int16
         assert c_int is c_int32
         assert c_long is c_int64
@@ -126,6 +137,7 @@ class TestBinaryUint:
 
     @windows_mark
     def test_eq_windows_2019(self):
+        assert c_byte is c_int8
         assert c_short is c_int16
         assert c_int is c_int32
         assert c_long is c_int32
@@ -133,6 +145,7 @@ class TestBinaryUint:
 
     @macos_mark
     def test_eq_macos_10(self):
+        assert c_byte is c_int8
         assert c_short is c_int16
         assert c_int is c_int32
         assert c_long is c_int64
