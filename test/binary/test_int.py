@@ -3,10 +3,11 @@ import io
 import pytest
 
 from hbutils.binary import c_int8, c_int16, c_int32, c_int64, c_short, c_int, c_long, c_longlong
+from .base import linux_mark, windows_mark, macos_mark
 
 
-@pytest.mark.unittest
 class TestBinaryUint:
+    @pytest.mark.unittest
     def test_int8(self):
         assert c_int8.size == 1
         assert c_int8.minimum == -128
@@ -41,6 +42,7 @@ class TestBinaryUint:
 
             assert file.getvalue() == b'\xde\xad\xbe\xef\x12\x34\x56\x78'
 
+    @pytest.mark.unittest
     def test_int16(self):
         assert c_int16.size == 2
         assert c_int16.minimum == -32768
@@ -67,6 +69,7 @@ class TestBinaryUint:
 
             assert file.getvalue() == b'\xde\xad\xbe\xef\x12\x34\x56\x78'
 
+    @pytest.mark.unittest
     def test_int32(self):
         assert c_int32.size == 4
         assert c_int32.minimum == -2147483648
@@ -89,6 +92,7 @@ class TestBinaryUint:
 
             assert file.getvalue() == b'\xde\xad\xbe\xef\x12\x34\x56\x78'
 
+    @pytest.mark.unittest
     def test_int64(self):
         assert c_int64.size == 8
         assert c_int64.minimum == -(1 << 63)
@@ -113,7 +117,22 @@ class TestBinaryUint:
             assert file.getvalue() == b'\xde\xad\xbe\xef\x12\x34\x56\x78' \
                                       b'xV4\x12xV4\x12'
 
-    def test_eq(self):
+    @linux_mark
+    def test_eq_ubuntu_1804(self):
+        assert c_short is c_int16
+        assert c_int is c_int32
+        assert c_long is c_int64
+        assert c_longlong is c_int64
+
+    @windows_mark
+    def test_eq_windows_2019(self):
+        assert c_short is c_int16
+        assert c_int is c_int32
+        assert c_long is c_int32
+        assert c_longlong is c_int64
+
+    @macos_mark
+    def test_eq_macos_10(self):
         assert c_short is c_int16
         assert c_int is c_int32
         assert c_long is c_int64
