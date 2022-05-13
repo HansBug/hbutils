@@ -98,6 +98,7 @@
 <li class="toctree-l2"><a class="reference internal" href="base.html">hbutils.binary.base</a></li>
 <li class="toctree-l2"><a class="reference internal" href="bool.html">hbutils.binary.bool</a></li>
 <li class="toctree-l2"><a class="reference internal" href="buffer.html">hbutils.binary.buffer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="float.html">hbutils.binary.float</a></li>
 <li class="toctree-l2"><a class="reference internal" href="int.html">hbutils.binary.int</a></li>
 <li class="toctree-l2"><a class="reference internal" href="str.html">hbutils.binary.str</a></li>
 <li class="toctree-l2"><a class="reference internal" href="uint.html">hbutils.binary.uint</a></li>
@@ -108,6 +109,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../config/index.html">hbutils.config</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../design/index.html">hbutils.design</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file/index.html">hbutils.file</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../model/index.html">hbutils.model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../random/index.html">hbutils.random</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reflection/index.html">hbutils.reflection</a></li>
@@ -189,6 +191,7 @@
 <li class="toctree-l2"><a class="reference internal" href="base.html#ciotype">CIOType</a></li>
 <li class="toctree-l2"><a class="reference internal" href="base.html#cfixedtype">CFixedType</a></li>
 <li class="toctree-l2"><a class="reference internal" href="base.html#crangedinttype">CRangedIntType</a></li>
+<li class="toctree-l2"><a class="reference internal" href="base.html#cmarkedtype">CMarkedType</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="bool.html">hbutils.binary.bool</a><ul>
@@ -201,8 +204,18 @@
 <li class="toctree-l2"><a class="reference internal" href="buffer.html#c-buffer">c_buffer</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="float.html">hbutils.binary.float</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="float.html#cfloattype">CFloatType</a></li>
+<li class="toctree-l2"><a class="reference internal" href="float.html#c-float">c_float</a></li>
+<li class="toctree-l2"><a class="reference internal" href="float.html#c-double">c_double</a></li>
+<li class="toctree-l2"><a class="reference internal" href="float.html#c-float16">c_float16</a></li>
+<li class="toctree-l2"><a class="reference internal" href="float.html#c-float32">c_float32</a></li>
+<li class="toctree-l2"><a class="reference internal" href="float.html#c-float64">c_float64</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="int.html">hbutils.binary.int</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="int.html#csignedinttype">CSignedIntType</a></li>
+<li class="toctree-l2"><a class="reference internal" href="int.html#c-byte">c_byte</a></li>
 <li class="toctree-l2"><a class="reference internal" href="int.html#c-short">c_short</a></li>
 <li class="toctree-l2"><a class="reference internal" href="int.html#c-int">c_int</a></li>
 <li class="toctree-l2"><a class="reference internal" href="int.html#c-long">c_long</a></li>
@@ -222,7 +235,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="uint.html">hbutils.binary.uint</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="uint.html#cunsignedinttype">CUnsignedIntType</a></li>
-<li class="toctree-l2"><a class="reference internal" href="uint.html#c-byte">c_byte</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uint.html#c-ubyte">c_ubyte</a></li>
 <li class="toctree-l2"><a class="reference internal" href="uint.html#c-ushort">c_ushort</a></li>
 <li class="toctree-l2"><a class="reference internal" href="uint.html#c-uint">c_uint</a></li>
 <li class="toctree-l2"><a class="reference internal" href="uint.html#c-ulong">c_ulong</a></li>
@@ -305,9 +318,8 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/binary/api_doc/binary/index.html">dev/binary</a></dd>
-                        <dd><a href="../../../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="index.html">main</a></dd>
+                        <dd><a href="../../../dev/dependency/index.html">dev/dependency</a></dd>
                 </dl>
         </div>
     </div>

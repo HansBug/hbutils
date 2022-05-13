@@ -97,6 +97,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../api_doc/config/index.html">hbutils.config</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api_doc/design/index.html">hbutils.design</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api_doc/encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/file/index.html">hbutils.file</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api_doc/model/index.html">hbutils.model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api_doc/random/index.html">hbutils.random</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../api_doc/reflection/index.html">hbutils.reflection</a></li>
@@ -172,7 +173,7 @@
 <span></span><span class="kn">import</span> <span class="nn">io</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">BinaryIO</span><span class="p">,</span> <span class="n">Optional</span>
 
-<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">CIOType</span>
+<span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">CIOType</span><span class="p">,</span> <span class="n">CFixedType</span>
 <span class="kn">from</span> <span class="nn">.buffer</span> <span class="kn">import</span> <span class="n">c_buffer</span>
 <span class="kn">from</span> <span class="nn">..encoding</span> <span class="kn">import</span> <span class="n">auto_decode</span>
 
@@ -273,7 +274,7 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 
-<div class="viewcode-block" id="CSizedStringType"><a class="viewcode-back" href="../../../api_doc/binary/str.html#hbutils.binary.str.CSizedStringType">[docs]</a><span class="k">class</span> <span class="nc">CSizedStringType</span><span class="p">(</span><span class="n">CIOType</span><span class="p">):</span>
+<div class="viewcode-block" id="CSizedStringType"><a class="viewcode-back" href="../../../api_doc/binary/str.html#hbutils.binary.str.CSizedStringType">[docs]</a><span class="k">class</span> <span class="nc">CSizedStringType</span><span class="p">(</span><span class="n">CFixedType</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Sized string type.</span>
@@ -288,7 +289,7 @@
 <span class="sd">        :param size: Size of the string&#39;s space.</span>
 <span class="sd">        :param encoding: Encoding type, default is ``None`` which means auto-detect the encodings.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__size</span> <span class="o">=</span> <span class="n">size</span>
+        <span class="n">CFixedType</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__encoding</span> <span class="o">=</span> <span class="n">encoding</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span> <span class="o">=</span> <span class="n">c_buffer</span><span class="p">(</span><span class="n">size</span><span class="p">)</span></div>
 
@@ -298,13 +299,6 @@
 <span class="sd">        Encoding type.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__encoding</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Size of the string&#39;s space.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__size</span>
 
 <div class="viewcode-block" id="CSizedStringType.read"><a class="viewcode-back" href="../../../api_doc/binary/str.html#hbutils.binary.str.CSizedStringType.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -416,9 +410,8 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../dev/binary/index.html">dev/binary</a></dd>
-                        <dd><a href="../../../../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="str.html">main</a></dd>
+                        <dd><a href="../../../../dev/dependency/index.html">dev/dependency</a></dd>
                 </dl>
         </div>
     </div>

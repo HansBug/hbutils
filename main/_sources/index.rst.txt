@@ -28,6 +28,7 @@ Overview
     api_doc/config/index
     api_doc/design/index
     api_doc/encoding/index
+    api_doc/file/index
     api_doc/model/index
     api_doc/random/index
     api_doc/reflection/index
