@@ -1,3 +1,4 @@
+import struct
 from typing import BinaryIO
 
 
@@ -99,3 +100,20 @@ class CRangedIntType(CFixedType):
 
     def write(self, file: BinaryIO, val):
         raise NotImplementedError  # pragma: no cover
+
+
+class CMarkedType(CFixedType):
+    def __init__(self, mark: str, size: int):
+        CFixedType.__init__(self, size)
+        self.__mark = mark
+
+    @property
+    def mark(self) -> str:
+        return self.__mark
+
+    def read(self, file: BinaryIO):
+        r, = struct.unpack(self.mark, file.read(self.size))
+        return r
+
+    def write(self, file: BinaryIO, val):
+        file.write(struct.pack(self.mark, float(val)))

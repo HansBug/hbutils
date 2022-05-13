@@ -1,8 +1,7 @@
 import ctypes
-import struct
 from typing import BinaryIO, Dict, List, Union
 
-from .base import CFixedType
+from .base import CMarkedType
 
 __all__ = [
     'CFloatType',
@@ -11,21 +10,12 @@ __all__ = [
 ]
 
 
-class CFloatType(CFixedType):
-    def __init__(self, mark: str, size: int):
-        CFixedType.__init__(self, size)
-        self.__mark = mark
-
-    @property
-    def mark(self):
-        return self.__mark
-
+class CFloatType(CMarkedType):
     def read(self, file: BinaryIO) -> float:
-        r, = struct.unpack(self.mark, file.read(self.size))
-        return r
+        return super().read(file)
 
     def write(self, file: BinaryIO, val: Union[int, float]):
-        file.write(struct.pack(self.mark, float(val)))
+        super().write(file, float(val))
 
 
 c_float16 = CFloatType('e', 2)

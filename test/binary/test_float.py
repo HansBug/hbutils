@@ -3,7 +3,7 @@ import math
 
 import pytest
 
-from hbutils.binary import c_float32, c_uint32, c_float64, c_uint64
+from hbutils.binary import c_float32, c_uint32, c_float64, c_uint64, c_float, c_double
 
 
 @pytest.mark.unittest
@@ -190,3 +190,7 @@ class TestBinaryFloat:
                                       b'\x00\x00\x00\x00\x00\x00\xa06' \
                                       b'\x00\x00\x00\x00\x00\x00\x0c\xb8' \
                                       b'\x00\x00\x00\x00\x00\x00\xa0\xb6'
+
+    def test_eq(self):
+        assert c_float is c_float32
+        assert c_double is c_float64
