@@ -8,4 +8,3 @@ pytest-xdist>=1.34.0
 pytest-rerunfailures~=10.2
 pytest-timeout~=2.0.2
 easydict>=1.7,<2
-numpy>=1.19,<2
