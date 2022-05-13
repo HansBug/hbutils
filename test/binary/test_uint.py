@@ -3,7 +3,7 @@ import io
 import pytest
 
 from hbutils.binary import c_uint8, c_uint16, c_uint32, c_uint64, c_byte, c_ushort, c_uint, c_ulong, c_ulonglong
-from .base import linux_mark, windows_mark, macos_mark
+from ..testings import linux_mark, windows_mark, macos_mark
 
 
 class TestBinaryUint:

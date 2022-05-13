@@ -1,6 +1,8 @@
 import os
-
+import platform
 import pytest
+
+platform.system()
 
 _is_win = bool(os.environ.get('IS_WIN', None))
 _is_macos = bool(os.environ.get('IS_MAC', None))

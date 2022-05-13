@@ -1,13 +1,24 @@
-import numpy
+import random
+
 import pytest
 
 from hbutils.collection import swap_2d, cube_shape, dimension_switch
 
 
+def _create_cube(*size):
+    if size:
+        return [
+            _create_cube(*size[1:])
+            for _ in range(size[0])
+        ]
+    else:
+        return random.randint(-5, 15)
+
+
 @pytest.mark.unittest
 class TestCollectionDimension:
     def test_cube_shape(self):
-        a = numpy.random.randint(-5, 15, (3, 5, 7, 9)).tolist()
+        a = _create_cube(3, 5, 7, 9)
         assert cube_shape(a) == (3, 5, 7, 9)
         assert cube_shape([[], [], []]) == (3, 0)
 
@@ -15,7 +26,7 @@ class TestCollectionDimension:
             cube_shape([[1, 2], 3])
 
     def test_dimension_switch(self):
-        a = numpy.random.randint(-5, 15, (3, 5, 7, 9)).tolist()
+        a = _create_cube(3, 5, 7, 9)
         assert cube_shape(dimension_switch(a, (3, 0, 2, 1))) == (9, 3, 7, 5)
 
         with pytest.raises(ValueError):
