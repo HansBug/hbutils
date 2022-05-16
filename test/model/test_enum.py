@@ -206,3 +206,51 @@ class TestReflectionEnum:
         assert MyEnum.loads(2) == MyEnum.B
         assert MyEnum.loads('c') == MyEnum.C
         assert MyEnum.loads(3) == MyEnum.C
+
+    def test_auto_int_enum_with_multiple_args(self):
+        class MyEnum(AutoIntEnum):
+            def __init__(self, v, vx):
+                self.v = v
+                self.vx = vx
+
+            A = ('a_v', 0b1)
+            B = ('b_vv', 0b10)
+            C = ('c_vvv', 0b100)
+
+        assert MyEnum.A.value == 1
+        assert MyEnum.A.v == 'a_v'
+        assert MyEnum.A.vx == 1
+        assert MyEnum.B.value == 2
+        assert MyEnum.B.v == 'b_vv'
+        assert MyEnum.B.vx == 2
+        assert MyEnum.C.value == 3
+        assert MyEnum.C.v == 'c_vvv'
+        assert MyEnum.C.vx == 4
+
+        assert MyEnum.A == MyEnum.A
+        assert MyEnum.A != MyEnum.B
+        assert MyEnum.A != MyEnum.C
+        assert MyEnum.B != MyEnum.A
+        assert MyEnum.B == MyEnum.B
+        assert MyEnum.B != MyEnum.C
+        assert MyEnum.C != MyEnum.A
+        assert MyEnum.C != MyEnum.B
+        assert MyEnum.C == MyEnum.C
+
+    def test_auto_int_enum_with_int_enum_loads_and_multiple_args(self):
+        @int_enum_loads(name_preprocess=str.upper)
+        class MyEnum(AutoIntEnum):
+            def __init__(self, v, vx):
+                self.v = v
+                self.vx = vx
+
+            A = ('a_v', 0b1)
+            B = ('b_vv', 0b10)
+            C = ('c_vvv', 0b100)
+
+        assert MyEnum.loads('a') == MyEnum.A
+        assert MyEnum.loads(1) == MyEnum.A
+        assert MyEnum.loads('B') == MyEnum.B
+        assert MyEnum.loads(2) == MyEnum.B
+        assert MyEnum.loads('c') == MyEnum.C
+        assert MyEnum.loads(3) == MyEnum.C
