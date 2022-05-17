@@ -9,7 +9,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>hbutils.testing.generator &mdash; hbutils 0.4.7 documentation</title>
+  <title>hbutils.testing.generator &mdash; hbutils 0.6.2 documentation</title>
   
 
   
@@ -38,7 +38,8 @@
   <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="prev" title="hbutils.testing" href="index.html" /> 
+    <link rel="next" title="hbutils.testing.isolated" href="isolated.html" />
+    <link rel="prev" title="hbutils.testing.capture" href="capture.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -62,7 +63,7 @@
             
             
               <div class="version">
-                0.4.7
+                0.6.2
               </div>
             
           
@@ -93,24 +94,29 @@
 <p><span class="caption-text">API Documentation</span></p>
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">hbutils.algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../binary/index.html">hbutils.binary</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../collection/index.html">hbutils.collection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../color/index.html">hbutils.color</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../config/index.html">hbutils.config</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../dependency/index.html">hbutils.dependency</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../design/index.html">hbutils.design</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file/index.html">hbutils.file</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../model/index.html">hbutils.model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../random/index.html">hbutils.random</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../reflection/index.html">hbutils.reflection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../scale/index.html">hbutils.scale</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../string/index.html">hbutils.string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../system/index.html">hbutils.system</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">hbutils.testing</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="capture.html">hbutils.testing.capture</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.testing.generator</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#basegenerator">BaseGenerator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#matrixgenerator">MatrixGenerator</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#aetggenerator">AETGGenerator</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="isolated.html">hbutils.testing.isolated</a></li>
 </ul>
 </li>
 </ul>
@@ -322,11 +328,11 @@ It is similar to GitHub Action’s matrix.</p>
 <h2>AETGGenerator<a class="headerlink" href="#aetggenerator" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="hbutils.testing.generator.AETGGenerator">
-<em class="property">class </em><code class="sig-prename descclassname">hbutils.testing.generator.</code><code class="sig-name descname">AETGGenerator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">values</span></em>, <em class="sig-param"><span class="n">names</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pairs</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>Tuple<span class="p">[</span>str<span class="p">, </span><span class="p">…</span><span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">rnd</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>random.Random<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/generator/aetg.html#AETGGenerator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.generator.AETGGenerator" title="Permalink to this definition">¶</a></dt>
-<dd><p>Full AETG model, test cases will be generated to make sure the required pairs will be all tested..</p>
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.testing.generator.</code><code class="sig-name descname">AETGGenerator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">values</span></em>, <em class="sig-param"><span class="n">names</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pairs</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>Tuple<span class="p">[</span>str<span class="p">, </span><span class="p">…</span><span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">rnd</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>random.Random<span class="p">, </span>int<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/generator/aetg.html#AETGGenerator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.generator.AETGGenerator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Full AETG model, test cases will be generated to make sure the required pairs will be all tested.</p>
 <dl class="py method">
 <dt id="hbutils.testing.generator.AETGGenerator.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">values</span></em>, <em class="sig-param"><span class="n">names</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pairs</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>Tuple<span class="p">[</span>str<span class="p">, </span><span class="p">…</span><span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">rnd</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>random.Random<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/generator/aetg.html#AETGGenerator.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.generator.AETGGenerator.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">values</span></em>, <em class="sig-param"><span class="n">names</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pairs</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>Tuple<span class="p">[</span>str<span class="p">, </span><span class="p">…</span><span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">rnd</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>random.Random<span class="p">, </span>int<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/generator/aetg.html#AETGGenerator.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.generator.AETGGenerator.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructor of the <code class="xref py py-class docutils literal notranslate"><span class="pre">hbutils.testing.AETGGenerator</span></code> class.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -334,7 +340,7 @@ It is similar to GitHub Action’s matrix.</p>
 <li><p><strong>values</strong> – Selection values, such as <code class="docutils literal notranslate"><span class="pre">{'a':</span> <span class="pre">[2,</span> <span class="pre">3],</span> <span class="pre">'b':</span> <span class="pre">['b',</span> <span class="pre">'c']}</span></code>.</p></li>
 <li><p><strong>names</strong> – Names of the given generator, default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means use the sorted             key set of the values.</p></li>
 <li><p><strong>pairs</strong> – Pairs required to be all tested, default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means all the             binary pairs will be included.</p></li>
-<li><p><strong>rnd</strong> – Random object, default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means the default random object will be used.</p></li>
+<li><p><strong>rnd</strong> – Random object or int-formatted random seed,             default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means the default random object will be used.</p></li>
 </ul>
 </dd>
 </dl>
@@ -409,8 +415,10 @@ It is similar to GitHub Action’s matrix.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="isolated.html" class="btn btn-neutral float-right" title="hbutils.testing.isolated" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-        <a href="index.html" class="btn btn-neutral float-left" title="hbutils.testing" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+        <a href="capture.html" class="btn btn-neutral float-left" title="hbutils.testing.capture" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -468,8 +476,8 @@ It is similar to GitHub Action’s matrix.</p>
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../main/api_doc/testing/generator.html">main</a></dd>
                         <dd><a href="generator.html">dev/dependency</a></dd>
+                        <dd><a href="../../../../main/api_doc/testing/generator.html">main</a></dd>
                 </dl>
         </div>
     </div>
