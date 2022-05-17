@@ -1,12 +1,12 @@
 import pytest
 
 from hbutils.expression import GeneralExpression, expr, efunc, keep, CheckExpression
-from .test_feature import TestExpressionNativeCheckClass
+from .test_feature import TestExpressionNativeComparableClass
 
 
 @pytest.mark.unittest
 class TestExpressionNativeGeneralClass(
-    TestExpressionNativeCheckClass,
+    TestExpressionNativeComparableClass,
 ):
     __expcls__ = GeneralExpression
 

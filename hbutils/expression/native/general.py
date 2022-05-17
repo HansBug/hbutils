@@ -1,7 +1,7 @@
 from typing import Optional, Type
 
 from .base import BaseExpression
-from .feature import CheckExpression
+from .feature import ComparableExpression
 
 __all__ = [
     'GeneralExpression',
@@ -9,7 +9,7 @@ __all__ = [
 ]
 
 
-class GeneralExpression(CheckExpression):
+class GeneralExpression(ComparableExpression):
     pass
 
 
