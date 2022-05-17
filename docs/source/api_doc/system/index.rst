@@ -9,3 +9,5 @@ hbutils.system
     :maxdepth: 3
 
     filesystem
+    os
+
