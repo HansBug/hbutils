@@ -10,8 +10,7 @@ import re
 import warnings
 from typing import Optional, Union, Tuple
 
-import webcolors
-
+from .base import _name_to_hex, _CSS3_NAME_MAPS
 from ..reflection.func import post_process, raising, freduce, dynamic_call, warning_
 
 __all__ = ['Color']
@@ -73,7 +72,20 @@ _a_mapper = _range_mapper(0.0, 1.0, lambda v, min_, max_: Warning(
 
 
 class RGBColorProxy:
+    """
+    Overview:
+        Color proxy for RGB space.
+    """
+
     def __init__(self, this: 'Color', r: GetSetProxy, g: GetSetProxy, b: GetSetProxy):
+        """
+        Constructor of :class:`RGBColorProxy`.
+
+        :param this: Original color object.
+        :param r: Get-set proxy for red.
+        :param g: Get-set proxy for green.
+        :param b: Get-set proxy for blue.
+        """
         self.__this = this
         self.__rp = r
         self.__gp = g
@@ -81,6 +93,12 @@ class RGBColorProxy:
 
     @property
     def red(self) -> float:
+        """
+        Red value (within :math:`\\left[0.0, 1.0\\right]`).
+
+        .. note::
+            Setter is available, the change will affect the :class:`Color` object.
+        """
         return self.__rp.get()
 
     @red.setter
@@ -89,6 +107,12 @@ class RGBColorProxy:
 
     @property
     def green(self) -> float:
+        """
+        Green value (within :math:`\\left[0.0, 1.0\\right]`).
+
+        .. note::
+            Setter is available, the change will affect the :class:`Color` object.
+        """
         return self.__gp.get()
 
     @green.setter
@@ -97,6 +121,12 @@ class RGBColorProxy:
 
     @property
     def blue(self) -> float:
+        """
+        Blue value (within :math:`\\left[0.0, 1.0\\right]`).
+
+        .. note::
+            Setter is available, the change will affect the :class:`Color` object.
+        """
         return self.__bp.get()
 
     @blue.setter
@@ -104,11 +134,32 @@ class RGBColorProxy:
         self.__bp.set(new)
 
     def __iter__(self):
+        """
+        Iterator for this proxy.
+
+        Examples::
+            >>> from hbutils.color import Color
+            >>>
+            >>> c = Color('green')
+            >>> r, g, b = c.rgb
+            >>> print(r, g, b)
+            0.0 0.5019607843137255 0.0
+        """
         yield self.red
         yield self.green
         yield self.blue
 
     def __repr__(self):
+        """
+        Representation format.
+
+        Examples::
+            >>> from hbutils.color import Color
+            >>>
+            >>> c = Color('green')
+            >>> c.rgb
+            <RGBColorProxy red: 0.000, green: 0.502, blue: 0.000>
+        """
         return '<{cls} red: {red}, green: {green}, blue: {blue}>'.format(
             cls=self.__class__.__name__,
             red='%.3f' % (self.red,),
@@ -125,7 +176,20 @@ _hsv_v_mapper = _range_mapper(0.0, 1.0, lambda v, min_, max_: Warning(
 
 
 class HSVColorProxy:
+    """
+    Overview:
+        Color proxy for HSV space.
+    """
+
     def __init__(self, this: 'Color', h: GetSetProxy, s: GetSetProxy, v: GetSetProxy):
+        """
+        Constructor of :class:`HSVColorProxy`.
+
+        :param this: Original color object.
+        :param h: Get-set proxy for hue.
+        :param s: Get-set proxy for saturation.
+        :param v: Get-set proxy for value.
+        """
         this.__this = this
         self.__hp = h
         self.__sp = s
@@ -133,6 +197,12 @@ class HSVColorProxy:
 
     @property
     def hue(self) -> float:
+        """
+        Hue value (within :math:`\\left[0.0, 1.0\\right]`).
+
+        .. note::
+            Setter is available, the change will affect the :class:`Color` object.
+        """
         return self.__hp.get()
 
     @hue.setter
@@ -141,6 +211,12 @@ class HSVColorProxy:
 
     @property
     def saturation(self) -> float:
+        """
+        Saturation value (within :math:`\\left[0.0, 1.0\\right]`).
+
+        .. note::
+            Setter is available, the change will affect the :class:`Color` object.
+        """
         return self.__sp.get()
 
     @saturation.setter
@@ -149,18 +225,56 @@ class HSVColorProxy:
 
     @property
     def value(self) -> float:
+        """
+        Value value (within :math:`\\left[0.0, 1.0\\right]`).
+
+        .. note::
+            Setter is available, the change will affect the :class:`Color` object.
+        """
         return self.__vp.get()
 
     @value.setter
     def value(self, new: float):
         self.__vp.set(new)
 
+    @property
+    def brightness(self) -> float:
+        """
+        Alias for ``value``.
+        """
+        return self.value
+
+    @brightness.setter
+    def brightness(self, new: float):
+        self.value = new
+
     def __iter__(self):
+        """
+        Iterator for this proxy.
+
+        Examples::
+            >>> from hbutils.color import Color
+            >>>
+            >>> c = Color('green')
+            >>> h, s, v = c.hsv
+            >>> print(h, s, v)
+            0.3333333333333333 1.0 0.5019607843137255
+        """
         yield self.hue
         yield self.saturation
         yield self.value
 
     def __repr__(self):
+        """
+        Representation format.
+
+        Examples::
+            >>> from hbutils.color import Color
+            >>>
+            >>> c = Color('green')
+            >>> c.hsv
+            <HSVColorProxy hue: 0.333, saturation: 1.000, value: 0.502>
+        """
         return '<{cls} hue: {hue}, saturation: {saturation}, value: {value}>'.format(
             cls=self.__class__.__name__,
             hue='%.3f' % (self.hue,),
@@ -177,7 +291,20 @@ _hls_s_mapper = _range_mapper(0.0, 1.0, lambda v, min_, max_: Warning(
 
 
 class HLSColorProxy:
+    """
+    Overview:
+        Color proxy for HLS space.
+    """
+
     def __init__(self, this: 'Color', h: GetSetProxy, l: GetSetProxy, s: GetSetProxy):
+        """
+        Constructor of :class:`HLSColorProxy`.
+
+        :param this: Original color object.
+        :param h: Get-set proxy for hue.
+        :param l: Get-set proxy for lightness.
+        :param s: Get-set proxy for saturation.
+        """
         this.__this = this
         self.__hp = h
         self.__lp = l
@@ -185,6 +312,12 @@ class HLSColorProxy:
 
     @property
     def hue(self) -> float:
+        """
+        Hue value (within :math:`\\left[0.0, 1.0\\right]`).
+
+        .. note::
+            Setter is available, the change will affect the :class:`Color` object.
+        """
         return self.__hp.get()
 
     @hue.setter
@@ -193,6 +326,12 @@ class HLSColorProxy:
 
     @property
     def lightness(self) -> float:
+        """
+        Lightness value (within :math:`\\left[0.0, 1.0\\right]`).
+
+        .. note::
+            Setter is available, the change will affect the :class:`Color` object.
+        """
         return self.__lp.get()
 
     @lightness.setter
@@ -201,6 +340,12 @@ class HLSColorProxy:
 
     @property
     def saturation(self) -> float:
+        """
+        Saturation value (within :math:`\\left[0.0, 1.0\\right]`).
+
+        .. note::
+            Setter is available, the change will affect the :class:`Color` object.
+        """
         return self.__sp.get()
 
     @saturation.setter
@@ -208,11 +353,32 @@ class HLSColorProxy:
         self.__sp.set(new)
 
     def __iter__(self):
+        """
+        Iterator for this proxy.
+
+        Examples::
+            >>> from hbutils.color import Color
+            >>>
+            >>> c = Color('green')
+            >>> h, l, s = c.hls
+            >>> print(h, l, s)
+            0.3333333333333333 0.25098039215686274 1.0
+        """
         yield self.hue
         yield self.lightness
         yield self.saturation
 
     def __repr__(self):
+        """
+        Representation format.
+
+        Examples::
+            >>> from hbutils.color import Color
+            >>>
+            >>> c = Color('green')
+            >>> c.hls
+            <HLSColorProxy hue: 0.333, lightness: 0.251, saturation: 1.000>
+        """
         return '<{cls} hue: {hue}, lightness: {lightness}, saturation: {saturation}>'.format(
             cls=self.__class__.__name__,
             hue='%.3f' % (self.hue,),
@@ -238,6 +404,43 @@ class Color:
     """
     Overview:
         Color utility object.
+
+    Examples::
+        >>> from hbutils.color import Color
+        >>>
+        >>> c = Color('red')  # from name
+        >>> c
+        <Color red>
+        >>> str(c)  # hex format
+        '#ff0000'
+        >>> (c.rgb.red, c.rgb.green, c.rgb.blue)            # rgb format
+        (1.0, 0.0, 0.0)
+        >>> (c.hls.hue, c.hls.lightness, c.hls.saturation)  # hls format
+        (0.0, 0.5, 1.0)
+        >>> (c.hsv.hue, c.hsv.value, c.hsv.saturation)      # hsv format
+        (0.0, 1.0, 1.0)
+
+
+        >>> c1 = Color('#56a3f0')  # from hex
+        >>> c1
+        <Color #56a3f0>
+        >>> str(c1)  # hex format
+        '#56a3f0'
+        >>> (c1.rgb.red, c1.rgb.green, c1.rgb.blue)            # rgb format
+        (0.33725490196078434, 0.6392156862745098, 0.9411764705882353)
+        >>> (c1.hls.hue, c1.hls.lightness, c1.hls.saturation)  # hls format
+        (0.5833333333333334, 0.6392156862745098, 0.8369565217391304)
+        >>> (c1.hsv.hue, c1.hsv.value, c1.hsv.saturation)      # hsv format
+        (0.5833333333333334, 0.9411764705882353, 0.6416666666666666)
+
+
+        >>> c2 = Color('#56a3f077')  # from hex
+        >>> c2
+        <Color #56a3f0, alpha: 0.467>
+        >>> c2.alpha  # alpha value
+        0.4666666666666667
+        >>> str(c2)   # hex format
+        '#56a3f077'
     """
 
     def __init__(self, c: Union[str, Tuple[float, float, float]], alpha: Optional[float] = None):
@@ -259,7 +462,7 @@ class Color:
                 _rgb_hex = c
             else:
                 try:
-                    _rgb_hex = webcolors.name_to_hex(c)
+                    _rgb_hex = _name_to_hex(c)
                 except ValueError:
                     raise ValueError("Invalid string color, matching of pattern {pattern} or english name "
                                      "expected but {actual} found.".format(pattern=repr(_RGB_COLOR_PATTERN.pattern),
@@ -287,23 +490,15 @@ class Color:
     @property
     def alpha(self) -> Optional[float]:
         """
-        Overview:
-            Get value of alpha.
+        Alpha value, which means the transparent ratio (within :math:`\\left[0.0, 1.0\\right]`).
 
-        Returns:
-            - alpha (:obj:`Optional[float]`): Alpha value.
+        :: note::
+            Setter is available.
         """
         return self.__alpha
 
     @alpha.setter
     def alpha(self, new: Optional[float]):
-        """
-        Overview:
-            Set value of alpha.
-
-        Arguments:
-            - new (:obj:`Optional[float]`): New value of alpha.
-        """
         if new is not None:
             new = _a_mapper(new)
         self.__alpha = new
@@ -319,6 +514,7 @@ class Color:
         """
         Overview:
             Get rgb color system based color proxy.
+            See :class:`RGBColorProxy`.
 
         Returns:
             - proxy (:obj:`RGBColorProxy`): Rgb color proxy.
@@ -351,6 +547,7 @@ class Color:
         """
         Overview:
             Get hsv color system based color proxy.
+            See :class:`HSVColorProxy`.
 
         Returns:
             - proxy (:obj:`HSVColorProxy`): Hsv color proxy.
@@ -383,6 +580,7 @@ class Color:
         """
         Overview:
             Get hls color system based color proxy.
+            See :class:`HLSColorProxy`.
 
         Returns:
             - proxy (:obj:`HLSColorProxy`): Hls color proxy.
@@ -409,20 +607,27 @@ class Color:
 
         return '#' + rs + gs + bs + as_
 
+    def __get_name(self):
+        _hex = self.__get_hex(False).lower()
+        return _CSS3_NAME_MAPS.get(_hex, _hex)
+
     def __repr__(self):
         if self.__alpha is not None:
             return '<{cls} {hex}, alpha: {alpha}>'.format(
                 cls=self.__class__.__name__,
-                hex=self.__get_hex(False),
+                hex=self.__get_name(),
                 alpha='%.3f' % (self.__alpha,),
             )
         else:
             return '<{cls} {hex}>'.format(
                 cls=self.__class__.__name__,
-                hex=self.__get_hex(False),
+                hex=self.__get_name(),
             )
 
     def __str__(self):
+        """
+        Hex format of this :class:`Color` object.
+        """
         return self.__get_hex(True)
 
     def __getstate__(self) -> Tuple[float, float, float, Optional[float]]:
@@ -439,6 +644,7 @@ class Color:
         """
         Overview:
             Load color from pickle object.
+
         Args:
             - v (:obj:`Tuple[float, float, float, Optional[float]]`): Dumped data object.
         """

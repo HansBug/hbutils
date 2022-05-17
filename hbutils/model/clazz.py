@@ -12,10 +12,39 @@ from ..design.singleton import SingletonMark
 from ..reflection import fassign
 
 __all__ = [
+    'get_field',
     'asitems', 'visual', 'constructor', 'hasheq', 'accessor',
 ]
 
 CLASS_WRAPPER_UPDATES = ()
+
+
+def _cls_field_name(cls: type, name: str):
+    if name.startswith('__'):
+        return f'_{cls.__name__.lstrip("_")}__{name[2:]}'
+    else:
+        return name
+
+
+_NO_DEFAULT_VALUE = SingletonMark('no_default_value')
+
+
+def get_field(obj, name: str, default=_NO_DEFAULT_VALUE):
+    """
+    Overview:
+        Get field from object.
+        Private field is supported.
+
+    :param obj: The given object.
+    :param name: Field to be got.
+    :param default: Default value when failed.
+    :return: Field value of the field.
+    """
+    _field_name = _cls_field_name(type(obj), name)
+    if default is _NO_DEFAULT_VALUE:
+        return getattr(obj, _field_name)
+    else:
+        return getattr(obj, _field_name, default)
 
 
 def _cls_private_prefix(cls):
@@ -157,7 +186,6 @@ def visual(items: Optional[Iterable] = None, show_id: bool = False):
     return _decorator
 
 
-_NO_DEFAULT_VALUE = SingletonMark('no_default_value')
 _INDENT = ' ' * 4
 
 
@@ -300,7 +328,7 @@ def hasheq(items: Optional[Iterable] = None):
                 Created by {_PACKAGE_RST}, v{__VERSION__}.
 
                 Currently, the return value is True only if both objects \\
-                are of class XXX (subclasses are not permitted) and the \\
+                are of class {cls.__name__} (subclasses are not permitted) and the \\
                 values of the internally specified fields are all equal; \\
                 otherwise, it is always False.
             """
@@ -311,8 +339,23 @@ def hasheq(items: Optional[Iterable] = None):
             else:
                 return False
 
+        def __ne__(self, other):
+            f"""
+            Non-equality between class {cls.__name__}'s instances.
+
+            .. note::
+                Created by {_PACKAGE_RST}, v{__VERSION__}.
+
+                Currently, the return value is False only if both objects \\
+                are of class {cls.__name__} (subclasses are not permitted) and the \\
+                values of the internally specified fields are all equal; \\
+                otherwise, it is always True.
+            """
+            return not __eq__(self, other)
+
         cls.__hash__ = __hash__
         cls.__eq__ = __eq__
+        cls.__ne__ = __ne__
 
         return cls
 

@@ -6,15 +6,15 @@ from hbutils.color import visual_distance, Color, rnd_colors
 @pytest.mark.unittest
 class TestColorUtils:
     def test_visual_distance(self):
-        assert abs(visual_distance(
+        assert visual_distance(
             Color.from_hex('#ff0000'),
             Color.from_hex('#00ff00')
-        ) - 2.5495097567963922) < 1e-6
+        ) == pytest.approx(2.5495097567963922)
 
-        assert abs(visual_distance(
+        assert visual_distance(
             Color.from_hex('#778800'),
             Color.from_hex('#887700')
-        ) - 0.16996731711975946) < 1e-6
+        ) == pytest.approx(0.16996731711975946)
 
     def test_rnd_colors(self):
         cs = list(rnd_colors(12))

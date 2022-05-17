@@ -1,6 +1,6 @@
 .PHONY: docs test unittest
 
-PROJ_DIR := $(shell readlink -f ${CURDIR})
+PROJ_DIR := ${CURDIR}
 
 DOC_DIR  := ${PROJ_DIR}/docs
 TEST_DIR := ${PROJ_DIR}/test

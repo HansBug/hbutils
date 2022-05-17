@@ -1,6 +1,6 @@
 import pytest
 
-from hbutils.model import visual, constructor, asitems, hasheq, accessor
+from hbutils.model import visual, constructor, asitems, hasheq, accessor, get_field
 
 
 # noinspection DuplicatedCode
@@ -234,3 +234,31 @@ class TestModelClazz:
                 def __init__(self, x, y):
                     self.__x = x
                     self.__y = y
+
+    def test_get_field(self):
+        class T:
+            def __init__(self):
+                self.a = 1
+                self._b = 2
+                self.__c = 3
+                self.___d = 4
+
+        assert get_field(T(), 'a') == 1
+        assert get_field(T(), '_b') == 2
+        assert get_field(T(), 'b', 233) == 233
+        assert get_field(T(), '__c') == 3
+        assert get_field(T(), '___d') == 4
+
+        # noinspection PyPep8Naming
+        class _T_:
+            def __init__(self):
+                self.a = 1
+                self._b = 2
+                self.__c = 3
+                self.___d = 4
+
+        assert get_field(_T_(), 'a') == 1
+        assert get_field(_T_(), '_b') == 2
+        assert get_field(_T_(), 'b', 233) == 233
+        assert get_field(_T_(), '__c') == 3
+        assert get_field(_T_(), '___d') == 4
