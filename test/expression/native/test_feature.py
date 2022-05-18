@@ -1,8 +1,8 @@
 import pytest
 from easydict import EasyDict
 
-from hbutils.expression import CheckExpression, efunc, ComparableExpression, IndexedExpression, AttredExpression, \
-    CallableExpression, LogicalExpression, MathExpression, BitwiseExpression
+from hbutils.expression import CheckExpression, efunc, ComparableExpression, IndexedExpression, LogicalExpression, \
+    MathExpression, BitwiseExpression, ObjectExpression
 from .test_base import TestExpressionNativeBaseClass
 
 
@@ -125,10 +125,10 @@ class TestExpressionNativeIndexedClass(TestExpressionNativeBaseClass):
 
 
 @pytest.mark.unittest
-class TestExpressionNativeAttredClass(TestExpressionNativeBaseClass):
-    __expcls__ = AttredExpression
+class TestExpressionNativeObjectClass(TestExpressionNativeBaseClass):
+    __expcls__ = ObjectExpression
 
-    def test_attr(self):
+    def test_attribute(self):
         class _MyContainer:
             def __init__(self, x):
                 self.__x = x
@@ -142,11 +142,6 @@ class TestExpressionNativeAttredClass(TestExpressionNativeBaseClass):
         assert f(EasyDict({'a': 1})) == 1
         assert f(EasyDict({'a': 100, 'b': 2})) == 100
         assert f(_MyContainer('str')) == 'str'
-
-
-@pytest.mark.unittest
-class TestExpressionNativeCallableClass(TestExpressionNativeBaseClass):
-    __expcls__ = CallableExpression
 
     def test_callable(self):
         def _my_func(*args, **kwargs):

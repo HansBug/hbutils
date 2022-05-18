@@ -61,19 +61,12 @@ IndexedExpression
 
 
 
-AttredExpression
+ObjectExpression
 -----------------------------------
 
-.. autoclass:: AttredExpression
+.. autoclass:: ObjectExpression
     :members:
 
-
-
-CallableExpression
------------------------------------
-
-.. autoclass:: CallableExpression
-    :members:
 
 
 

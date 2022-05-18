@@ -2,16 +2,14 @@ import pytest
 
 from hbutils.expression import GeneralExpression, expr, efunc, keep, CheckExpression, raw
 from .test_feature import TestExpressionNativeComparableClass, TestExpressionNativeIndexedClass, \
-    TestExpressionNativeAttredClass, TestExpressionNativeLogicalClass, TestExpressionNativeMathClass, \
-    TestExpressionNativeCallableClass
+    TestExpressionNativeObjectClass, TestExpressionNativeLogicalClass, TestExpressionNativeMathClass
 
 
 @pytest.mark.unittest
 class TestExpressionNativeGeneralClass(
     TestExpressionNativeComparableClass,
     TestExpressionNativeIndexedClass,
-    TestExpressionNativeAttredClass,
-    TestExpressionNativeCallableClass,
+    TestExpressionNativeObjectClass,
     TestExpressionNativeLogicalClass,
     TestExpressionNativeMathClass,
 ):

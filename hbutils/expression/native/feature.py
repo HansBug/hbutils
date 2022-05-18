@@ -4,8 +4,7 @@ __all__ = [
     'CheckExpression',
     'ComparableExpression',
     'IndexedExpression',
-    'AttredExpression',
-    'CallableExpression',
+    'ObjectExpression',
     'LogicalExpression',
     'MathExpression',
     'BitwiseExpression',
@@ -69,27 +68,18 @@ class IndexedExpression(Expression):
         return self._func(lambda x, y: x[y], self, item)
 
 
-class AttredExpression(Expression):
+class ObjectExpression(Expression):
     """
     Overview:
-        ``getattr`` supported expression.
+        Object-like expression.
 
     Features:
         * ``__getattr__``, which means ``x.y``.
+        * ``__call__``, which means ``x(*args, **kwargs)``.
     """
 
     def __getattr__(self, item):
         return self._func(lambda x, y: getattr(x, y), self, item)
-
-
-class CallableExpression(Expression):
-    """
-    Overview;
-        Callable expression.
-
-    Features:
-        * ``__call__``, which means ``x(*args, **kwargs)``.
-    """
 
     def __call__(self, *args, **kwargs):
         return self._func(lambda s, *args_, **kwargs_: s(*args_, **kwargs_), self, *args, **kwargs)
@@ -106,7 +96,7 @@ class LogicalExpression(Expression):
         * ``__invert__``, which means ``not x`` (written as ``~x``).
 
     .. note::
-        Do not use this with :class:`BitMathExpression`, or unexpected conflict will be caused.
+        Do not use this with :class:`BitwiseExpression`, or unexpected conflict will be caused.
     """
 
     def __and__(self, other):
@@ -205,7 +195,7 @@ class BitwiseExpression(Expression):
         * ``__invert__``, which means ``~x`` (bitwise).
 
     .. note::
-        Do not use this with :class:`LogicExpression`, or unexpected conflict will be caused.
+        Do not use this with :class:`LogicalExpression`, or unexpected conflict will be caused.
     """
 
     def __or__(self, other):
