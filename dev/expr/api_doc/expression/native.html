@@ -110,8 +110,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#checkexpression">CheckExpression</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#comparableexpression">ComparableExpression</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#indexedexpression">IndexedExpression</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#attredexpression">AttredExpression</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#callableexpression">CallableExpression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#objectexpression">ObjectExpression</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#logicalexpression">LogicalExpression</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#mathexpression">MathExpression</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#bitwiseexpression">BitwiseExpression</a></li>
@@ -437,31 +436,16 @@
 </dd></dl>
 
 </section>
-<section id="attredexpression">
-<h2>AttredExpression<a class="headerlink" href="#attredexpression" title="Permalink to this headline">¶</a></h2>
+<section id="objectexpression">
+<h2>ObjectExpression<a class="headerlink" href="#objectexpression" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="hbutils.expression.native.AttredExpression">
-<em class="property">class </em><code class="sig-prename descclassname">hbutils.expression.native.</code><code class="sig-name descname">AttredExpression</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/expression/native/feature.html#AttredExpression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.expression.native.AttredExpression" title="Permalink to this definition">¶</a></dt>
+<dt id="hbutils.expression.native.ObjectExpression">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.expression.native.</code><code class="sig-name descname">ObjectExpression</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/expression/native/feature.html#ObjectExpression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.expression.native.ObjectExpression" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
-<dt>Overview:</dt><dd><p><code class="docutils literal notranslate"><span class="pre">getattr</span></code> supported expression.</p>
+<dt>Overview:</dt><dd><p>Object-like expression.</p>
 </dd>
 <dt>Features:</dt><dd><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">__getattr__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x.y</span></code>.</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-</section>
-<section id="callableexpression">
-<h2>CallableExpression<a class="headerlink" href="#callableexpression" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
-<dt id="hbutils.expression.native.CallableExpression">
-<em class="property">class </em><code class="sig-prename descclassname">hbutils.expression.native.</code><code class="sig-name descname">CallableExpression</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/expression/native/feature.html#CallableExpression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.expression.native.CallableExpression" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Overview;</dt><dd><p>Callable expression.</p>
-</dd>
-<dt>Features:</dt><dd><ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">__call__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x(*args,</span> <span class="pre">**kwargs)</span></code>.</p></li>
 </ul>
 </dd>
@@ -486,7 +470,7 @@
 </dl>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Do not use this with <code class="xref py py-class docutils literal notranslate"><span class="pre">BitMathExpression</span></code>, or unexpected conflict will be caused.</p>
+<p>Do not use this with <a class="reference internal" href="#hbutils.expression.native.BitwiseExpression" title="hbutils.expression.native.BitwiseExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">BitwiseExpression</span></code></a>, or unexpected conflict will be caused.</p>
 </div>
 </dd></dl>
 
@@ -535,7 +519,7 @@
 </dl>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Do not use this with <code class="xref py py-class docutils literal notranslate"><span class="pre">LogicExpression</span></code>, or unexpected conflict will be caused.</p>
+<p>Do not use this with <a class="reference internal" href="#hbutils.expression.native.LogicalExpression" title="hbutils.expression.native.LogicalExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">LogicalExpression</span></code></a>, or unexpected conflict will be caused.</p>
 </div>
 </dd></dl>
 
@@ -548,7 +532,7 @@
 <dd><dl class="simple">
 <dt>Overview:</dt><dd><p>General expression.</p>
 </dd>
-<dt>Features:</dt><dd><p>Inherited from <a class="reference internal" href="#hbutils.expression.native.ComparableExpression" title="hbutils.expression.native.ComparableExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">ComparableExpression</span></code></a>, <a class="reference internal" href="#hbutils.expression.native.IndexedExpression" title="hbutils.expression.native.IndexedExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">IndexedExpression</span></code></a>, <a class="reference internal" href="#hbutils.expression.native.AttredExpression" title="hbutils.expression.native.AttredExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">AttredExpression</span></code></a>,         <a class="reference internal" href="#hbutils.expression.native.CallableExpression" title="hbutils.expression.native.CallableExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">CallableExpression</span></code></a>, <a class="reference internal" href="#hbutils.expression.native.LogicalExpression" title="hbutils.expression.native.LogicalExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">LogicalExpression</span></code></a> and <a class="reference internal" href="#hbutils.expression.native.MathExpression" title="hbutils.expression.native.MathExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">MathExpression</span></code></a>.</p>
+<dt>Features:</dt><dd><p>Inherited from <a class="reference internal" href="#hbutils.expression.native.ComparableExpression" title="hbutils.expression.native.ComparableExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">ComparableExpression</span></code></a>, <a class="reference internal" href="#hbutils.expression.native.IndexedExpression" title="hbutils.expression.native.IndexedExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">IndexedExpression</span></code></a>, <a class="reference internal" href="#hbutils.expression.native.ObjectExpression" title="hbutils.expression.native.ObjectExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectExpression</span></code></a>,         <a class="reference internal" href="#hbutils.expression.native.LogicalExpression" title="hbutils.expression.native.LogicalExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">LogicalExpression</span></code></a> and <a class="reference internal" href="#hbutils.expression.native.MathExpression" title="hbutils.expression.native.MathExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">MathExpression</span></code></a>.</p>
 </dd>
 </dl>
 </dd></dl>

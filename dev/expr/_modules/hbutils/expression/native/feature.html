@@ -177,8 +177,7 @@
     <span class="s1">&#39;CheckExpression&#39;</span><span class="p">,</span>
     <span class="s1">&#39;ComparableExpression&#39;</span><span class="p">,</span>
     <span class="s1">&#39;IndexedExpression&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;AttredExpression&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;CallableExpression&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ObjectExpression&#39;</span><span class="p">,</span>
     <span class="s1">&#39;LogicalExpression&#39;</span><span class="p">,</span>
     <span class="s1">&#39;MathExpression&#39;</span><span class="p">,</span>
     <span class="s1">&#39;BitwiseExpression&#39;</span><span class="p">,</span>
@@ -242,27 +241,18 @@
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="n">y</span><span class="p">],</span> <span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="AttredExpression"><a class="viewcode-back" href="../../../../api_doc/expression/native.html#hbutils.expression.native.AttredExpression">[docs]</a><span class="k">class</span> <span class="nc">AttredExpression</span><span class="p">(</span><span class="n">Expression</span><span class="p">):</span>
+<div class="viewcode-block" id="ObjectExpression"><a class="viewcode-back" href="../../../../api_doc/expression/native.html#hbutils.expression.native.ObjectExpression">[docs]</a><span class="k">class</span> <span class="nc">ObjectExpression</span><span class="p">(</span><span class="n">Expression</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
-<span class="sd">        ``getattr`` supported expression.</span>
+<span class="sd">        Object-like expression.</span>
 
 <span class="sd">    Features:</span>
 <span class="sd">        * ``__getattr__``, which means ``x.y``.</span>
+<span class="sd">        * ``__call__``, which means ``x(*args, **kwargs)``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="CallableExpression"><a class="viewcode-back" href="../../../../api_doc/expression/native.html#hbutils.expression.native.CallableExpression">[docs]</a><span class="k">class</span> <span class="nc">CallableExpression</span><span class="p">(</span><span class="n">Expression</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Overview;</span>
-<span class="sd">        Callable expression.</span>
-
-<span class="sd">    Features:</span>
-<span class="sd">        * ``__call__``, which means ``x(*args, **kwargs)``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">,</span> <span class="o">*</span><span class="n">args_</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs_</span><span class="p">:</span> <span class="n">s</span><span class="p">(</span><span class="o">*</span><span class="n">args_</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs_</span><span class="p">),</span> <span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
@@ -279,7 +269,7 @@
 <span class="sd">        * ``__invert__``, which means ``not x`` (written as ``~x``).</span>
 
 <span class="sd">    .. note::</span>
-<span class="sd">        Do not use this with :class:`BitMathExpression`, or unexpected conflict will be caused.</span>
+<span class="sd">        Do not use this with :class:`BitwiseExpression`, or unexpected conflict will be caused.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__and__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
@@ -378,7 +368,7 @@
 <span class="sd">        * ``__invert__``, which means ``~x`` (bitwise).</span>
 
 <span class="sd">    .. note::</span>
-<span class="sd">        Do not use this with :class:`LogicExpression`, or unexpected conflict will be caused.</span>
+<span class="sd">        Do not use this with :class:`LogicalExpression`, or unexpected conflict will be caused.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__or__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>

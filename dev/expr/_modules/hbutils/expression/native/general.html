@@ -174,8 +174,7 @@
 <span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Type</span>
 
 <span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">Expression</span>
-<span class="kn">from</span> <span class="nn">.feature</span> <span class="kn">import</span> <span class="n">ComparableExpression</span><span class="p">,</span> <span class="n">IndexedExpression</span><span class="p">,</span> <span class="n">AttredExpression</span><span class="p">,</span> <span class="n">LogicalExpression</span><span class="p">,</span> <span class="n">MathExpression</span><span class="p">,</span> \
-    <span class="n">CallableExpression</span>
+<span class="kn">from</span> <span class="nn">.feature</span> <span class="kn">import</span> <span class="n">ComparableExpression</span><span class="p">,</span> <span class="n">IndexedExpression</span><span class="p">,</span> <span class="n">LogicalExpression</span><span class="p">,</span> <span class="n">MathExpression</span><span class="p">,</span> <span class="n">ObjectExpression</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;GeneralExpression&#39;</span><span class="p">,</span>
@@ -186,8 +185,7 @@
 <div class="viewcode-block" id="GeneralExpression"><a class="viewcode-back" href="../../../../api_doc/expression/native.html#hbutils.expression.native.GeneralExpression">[docs]</a><span class="k">class</span> <span class="nc">GeneralExpression</span><span class="p">(</span>
     <span class="n">ComparableExpression</span><span class="p">,</span>
     <span class="n">IndexedExpression</span><span class="p">,</span>
-    <span class="n">AttredExpression</span><span class="p">,</span>
-    <span class="n">CallableExpression</span><span class="p">,</span>
+    <span class="n">ObjectExpression</span><span class="p">,</span>
     <span class="n">LogicalExpression</span><span class="p">,</span>
     <span class="n">MathExpression</span><span class="p">,</span>
 <span class="p">):</span>
@@ -196,8 +194,8 @@
 <span class="sd">        General expression.</span>
 
 <span class="sd">    Features:</span>
-<span class="sd">        Inherited from :class:`ComparableExpression`, :class:`IndexedExpression`, :class:`AttredExpression`, \</span>
-<span class="sd">        :class:`CallableExpression`, :class:`LogicalExpression` and :class:`MathExpression`.</span>
+<span class="sd">        Inherited from :class:`ComparableExpression`, :class:`IndexedExpression`, :class:`ObjectExpression`, \</span>
+<span class="sd">        :class:`LogicalExpression` and :class:`MathExpression`.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">pass</span></div>
 
