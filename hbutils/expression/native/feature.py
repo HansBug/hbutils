@@ -1,4 +1,4 @@
-from .base import BaseExpression
+from .base import Expression
 
 __all__ = [
     'CheckExpression',
@@ -12,7 +12,7 @@ __all__ = [
 ]
 
 
-class CheckExpression(BaseExpression):
+class CheckExpression(Expression):
     def __eq__(self, other):
         return self._func(lambda x, y: x == y, self, other)
 
@@ -34,22 +34,22 @@ class ComparableExpression(CheckExpression):
         return self._func(lambda x, y: x > y, self, other)
 
 
-class IndexedExpression(BaseExpression):
+class IndexedExpression(Expression):
     def __getitem__(self, item):
         return self._func(lambda x, y: x[y], self, item)
 
 
-class AttredExpression(BaseExpression):
+class AttredExpression(Expression):
     def __getattr__(self, item):
         return self._func(lambda x, y: getattr(x, y), self, item)
 
 
-class CallableExpression(BaseExpression):
+class CallableExpression(Expression):
     def __call__(self, *args, **kwargs):
         return self._func(lambda s, *args_, **kwargs_: s(*args_, **kwargs_), self, *args, **kwargs)
 
 
-class LogicalExpression(BaseExpression):
+class LogicalExpression(Expression):
     """
     Overview:
         Logic expression.
@@ -74,7 +74,7 @@ class LogicalExpression(BaseExpression):
         return self._func(lambda x: not x, self)
 
 
-class MathExpression(BaseExpression):
+class MathExpression(Expression):
     def __add__(self, other):
         return self._func(lambda x, y: x + y, self, other)
 
@@ -124,7 +124,7 @@ class MathExpression(BaseExpression):
         return self._func(lambda x: -x, self)
 
 
-class BitMathExpression(BaseExpression):
+class BitMathExpression(Expression):
     """
     Overview:
         Binary math expression class.

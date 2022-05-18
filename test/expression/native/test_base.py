@@ -1,19 +1,19 @@
 import pytest
 
-from hbutils.expression import BaseExpression, efunc
+from hbutils.expression import Expression, efunc
 
 
 @pytest.mark.unittest
 class TestExpressionNativeBase:
     def test_func(self):
-        e = BaseExpression(lambda x: x + 1)
+        e = Expression(lambda x: x + 1)
 
         f = efunc(e)
         assert f(1) == 2
         assert f(2) == 3
 
     def test_inherit(self):
-        class MyInheritExpression(BaseExpression):
+        class MyInheritExpression(Expression):
             def add(self, v):
                 return self._func(lambda x, y: x + y, self, v)
 
@@ -26,7 +26,7 @@ class TestExpressionNativeBase:
 
 @pytest.mark.unittest
 class TestExpressionNativeBaseClass:
-    __expcls__ = BaseExpression
+    __expcls__ = Expression
 
     def test_basic(self):
         e = self.__expcls__(lambda x: x)
