@@ -8,11 +8,20 @@ __all__ = [
     'CallableExpression',
     'LogicalExpression',
     'MathExpression',
-    'BitMathExpression',
+    'BitwiseExpression',
 ]
 
 
 class CheckExpression(Expression):
+    """
+    Overview:
+        Check expression.
+
+    Features:
+        * ``__eq__``, which means ``x == y``.
+        * ``__ne__``, which means ``x == y``.
+    """
+
     def __eq__(self, other):
         return self._func(lambda x, y: x == y, self, other)
 
@@ -21,6 +30,19 @@ class CheckExpression(Expression):
 
 
 class ComparableExpression(CheckExpression):
+    """
+    Overview:
+        Comparable expression.
+
+    Features:
+        * ``__eq__``, which means ``x == y`` (the same as :class:`CheckExpression`).
+        * ``__ne__``, which means ``x == y`` (the same as :class:`CheckExpression`).
+        * ``__ge__``, which means ``x >= y``.
+        * ``__gt__``, which means ``x > y``.
+        * ``__le__``, which means ``x <= y``.
+        * ``__lt__``, which means ``x < y``.
+    """
+
     def __le__(self, other):
         return self._func(lambda x, y: x <= y, self, other)
 
@@ -35,16 +57,40 @@ class ComparableExpression(CheckExpression):
 
 
 class IndexedExpression(Expression):
+    """
+    Overview:
+        Indexed expression.
+
+    Features:
+        * ``__getitem__``, which means ``x[y]``.
+    """
+
     def __getitem__(self, item):
         return self._func(lambda x, y: x[y], self, item)
 
 
 class AttredExpression(Expression):
+    """
+    Overview:
+        ``getattr`` supported expression.
+
+    Features:
+        * ``__getattr__``, which means ``x.y``.
+    """
+
     def __getattr__(self, item):
         return self._func(lambda x, y: getattr(x, y), self, item)
 
 
 class CallableExpression(Expression):
+    """
+    Overview;
+        Callable expression.
+
+    Features:
+        * ``__call__``, which means ``x(*args, **kwargs)``.
+    """
+
     def __call__(self, *args, **kwargs):
         return self._func(lambda s, *args_, **kwargs_: s(*args_, **kwargs_), self, *args, **kwargs)
 
@@ -53,6 +99,11 @@ class LogicalExpression(Expression):
     """
     Overview:
         Logic expression.
+
+    Features:
+        * ``__and__``, which means ``x and y`` (written as ``x & y``).
+        * ``__or__``, which means ``x or y`` (written as ``x | y``).
+        * ``__invert__``, which means ``not x`` (written as ``~x``).
 
     .. note::
         Do not use this with :class:`BitMathExpression`, or unexpected conflict will be caused.
@@ -75,6 +126,22 @@ class LogicalExpression(Expression):
 
 
 class MathExpression(Expression):
+    """
+    Overview:
+        Math calculation expression.
+
+    Features:
+        * ``__add__``, which means ``x + y``.
+        * ``__sub__``, which means ``x - y``.
+        * ``__mul__``, which means ``x * y``.
+        * ``__truediv__``, which means ``x / y``.
+        * ``__floordiv__``, which means ``x // y``.
+        * ``__mod__``, which means ``x % y``.
+        * ``__pow__``, which means ``x ** y``.
+        * ``__pos__``, which means ``+x``.
+        * ``__neg__``, which means ``-x``.
+    """
+
     def __add__(self, other):
         return self._func(lambda x, y: x + y, self, other)
 
@@ -124,10 +191,18 @@ class MathExpression(Expression):
         return self._func(lambda x: -x, self)
 
 
-class BitMathExpression(Expression):
+class BitwiseExpression(Expression):
     """
     Overview:
-        Binary math expression class.
+        Bitwise expression class.
+
+    Features:
+        * ``__and__``, which means ``x & y`` (bitwise).
+        * ``__or__``, which means ``x | y`` (bitwise).
+        * ``__xor__``, which means ``x ^ y`` (bitwise).
+        * ``__lshift__``, which means ``x << y`` (bitwise).
+        * ``__rshift__``, which means ``x >> y`` (bitwise).
+        * ``__invert__``, which means ``~x`` (bitwise).
 
     .. note::
         Do not use this with :class:`LogicExpression`, or unexpected conflict will be caused.

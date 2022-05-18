@@ -2,7 +2,7 @@ import pytest
 from easydict import EasyDict
 
 from hbutils.expression import CheckExpression, efunc, ComparableExpression, IndexedExpression, AttredExpression, \
-    CallableExpression, LogicalExpression, MathExpression, BitMathExpression
+    CallableExpression, LogicalExpression, MathExpression, BitwiseExpression
 from .test_base import TestExpressionNativeBaseClass
 
 
@@ -622,8 +622,8 @@ class TestExpressionNativeMathClass(TestExpressionNativeBaseClass):
 
 
 @pytest.mark.unittest
-class TestExpressionNativeBitMathClass(TestExpressionNativeBaseClass):
-    __expcls__ = BitMathExpression
+class TestExpressionNativeBitwiseClass(TestExpressionNativeBaseClass):
+    __expcls__ = BitwiseExpression
 
     def test_bit_or(self):
         e1 = self.__expcls__(lambda x: x + 13)
