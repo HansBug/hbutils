@@ -1,7 +1,8 @@
 from typing import Optional, Type
 
 from .base import Expression
-from .feature import ComparableExpression, IndexedExpression, AttredExpression, LogicalExpression, MathExpression
+from .feature import ComparableExpression, IndexedExpression, AttredExpression, LogicalExpression, MathExpression, \
+    CallableExpression
 
 __all__ = [
     'GeneralExpression',
@@ -13,6 +14,7 @@ class GeneralExpression(
     ComparableExpression,
     IndexedExpression,
     AttredExpression,
+    CallableExpression,
     LogicalExpression,
     MathExpression,
 ):
@@ -22,7 +24,7 @@ class GeneralExpression(
 
     Features:
         Inherited from :class:`ComparableExpression`, :class:`IndexedExpression`, :class:`AttredExpression`, \
-        :class:`LogicalExpression` and :class:`MathExpression`.
+        :class:`CallableExpression`, :class:`LogicalExpression` and :class:`MathExpression`.
     """
     pass
 

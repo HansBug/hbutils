@@ -2,7 +2,8 @@ import pytest
 
 from hbutils.expression import GeneralExpression, expr, efunc, keep, CheckExpression, raw
 from .test_feature import TestExpressionNativeComparableClass, TestExpressionNativeIndexedClass, \
-    TestExpressionNativeAttredClass, TestExpressionNativeLogicalClass, TestExpressionNativeMathClass
+    TestExpressionNativeAttredClass, TestExpressionNativeLogicalClass, TestExpressionNativeMathClass, \
+    TestExpressionNativeCallableClass
 
 
 @pytest.mark.unittest
@@ -10,10 +11,19 @@ class TestExpressionNativeGeneralClass(
     TestExpressionNativeComparableClass,
     TestExpressionNativeIndexedClass,
     TestExpressionNativeAttredClass,
+    TestExpressionNativeCallableClass,
     TestExpressionNativeLogicalClass,
     TestExpressionNativeMathClass,
 ):
     __expcls__ = GeneralExpression
+
+    def test_general_complex(self):
+        e = self.__expcls__()
+        f1 = efunc(e.upper())
+        assert f1('str') == 'STR'
+
+        f2 = efunc(e.capitalize()[::-1])
+        assert f2('str') == 'rtS'
 
 
 @pytest.mark.unittest
