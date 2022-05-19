@@ -48,14 +48,14 @@ if not os.environ.get("NO_CONTENTS_BUILD"):
         PATH=':'.join([_SHIMS_PATH, os.environ.get('PATH', '')]),
     ))
 
-    pip_cmd = (where.first('package'), 'install', '-r', os.path.join(_PROJ_PATH, 'requirements.txt'))
-    print("Install package requirements {cmd}...".format(cmd=repr(pip_cmd)))
+    pip_cmd = (where.first('pip'), 'install', '-r', os.path.join(_PROJ_PATH, 'requirements.txt'))
+    print("Install pip requirements {cmd}...".format(cmd=repr(pip_cmd)))
     pip = Popen(pip_cmd, stdout=sys.stdout, stderr=sys.stderr, env=_env, cwd=_DOC_PATH)
     if pip.wait() != 0:
         raise ChildProcessError("Pip install failed with %d." % (pip.returncode,))
 
-    pip_docs_cmd = (where.first('package'), 'install', '-r', os.path.join(_PROJ_PATH, 'requirements-doc.txt'))
-    print("Install package docs requirements {cmd}...".format(cmd=repr(pip_docs_cmd)))
+    pip_docs_cmd = (where.first('pip'), 'install', '-r', os.path.join(_PROJ_PATH, 'requirements-doc.txt'))
+    print("Install pip docs requirements {cmd}...".format(cmd=repr(pip_docs_cmd)))
     pip_docs = Popen(pip_docs_cmd, stdout=sys.stdout, stderr=sys.stderr, env=_env, cwd=_DOC_PATH)
     if pip_docs.wait() != 0:
         raise ChildProcessError("Pip docs install failed with %d." % (pip.returncode,))
