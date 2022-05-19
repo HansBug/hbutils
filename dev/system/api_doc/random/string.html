@@ -1,0 +1,514 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hbutils.random.string &mdash; hbutils 0.6.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="hbutils.reflection" href="../reflection/index.html" />
+    <link rel="prev" title="hbutils.random.sequence" href="sequence.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> hbutils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+</ul>
+<p><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">hbutils.algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../binary/index.html">hbutils.binary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../collection/index.html">hbutils.collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../color/index.html">hbutils.color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/index.html">hbutils.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/index.html">hbutils.design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../expression/index.html">hbutils.expression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file/index.html">hbutils.file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/index.html">hbutils.model</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">hbutils.random</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="binary.html">hbutils.random.binary</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sequence.html">hbutils.random.sequence</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.random.string</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#random-digits">random_digits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#random-bin-digits">random_bin_digits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#random-hex-digits">random_hex_digits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#random-md5">random_md5</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#random-sha1">random_sha1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#random-base64">random_base64</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#random-md5-with-timestamp">random_md5_with_timestamp</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#random-sha1-with-timestamp">random_sha1_with_timestamp</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reflection/index.html">hbutils.reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scale/index.html">hbutils.scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../string/index.html">hbutils.string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../system/index.html">hbutils.system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/index.html">hbutils.testing</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">hbutils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">hbutils.random</a> &raquo;</li>
+        
+      <li>hbutils.random.string</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_doc/random/string.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <section id="module-hbutils.random.string">
+<span id="hbutils-random-string"></span><h1>hbutils.random.string<a class="headerlink" href="#module-hbutils.random.string" title="Permalink to this headline">¶</a></h1>
+<section id="random-digits">
+<h2>random_digits<a class="headerlink" href="#random-digits" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.random.string.random_digits">
+<code class="sig-prename descclassname">hbutils.random.string.</code><code class="sig-name descname">random_digits</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">length</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">32</span></em>, <em class="sig-param"><span class="n">base</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">10</span></em>, <em class="sig-param"><span class="n">upper</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">rnd</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>random.Random<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/random/string.html#random_digits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.random.string.random_digits" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Create random digits.</p>
+</dd>
+<dt>Arguments:</dt><dd><ul class="simple">
+<li><p>length (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>): Length of the digits, default is 32.</p></li>
+<li><p>base (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>): Base of the digits, should be in [2, 36], default is 10.</p></li>
+<li><p>upper (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>): Upper the hex chars, default is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+<li><p>rnd (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[random.Random]</span></code>): Random object you used,             default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means just use the default one provided by system.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>string (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>): Random digital string.</p></li>
+</ul>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.random</span> <span class="kn">import</span> <span class="n">random_digits</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">random_digits</span><span class="p">()</span>
+<span class="go">&#39;53518555004529024184262875530824&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">random_digits</span><span class="p">(</span><span class="n">base</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="go">&#39;77337055655313664176450107031511&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">random_digits</span><span class="p">(</span><span class="mi">48</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="go">&#39;130107050101775254773050732461131017135371516420&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="random-bin-digits">
+<h2>random_bin_digits<a class="headerlink" href="#random-bin-digits" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.random.string.random_bin_digits">
+<code class="sig-prename descclassname">hbutils.random.string.</code><code class="sig-name descname">random_bin_digits</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">length</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">32</span></em>, <em class="sig-param"><span class="n">rnd</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>random.Random<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/random/string.html#random_bin_digits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.random.string.random_bin_digits" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Create random binary digits.</p>
+</dd>
+<dt>Arguments:</dt><dd><ul class="simple">
+<li><p>length (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>): Length of the digits, default is 32.</p></li>
+<li><p>rnd (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[random.Random]</span></code>): Random object you used,             default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means just use the default one provided by system.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>string (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>): Random binary digital string.</p></li>
+</ul>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.random</span> <span class="kn">import</span> <span class="n">random_bin_digits</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">random_bin_digits</span><span class="p">()</span>
+<span class="go">&#39;11001011010101101100011010010011&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">random_bin_digits</span><span class="p">(</span><span class="mi">48</span><span class="p">)</span>
+<span class="go">&#39;010110000110101101111111011100010011101011010100&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="random-hex-digits">
+<h2>random_hex_digits<a class="headerlink" href="#random-hex-digits" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.random.string.random_hex_digits">
+<code class="sig-prename descclassname">hbutils.random.string.</code><code class="sig-name descname">random_hex_digits</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">length</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">32</span></em>, <em class="sig-param"><span class="n">upper</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">rnd</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>random.Random<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/random/string.html#random_hex_digits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.random.string.random_hex_digits" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Create random hexidecimal digits.</p>
+</dd>
+<dt>Arguments:</dt><dd><ul class="simple">
+<li><p>length (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>): Length of the digits, default is 32.</p></li>
+<li><p>rnd (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[random.Random]</span></code>): Random object you used,             default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means just use the default one provided by system.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>string (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>): Random hexidecimal digital string.</p></li>
+</ul>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.random</span> <span class="kn">import</span> <span class="n">random_hex_digits</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">random_hex_digits</span><span class="p">()</span>
+<span class="go">&#39;bf4eadfb8c1700d74024833c3ce211a7&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">random_hex_digits</span><span class="p">(</span><span class="n">upper</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="go">&#39;7B85DE69A319BA132ACA27C7777A1C3E&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">random_hex_digits</span><span class="p">(</span><span class="mi">48</span><span class="p">)</span>
+<span class="go">&#39;7175a23730391687b7b5230c72d702a1664833a1c66783cc&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="random-md5">
+<h2>random_md5<a class="headerlink" href="#random-md5" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.random.string.random_md5">
+<code class="sig-prename descclassname">hbutils.random.string.</code><code class="sig-name descname">random_md5</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rnd</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>random.Random<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/random/string.html#random_md5"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.random.string.random_md5" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Create random md5 string.</p>
+</dd>
+<dt>Arguments:</dt><dd><ul class="simple">
+<li><p>rnd (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[random.Random]</span></code>): Random object you used,             default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means just use the default one provided by system.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>string (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>): Random md5 string.</p></li>
+</ul>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.random</span> <span class="kn">import</span> <span class="n">random_md5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">random_md5</span><span class="p">()</span>
+<span class="go">&#39;bbffd8913a7c49161ebe31b9092a9016&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="random-sha1">
+<h2>random_sha1<a class="headerlink" href="#random-sha1" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.random.string.random_sha1">
+<code class="sig-prename descclassname">hbutils.random.string.</code><code class="sig-name descname">random_sha1</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rnd</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>random.Random<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/random/string.html#random_sha1"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.random.string.random_sha1" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Create random sha1 string.</p>
+</dd>
+<dt>Arguments:</dt><dd><ul class="simple">
+<li><p>rnd (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[random.Random]</span></code>): Random object you used,             default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means just use the default one provided by system.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>string (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>): Random sha1 string.</p></li>
+</ul>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.random</span> <span class="kn">import</span> <span class="n">random_sha1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">random_sha1</span><span class="p">()</span>
+<span class="go">&#39;13135aa6b05482dcdbc1f5a25d117298571e7fab&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="random-base64">
+<h2>random_base64<a class="headerlink" href="#random-base64" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.random.string.random_base64">
+<code class="sig-prename descclassname">hbutils.random.string.</code><code class="sig-name descname">random_base64</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">length</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">64</span></em>, <em class="sig-param"><span class="n">rnd</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>random.Random<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/random/string.html#random_base64"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.random.string.random_base64" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Create random base64, may be useful when matrix verification code.</p>
+</dd>
+<dt>Arguments:</dt><dd><ul class="simple">
+<li><p>length (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>): Length of the original binary data, default is 64.</p></li>
+<li><p>rnd (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[random.Random]</span></code>): Random object you used,             default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means just use the default one provided by system.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>string (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>): Random base64 string.</p></li>
+</ul>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.random</span> <span class="kn">import</span> <span class="n">random_base64</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">random_base64</span><span class="p">()</span>
+<span class="go">&#39;PJZzHkM2-DpeXn1W9b3rp0I66MnOeD-31d2XYTA3va7N8DSNmQgvIINnvDMKWaRW-WHo_ftgKHg40z7XbDupbg==&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">random_base64</span><span class="p">(</span><span class="mi">48</span><span class="p">)</span>
+<span class="go">&#39;siRZNSeytSUXlIgKYuZOzbhehhI7oabcxFDB07PkjyZ5b0DI5hGC0pqjJFlD6NGQ&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="random-md5-with-timestamp">
+<h2>random_md5_with_timestamp<a class="headerlink" href="#random-md5-with-timestamp" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.random.string.random_md5_with_timestamp">
+<code class="sig-prename descclassname">hbutils.random.string.</code><code class="sig-name descname">random_md5_with_timestamp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rnd</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>random.Random<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/random/string.html#random_md5_with_timestamp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.random.string.random_md5_with_timestamp" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Create random md5 string with timestamp.</p>
+</dd>
+<dt>Arguments:</dt><dd><ul class="simple">
+<li><p>rnd (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[random.Random]</span></code>): Random object you used,             default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means just use the default one provided by system.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>string (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>): Random md5 string with timestamp.</p></li>
+</ul>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.random</span> <span class="kn">import</span> <span class="n">random_md5_with_timestamp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">random_md5_with_timestamp</span><span class="p">()</span>
+<span class="go">&#39;20220116233104357175_daf67fde4b758ff4aae21cc77f5ed689&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="random-sha1-with-timestamp">
+<h2>random_sha1_with_timestamp<a class="headerlink" href="#random-sha1-with-timestamp" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.random.string.random_sha1_with_timestamp">
+<code class="sig-prename descclassname">hbutils.random.string.</code><code class="sig-name descname">random_sha1_with_timestamp</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rnd</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>random.Random<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/random/string.html#random_sha1_with_timestamp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.random.string.random_sha1_with_timestamp" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Create random sha1 string with timestamp.</p>
+</dd>
+<dt>Arguments:</dt><dd><ul class="simple">
+<li><p>rnd (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[random.Random]</span></code>): Random object you used,             default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means just use the default one provided by system.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>string (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>): Random sha1 string with timestamp.</p></li>
+</ul>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.random</span> <span class="kn">import</span> <span class="n">random_sha1_with_timestamp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">random_sha1_with_timestamp</span><span class="p">()</span>
+<span class="go">&#39;20220116233121916685_fba840b80163b55cd2295d84286a438bf8acb7c0&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../reflection/index.html" class="btn btn-neutral float-right" title="hbutils.reflection" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="sequence.html" class="btn btn-neutral float-left" title="hbutils.random.sequence" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/system
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../v0.0.1/index.html">v0.0.1</a></dd>
+                        <dd><a href="../../../../v0.1.0/api_doc/random/string.html">v0.1.0</a></dd>
+                        <dd><a href="../../../../v0.1.1/api_doc/random/string.html">v0.1.1</a></dd>
+                        <dd><a href="../../../../v0.2.0/api_doc/random/string.html">v0.2.0</a></dd>
+                        <dd><a href="../../../../v0.3.0/api_doc/random/string.html">v0.3.0</a></dd>
+                        <dd><a href="../../../../v0.3.1/api_doc/random/string.html">v0.3.1</a></dd>
+                        <dd><a href="../../../../v0.3.2/api_doc/random/string.html">v0.3.2</a></dd>
+                        <dd><a href="../../../../v0.3.3/api_doc/random/string.html">v0.3.3</a></dd>
+                        <dd><a href="../../../../v0.4.0/api_doc/random/string.html">v0.4.0</a></dd>
+                        <dd><a href="../../../../v0.4.1/api_doc/random/string.html">v0.4.1</a></dd>
+                        <dd><a href="../../../../v0.4.2/api_doc/random/string.html">v0.4.2</a></dd>
+                        <dd><a href="../../../../v0.4.3/api_doc/random/string.html">v0.4.3</a></dd>
+                        <dd><a href="../../../../v0.4.4/api_doc/random/string.html">v0.4.4</a></dd>
+                        <dd><a href="../../../../v0.4.5/api_doc/random/string.html">v0.4.5</a></dd>
+                        <dd><a href="../../../../v0.4.6/api_doc/random/string.html">v0.4.6</a></dd>
+                        <dd><a href="../../../../v0.4.7/api_doc/random/string.html">v0.4.7</a></dd>
+                        <dd><a href="../../../../v0.5.0/api_doc/random/string.html">v0.5.0</a></dd>
+                        <dd><a href="../../../../v0.5.1/api_doc/random/string.html">v0.5.1</a></dd>
+                        <dd><a href="../../../../v0.5.2/api_doc/random/string.html">v0.5.2</a></dd>
+                        <dd><a href="../../../../v0.6.0/api_doc/random/string.html">v0.6.0</a></dd>
+                        <dd><a href="../../../../v0.6.1/api_doc/random/string.html">v0.6.1</a></dd>
+                        <dd><a href="../../../../v0.6.2/api_doc/random/string.html">v0.6.2</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="string.html">dev/system</a></dd>
+                        <dd><a href="../../../dependency/api_doc/random/string.html">dev/dependency</a></dd>
+                        <dd><a href="../../../../main/api_doc/random/string.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
