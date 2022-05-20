@@ -3,9 +3,15 @@ Overview:
     Capture for outputs.
 """
 import io
+import os
 from contextlib import redirect_stdout, redirect_stderr, contextmanager
 from threading import Lock
 from typing import ContextManager, Optional
+
+__all__ = [
+    'OutputCaptureResult',
+    'capture_output', 'disable_output',
+]
 
 
 class OutputCaptureResult:
@@ -89,3 +95,22 @@ def capture_output() -> ContextManager[OutputCaptureResult]:
                 sout.getvalue(),
                 serr.getvalue(),
             )
+
+
+@contextmanager
+def disable_output() -> ContextManager[OutputCaptureResult]:
+    """
+    Overview:
+        Disable all the output to ``sys.stdout`` and ``sys.stderr`` in this ``with`` block.
+
+    Examples::
+        >>> import sys
+        >>> from hbutils.testing import disable_output
+        >>>
+        >>> with disable_output():  # no output will be shown
+        ...     print('this is stdout')
+        ...     print('this is stderr', file=sys.stderr)
+    """
+    with open(os.devnull, 'w') as sout:
+        with redirect_stdout(sout), redirect_stderr(sout):
+            yield
