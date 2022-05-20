@@ -3,7 +3,7 @@ import unittest
 import pytest
 from easydict import EasyDict
 
-from hbutils.testing import test_when, vpython, disable_output, Impl
+from hbutils.testing import pre_condition, vpython, disable_output, Impl
 from ...testings import py36_mark, py37_mark, py38_mark, py39_mark, py310_mark, pypy_mark, cpython_mark
 
 
@@ -13,23 +13,23 @@ class _TestPythonVersion(unittest.TestCase):
         unittest.TestCase.__init__(self, methodName=methodName)
         self.v = v
 
-    @test_when((vpython >= '3.6') & (vpython < '3.7'))
+    @pre_condition((vpython >= '3.6') & (vpython < '3.7'))
     def test_py36(self):
         self.v.is_py36 = True
 
-    @test_when((vpython >= '3.7') & (vpython < '3.8'))
+    @pre_condition((vpython >= '3.7') & (vpython < '3.8'))
     def test_py37(self):
         self.v.is_py37 = True
 
-    @test_when((vpython >= '3.8') & (vpython < '3.9'))
+    @pre_condition((vpython >= '3.8') & (vpython < '3.9'))
     def test_py38(self):
         self.v.is_py38 = True
 
-    @test_when((vpython >= '3.9') & (vpython < '3.10'))
+    @pre_condition((vpython >= '3.9') & (vpython < '3.10'))
     def test_py39(self):
         self.v.is_py39 = True
 
-    @test_when((vpython >= '3.10') & (vpython < '3.11'))
+    @pre_condition((vpython >= '3.10') & (vpython < '3.11'))
     def test_py310(self):
         self.v.is_py310 = True
 
@@ -40,11 +40,11 @@ class _TestPythonImplement(unittest.TestCase):
         unittest.TestCase.__init__(self, methodName=methodName)
         self.v = v
 
-    @test_when(Impl.cpython)
+    @pre_condition(Impl.cpython)
     def test_cpython(self):
         self.v.is_cpython = True
 
-    @test_when(Impl.pypy)
+    @pre_condition(Impl.pypy)
     def test_pypy(self):
         self.v.is_pypy = True
 

@@ -3,7 +3,7 @@ import unittest
 import pytest
 from easydict import EasyDict
 
-from hbutils.testing import OS, test_when, disable_output
+from hbutils.testing import OS, pre_condition, disable_output
 from ...testings import windows_mark, linux_mark, macos_mark
 
 
@@ -13,15 +13,15 @@ class _TestOS(unittest.TestCase):
         unittest.TestCase.__init__(self, methodName=methodName)
         self.v = v
 
-    @test_when(OS.linux)
+    @pre_condition(OS.linux)
     def test_linux(self):
         self.v.is_linux = True
 
-    @test_when(OS.windows)
+    @pre_condition(OS.windows)
     def test_windows(self):
         self.v.is_windows = True
 
-    @test_when(OS.macos)
+    @pre_condition(OS.macos)
     def test_macos(self):
         self.v.is_macos = True
 

@@ -5,7 +5,7 @@ import pytest
 from easydict import EasyDict
 
 from hbutils.system.python.package import PIP_PACKAGES
-from hbutils.testing import test_when, vpip, disable_output
+from hbutils.testing import pre_condition, vpip, disable_output
 
 
 def _get_test_class():
@@ -15,11 +15,11 @@ def _get_test_class():
             unittest.TestCase.__init__(self, methodName)
             self.v = v
 
-        @test_when((vpip >= 20) & (vpip < 21))
+        @pre_condition((vpip >= 20) & (vpip < 21))
         def test_pip20(self):
             self.v.is_pip20 = True
 
-        @test_when((vpip('setuptools') >= '45') & ((vpip('click') < 7) | ~vpip))
+        @pre_condition((vpip('setuptools') >= '45') & ((vpip('click') < 7) | ~vpip))
         def test_complex(self):
             self.v.complex_ok = True
 
