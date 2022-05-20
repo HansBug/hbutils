@@ -1,6 +1,5 @@
-from .version import _VersionModel
-from ...expression import LogicalExpression, ComparableExpression
-from ...expression import raw as raw_expr
+from .version import VersionInfo
+from ...expression import LogicalExpression, ComparableExpression, expr
 from ...system import python_version, package_version, is_windows, is_linux, is_darwin, is_cpython, is_pypy, \
     is_ironpython, is_jython
 
@@ -14,15 +13,15 @@ class VersionCmpExpression(ComparableExpression, LogicalExpression):
     pass
 
 
-vpython = raw_expr(_VersionModel(python_version()), cls=VersionCmpExpression)
+vpython = expr(lambda x: VersionInfo(python_version()), cls=VersionCmpExpression)
 
 
 class PipVersionCmpExpression(VersionCmpExpression):
     def __call__(self, name: str):
-        return raw_expr(_VersionModel(package_version(name)), cls=VersionCmpExpression)
+        return expr(lambda x: VersionInfo(package_version(name)), cls=VersionCmpExpression)
 
 
-vpip = raw_expr(_VersionModel(package_version('pip')), cls=PipVersionCmpExpression)
+vpip = expr(lambda x: VersionInfo(package_version('pip')), cls=PipVersionCmpExpression)
 
 
 class OSExpression(LogicalExpression):
@@ -30,9 +29,9 @@ class OSExpression(LogicalExpression):
 
 
 class OS:
-    windows = raw_expr(is_windows(), cls=OSExpression)
-    linux = raw_expr(is_linux(), cls=OSExpression)
-    darwin = raw_expr(is_darwin(), cls=OSExpression)
+    windows = expr(lambda x: is_windows(), cls=OSExpression)
+    linux = expr(lambda x: is_linux(), cls=OSExpression)
+    darwin = expr(lambda x: is_darwin(), cls=OSExpression)
     macos = darwin
 
 
@@ -41,7 +40,7 @@ class PythonImplementExpression(LogicalExpression):
 
 
 class Impl:
-    cpython = raw_expr(is_cpython(), cls=PythonImplementExpression)
-    iron_python = raw_expr(is_ironpython(), cls=PythonImplementExpression)
-    jython = raw_expr(is_jython(), cls=PythonImplementExpression)
-    pypy = raw_expr(is_pypy(), cls=PythonImplementExpression)
+    cpython = expr(lambda x: is_cpython(), cls=PythonImplementExpression)
+    iron_python = expr(lambda x: is_ironpython(), cls=PythonImplementExpression)
+    jython = expr(lambda x: is_jython(), cls=PythonImplementExpression)
+    pypy = expr(lambda x: is_pypy(), cls=PythonImplementExpression)

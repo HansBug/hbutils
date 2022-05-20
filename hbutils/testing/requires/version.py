@@ -1,25 +1,31 @@
-from operator import lt, le, gt, ge, eq, ne
+from operator import lt, le, gt, ge
 
 from pkg_resources import parse_version
 
 _Version = type(parse_version('0.0.1'))
 
 
-class _VersionModel:
+class VersionInfo:
     def __init__(self, v):
-        if isinstance(v, _VersionModel):
+        if isinstance(v, VersionInfo):
             self._version = v._version
         elif isinstance(v, _Version) or v is None:
             self._version = v
         elif isinstance(v, str):
-            _VersionModel.__init__(self, parse_version(v))
+            VersionInfo.__init__(self, parse_version(v))
         elif isinstance(v, tuple):
-            _VersionModel.__init__(self, '.'.join(map(str, v)))
+            VersionInfo.__init__(self, '.'.join(map(str, v)))
+        elif isinstance(v, int):
+            VersionInfo.__init__(self, str(v))
         else:
             raise TypeError(f'Unknown version type - {repr(v)}.')
 
     def _cmp(self, cmp, other):
-        return cmp(self, _VersionModel(other))
+        other = VersionInfo(other)
+        if self and other:
+            return cmp(self._version, VersionInfo(other)._version)
+        else:
+            return False
 
     def __lt__(self, other):
         return self._cmp(lt, other)
@@ -34,7 +40,13 @@ class _VersionModel:
         return self._cmp(ge, other)
 
     def __eq__(self, other):
-        return self._cmp(eq, other)
+        return self._version == VersionInfo(other)._version
 
     def __ne__(self, other):
-        return self._cmp(ne, other)
+        return self._version != VersionInfo(other)._version
+
+    def __bool__(self):
+        return bool(self._version)
+
+    def __repr__(self):
+        return f'<{type(self).__name__} {self._version}>'

@@ -7,12 +7,10 @@ __all__ = [
     'package_version',
 ]
 
-
-def _get_packages() -> Dict[str, Version]:
-    return {
-        i.key.lower(): i.version
-        for i in working_set
-    }
+PIP_PACKAGES: Dict[str, Version] = {
+    i.key.lower(): i.version
+    for i in working_set
+}
 
 
 def package_version(name: str) -> Optional[Version]:
@@ -33,9 +31,8 @@ def package_version(name: str) -> Optional[Version]:
         >>> package_version('not_a_package')
         None
     """
-    _packages = _get_packages()
-    _name = name.lower()
-    if _name in _packages:
-        return parse_version(_packages[name])
+    _lower_name = name.lower()
+    if _lower_name in PIP_PACKAGES:
+        return parse_version(PIP_PACKAGES[_lower_name])
     else:
         return None
