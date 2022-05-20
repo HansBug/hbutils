@@ -19,3 +19,10 @@ OutputCaptureResult
     :members: __init__, put_result, stdout, stderr
 
 
+disable_output
+----------------------
+
+.. autofunction:: disable_output
+
+
+

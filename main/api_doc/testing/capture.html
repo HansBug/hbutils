@@ -112,10 +112,12 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.testing.capture</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#capture-output">capture_output</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#outputcaptureresult">OutputCaptureResult</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#disable-output">disable_output</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="generator.html">hbutils.testing.generator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="isolated.html">hbutils.testing.isolated</a></li>
+<li class="toctree-l2"><a class="reference internal" href="requires.html">hbutils.testing.requires</a></li>
 </ul>
 </li>
 </ul>
@@ -270,6 +272,27 @@
 </dd></dl>
 
 </section>
+<section id="disable-output">
+<h2>disable_output<a class="headerlink" href="#disable-output" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.testing.capture.disable_output">
+<code class="sig-prename descclassname">hbutils.testing.capture.</code><code class="sig-name descname">disable_output</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; AbstractContextManager<span class="p">[</span>hbutils.testing.capture.output.OutputCaptureResult<span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/testing/capture/output.html#disable_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.capture.disable_output" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Disable all the output to <code class="docutils literal notranslate"><span class="pre">sys.stdout</span></code> and <code class="docutils literal notranslate"><span class="pre">sys.stderr</span></code> in this <code class="docutils literal notranslate"><span class="pre">with</span></code> block.</p>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">disable_output</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">disable_output</span><span class="p">():</span>  <span class="c1"># no output will be shown</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;this is stdout&#39;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;this is stderr&#39;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -342,9 +365,8 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/requirements/api_doc/testing/capture.html">dev/requirements</a></dd>
-                        <dd><a href="../../../dev/dependency/api_doc/testing/capture.html">dev/dependency</a></dd>
                         <dd><a href="capture.html">main</a></dd>
+                        <dd><a href="../../../dev/dependency/api_doc/testing/capture.html">dev/dependency</a></dd>
                 </dl>
         </div>
     </div>
