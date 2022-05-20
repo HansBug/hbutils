@@ -46,6 +46,16 @@ jobs:
           echo "OS_NAME=MacOS" >> $GITHUB_ENV
           echo "IS_WIN=" >> $GITHUB_ENV
           echo "IS_MAC=1" >> $GITHUB_ENV
+      - name: Set environment for Cpython
+        if: ${{ !contains(matrix.python-version, 'pypy') }}
+        shell: bash
+        run: |
+          echo "IS_PYPY=" >> $GITHUB_ENV
+      - name: Set environment for PyPy
+        if: ${{ contains(matrix.python-version, 'pypy') }}
+        shell: bash
+        run: |
+          echo "IS_PYPY=1" >> $GITHUB_ENV
       - name: Checkout code
         uses: actions/checkout@v2
         with:
