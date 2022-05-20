@@ -11,4 +11,5 @@ hbutils.testing
     capture
     generator
     isolated
+    requires
 
