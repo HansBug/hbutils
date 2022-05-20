@@ -3,7 +3,7 @@ import unittest
 import pytest
 from easydict import EasyDict
 
-from hbutils.testing import test_when, vpython, capture_output, Impl
+from hbutils.testing import test_when, vpython, disable_output, Impl
 from ...testings import py36_mark, py37_mark, py38_mark, py39_mark, py310_mark, pypy_mark, cpython_mark
 
 
@@ -54,7 +54,7 @@ class TestTestingsRequiresPython:
     @py36_mark
     def test_py36(self):
         d = EasyDict({})
-        with capture_output():
+        with disable_output():
             runner = unittest.TextTestRunner()
             runner.run(_TestPythonVersion('test_py36', d))
             runner.run(_TestPythonVersion('test_py37', d))
@@ -67,7 +67,7 @@ class TestTestingsRequiresPython:
     @py37_mark
     def test_py37(self):
         d = EasyDict({})
-        with capture_output():
+        with disable_output():
             runner = unittest.TextTestRunner()
             runner.run(_TestPythonVersion('test_py36', d))
             runner.run(_TestPythonVersion('test_py37', d))
@@ -80,7 +80,7 @@ class TestTestingsRequiresPython:
     @py38_mark
     def test_py38(self):
         d = EasyDict({})
-        with capture_output():
+        with disable_output():
             runner = unittest.TextTestRunner()
             runner.run(_TestPythonVersion('test_py36', d))
             runner.run(_TestPythonVersion('test_py37', d))
@@ -93,7 +93,7 @@ class TestTestingsRequiresPython:
     @py39_mark
     def test_py39(self):
         d = EasyDict({})
-        with capture_output():
+        with disable_output():
             runner = unittest.TextTestRunner()
             runner.run(_TestPythonVersion('test_py36', d))
             runner.run(_TestPythonVersion('test_py37', d))
@@ -106,7 +106,7 @@ class TestTestingsRequiresPython:
     @py310_mark
     def test_py310(self):
         d = EasyDict({})
-        with capture_output():
+        with disable_output():
             runner = unittest.TextTestRunner()
             runner.run(_TestPythonVersion('test_py36', d))
             runner.run(_TestPythonVersion('test_py37', d))
@@ -119,7 +119,7 @@ class TestTestingsRequiresPython:
     @cpython_mark
     def test_cpython(self):
         d = EasyDict({})
-        with capture_output():
+        with disable_output():
             runner = unittest.TextTestRunner()
             runner.run(_TestPythonImplement('test_cpython', d))
             runner.run(_TestPythonImplement('test_pypy', d))
@@ -129,7 +129,7 @@ class TestTestingsRequiresPython:
     @pypy_mark
     def test_pypy(self):
         d = EasyDict({})
-        with capture_output():
+        with disable_output():
             runner = unittest.TextTestRunner()
             runner.run(_TestPythonImplement('test_cpython', d))
             runner.run(_TestPythonImplement('test_pypy', d))

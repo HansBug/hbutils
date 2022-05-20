@@ -3,7 +3,7 @@ import unittest
 import pytest
 from easydict import EasyDict
 
-from hbutils.testing import OS, test_when, capture_output
+from hbutils.testing import OS, test_when, disable_output
 from ...testings import windows_mark, linux_mark, macos_mark
 
 
@@ -30,7 +30,7 @@ class TestTestingRequiresOS:
     @windows_mark
     def test_with_os_windows(self):
         d = EasyDict({})
-        with capture_output():
+        with disable_output():
             runner = unittest.TextTestRunner()
             runner.run(_TestOS('test_linux', d))
             runner.run(_TestOS('test_windows', d))
@@ -41,7 +41,7 @@ class TestTestingRequiresOS:
     @linux_mark
     def test_with_os_linux(self):
         d = EasyDict({})
-        with capture_output():
+        with disable_output():
             runner = unittest.TextTestRunner()
             runner.run(_TestOS('test_linux', d))
             runner.run(_TestOS('test_windows', d))
@@ -52,7 +52,7 @@ class TestTestingRequiresOS:
     @macos_mark
     def test_with_os_macos(self):
         d = EasyDict({})
-        with capture_output():
+        with disable_output():
             runner = unittest.TextTestRunner()
             runner.run(_TestOS('test_linux', d))
             runner.run(_TestOS('test_windows', d))

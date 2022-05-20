@@ -5,7 +5,7 @@ import pytest
 from easydict import EasyDict
 
 from hbutils.system.python.package import PIP_PACKAGES
-from hbutils.testing import test_when, vpip, capture_output
+from hbutils.testing import test_when, vpip, disable_output
 
 
 def _get_test_class():
@@ -30,7 +30,7 @@ def _get_test_class():
 class TestTestingRequiresPackage:
     def test_simple_1(self):
         d = EasyDict({})
-        with capture_output(), mock.patch.dict(PIP_PACKAGES, {'pip': '19.3.1'}, clear=True):
+        with disable_output(), mock.patch.dict(PIP_PACKAGES, {'pip': '19.3.1'}, clear=True):
             _TestPythonPackage = _get_test_class()
             runner = unittest.TextTestRunner()
             runner.run(_TestPythonPackage('test_pip20', d))
@@ -40,7 +40,7 @@ class TestTestingRequiresPackage:
 
     def test_simple_2(self):
         d = EasyDict({})
-        with capture_output(), mock.patch.dict(PIP_PACKAGES, {'pip': '20.3.1'}, clear=True):
+        with disable_output(), mock.patch.dict(PIP_PACKAGES, {'pip': '20.3.1'}, clear=True):
             _TestPythonPackage = _get_test_class()
             runner = unittest.TextTestRunner()
             runner.run(_TestPythonPackage('test_pip20', d))
@@ -50,7 +50,7 @@ class TestTestingRequiresPackage:
 
     def test_simple_3(self):
         d = EasyDict({})
-        with capture_output(), \
+        with disable_output(), \
                 mock.patch.dict(PIP_PACKAGES, {'pip': '20.3.1', 'setuptools': '46.1.7', 'click': '6.4.2'}, clear=True):
             _TestPythonPackage = _get_test_class()
             runner = unittest.TextTestRunner()
@@ -61,7 +61,7 @@ class TestTestingRequiresPackage:
 
     def test_simple_4(self):
         d = EasyDict({})
-        with capture_output(), \
+        with disable_output(), \
                 mock.patch.dict(PIP_PACKAGES, {'pip': '19.3.1', 'setuptools': '46.1.7', 'click': '6.4.2'}, clear=True):
             _TestPythonPackage = _get_test_class()
             runner = unittest.TextTestRunner()
@@ -72,7 +72,7 @@ class TestTestingRequiresPackage:
 
     def test_simple_5(self):
         d = EasyDict({})
-        with capture_output(), \
+        with disable_output(), \
                 mock.patch.dict(PIP_PACKAGES, {'setuptools': '46.1.7', 'click': '7.4.2'}, clear=True):
             _TestPythonPackage = _get_test_class()
             runner = unittest.TextTestRunner()
