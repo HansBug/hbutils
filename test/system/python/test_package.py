@@ -19,4 +19,4 @@ class TestSystemPythonPackage:
         with mock.patch.dict(PIP_PACKAGES, {'pip': '19.3.1'}):
             assert package_version('pip') == parse_version('19.3.1')
             assert package_version('PIP') == parse_version('19.3.1')
-            assert package_version('pipx') is None
+            assert package_version('pipxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx') is None
