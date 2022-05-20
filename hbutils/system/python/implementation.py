@@ -27,16 +27,40 @@ def _get_python_implementation() -> PythonImplementation:
 
 
 def is_cpython() -> bool:
+    """
+    Overview:
+        Return ``True`` is current python is CPython, otherwise return ``False``.
+
+    :return: Current python is CPython or not.
+    """
     return _get_python_implementation() == PythonImplementation.CPYTHON
 
 
 def is_ironpython() -> bool:
+    """
+    Overview:
+        Return ``True`` is current python is IronPython, otherwise return ``False``.
+
+    :return: Current python is IronPython or not.
+    """
     return _get_python_implementation() == PythonImplementation.IRONPYTHON
 
 
 def is_jython() -> bool:
+    """
+    Overview:
+        Return ``True`` is current python is Jython, otherwise return ``False``.
+
+    :return: Current python is Jython or not.
+    """
     return _get_python_implementation() == PythonImplementation.JYTHON
 
 
 def is_pypy() -> bool:
+    """
+    Overview:
+        Return ``True`` is current python is PyPy, otherwise return ``False``.
+
+    :return: Current python is PyPy or not.
+    """
     return _get_python_implementation() == PythonImplementation.PYPY

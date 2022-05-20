@@ -9,4 +9,16 @@ __all__ = [
 
 
 def python_version() -> Version:
+    """
+    Overview:
+        Get version of python.
+
+    :return: Version of python.
+
+    Examples::
+        >>> from hbutils.system import python_version
+        >>>
+        >>> python_version()
+        Version('3.8.1')  # for example
+    """
     return parse_version(platform.python_version())
