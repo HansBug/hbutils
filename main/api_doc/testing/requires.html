@@ -112,7 +112,6 @@
 <li class="toctree-l2"><a class="reference internal" href="generator.html">hbutils.testing.generator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="isolated.html">hbutils.testing.isolated</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.testing.requires</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#pre-condition">pre_condition</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#vpython">vpython</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#vpip">vpip</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#os">OS</a></li>
@@ -191,57 +190,34 @@
     
   <section id="module-hbutils.testing.requires">
 <span id="hbutils-testing-requires"></span><h1>hbutils.testing.requires<a class="headerlink" href="#module-hbutils.testing.requires" title="Permalink to this headline">¶</a></h1>
-<section id="pre-condition">
-<h2>pre_condition<a class="headerlink" href="#pre-condition" title="Permalink to this headline">¶</a></h2>
-<dl class="py function">
-<dt id="hbutils.testing.requires.pre_condition">
-<code class="sig-prename descclassname">hbutils.testing.requires.</code><code class="sig-name descname">pre_condition</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cond</span></em>, <em class="sig-param"><span class="n">skip_reason</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/requires/condition.html#pre_condition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.requires.pre_condition" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Overview:</dt><dd><p>Set pre-condition for the cases of unittest.
-Can be used to both functions and classes.</p>
+<dl class="simple">
+<dt>Overview:</dt><dd><p>System requirements conditions for unittest.
+Can be used on <code class="docutils literal notranslate"><span class="pre">unittest.skipUnless</span></code>, <code class="docutils literal notranslate"><span class="pre">pytest.mark.skipUnless</span></code>, etc.</p>
 </dd>
 </dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>cond</strong> – Condition expression.</p></li>
-<li><p><strong>skip_reason</strong> – Reason when skipping.</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Skip decorator, based on <code class="xref py py-func docutils literal notranslate"><span class="pre">unittest.skipUnless()</span></code>.</p>
-</dd>
-</dl>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>See <a class="reference internal" href="#hbutils.testing.requires.vpython" title="hbutils.testing.requires.vpython"><code class="xref py py-data docutils literal notranslate"><span class="pre">vpython</span></code></a>, <a class="reference internal" href="#hbutils.testing.requires.vpip" title="hbutils.testing.requires.vpip"><code class="xref py py-data docutils literal notranslate"><span class="pre">vpip</span></code></a>, <a class="reference internal" href="#hbutils.testing.requires.OS" title="hbutils.testing.requires.OS"><code class="xref py py-class docutils literal notranslate"><span class="pre">OS</span></code></a> and <a class="reference internal" href="#hbutils.testing.requires.Impl" title="hbutils.testing.requires.Impl"><code class="xref py py-class docutils literal notranslate"><span class="pre">Impl</span></code></a> for actual examples.</p>
-</div>
-</dd></dl>
-
-</section>
 <section id="vpython">
 <h2>vpython<a class="headerlink" href="#vpython" title="Permalink to this headline">¶</a></h2>
 <dl class="py data">
 <dt id="hbutils.testing.requires.vpython">
-<code class="sig-prename descclassname">hbutils.testing.requires.</code><code class="sig-name descname">vpython</code><em class="property"> = &lt;hbutils.testing.requires.expr.VersionCmpExpression object&gt;</em><a class="headerlink" href="#hbutils.testing.requires.vpython" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">hbutils.testing.requires.</code><code class="sig-name descname">vpython</code><em class="property"> = &lt;VersionInfo 3.7.13&gt;</em><a class="headerlink" href="#hbutils.testing.requires.vpython" title="Permalink to this definition">¶</a></dt>
 <dd><dl>
 <dt>Overview:</dt><dd><p>Python version expression.</p>
 </dd>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">platform</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">unittest</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">pre_condition</span><span class="p">,</span> <span class="n">vpython</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">vpython</span>
 <span class="gp">&gt;&gt;&gt; </span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">TestMyCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>  <span class="c1"># on python 3.6</span>
 <span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_anytime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="gp">... </span>        <span class="k">assert</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">3</span>
 <span class="gp">...</span>
-<span class="gp">... </span>    <span class="nd">@pre_condition</span><span class="p">((</span><span class="n">vpython</span> <span class="o">&gt;=</span> <span class="s1">&#39;3.6&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">vpython</span> <span class="o">&lt;</span> <span class="s1">&#39;3.7&#39;</span><span class="p">))</span>  <span class="c1"># will run</span>
+<span class="gp">... </span>    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipUnless</span><span class="p">(</span><span class="s1">&#39;3.6&#39;</span> <span class="o">&lt;=</span> <span class="n">vpython</span> <span class="o">&lt;</span> <span class="s1">&#39;3.7&#39;</span><span class="p">,</span> <span class="s1">&#39;py36 only&#39;</span><span class="p">)</span>  <span class="c1"># will run</span>
 <span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_on_python36</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="gp">... </span>        <span class="k">assert</span> <span class="n">platform</span><span class="o">.</span><span class="n">python_version_tuple</span><span class="p">()[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="p">(</span><span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;6&#39;</span><span class="p">)</span>
 <span class="gp">...</span>
-<span class="gp">... </span>    <span class="nd">@pre_condition</span><span class="p">((</span><span class="n">vpython</span> <span class="o">&gt;=</span> <span class="s1">&#39;3.7&#39;</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">vpython</span> <span class="o">&lt;</span> <span class="s1">&#39;3.8&#39;</span><span class="p">))</span>  <span class="c1"># will skip</span>
+<span class="gp">... </span>    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipUnless</span><span class="p">(</span><span class="s1">&#39;3.7&#39;</span> <span class="o">&lt;=</span> <span class="n">vpython</span> <span class="o">&lt;</span> <span class="s1">&#39;3.8&#39;</span><span class="p">,</span> <span class="s1">&#39;py37 only&#39;</span><span class="p">)</span>  <span class="c1"># will skip</span>
 <span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_on_python37</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="gp">... </span>        <span class="k">assert</span> <span class="n">platform</span><span class="o">.</span><span class="n">python_version_tuple</span><span class="p">()[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="p">(</span><span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;7&#39;</span><span class="p">)</span> 
+<span class="gp">... </span>        <span class="k">assert</span> <span class="n">platform</span><span class="o">.</span><span class="n">python_version_tuple</span><span class="p">()[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="p">(</span><span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;7&#39;</span><span class="p">)</span>
 <span class="gp">...</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
 <span class="go">..s</span>
@@ -259,30 +235,30 @@ Can be used to both functions and classes.</p>
 <h2>vpip<a class="headerlink" href="#vpip" title="Permalink to this headline">¶</a></h2>
 <dl class="py data">
 <dt id="hbutils.testing.requires.vpip">
-<code class="sig-prename descclassname">hbutils.testing.requires.</code><code class="sig-name descname">vpip</code><em class="property"> = &lt;hbutils.testing.requires.expr.PipVersionCmpExpression object&gt;</em><a class="headerlink" href="#hbutils.testing.requires.vpip" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">hbutils.testing.requires.</code><code class="sig-name descname">vpip</code><em class="property"> = &lt;PipVersionInfo 22.1&gt;</em><a class="headerlink" href="#hbutils.testing.requires.vpip" title="Permalink to this definition">¶</a></dt>
 <dd><dl>
 <dt>Overview:</dt><dd><p>Pip version expression</p>
 </dd>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">unittest</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">pre_condition</span><span class="p">,</span> <span class="n">vpip</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">vpip</span>
 <span class="gp">&gt;&gt;&gt; </span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">TestMyCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_1_anytime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="gp">... </span>        <span class="k">assert</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">3</span>
 <span class="gp">...</span>
-<span class="gp">... </span>    <span class="nd">@pre_condition</span><span class="p">(</span><span class="n">vpip</span> <span class="o">&gt;=</span> <span class="s1">&#39;21&#39;</span><span class="p">)</span>  <span class="c1"># pip&gt;=21</span>
+<span class="gp">... </span>    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipUnless</span><span class="p">(</span><span class="n">vpip</span> <span class="o">&gt;=</span> <span class="s1">&#39;21&#39;</span><span class="p">,</span> <span class="s1">&#39;pip21+ only&#39;</span><span class="p">)</span>  <span class="c1"># pip&gt;=21</span>
 <span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_2_on_pip21plus</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="gp">... </span>        <span class="k">assert</span> <span class="kc">True</span>
 <span class="gp">...</span>
-<span class="gp">... </span>    <span class="nd">@pre_condition</span><span class="p">(</span><span class="n">vpip</span><span class="p">(</span><span class="s1">&#39;pip&#39;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="s1">&#39;21&#39;</span><span class="p">)</span>  <span class="c1"># the same as above</span>
+<span class="gp">... </span>    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipUnless</span><span class="p">(</span><span class="n">vpip</span><span class="p">(</span><span class="s1">&#39;pip&#39;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="s1">&#39;21&#39;</span><span class="p">,</span> <span class="s1">&#39;pip21+ only&#39;</span><span class="p">)</span>  <span class="c1"># the same as above</span>
 <span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_3_on_pip21plus2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="gp">... </span>        <span class="k">assert</span> <span class="kc">True</span>
 <span class="gp">...</span>
-<span class="gp">... </span>    <span class="nd">@pre_condition</span><span class="p">((</span><span class="n">vpip</span><span class="p">(</span><span class="s1">&#39;setuptools&#39;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="s1">&#39;45&#39;</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">vpip</span><span class="p">(</span><span class="s1">&#39;build&#39;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="s1">&#39;0.8&#39;</span><span class="p">))</span>  <span class="c1"># setuptools&gt;=45 or build&gt;=0.8</span>
+<span class="gp">... </span>    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipUnless</span><span class="p">(</span><span class="n">vpip</span><span class="p">(</span><span class="s1">&#39;setuptools&#39;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="s1">&#39;45&#39;</span> <span class="ow">or</span> <span class="n">vpip</span><span class="p">(</span><span class="s1">&#39;build&#39;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="s1">&#39;0.8&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>  <span class="c1"># setuptools&gt;=45 or build&gt;=0.8</span>
 <span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_4_on_setuptools_or_build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="gp">... </span>        <span class="k">assert</span> <span class="kc">True</span>
 <span class="gp">...</span>
-<span class="gp">... </span>    <span class="nd">@pre_condition</span><span class="p">(</span><span class="o">~</span><span class="n">vpip</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">vpip</span><span class="p">(</span><span class="s1">&#39;build&#39;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="s1">&#39;0.8&#39;</span><span class="p">))</span>  <span class="c1"># pip not installed, and build&gt;=0.8</span>
+<span class="gp">... </span>    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipUnless</span><span class="p">(</span><span class="ow">not</span> <span class="n">vpip</span> <span class="ow">and</span> <span class="n">vpip</span><span class="p">(</span><span class="s1">&#39;build&#39;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="s1">&#39;0.8&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>  <span class="c1"># pip not installed, and build&gt;=0.8</span>
 <span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_5_on_nopip_and_build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="gp">... </span>        <span class="k">assert</span> <span class="kc">True</span>
 <span class="gp">... </span>
@@ -307,21 +283,21 @@ Can be used to both functions and classes.</p>
 <dt>Overview:</dt><dd><p>Expressions for operating system.</p>
 </dd>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">unittest</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">pre_condition</span><span class="p">,</span> <span class="n">OS</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">OS</span>
 <span class="go">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">TestMyCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>  <span class="c1"># on Linux</span>
 <span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_1_anytime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="gp">... </span>        <span class="k">assert</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">3</span>
 <span class="gp">...</span>
-<span class="gp">... </span>    <span class="nd">@pre_condition</span><span class="p">(</span><span class="n">OS</span><span class="o">.</span><span class="n">linux</span><span class="p">)</span>  <span class="c1"># only run on Linux</span>
+<span class="gp">... </span>    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipUnless</span><span class="p">(</span><span class="n">OS</span><span class="o">.</span><span class="n">linux</span><span class="p">,</span> <span class="s1">&#39;linux only&#39;</span><span class="p">)</span>  <span class="c1"># only run on Linux</span>
 <span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_2_linux</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="gp">... </span>        <span class="k">assert</span> <span class="kc">True</span>
 <span class="gp">...</span>
-<span class="gp">... </span>    <span class="nd">@pre_condition</span><span class="p">(</span><span class="n">OS</span><span class="o">.</span><span class="n">windows</span><span class="p">)</span>  <span class="c1"># only run on Windows</span>
+<span class="gp">... </span>    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipUnless</span><span class="p">(</span><span class="n">OS</span><span class="o">.</span><span class="n">windows</span><span class="p">,</span> <span class="s1">&#39;windows only&#39;</span><span class="p">)</span>  <span class="c1"># only run on Windows</span>
 <span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_2_windows</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="gp">... </span>        <span class="k">assert</span> <span class="kc">True</span>
 <span class="gp">...</span>
-<span class="gp">... </span>    <span class="nd">@pre_condition</span><span class="p">(</span><span class="n">OS</span><span class="o">.</span><span class="n">macos</span><span class="p">)</span>  <span class="c1"># only run on macOS</span>
+<span class="gp">... </span>    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipUnless</span><span class="p">(</span><span class="n">OS</span><span class="o">.</span><span class="n">macos</span><span class="p">,</span> <span class="s1">&#39;macos only&#39;</span><span class="p">)</span>  <span class="c1"># only run on macOS</span>
 <span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_4_macos</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="gp">... </span>        <span class="k">assert</span> <span class="kc">True</span>
 <span class="gp">...</span>
@@ -336,26 +312,26 @@ Can be used to both functions and classes.</p>
 </dl>
 <dl class="py attribute">
 <dt id="hbutils.testing.requires.OS.darwin">
-<code class="sig-name descname">darwin</code><em class="property"> = &lt;hbutils.testing.requires.expr.OSExpression object&gt;</em><a class="headerlink" href="#hbutils.testing.requires.OS.darwin" title="Permalink to this definition">¶</a></dt>
-<dd><p>Expression for darwin system (also named <code class="docutils literal notranslate"><span class="pre">OS.macos</span></code>).</p>
+<code class="sig-name descname">darwin</code><em class="property"> = False</em><a class="headerlink" href="#hbutils.testing.requires.OS.darwin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is darwin (macos) system or not, related to your local OS.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="hbutils.testing.requires.OS.linux">
-<code class="sig-name descname">linux</code><em class="property"> = &lt;hbutils.testing.requires.expr.OSExpression object&gt;</em><a class="headerlink" href="#hbutils.testing.requires.OS.linux" title="Permalink to this definition">¶</a></dt>
-<dd><p>Expression for linux system.</p>
+<code class="sig-name descname">linux</code><em class="property"> = True</em><a class="headerlink" href="#hbutils.testing.requires.OS.linux" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is linux system or not, related to your local OS.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="hbutils.testing.requires.OS.macos">
-<code class="sig-name descname">macos</code><em class="property"> = &lt;hbutils.testing.requires.expr.OSExpression object&gt;</em><a class="headerlink" href="#hbutils.testing.requires.OS.macos" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">macos</code><em class="property"> = False</em><a class="headerlink" href="#hbutils.testing.requires.OS.macos" title="Permalink to this definition">¶</a></dt>
 <dd><p>Alias for <code class="docutils literal notranslate"><span class="pre">OS.darwin</span></code>.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="hbutils.testing.requires.OS.windows">
-<code class="sig-name descname">windows</code><em class="property"> = &lt;hbutils.testing.requires.expr.OSExpression object&gt;</em><a class="headerlink" href="#hbutils.testing.requires.OS.windows" title="Permalink to this definition">¶</a></dt>
-<dd><p>Expression for windows system.</p>
+<code class="sig-name descname">windows</code><em class="property"> = False</em><a class="headerlink" href="#hbutils.testing.requires.OS.windows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is windows system or not, related to your local OS.</p>
 </dd></dl>
 
 </dd></dl>
@@ -366,30 +342,36 @@ Can be used to both functions and classes.</p>
 <dl class="py class">
 <dt id="hbutils.testing.requires.Impl">
 <em class="property">class </em><code class="sig-prename descclassname">hbutils.testing.requires.</code><code class="sig-name descname">Impl</code><a class="reference internal" href="../../_modules/hbutils/testing/requires/expr.html#Impl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.requires.Impl" title="Permalink to this definition">¶</a></dt>
-<dd><dl>
+<dd><blockquote>
+<div><dl>
 <dt>Overview:</dt><dd><p>Expression for python implementation.
 See <a class="reference external" href="https://docs.python.org/3/library/platform.html#platform.python_implementation">platform.python_implementation()</a> .</p>
 </dd>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">unittest</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">pre_condition</span><span class="p">,</span> <span class="n">Impl</span>
-<span class="go">&gt;&gt;&gt;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+<dl>
+<dt>from hbutils.testing import Impl</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">TestMyCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>  <span class="c1"># on CPython</span>
 <span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_1_anytime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="gp">... </span>        <span class="k">assert</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">3</span>
 <span class="gp">...</span>
-<span class="gp">... </span>    <span class="nd">@pre_condition</span><span class="p">(</span><span class="n">Impl</span><span class="o">.</span><span class="n">cpython</span><span class="p">)</span>  <span class="c1"># only run on CPython</span>
+<span class="gp">... </span>    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipUnless</span><span class="p">(</span><span class="n">Impl</span><span class="o">.</span><span class="n">cpython</span><span class="p">,</span> <span class="s1">&#39;cpython only&#39;</span><span class="p">)</span>  <span class="c1"># only run on CPython</span>
 <span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_2_cpython</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="gp">... </span>        <span class="k">assert</span> <span class="kc">True</span>
 <span class="gp">...</span>
-<span class="gp">... </span>    <span class="nd">@pre_condition</span><span class="p">(</span><span class="n">Impl</span><span class="o">.</span><span class="n">pypy</span><span class="p">)</span>  <span class="c1"># only run on PyPy</span>
+<span class="gp">... </span>    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipUnless</span><span class="p">(</span><span class="n">Impl</span><span class="o">.</span><span class="n">pypy</span><span class="p">,</span> <span class="s1">&#39;pypy only&#39;</span><span class="p">)</span>  <span class="c1"># only run on PyPy</span>
 <span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_3_pypy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="gp">... </span>        <span class="k">assert</span> <span class="kc">True</span>
 <span class="gp">...</span>
-<span class="gp">... </span>    <span class="nd">@pre_condition</span><span class="p">(</span><span class="n">Impl</span><span class="o">.</span><span class="n">iron_python</span><span class="p">)</span>  <span class="c1"># only run on IronPython</span>
+<span class="gp">... </span>    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipUnless</span><span class="p">(</span><span class="n">Impl</span><span class="o">.</span><span class="n">iron_python</span><span class="p">,</span> <span class="s1">&#39;ironpython only&#39;</span><span class="p">)</span>  <span class="c1"># only run on IronPython</span>
 <span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_4_ironpython</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="gp">... </span>        <span class="k">assert</span> <span class="kc">True</span>
 <span class="gp">...</span>
-<span class="gp">... </span>    <span class="nd">@pre_condition</span><span class="p">(</span><span class="n">Impl</span><span class="o">.</span><span class="n">jython</span><span class="p">)</span>  <span class="c1"># only run on Jython</span>
+<span class="gp">... </span>    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipUnless</span><span class="p">(</span><span class="n">Impl</span><span class="o">.</span><span class="n">jython</span><span class="p">,</span> <span class="s1">&#39;jython only&#39;</span><span class="p">)</span>  <span class="c1"># only run on Jython</span>
 <span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_5_jython</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="gp">... </span>        <span class="k">assert</span> <span class="kc">True</span>
 <span class="gp">...</span>
@@ -404,26 +386,26 @@ See <a class="reference external" href="https://docs.python.org/3/library/platfo
 </dl>
 <dl class="py attribute">
 <dt id="hbutils.testing.requires.Impl.cpython">
-<code class="sig-name descname">cpython</code><em class="property"> = &lt;hbutils.testing.requires.expr.PythonImplementExpression object&gt;</em><a class="headerlink" href="#hbutils.testing.requires.Impl.cpython" title="Permalink to this definition">¶</a></dt>
-<dd><p>Expression for CPython (most-frequently-used python).</p>
+<code class="sig-name descname">cpython</code><em class="property"> = True</em><a class="headerlink" href="#hbutils.testing.requires.Impl.cpython" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is CPython (most-frequently-used python) or not, related to your local python.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="hbutils.testing.requires.Impl.iron_python">
-<code class="sig-name descname">iron_python</code><em class="property"> = &lt;hbutils.testing.requires.expr.PythonImplementExpression object&gt;</em><a class="headerlink" href="#hbutils.testing.requires.Impl.iron_python" title="Permalink to this definition">¶</a></dt>
-<dd><p>Expression for IronPython.</p>
+<code class="sig-name descname">iron_python</code><em class="property"> = False</em><a class="headerlink" href="#hbutils.testing.requires.Impl.iron_python" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is IronPython or not, related to your local python.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="hbutils.testing.requires.Impl.jython">
-<code class="sig-name descname">jython</code><em class="property"> = &lt;hbutils.testing.requires.expr.PythonImplementExpression object&gt;</em><a class="headerlink" href="#hbutils.testing.requires.Impl.jython" title="Permalink to this definition">¶</a></dt>
-<dd><p>Expression for Jython (java-based python).</p>
+<code class="sig-name descname">jython</code><em class="property"> = False</em><a class="headerlink" href="#hbutils.testing.requires.Impl.jython" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is Jython (java-based python) or not, related to your local python.</p>
 </dd></dl>
 
 <dl class="py attribute">
 <dt id="hbutils.testing.requires.Impl.pypy">
-<code class="sig-name descname">pypy</code><em class="property"> = &lt;hbutils.testing.requires.expr.PythonImplementExpression object&gt;</em><a class="headerlink" href="#hbutils.testing.requires.Impl.pypy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Expression for PyPy.</p>
+<code class="sig-name descname">pypy</code><em class="property"> = False</em><a class="headerlink" href="#hbutils.testing.requires.Impl.pypy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is PyPy or not, related to your local python.</p>
 </dd></dl>
 
 </dd></dl>

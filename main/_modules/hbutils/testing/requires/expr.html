@@ -174,7 +174,6 @@
 <span></span><span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span>
 
 <span class="kn">from</span> <span class="nn">.version</span> <span class="kn">import</span> <span class="n">VersionInfo</span>
-<span class="kn">from</span> <span class="nn">...expression</span> <span class="kn">import</span> <span class="n">LogicalExpression</span><span class="p">,</span> <span class="n">ComparableExpression</span><span class="p">,</span> <span class="n">expr</span>
 <span class="kn">from</span> <span class="nn">...system</span> <span class="kn">import</span> <span class="n">python_version</span><span class="p">,</span> <span class="n">package_version</span><span class="p">,</span> <span class="n">is_windows</span><span class="p">,</span> <span class="n">is_linux</span><span class="p">,</span> <span class="n">is_darwin</span><span class="p">,</span> <span class="n">is_cpython</span><span class="p">,</span> <span class="n">is_pypy</span><span class="p">,</span> \
     <span class="n">is_ironpython</span><span class="p">,</span> <span class="n">is_jython</span>
 
@@ -183,14 +182,7 @@
     <span class="s1">&#39;OS&#39;</span><span class="p">,</span> <span class="s1">&#39;Impl&#39;</span><span class="p">,</span>
 <span class="p">]</span>
 
-
-<span class="k">class</span> <span class="nc">VersionCmpExpression</span><span class="p">(</span><span class="n">ComparableExpression</span><span class="p">,</span> <span class="n">LogicalExpression</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">pass</span>
-
-
-<span class="n">vpython</span> <span class="o">=</span> <span class="n">expr</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">VersionInfo</span><span class="p">(</span><span class="n">python_version</span><span class="p">()),</span> <span class="bp">cls</span><span class="o">=</span><span class="n">VersionCmpExpression</span><span class="p">)</span>
+<span class="n">vpython</span> <span class="o">=</span> <span class="n">VersionInfo</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">python_version</span><span class="p">())</span>
 <span class="n">vpython</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">Overview:</span>
 <span class="s2">    Python version expression.</span>
@@ -198,19 +190,19 @@
 <span class="s2">Examples::</span>
 <span class="s2">    &gt;&gt;&gt; import platform</span>
 <span class="s2">    &gt;&gt;&gt; import unittest</span>
-<span class="s2">    &gt;&gt;&gt; from hbutils.testing import pre_condition, vpython</span>
+<span class="s2">    &gt;&gt;&gt; from hbutils.testing import vpython</span>
 <span class="s2">    &gt;&gt;&gt; </span>
 <span class="s2">    &gt;&gt;&gt; class TestMyCase(unittest.TestCase):  # on python 3.6</span>
 <span class="s2">    ...     def test_anytime(self):</span>
 <span class="s2">    ...         assert 2 + 1 == 3</span>
 <span class="s2">    ...</span>
-<span class="s2">    ...     @pre_condition((vpython &gt;= &#39;3.6&#39;) &amp; (vpython &lt; &#39;3.7&#39;))  # will run</span>
+<span class="s2">    ...     @unittest.skipUnless(&#39;3.6&#39; &lt;= vpython &lt; &#39;3.7&#39;, &#39;py36 only&#39;)  # will run</span>
 <span class="s2">    ...     def test_on_python36(self):</span>
 <span class="s2">    ...         assert platform.python_version_tuple()[:2] == (&#39;3&#39;, &#39;6&#39;)</span>
 <span class="s2">    ...</span>
-<span class="s2">    ...     @pre_condition((vpython &gt;= &#39;3.7&#39;) &amp; (vpython &lt; &#39;3.8&#39;))  # will skip</span>
+<span class="s2">    ...     @unittest.skipUnless(&#39;3.7&#39; &lt;= vpython &lt; &#39;3.8&#39;, &#39;py37 only&#39;)  # will skip</span>
 <span class="s2">    ...     def test_on_python37(self):</span>
-<span class="s2">    ...         assert platform.python_version_tuple()[:2] == (&#39;3&#39;, &#39;7&#39;) </span>
+<span class="s2">    ...         assert platform.python_version_tuple()[:2] == (&#39;3&#39;, &#39;7&#39;)</span>
 <span class="s2">    ...</span>
 <span class="s2">    &gt;&gt;&gt; unittest.main()</span>
 <span class="s2">    ..s</span>
@@ -220,37 +212,37 @@
 <span class="s2">&quot;&quot;&quot;</span>
 
 
-<span class="k">class</span> <span class="nc">PipVersionCmpExpression</span><span class="p">(</span><span class="n">VersionCmpExpression</span><span class="p">):</span>
-    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">expr</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">VersionInfo</span><span class="p">(</span><span class="n">package_version</span><span class="p">(</span><span class="n">name</span><span class="p">)),</span> <span class="bp">cls</span><span class="o">=</span><span class="n">VersionCmpExpression</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">PipVersionInfo</span><span class="p">(</span><span class="n">VersionInfo</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VersionInfo</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">VersionInfo</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">package_version</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
 
 
-<span class="n">vpip</span> <span class="o">=</span> <span class="n">expr</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">VersionInfo</span><span class="p">(</span><span class="n">package_version</span><span class="p">(</span><span class="s1">&#39;pip&#39;</span><span class="p">)),</span> <span class="bp">cls</span><span class="o">=</span><span class="n">PipVersionCmpExpression</span><span class="p">)</span>
+<span class="n">vpip</span> <span class="o">=</span> <span class="n">PipVersionInfo</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">package_version</span><span class="p">(</span><span class="s1">&#39;pip&#39;</span><span class="p">))</span>
 <span class="n">vpip</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">Overview:</span>
 <span class="s2">    Pip version expression</span>
 
 <span class="s2">Examples::</span>
 <span class="s2">    &gt;&gt;&gt; import unittest</span>
-<span class="s2">    &gt;&gt;&gt; from hbutils.testing import pre_condition, vpip</span>
+<span class="s2">    &gt;&gt;&gt; from hbutils.testing import vpip</span>
 <span class="s2">    &gt;&gt;&gt; </span>
 <span class="s2">    &gt;&gt;&gt; class TestMyCase(unittest.TestCase):</span>
 <span class="s2">    ...     def test_1_anytime(self):</span>
 <span class="s2">    ...         assert 2 + 1 == 3</span>
 <span class="s2">    ...</span>
-<span class="s2">    ...     @pre_condition(vpip &gt;= &#39;21&#39;)  # pip&gt;=21</span>
+<span class="s2">    ...     @unittest.skipUnless(vpip &gt;= &#39;21&#39;, &#39;pip21+ only&#39;)  # pip&gt;=21</span>
 <span class="s2">    ...     def test_2_on_pip21plus(self):</span>
 <span class="s2">    ...         assert True</span>
 <span class="s2">    ...</span>
-<span class="s2">    ...     @pre_condition(vpip(&#39;pip&#39;) &gt;= &#39;21&#39;)  # the same as above</span>
+<span class="s2">    ...     @unittest.skipUnless(vpip(&#39;pip&#39;) &gt;= &#39;21&#39;, &#39;pip21+ only&#39;)  # the same as above</span>
 <span class="s2">    ...     def test_3_on_pip21plus2(self):</span>
 <span class="s2">    ...         assert True</span>
 <span class="s2">    ...</span>
-<span class="s2">    ...     @pre_condition((vpip(&#39;setuptools&#39;) &gt;= &#39;45&#39;) | (vpip(&#39;build&#39;) &gt;= &#39;0.8&#39;))  # setuptools&gt;=45 or build&gt;=0.8</span>
+<span class="s2">    ...     @unittest.skipUnless(vpip(&#39;setuptools&#39;) &gt;= &#39;45&#39; or vpip(&#39;build&#39;) &gt;= &#39;0.8&#39;, &#39;&#39;)  # setuptools&gt;=45 or build&gt;=0.8</span>
 <span class="s2">    ...     def test_4_on_setuptools_or_build(self):</span>
 <span class="s2">    ...         assert True</span>
 <span class="s2">    ...</span>
-<span class="s2">    ...     @pre_condition(~vpip &amp; (vpip(&#39;build&#39;) &gt;= &#39;0.8&#39;))  # pip not installed, and build&gt;=0.8</span>
+<span class="s2">    ...     @unittest.skipUnless(not vpip and vpip(&#39;build&#39;) &gt;= &#39;0.8&#39;, &#39;&#39;)  # pip not installed, and build&gt;=0.8</span>
 <span class="s2">    ...     def test_5_on_nopip_and_build(self):</span>
 <span class="s2">    ...         assert True</span>
 <span class="s2">    ... </span>
@@ -262,10 +254,6 @@
 <span class="s2">&quot;&quot;&quot;</span>
 
 
-<span class="k">class</span> <span class="nc">OSExpression</span><span class="p">(</span><span class="n">LogicalExpression</span><span class="p">):</span>
-    <span class="k">pass</span>
-
-
 <div class="viewcode-block" id="OS"><a class="viewcode-back" href="../../../../api_doc/testing/requires.html#hbutils.testing.requires.OS">[docs]</a><span class="k">class</span> <span class="nc">OS</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
@@ -273,21 +261,21 @@
 
 <span class="sd">    Examples::</span>
 <span class="sd">        &gt;&gt;&gt; import unittest</span>
-<span class="sd">        &gt;&gt;&gt; from hbutils.testing import pre_condition, OS</span>
+<span class="sd">        &gt;&gt;&gt; from hbutils.testing import OS</span>
 <span class="sd">        &gt;&gt;&gt;</span>
 <span class="sd">        &gt;&gt;&gt; class TestMyCase(unittest.TestCase):  # on Linux</span>
 <span class="sd">        ...     def test_1_anytime(self):</span>
 <span class="sd">        ...         assert 2 + 1 == 3</span>
 <span class="sd">        ...</span>
-<span class="sd">        ...     @pre_condition(OS.linux)  # only run on Linux</span>
+<span class="sd">        ...     @unittest.skipUnless(OS.linux, &#39;linux only&#39;)  # only run on Linux</span>
 <span class="sd">        ...     def test_2_linux(self):</span>
 <span class="sd">        ...         assert True</span>
 <span class="sd">        ...</span>
-<span class="sd">        ...     @pre_condition(OS.windows)  # only run on Windows</span>
+<span class="sd">        ...     @unittest.skipUnless(OS.windows, &#39;windows only&#39;)  # only run on Windows</span>
 <span class="sd">        ...     def test_2_windows(self):</span>
 <span class="sd">        ...         assert True</span>
 <span class="sd">        ...</span>
-<span class="sd">        ...     @pre_condition(OS.macos)  # only run on macOS</span>
+<span class="sd">        ...     @unittest.skipUnless(OS.macos, &#39;macos only&#39;)  # only run on macOS</span>
 <span class="sd">        ...     def test_4_macos(self):</span>
 <span class="sd">        ...         assert True</span>
 <span class="sd">        ...</span>
@@ -297,28 +285,24 @@
 <span class="sd">        Ran 4 tests in 0.001s</span>
 <span class="sd">        OK (skipped=2)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">windows</span> <span class="o">=</span> <span class="n">expr</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">is_windows</span><span class="p">(),</span> <span class="bp">cls</span><span class="o">=</span><span class="n">OSExpression</span><span class="p">)</span>
+    <span class="n">windows</span> <span class="o">=</span> <span class="n">is_windows</span><span class="p">()</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Expression for windows system.</span>
+<span class="sd">    Is windows system or not, related to your local OS.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">linux</span> <span class="o">=</span> <span class="n">expr</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">is_linux</span><span class="p">(),</span> <span class="bp">cls</span><span class="o">=</span><span class="n">OSExpression</span><span class="p">)</span>
+    <span class="n">linux</span> <span class="o">=</span> <span class="n">is_linux</span><span class="p">()</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Expression for linux system.</span>
+<span class="sd">    Is linux system or not, related to your local OS.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">darwin</span> <span class="o">=</span> <span class="n">expr</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">is_darwin</span><span class="p">(),</span> <span class="bp">cls</span><span class="o">=</span><span class="n">OSExpression</span><span class="p">)</span>
+    <span class="n">darwin</span> <span class="o">=</span> <span class="n">is_darwin</span><span class="p">()</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Expression for darwin system (also named ``OS.macos``).</span>
+<span class="sd">    Is darwin (macos) system or not, related to your local OS.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">macos</span> <span class="o">=</span> <span class="n">darwin</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Alias for ``OS.darwin``.</span>
 <span class="sd">    &quot;&quot;&quot;</span></div>
-
-
-<span class="k">class</span> <span class="nc">PythonImplementExpression</span><span class="p">(</span><span class="n">LogicalExpression</span><span class="p">):</span>
-    <span class="k">pass</span>
 
 
 <div class="viewcode-block" id="Impl"><a class="viewcode-back" href="../../../../api_doc/testing/requires.html#hbutils.testing.requires.Impl">[docs]</a><span class="k">class</span> <span class="nc">Impl</span><span class="p">:</span>
@@ -330,25 +314,26 @@
 
 <span class="sd">    Examples::</span>
 <span class="sd">        &gt;&gt;&gt; import unittest</span>
-<span class="sd">        &gt;&gt;&gt; from hbutils.testing import pre_condition, Impl</span>
+
+<span class="sd">from hbutils.testing import Impl</span>
 <span class="sd">        &gt;&gt;&gt;</span>
 <span class="sd">        &gt;&gt;&gt; class TestMyCase(unittest.TestCase):  # on CPython</span>
 <span class="sd">        ...     def test_1_anytime(self):</span>
 <span class="sd">        ...         assert 2 + 1 == 3</span>
 <span class="sd">        ...</span>
-<span class="sd">        ...     @pre_condition(Impl.cpython)  # only run on CPython</span>
+<span class="sd">        ...     @unittest.skipUnless(Impl.cpython, &#39;cpython only&#39;)  # only run on CPython</span>
 <span class="sd">        ...     def test_2_cpython(self):</span>
 <span class="sd">        ...         assert True</span>
 <span class="sd">        ...</span>
-<span class="sd">        ...     @pre_condition(Impl.pypy)  # only run on PyPy</span>
+<span class="sd">        ...     @unittest.skipUnless(Impl.pypy, &#39;pypy only&#39;)  # only run on PyPy</span>
 <span class="sd">        ...     def test_3_pypy(self):</span>
 <span class="sd">        ...         assert True</span>
 <span class="sd">        ...</span>
-<span class="sd">        ...     @pre_condition(Impl.iron_python)  # only run on IronPython</span>
+<span class="sd">        ...     @unittest.skipUnless(Impl.iron_python, &#39;ironpython only&#39;)  # only run on IronPython</span>
 <span class="sd">        ...     def test_4_ironpython(self):</span>
 <span class="sd">        ...         assert True</span>
 <span class="sd">        ...</span>
-<span class="sd">        ...     @pre_condition(Impl.jython)  # only run on Jython</span>
+<span class="sd">        ...     @unittest.skipUnless(Impl.jython, &#39;jython only&#39;)  # only run on Jython</span>
 <span class="sd">        ...     def test_5_jython(self):</span>
 <span class="sd">        ...         assert True</span>
 <span class="sd">        ...</span>
@@ -358,24 +343,24 @@
 <span class="sd">        Ran 5 tests in 0.000s</span>
 <span class="sd">        OK (skipped=3)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">cpython</span> <span class="o">=</span> <span class="n">expr</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">is_cpython</span><span class="p">(),</span> <span class="bp">cls</span><span class="o">=</span><span class="n">PythonImplementExpression</span><span class="p">)</span>
+    <span class="n">cpython</span> <span class="o">=</span> <span class="n">is_cpython</span><span class="p">()</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Expression for CPython (most-frequently-used python).</span>
+<span class="sd">    Is CPython (most-frequently-used python) or not, related to your local python.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">iron_python</span> <span class="o">=</span> <span class="n">expr</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">is_ironpython</span><span class="p">(),</span> <span class="bp">cls</span><span class="o">=</span><span class="n">PythonImplementExpression</span><span class="p">)</span>
+    <span class="n">iron_python</span> <span class="o">=</span> <span class="n">is_ironpython</span><span class="p">()</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Expression for IronPython.</span>
+<span class="sd">    Is IronPython or not, related to your local python.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">jython</span> <span class="o">=</span> <span class="n">expr</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">is_jython</span><span class="p">(),</span> <span class="bp">cls</span><span class="o">=</span><span class="n">PythonImplementExpression</span><span class="p">)</span>
+    <span class="n">jython</span> <span class="o">=</span> <span class="n">is_jython</span><span class="p">()</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Expression for Jython (java-based python).</span>
+<span class="sd">    Is Jython (java-based python) or not, related to your local python.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">pypy</span> <span class="o">=</span> <span class="n">expr</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">is_pypy</span><span class="p">(),</span> <span class="bp">cls</span><span class="o">=</span><span class="n">PythonImplementExpression</span><span class="p">)</span>
+    <span class="n">pypy</span> <span class="o">=</span> <span class="n">is_pypy</span><span class="p">()</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Expression for PyPy.</span>
+<span class="sd">    Is PyPy or not, related to your local python.</span>
 <span class="sd">    &quot;&quot;&quot;</span></div>
 </pre></div>
 
