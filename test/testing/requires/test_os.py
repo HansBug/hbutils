@@ -3,25 +3,26 @@ import unittest
 import pytest
 from easydict import EasyDict
 
-from hbutils.testing import OS, pre_condition, disable_output
+from hbutils.testing import OS, disable_output
 from ...testings import windows_mark, linux_mark, macos_mark
 
 
 @pytest.mark.ignore
 class _TestOS(unittest.TestCase):
+    # noinspection PyPep8Naming
     def __init__(self, methodName: str, v):
         unittest.TestCase.__init__(self, methodName=methodName)
         self.v = v
 
-    @pre_condition(OS.linux)
+    @unittest.skipUnless(OS.linux, 'linux only.')
     def test_linux(self):
         self.v.is_linux = True
 
-    @pre_condition(OS.windows)
+    @unittest.skipUnless(OS.windows, 'windows_only.')
     def test_windows(self):
         self.v.is_windows = True
 
-    @pre_condition(OS.macos)
+    @unittest.skipUnless(OS.macos, 'macos_only.')
     def test_macos(self):
         self.v.is_macos = True
 

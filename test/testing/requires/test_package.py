@@ -5,21 +5,22 @@ import pytest
 from easydict import EasyDict
 
 from hbutils.system.python.package import PIP_PACKAGES
-from hbutils.testing import pre_condition, vpip, disable_output
+from hbutils.testing import vpip, disable_output
 
 
 def _get_test_class():
     @pytest.mark.ignore
     class _TestPythonPackage(unittest.TestCase):
+        # noinspection PyPep8Naming
         def __init__(self, methodName: str, v):
             unittest.TestCase.__init__(self, methodName)
             self.v = v
 
-        @pre_condition((vpip >= 20) & (vpip < 21))
+        @unittest.skipUnless(20 <= vpip < 21, 'pip20 only')
         def test_pip20(self):
             self.v.is_pip20 = True
 
-        @pre_condition((vpip('setuptools') >= '45') & ((vpip('click') < 7) | ~vpip))
+        @unittest.skipUnless(vpip('setuptools') >= '45' and (vpip('click') < 7 or not vpip), 'complex only')
         def test_complex(self):
             self.v.complex_ok = True
 
@@ -40,7 +41,9 @@ class TestTestingRequiresPackage:
 
     def test_simple_2(self):
         d = EasyDict({})
-        with disable_output(), mock.patch.dict(PIP_PACKAGES, {'pip': '20.3.1'}, clear=True):
+
+        with disable_output(), \
+                mock.patch.dict(PIP_PACKAGES, {'pip': '20.3.1'}, clear=True):
             _TestPythonPackage = _get_test_class()
             runner = unittest.TextTestRunner()
             runner.run(_TestPythonPackage('test_pip20', d))
