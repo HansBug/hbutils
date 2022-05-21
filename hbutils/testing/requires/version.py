@@ -6,6 +6,15 @@ _Version = type(parse_version('0.0.1'))
 
 
 class VersionInfo:
+    """
+    Overview:
+        Class for wrapping version information.
+
+    .. warning::
+        This class is not immutable for its designing for dynamic comparison and boolean check.
+        Please pay attention when use it.
+    """
+
     def __init__(self, v):
         if isinstance(v, VersionInfo):
             self._version, self._func = v._version, None
