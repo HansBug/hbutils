@@ -1,0 +1,530 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hbutils.binary.uint &mdash; hbutils 0.6.4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="hbutils.collection" href="../collection/index.html" />
+    <link rel="prev" title="hbutils.binary.str" href="str.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> hbutils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+</ul>
+<p><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">hbutils.algorithm</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">hbutils.binary</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="base.html">hbutils.binary.base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bool.html">hbutils.binary.bool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buffer.html">hbutils.binary.buffer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="float.html">hbutils.binary.float</a></li>
+<li class="toctree-l2"><a class="reference internal" href="int.html">hbutils.binary.int</a></li>
+<li class="toctree-l2"><a class="reference internal" href="str.html">hbutils.binary.str</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.binary.uint</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cunsignedinttype">CUnsignedIntType</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c-ubyte">c_ubyte</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c-ushort">c_ushort</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c-uint">c_uint</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c-ulong">c_ulong</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c-ulonglong">c_ulonglong</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c-uint8">c_uint8</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c-uint16">c_uint16</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c-uint32">c_uint32</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c-uint64">c_uint64</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../collection/index.html">hbutils.collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../color/index.html">hbutils.color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/index.html">hbutils.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/index.html">hbutils.design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../expression/index.html">hbutils.expression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file/index.html">hbutils.file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/index.html">hbutils.model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../random/index.html">hbutils.random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reflection/index.html">hbutils.reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scale/index.html">hbutils.scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../string/index.html">hbutils.string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../system/index.html">hbutils.system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/index.html">hbutils.testing</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">hbutils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">hbutils.binary</a> &raquo;</li>
+        
+      <li>hbutils.binary.uint</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_doc/binary/uint.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <section id="module-hbutils.binary.uint">
+<span id="hbutils-binary-uint"></span><h1>hbutils.binary.uint<a class="headerlink" href="#module-hbutils.binary.uint" title="Permalink to this headline">¶</a></h1>
+<section id="cunsignedinttype">
+<h2>CUnsignedIntType<a class="headerlink" href="#cunsignedinttype" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.binary.uint.CUnsignedIntType">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.binary.uint.</code><code class="sig-name descname">CUnsignedIntType</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/binary/uint.html#CUnsignedIntType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.uint.CUnsignedIntType" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Unsigned int type.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="hbutils.binary.uint.CUnsignedIntType.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/binary/uint.html#CUnsignedIntType.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.uint.CUnsignedIntType.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of <a class="reference internal" href="#hbutils.binary.uint.CUnsignedIntType" title="hbutils.binary.uint.CUnsignedIntType"><code class="xref py py-class docutils literal notranslate"><span class="pre">CUnsignedIntType</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>size</strong> – Size of the type.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.binary.uint.CUnsignedIntType.read">
+<code class="sig-name descname">read</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span></em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../../_modules/hbutils/binary/uint.html#CUnsignedIntType.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.uint.CUnsignedIntType.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read unsigned int value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file</strong> – Binary file, <code class="docutils literal notranslate"><span class="pre">io.BytesIO</span></code> is supported as well.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Unsigned int value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.binary.uint.CUnsignedIntType.size">
+<em class="property">property </em><code class="sig-name descname">size</code><a class="headerlink" href="#hbutils.binary.uint.CUnsignedIntType.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Size of the given type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.binary.uint.CUnsignedIntType.write">
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span></em>, <em class="sig-param"><span class="n">val</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/binary/uint.html#CUnsignedIntType.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.uint.CUnsignedIntType.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write unsigned int value to binary IO object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> – Binary file, <code class="docutils literal notranslate"><span class="pre">io.BytesIO</span></code> is supported as well.</p></li>
+<li><p><strong>val</strong> – Unsigned int value to write.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="c-ubyte">
+<h2>c_ubyte<a class="headerlink" href="#c-ubyte" title="Permalink to this headline">¶</a></h2>
+<dl class="py data">
+<dt id="hbutils.binary.uint.c_ubyte">
+<code class="sig-prename descclassname">hbutils.binary.uint.</code><code class="sig-name descname">c_ubyte</code><em class="property"> = &lt;hbutils.binary.uint.CUnsignedIntType object&gt;</em><a class="headerlink" href="#hbutils.binary.uint.c_ubyte" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for <a class="reference internal" href="#hbutils.binary.uint.c_uint8" title="hbutils.binary.uint.c_uint8"><code class="xref py py-data docutils literal notranslate"><span class="pre">c_uint8</span></code></a>.</p>
+</dd></dl>
+
+</section>
+<section id="c-ushort">
+<h2>c_ushort<a class="headerlink" href="#c-ushort" title="Permalink to this headline">¶</a></h2>
+<dl class="py data">
+<dt id="hbutils.binary.uint.c_ushort">
+<code class="sig-prename descclassname">hbutils.binary.uint.</code><code class="sig-name descname">c_ushort</code><em class="property"> = &lt;hbutils.binary.uint.CUnsignedIntType object&gt;</em><a class="headerlink" href="#hbutils.binary.uint.c_ushort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for <a class="reference internal" href="#hbutils.binary.uint.c_uint16" title="hbutils.binary.uint.c_uint16"><code class="xref py py-data docutils literal notranslate"><span class="pre">c_uint16</span></code></a>.</p>
+</dd></dl>
+
+</section>
+<section id="c-uint">
+<h2>c_uint<a class="headerlink" href="#c-uint" title="Permalink to this headline">¶</a></h2>
+<dl class="py data">
+<dt id="hbutils.binary.uint.c_uint">
+<code class="sig-prename descclassname">hbutils.binary.uint.</code><code class="sig-name descname">c_uint</code><em class="property"> = &lt;hbutils.binary.uint.CUnsignedIntType object&gt;</em><a class="headerlink" href="#hbutils.binary.uint.c_uint" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for <a class="reference internal" href="#hbutils.binary.uint.c_uint32" title="hbutils.binary.uint.c_uint32"><code class="xref py py-data docutils literal notranslate"><span class="pre">c_uint32</span></code></a> (in 64-bits OS).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Size of <a class="reference internal" href="#hbutils.binary.uint.c_uint" title="hbutils.binary.uint.c_uint"><code class="xref py py-data docutils literal notranslate"><span class="pre">c_uint</span></code></a> is the same as that in C language, which mainly depends on CPU and OS.</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="c-ulong">
+<h2>c_ulong<a class="headerlink" href="#c-ulong" title="Permalink to this headline">¶</a></h2>
+<dl class="py data">
+<dt id="hbutils.binary.uint.c_ulong">
+<code class="sig-prename descclassname">hbutils.binary.uint.</code><code class="sig-name descname">c_ulong</code><em class="property"> = &lt;hbutils.binary.uint.CUnsignedIntType object&gt;</em><a class="headerlink" href="#hbutils.binary.uint.c_ulong" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for <a class="reference internal" href="#hbutils.binary.uint.c_uint64" title="hbutils.binary.uint.c_uint64"><code class="xref py py-data docutils literal notranslate"><span class="pre">c_uint64</span></code></a> (in 64-bits OS).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Size of <a class="reference internal" href="#hbutils.binary.uint.c_ulong" title="hbutils.binary.uint.c_ulong"><code class="xref py py-data docutils literal notranslate"><span class="pre">c_ulong</span></code></a> is the same as that in C language, which mainly depends on CPU and OS.</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="c-ulonglong">
+<h2>c_ulonglong<a class="headerlink" href="#c-ulonglong" title="Permalink to this headline">¶</a></h2>
+<dl class="py data">
+<dt id="hbutils.binary.uint.c_ulonglong">
+<code class="sig-prename descclassname">hbutils.binary.uint.</code><code class="sig-name descname">c_ulonglong</code><em class="property"> = &lt;hbutils.binary.uint.CUnsignedIntType object&gt;</em><a class="headerlink" href="#hbutils.binary.uint.c_ulonglong" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for <a class="reference internal" href="#hbutils.binary.uint.c_uint64" title="hbutils.binary.uint.c_uint64"><code class="xref py py-data docutils literal notranslate"><span class="pre">c_uint64</span></code></a> (in 64-bits OS).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Size of <a class="reference internal" href="#hbutils.binary.uint.c_ulonglong" title="hbutils.binary.uint.c_ulonglong"><code class="xref py py-data docutils literal notranslate"><span class="pre">c_ulonglong</span></code></a> is the same as that in C language, which mainly depends on CPU and OS.</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="c-uint8">
+<h2>c_uint8<a class="headerlink" href="#c-uint8" title="Permalink to this headline">¶</a></h2>
+<dl class="py data">
+<dt id="hbutils.binary.uint.c_uint8">
+<code class="sig-prename descclassname">hbutils.binary.uint.</code><code class="sig-name descname">c_uint8</code><em class="property"> = &lt;hbutils.binary.uint.CUnsignedIntType object&gt;</em><a class="headerlink" href="#hbutils.binary.uint.c_uint8" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Reading and writing unsigned integer with 8-bits.</p>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">io</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.binary</span> <span class="kn">import</span> <span class="n">c_uint8</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;Þ­¾ï&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_uint8</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_uint8</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_uint8</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_uint8</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="go">222</span>
+<span class="go">173</span>
+<span class="go">190</span>
+<span class="go">239</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">c_uint8</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="mi">222</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">c_uint8</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="mi">173</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">c_uint8</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="mi">190</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">c_uint8</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="mi">239</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
+<span class="go">b&#39;Þ­¾ï&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="c-uint16">
+<h2>c_uint16<a class="headerlink" href="#c-uint16" title="Permalink to this headline">¶</a></h2>
+<dl class="py data">
+<dt id="hbutils.binary.uint.c_uint16">
+<code class="sig-prename descclassname">hbutils.binary.uint.</code><code class="sig-name descname">c_uint16</code><em class="property"> = &lt;hbutils.binary.uint.CUnsignedIntType object&gt;</em><a class="headerlink" href="#hbutils.binary.uint.c_uint16" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Reading and writing unsigned integer with 16-bits.</p>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">io</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.binary</span> <span class="kn">import</span> <span class="n">c_uint16</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;Þ­¾ï4Vx&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_uint16</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_uint16</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_uint16</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_uint16</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="go">44510</span>
+<span class="go">61374</span>
+<span class="go">13330</span>
+<span class="go">30806</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">c_uint16</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="mi">44510</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">c_uint16</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="mi">61374</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">c_uint16</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="mi">13330</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">c_uint16</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="mi">30806</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
+<span class="go">b&#39;Þ­¾ï4Vx&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="c-uint32">
+<h2>c_uint32<a class="headerlink" href="#c-uint32" title="Permalink to this headline">¶</a></h2>
+<dl class="py data">
+<dt id="hbutils.binary.uint.c_uint32">
+<code class="sig-prename descclassname">hbutils.binary.uint.</code><code class="sig-name descname">c_uint32</code><em class="property"> = &lt;hbutils.binary.uint.CUnsignedIntType object&gt;</em><a class="headerlink" href="#hbutils.binary.uint.c_uint32" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Reading and writing unsigned integer with 32-bits.</p>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">io</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.binary</span> <span class="kn">import</span> <span class="n">c_uint32</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;Þ­¾ï4Vx&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_uint32</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_uint32</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="go">4022250974</span>
+<span class="go">2018915346</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">c_uint32</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="mi">4022250974</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">c_uint32</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="mi">2018915346</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
+<span class="go">b&#39;Þ­¾ï4Vx&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="c-uint64">
+<h2>c_uint64<a class="headerlink" href="#c-uint64" title="Permalink to this headline">¶</a></h2>
+<dl class="py data">
+<dt id="hbutils.binary.uint.c_uint64">
+<code class="sig-prename descclassname">hbutils.binary.uint.</code><code class="sig-name descname">c_uint64</code><em class="property"> = &lt;hbutils.binary.uint.CUnsignedIntType object&gt;</em><a class="headerlink" href="#hbutils.binary.uint.c_uint64" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Reading and writing unsigned integer with 64-bits.</p>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">io</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.binary</span> <span class="kn">import</span> <span class="n">c_uint64</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;Þ­¾ï4Vx&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_uint64</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="go">8671175388484775390</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">c_uint64</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="mh">0x78563412efbeadde</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
+<span class="go">b&#39;Þ­¾ï4Vx&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../collection/index.html" class="btn btn-neutral float-right" title="hbutils.collection" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="str.html" class="btn btn-neutral float-left" title="hbutils.binary.str" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: v0.6.4
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../v0.0.1/index.html">v0.0.1</a></dd>
+                        <dd><a href="../../../v0.1.0/index.html">v0.1.0</a></dd>
+                        <dd><a href="../../../v0.1.1/index.html">v0.1.1</a></dd>
+                        <dd><a href="../../../v0.2.0/index.html">v0.2.0</a></dd>
+                        <dd><a href="../../../v0.3.0/index.html">v0.3.0</a></dd>
+                        <dd><a href="../../../v0.3.1/index.html">v0.3.1</a></dd>
+                        <dd><a href="../../../v0.3.2/index.html">v0.3.2</a></dd>
+                        <dd><a href="../../../v0.3.3/index.html">v0.3.3</a></dd>
+                        <dd><a href="../../../v0.4.0/index.html">v0.4.0</a></dd>
+                        <dd><a href="../../../v0.4.1/index.html">v0.4.1</a></dd>
+                        <dd><a href="../../../v0.4.2/index.html">v0.4.2</a></dd>
+                        <dd><a href="../../../v0.4.3/index.html">v0.4.3</a></dd>
+                        <dd><a href="../../../v0.4.4/index.html">v0.4.4</a></dd>
+                        <dd><a href="../../../v0.4.5/index.html">v0.4.5</a></dd>
+                        <dd><a href="../../../v0.4.6/index.html">v0.4.6</a></dd>
+                        <dd><a href="../../../v0.4.7/index.html">v0.4.7</a></dd>
+                        <dd><a href="../../../v0.5.0/index.html">v0.5.0</a></dd>
+                        <dd><a href="../../../v0.5.1/index.html">v0.5.1</a></dd>
+                        <dd><a href="../../../v0.5.2/index.html">v0.5.2</a></dd>
+                        <dd><a href="../../../v0.6.0/api_doc/binary/uint.html">v0.6.0</a></dd>
+                        <dd><a href="../../../v0.6.1/api_doc/binary/uint.html">v0.6.1</a></dd>
+                        <dd><a href="../../../v0.6.2/api_doc/binary/uint.html">v0.6.2</a></dd>
+                        <dd><a href="../../../v0.6.3/api_doc/binary/uint.html">v0.6.3</a></dd>
+                        <dd><a href="uint.html">v0.6.4</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="../../../dev/dependency/api_doc/binary/uint.html">dev/dependency</a></dd>
+                        <dd><a href="../../../main/api_doc/binary/uint.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
