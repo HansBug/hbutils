@@ -7,12 +7,6 @@ hbutils.testing.requires
 
 
 
-pre_condition
-----------------------
-
-.. autofunction:: pre_condition
-
-
 vpython
 ----------------------
 
