@@ -10,4 +10,5 @@ hbutils.collection
 
     dimension
     functional
+    sequence
     structural
