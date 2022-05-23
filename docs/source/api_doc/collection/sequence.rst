@@ -12,4 +12,9 @@ unique
 .. autofunction:: unique
 
 
+group_by
+---------------------------
+
+.. autofunction:: group_by
+
 
