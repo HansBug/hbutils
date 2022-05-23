@@ -2,19 +2,26 @@
 Overview:
     Functions to deal with encoding binary data easily.
 """
-from typing import Optional
+import sys
+from typing import Optional, List
 
 import chardet
 
+from ..collection import unique
+
 _DEFAULT_ENCODING = 'utf-8'
-_ENCODING_LIST = ['utf-8', 'gbk', 'gb2312', 'gb18030', 'big5']  # common encodings for chinese
+_DEFAULT_PREFERRED_ENCODINGS = ['utf-8', 'gbk', 'gb2312', 'gb18030', 'big5']  # common encodings for chinese
 
 __all__ = [
     'auto_decode'
 ]
 
 
-def auto_decode(data: bytes, encoding: Optional[str] = None) -> str:
+def _decode(data: bytes, encoding: str) -> str:
+    return data.decode(encoding)
+
+
+def auto_decode(data: bytes, encoding: Optional[str] = None, prefers: Optional[List[str]] = None) -> str:
     r"""
     Overview:
         Auto decode binary data to string, the encoding mode will be automatically detected.
@@ -23,6 +30,7 @@ def auto_decode(data: bytes, encoding: Optional[str] = None) -> str:
         - data (:obj:`bytes`): Original binary data to be decoded.
         - encoding (:obj:`Optional[str]`): Encoding mode to be used, default is ``None`` which \
             means this function need to automatically detect the encoding.
+        - prefers (:obj:`Optional[List[str]]`): Prefered encodings.
 
     Returns:
         - str (:obj:`str`): Decoded string.
@@ -36,19 +44,22 @@ def auto_decode(data: bytes, encoding: Optional[str] = None) -> str:
         >>> auto_decode(b'\xcd\xed\xc9\xcf\xba\xc3')  # "晚上好"
     """
     if encoding:
-        return data.decode(encoding)
+        return _decode(data, encoding)
     else:
-        auto_encoding = chardet.detect(data)['encoding']
-        if auto_encoding and auto_encoding not in _ENCODING_LIST:
-            _list = _ENCODING_LIST + [auto_encoding]
-        else:
-            _list = _ENCODING_LIST
+        if prefers is None:
+            prefers = _DEFAULT_PREFERRED_ENCODINGS
+        _elist = filter(bool, unique([
+            *prefers,
+            sys.getdefaultencoding(),
+            chardet.detect(data)['encoding']
+        ]))
 
         last_err = None
-        for enc in _list:
+        for enc in _elist:
             try:
-                return data.decode(encoding=enc)
+                return _decode(data, enc)
             except UnicodeDecodeError as err:
-                last_err = err
+                if last_err is None or err.start > last_err.start:
+                    last_err = err
 
         raise last_err

@@ -4,4 +4,5 @@ Overview:
 """
 from .dimension import *
 from .functional import *
+from .sequence import *
 from .structural import *
