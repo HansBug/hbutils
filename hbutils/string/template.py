@@ -39,6 +39,8 @@ def env_template(template: str, environ: Optional[Mapping[str, Any]] = None,
         KeyError: 'B'
         >>> env_template('${A} + 1 = ${B}', {'A': '1'}, safe=True)
         '1 + 1 = ${B}'
+        >>> env_template('${A} + 1 = ${B}', {'A': '1'}, default='')  # like environment variable
+        '1 + 1 = '
     """
 
     class _DefaultDict(dict):
