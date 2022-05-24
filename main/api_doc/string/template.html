@@ -9,7 +9,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>hbutils.string.template &mdash; hbutils 0.6.5 documentation</title>
+  <title>hbutils.string.template &mdash; hbutils 0.6.6 documentation</title>
   
 
   
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                0.6.5
+                0.6.6
               </div>
             
           
@@ -195,7 +195,7 @@
 <h2>env_template<a class="headerlink" href="#env-template" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="hbutils.string.template.env_template">
-<code class="sig-prename descclassname">hbutils.string.template.</code><code class="sig-name descname">env_template</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">template</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">environ</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Mapping<span class="p">[</span>str<span class="p">, </span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">safe</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/template.html#env_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.template.env_template" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">hbutils.string.template.</code><code class="sig-name descname">env_template</code><span class="sig-paren">(</span><em class="sig-param">template: str</em>, <em class="sig-param">environ: Optional[Mapping[str</em>, <em class="sig-param">Any]] = None</em>, <em class="sig-param">safe: bool = False</em>, <em class="sig-param">default: Any = &lt;SingletonMark '_NO_DEFAULT_VALUE'&gt;</em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/template.html#env_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.template.env_template" title="Permalink to this definition">¶</a></dt>
 <dd><dl>
 <dt>Overview:</dt><dd><p>Mapping all the environment values (not system environment variables) into a template string.</p>
 </dd>
@@ -203,6 +203,7 @@
 <li><p>template (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>): Template string.</p></li>
 <li><p>environ (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[Mapping[str,</span> <span class="pre">str]]</span></code>): Environment values, should be a mapping.</p></li>
 <li><p>safe (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>): Safe substitute, default is <code class="docutils literal notranslate"><span class="pre">False</span></code> which means             all the value used in template should be able to found in the given <code class="docutils literal notranslate"><span class="pre">environ</span></code>.</p></li>
+<li><p>default (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code>): Default value when no variable provided. Default is <code class="docutils literal notranslate"><span class="pre">_NO_DEFAULT_VALUE</span></code>, which             means <code class="docutils literal notranslate"><span class="pre">KeyError</span></code> will be raised.</p></li>
 </ul>
 </dd>
 <dt>Returns:</dt><dd><ul class="simple">
@@ -216,6 +217,8 @@
 <span class="go">KeyError: &#39;B&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">env_template</span><span class="p">(</span><span class="s1">&#39;$</span><span class="si">{A}</span><span class="s1"> + 1 = $</span><span class="si">{B}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">},</span> <span class="n">safe</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="go">&#39;1 + 1 = ${B}&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">env_template</span><span class="p">(</span><span class="s1">&#39;$</span><span class="si">{A}</span><span class="s1"> + 1 = $</span><span class="si">{B}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;A&#39;</span><span class="p">:</span> <span class="s1">&#39;1&#39;</span><span class="p">},</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>  <span class="c1"># like environment variable</span>
+<span class="go">&#39;1 + 1 = &#39;</span>
 </pre></div>
 </div>
 </dd>
@@ -298,9 +301,8 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/template/api_doc/string/template.html">dev/template</a></dd>
-                        <dd><a href="../../../dev/dependency/api_doc/string/template.html">dev/dependency</a></dd>
                         <dd><a href="template.html">main</a></dd>
+                        <dd><a href="../../../dev/dependency/api_doc/string/template.html">dev/dependency</a></dd>
                 </dl>
         </div>
     </div>
