@@ -100,6 +100,7 @@
 <li class="toctree-l2"><a class="reference internal" href="functional.html">hbutils.collection.functional</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.collection.sequence</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#unique">unique</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#group-by">group_by</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="structural.html">hbutils.collection.structural</a></li>
@@ -221,6 +222,49 @@
 </dd></dl>
 
 </section>
+<section id="group-by">
+<h2>group_by<a class="headerlink" href="#group-by" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.collection.sequence.group_by">
+<code class="sig-prename descclassname">hbutils.collection.sequence.</code><code class="sig-name descname">group_by</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span><span class="p">:</span> <span class="n">Iterable<span class="p">[</span>_ElementType<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">key</span><span class="p">:</span> <span class="n">Callable<span class="p">[</span><span class="p">[</span>_ElementType<span class="p">]</span><span class="p">, </span>_GroupType<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">gfunc</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Callable<span class="p">[</span><span class="p">[</span>List<span class="p">[</span>_ElementType<span class="p">]</span><span class="p">]</span><span class="p">, </span>_ResultType<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>_GroupType<span class="p">, </span>_ResultType<span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/collection/sequence.html#group_by"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.collection.sequence.group_by" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Divide the elements into groups.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>s</strong> – Elements.</p></li>
+<li><p><strong>key</strong> – Group key, should be a callable object.</p></li>
+<li><p><strong>gfunc</strong> – Post-process function for groups, should be a callable object. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means         no post-processing will be performed.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Grouping result.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.collection</span> <span class="kn">import</span> <span class="n">group_by</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">foods</span> <span class="o">=</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="s1">&#39;apple&#39;</span><span class="p">,</span> <span class="s1">&#39;orange&#39;</span><span class="p">,</span> <span class="s1">&#39;pear&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;banana&#39;</span><span class="p">,</span> <span class="s1">&#39;fish&#39;</span><span class="p">,</span> <span class="s1">&#39;pork&#39;</span><span class="p">,</span> <span class="s1">&#39;milk&#39;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">group_by</span><span class="p">(</span><span class="n">foods</span><span class="p">,</span> <span class="nb">len</span><span class="p">)</span>  <span class="c1"># group by length</span>
+<span class="go">{5: [&#39;apple&#39;], 6: [&#39;orange&#39;, &#39;banana&#39;], 4: [&#39;pear&#39;, &#39;fish&#39;, &#39;pork&#39;, &#39;milk&#39;]}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">group_by</span><span class="p">(</span><span class="n">foods</span><span class="p">,</span> <span class="nb">len</span><span class="p">,</span> <span class="nb">len</span><span class="p">)</span>  <span class="c1"># group and get length</span>
+<span class="go">{5: 1, 6: 2, 4: 4}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">group_by</span><span class="p">(</span><span class="n">foods</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># group by first letter</span>
+<span class="go">{&#39;a&#39;: [&#39;apple&#39;], &#39;o&#39;: [&#39;orange&#39;], &#39;p&#39;: [&#39;pear&#39;, &#39;pork&#39;], &#39;b&#39;: [&#39;banana&#39;], &#39;f&#39;: [&#39;fish&#39;], &#39;m&#39;: [&#39;milk&#39;]}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">group_by</span><span class="p">(</span><span class="n">foods</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">len</span><span class="p">)</span>  <span class="c1"># group and get length</span>
+<span class="go">{&#39;a&#39;: 1, &#39;o&#39;: 1, &#39;p&#39;: 2, &#39;b&#39;: 1, &#39;f&#39;: 1, &#39;m&#39;: 1}</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -296,9 +340,8 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/collection/api_doc/collection/sequence.html">dev/collection</a></dd>
-                        <dd><a href="../../../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="sequence.html">main</a></dd>
+                        <dd><a href="../../../dev/dependency/index.html">dev/dependency</a></dd>
                 </dl>
         </div>
     </div>
