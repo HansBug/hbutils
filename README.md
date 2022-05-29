@@ -44,7 +44,9 @@ The features currently supported by `hbutils` including:
 * [hbutils.color](https://hansbug.github.io/hbutils/main/api_doc/color/index.html) - Color model, spaces (RGB, HSV, HLS are supported) and their calculations.
 * [hbutils.design](https://hansbug.github.io/hbutils/main/api_doc/design/index.html) - Extendable implements for some useful design patterns in Python.
 * [hbutils.encoding](https://hansbug.github.io/hbutils/main/api_doc/encoding/index.html) - Common encoding, decoding and hash calculations for binary data.
+* [hbutils.expression](https://hansbug.github.io/hbutils/main/api_doc/expression/index.html) - Expression-based unary logic infrastructure.
 * [hbutils.file](https://hansbug.github.io/hbutils/main/api_doc/file/index.html) - Useful utilities for reading and writing files or streams.
+* [hbutils.model](https://hansbug.github.io/hbutils/main/api_doc/model/index.html) - Useful utilities for building immutable data model.
 * [hbutils.random](https://hansbug.github.io/hbutils/main/api_doc/random/index.html) - Quickly generate various kinds of random value.
 * [hbutils.reflection](https://hansbug.github.io/hbutils/main/api_doc/reflection/index.html) - Magical utilities based on Python imports/object/function/class/module reflections.
 * [hbutils.scale](https://hansbug.github.io/hbutils/main/api_doc/scale/index.html) - Calculation and parsing of scaled values, such as memory size and timespan.
