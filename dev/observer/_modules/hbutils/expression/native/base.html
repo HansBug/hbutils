@@ -1,0 +1,371 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hbutils.expression.native.base &mdash; hbutils 0.6.6 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> hbutils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6.6
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/installation/index.html">Installation</a></li>
+</ul>
+<p><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/algorithm/index.html">hbutils.algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/binary/index.html">hbutils.binary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/collection/index.html">hbutils.collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/color/index.html">hbutils.color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/config/index.html">hbutils.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/design/index.html">hbutils.design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/expression/index.html">hbutils.expression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/file/index.html">hbutils.file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/model/index.html">hbutils.model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/random/index.html">hbutils.random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/reflection/index.html">hbutils.reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/scale/index.html">hbutils.scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/string/index.html">hbutils.string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/system/index.html">hbutils.system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/testing/index.html">hbutils.testing</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">hbutils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>hbutils.expression.native.base</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <h1>Source code for hbutils.expression.native.base</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;efunc&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;Expression&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<span class="nd">@lru_cache</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">_raw_expr_func</span><span class="p">():</span>
+    <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">Expression</span><span class="p">,</span> <span class="s1">&#39;_expr&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_raw_expr</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;Expression&#39;</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">_raw_expr_func</span><span class="p">()(</span><span class="n">e</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="efunc"><a class="viewcode-back" href="../../../../api_doc/expression/native.html#hbutils.expression.native.efunc">[docs]</a><span class="k">def</span> <span class="nf">efunc</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Get callable object from any types.</span>
+
+<span class="sd">    :param e: Original object.</span>
+<span class="sd">    :return: Callable object. If given ``e`` is an :class:`Expression`, its callable method will be returned. \</span>
+<span class="sd">        If given ``e`` is a function, an equivalent method will be returned. Otherwise, a method which always return \</span>
+<span class="sd">        ``e`` will be returned.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        This is the key feature of the native expressions, you need to use :func:`efunc` function to transform \</span>
+<span class="sd">        expressions to callable functions.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from hbutils.expression import keep, efunc, expr</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; e1 = keep()</span>
+<span class="sd">        &gt;&gt;&gt; efunc(e1 == 1)(1)</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; efunc(e1 == 1)(2)</span>
+<span class="sd">        False</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; e2 = expr(lambda x: x + 2)</span>
+<span class="sd">        &gt;&gt;&gt; efunc(e2 == 1)(-1)</span>
+<span class="sd">        True</span>
+<span class="sd">        &gt;&gt;&gt; efunc(e2 == 1)(1)</span>
+<span class="sd">        False</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">_raw_expr</span><span class="p">(</span><span class="n">e</span><span class="p">),</span> <span class="s1">&#39;_fcall&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Expression"><a class="viewcode-back" href="../../../../api_doc/expression/native.html#hbutils.expression.native.Expression">[docs]</a><span class="k">class</span> <span class="nc">Expression</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Base class of expressions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Expression.__init__"><a class="viewcode-back" href="../../../../api_doc/expression/native.html#hbutils.expression.native.Expression.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of :class:`Expression`.</span>
+
+<span class="sd">        :param func: Callable function, default is ``None`` which means a ``lambda x: x`` will be used.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fcall</span> <span class="o">=</span> <span class="n">func</span> <span class="ow">or</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Expression._func"><a class="viewcode-back" href="../../../../api_doc/expression/native.html#hbutils.expression.native.Expression._func">[docs]</a>    <span class="k">def</span> <span class="nf">_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Expression building based on given ``func`` and arguments.</span>
+
+<span class="sd">        :param func: Logical function.</span>
+<span class="sd">        :param args: Positional arguments.</span>
+<span class="sd">        :param kwargs: Key-word arguments.</span>
+<span class="sd">        :return: New expression with current class.</span>
+
+<span class="sd">        Examples::</span>
+<span class="sd">            &gt;&gt;&gt; from hbutils.expression import efunc, Expression</span>
+<span class="sd">            &gt;&gt;&gt;</span>
+<span class="sd">            &gt;&gt;&gt; class MyExpression(Expression):</span>
+<span class="sd">            ...     def add(self, other):</span>
+<span class="sd">            ...         return self._func(lambda x, y: x + y, self, other)</span>
+<span class="sd">            ...</span>
+<span class="sd">            &gt;&gt;&gt;</span>
+<span class="sd">            &gt;&gt;&gt; e1 = MyExpression()</span>
+<span class="sd">            &gt;&gt;&gt; efunc(e1.add(1))(5)  # 5 + 1 = 6</span>
+<span class="sd">            6</span>
+<span class="sd">            &gt;&gt;&gt; efunc(e1.add(e1.add(1)))(5)  # 5 + (5 + 1) = 11</span>
+<span class="sd">            11</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">_args</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">efunc</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">args</span><span class="p">)</span>
+        <span class="n">_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">efunc</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+        <span class="k">def</span> <span class="nf">_new_func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">func</span><span class="p">(</span>
+                <span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">_args</span><span class="p">),</span>
+                <span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">_kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()},</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">_new_func</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Expression._expr"><a class="viewcode-back" href="../../../../api_doc/expression/native.html#hbutils.expression.native.Expression._expr">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_expr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Build expression with this class.</span>
+
+<span class="sd">        :param v: Any types of value.</span>
+<span class="sd">        :return: An expression object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">Expression</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">v</span>
+        <span class="k">elif</span> <span class="n">callable</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">v</span><span class="p">)</span></div></div>
+</pre></div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/observer
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../../../v0.0.1/index.html">v0.0.1</a></dd>
+                        <dd><a href="../../../../../../v0.1.0/index.html">v0.1.0</a></dd>
+                        <dd><a href="../../../../../../v0.1.1/index.html">v0.1.1</a></dd>
+                        <dd><a href="../../../../../../v0.2.0/index.html">v0.2.0</a></dd>
+                        <dd><a href="../../../../../../v0.3.0/index.html">v0.3.0</a></dd>
+                        <dd><a href="../../../../../../v0.3.1/index.html">v0.3.1</a></dd>
+                        <dd><a href="../../../../../../v0.3.2/index.html">v0.3.2</a></dd>
+                        <dd><a href="../../../../../../v0.3.3/index.html">v0.3.3</a></dd>
+                        <dd><a href="../../../../../../v0.4.0/index.html">v0.4.0</a></dd>
+                        <dd><a href="../../../../../../v0.4.1/index.html">v0.4.1</a></dd>
+                        <dd><a href="../../../../../../v0.4.2/index.html">v0.4.2</a></dd>
+                        <dd><a href="../../../../../../v0.4.3/index.html">v0.4.3</a></dd>
+                        <dd><a href="../../../../../../v0.4.4/index.html">v0.4.4</a></dd>
+                        <dd><a href="../../../../../../v0.4.5/index.html">v0.4.5</a></dd>
+                        <dd><a href="../../../../../../v0.4.6/index.html">v0.4.6</a></dd>
+                        <dd><a href="../../../../../../v0.4.7/index.html">v0.4.7</a></dd>
+                        <dd><a href="../../../../../../v0.5.0/index.html">v0.5.0</a></dd>
+                        <dd><a href="../../../../../../v0.5.1/index.html">v0.5.1</a></dd>
+                        <dd><a href="../../../../../../v0.5.2/index.html">v0.5.2</a></dd>
+                        <dd><a href="../../../../../../v0.6.0/index.html">v0.6.0</a></dd>
+                        <dd><a href="../../../../../../v0.6.1/index.html">v0.6.1</a></dd>
+                        <dd><a href="../../../../../../v0.6.2/index.html">v0.6.2</a></dd>
+                        <dd><a href="../../../../../../v0.6.3/index.html">v0.6.3</a></dd>
+                        <dd><a href="../../../../../../v0.6.4/index.html">v0.6.4</a></dd>
+                        <dd><a href="../../../../../../v0.6.5/index.html">v0.6.5</a></dd>
+                        <dd><a href="../../../../../../v0.6.6/index.html">v0.6.6</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="base.html">dev/observer</a></dd>
+                        <dd><a href="../../../../../dependency/index.html">dev/dependency</a></dd>
+                        <dd><a href="../../../../../../main/index.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
