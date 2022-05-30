@@ -10,6 +10,6 @@ Observable
 -------------------
 
 .. autoclass:: Observable
-    :members: __init__, get_subscribers, subscribe, unsubscribe, dispatch
+    :members: __init__, subscribers, subscriptions, subscribe, unsubscribe, dispatch
 
 

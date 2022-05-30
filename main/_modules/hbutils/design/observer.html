@@ -177,7 +177,7 @@
 <span class="sd">    See `Observer Pattern - Wikipedia &lt;https://en.wikipedia.org/wiki/Observer_pattern&gt;`_.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="n">Any</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">List</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;Observable&#39;</span>
@@ -205,6 +205,16 @@
 <span class="n">_EventType</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;_EventType&#39;</span><span class="p">)</span>
 <span class="n">_SubscriberType</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;_SubscriberType&#39;</span><span class="p">)</span>
 <span class="n">_CallbackType</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;_CallbackType&#39;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Callable</span><span class="p">[</span><span class="o">...</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span>
+
+
+<span class="k">class</span> <span class="nc">_CallbackWrapper</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">callback</span><span class="p">):</span>
+        <span class="kn">from</span> <span class="nn">..reflection</span> <span class="kn">import</span> <span class="n">dynamic_call</span><span class="p">,</span> <span class="n">sigsupply</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">raw</span> <span class="o">=</span> <span class="n">callback</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_callback</span> <span class="o">=</span> <span class="n">dynamic_call</span><span class="p">(</span><span class="n">sigsupply</span><span class="p">(</span><span class="n">callback</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="kc">None</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_callback</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="Observable"><a class="viewcode-back" href="../../../api_doc/design/observer.html#hbutils.design.observer.Observable">[docs]</a><span class="k">class</span> <span class="nc">Observable</span><span class="p">:</span>
@@ -272,16 +282,43 @@
 <span class="sd">            {&lt;MyIntEnum.A: 1&gt;: {}, &lt;MyIntEnum.B: 2&gt;: {}}</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">events</span> <span class="o">=</span> <span class="n">_auto_members</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_event_set</span><span class="p">:</span> <span class="n">Set</span><span class="p">[</span><span class="n">_EventType</span><span class="p">]</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_events</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">_EventType</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="n">_SubscriberType</span><span class="p">,</span> <span class="n">_CallbackType</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span><span class="n">e</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">events</span><span class="p">}</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_observers</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">_SubscriberType</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_events</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">_EventType</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">_CallbackWrapper</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span><span class="n">e</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">events</span><span class="p">}</span></div>
 
-<div class="viewcode-block" id="Observable.get_subscribers"><a class="viewcode-back" href="../../../api_doc/design/observer.html#hbutils.design.observer.Observable.get_subscribers">[docs]</a>    <span class="k">def</span> <span class="nf">get_subscribers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">_EventType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">_SubscriberType</span><span class="p">,</span> <span class="n">_CallbackType</span><span class="p">]:</span>
+<div class="viewcode-block" id="Observable.subscribers"><a class="viewcode-back" href="../../../api_doc/design/observer.html#hbutils.design.observer.Observable.subscribers">[docs]</a>    <span class="k">def</span> <span class="nf">subscribers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">_EventType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">_SubscriberType</span><span class="p">]:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get subscribers of the given ``event``.</span>
+
 <span class="sd">        :param event: Event for querying.</span>
-<span class="sd">        :return: A dictionary with subscribers and their callbacks.</span>
+<span class="sd">        :return: A list of subscribers.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_events</span><span class="p">[</span><span class="n">event</span><span class="p">]</span></div>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_observers</span><span class="p">[</span><span class="n">id_</span><span class="p">]</span> <span class="k">for</span> <span class="n">id_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_subscriptions</span><span class="p">(</span><span class="n">event</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span></div>
+
+<div class="viewcode-block" id="Observable.subscriptions"><a class="viewcode-back" href="../../../api_doc/design/observer.html#hbutils.design.observer.Observable.subscriptions">[docs]</a>    <span class="k">def</span> <span class="nf">subscriptions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">_EventType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">_SubscriberType</span><span class="p">,</span> <span class="n">_CallbackType</span><span class="p">]]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get subscriptions of the given ``event``.</span>
+
+<span class="sd">        :param event: Event for querying.</span>
+<span class="sd">        :return: A list of tuples with subscribers and their callbacks.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_observers</span><span class="p">[</span><span class="n">id_</span><span class="p">],</span> <span class="n">callback</span><span class="o">.</span><span class="n">raw</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">id_</span><span class="p">,</span> <span class="n">callback</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_subscriptions</span><span class="p">(</span><span class="n">event</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">]</span></div>
+
+    <span class="k">def</span> <span class="nf">_get_subscriptions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">_EventType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">_CallbackWrapper</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_events</span><span class="p">[</span><span class="n">event</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">_put_subscription</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">_EventType</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">_SubscriberType</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">_CallbackType</span><span class="p">):</span>
+        <span class="n">subscriber_id</span> <span class="o">=</span> <span class="n">_get_object_id</span><span class="p">(</span><span class="n">subscriber</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_get_subscriptions</span><span class="p">(</span><span class="n">event</span><span class="p">)[</span><span class="n">subscriber_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">_CallbackWrapper</span><span class="p">(</span><span class="n">callback</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_observers</span><span class="p">[</span><span class="n">subscriber_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">subscriber</span>
+
+    <span class="k">def</span> <span class="nf">_del_subscription</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">_EventType</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">_SubscriberType</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_subscriptions</span><span class="p">(</span><span class="n">event</span><span class="p">)[</span><span class="n">_get_object_id</span><span class="p">(</span><span class="n">subscriber</span><span class="p">)]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">subscriber</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Observable.subscribe"><a class="viewcode-back" href="../../../api_doc/design/observer.html#hbutils.design.observer.Observable.subscribe">[docs]</a>    <span class="k">def</span> <span class="nf">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">_EventType</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">_SubscriberType</span><span class="p">,</span>
                   <span class="n">callback</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">_CallbackType</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
@@ -308,9 +345,7 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">callback</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Callback should be callable, but </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">callback</span><span class="p">)</span><span class="si">}</span><span class="s1"> found.&#39;</span><span class="p">)</span>
 
-        <span class="kn">from</span> <span class="nn">..reflection</span> <span class="kn">import</span> <span class="n">dynamic_call</span><span class="p">,</span> <span class="n">sigsupply</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">get_subscribers</span><span class="p">(</span><span class="n">event</span><span class="p">)[</span><span class="n">_get_object_id</span><span class="p">(</span><span class="n">subscriber</span><span class="p">)]</span> <span class="o">=</span> \
-            <span class="n">dynamic_call</span><span class="p">(</span><span class="n">sigsupply</span><span class="p">(</span><span class="n">callback</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="kc">None</span><span class="p">))</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_put_subscription</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">,</span> <span class="n">callback</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Observable.unsubscribe"><a class="viewcode-back" href="../../../api_doc/design/observer.html#hbutils.design.observer.Observable.unsubscribe">[docs]</a>    <span class="k">def</span> <span class="nf">unsubscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">_EventType</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">_SubscriberType</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -319,11 +354,7 @@
 <span class="sd">        :param event: Event to be unsubscribed.</span>
 <span class="sd">        :param subscriber: Subscriber of this unsubscription.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">subscriber_id</span> <span class="o">=</span> <span class="n">_get_object_id</span><span class="p">(</span><span class="n">subscriber</span><span class="p">)</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_subscribers</span><span class="p">(</span><span class="n">event</span><span class="p">)[</span><span class="n">subscriber_id</span><span class="p">]</span>
-        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">subscriber</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_del_subscription</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Observable.dispatch"><a class="viewcode-back" href="../../../api_doc/design/observer.html#hbutils.design.observer.Observable.dispatch">[docs]</a>    <span class="k">def</span> <span class="nf">dispatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">_EventType</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -331,7 +362,7 @@
 
 <span class="sd">        :param event: Event to be dispatched.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">callback</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_subscribers</span><span class="p">(</span><span class="n">event</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">callback</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_subscriptions</span><span class="p">(</span><span class="n">event</span><span class="p">)</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">callback</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span></div></div>
 </pre></div>
 
@@ -402,7 +433,6 @@
                     <dt>Branches</dt>
                         <dd><a href="observer.html">main</a></dd>
                         <dd><a href="../../../../dev/dependency/index.html">dev/dependency</a></dd>
-                        <dd><a href="../../../../dev/observer/index.html">dev/observer</a></dd>
                 </dl>
         </div>
     </div>

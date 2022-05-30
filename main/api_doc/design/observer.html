@@ -280,14 +280,6 @@ See <a class="reference external" href="https://en.wikipedia.org/wiki/Observer_p
 </dd></dl>
 
 <dl class="py method">
-<dt id="hbutils.design.observer.Observable.get_subscribers">
-<code class="sig-name descname">get_subscribers</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event</span><span class="p">:</span> <span class="n">_EventType</span></em><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>_SubscriberType<span class="p">, </span>_CallbackType<span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/design/observer.html#Observable.get_subscribers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.design.observer.Observable.get_subscribers" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get subscribers of the given <code class="docutils literal notranslate"><span class="pre">event</span></code>.
-:param event: Event for querying.
-:return: A dictionary with subscribers and their callbacks.</p>
-</dd></dl>
-
-<dl class="py method">
 <dt id="hbutils.design.observer.Observable.subscribe">
 <code class="sig-name descname">subscribe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event</span><span class="p">:</span> <span class="n">_EventType</span></em>, <em class="sig-param"><span class="n">subscriber</span><span class="p">:</span> <span class="n">_SubscriberType</span></em>, <em class="sig-param"><span class="n">callback</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>_CallbackType<span class="p">, </span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/design/observer.html#Observable.subscribe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.design.observer.Observable.subscribe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Subscribe to the given <code class="docutils literal notranslate"><span class="pre">event</span></code>.</p>
@@ -310,6 +302,34 @@ See <a class="reference external" href="https://en.wikipedia.org/wiki/Observer_p
 </pre></div>
 </div>
 </div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.design.observer.Observable.subscribers">
+<code class="sig-name descname">subscribers</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event</span><span class="p">:</span> <span class="n">_EventType</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>_SubscriberType<span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/design/observer.html#Observable.subscribers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.design.observer.Observable.subscribers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get subscribers of the given <code class="docutils literal notranslate"><span class="pre">event</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>event</strong> – Event for querying.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of subscribers.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.design.observer.Observable.subscriptions">
+<code class="sig-name descname">subscriptions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event</span><span class="p">:</span> <span class="n">_EventType</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>Tuple<span class="p">[</span>_SubscriberType<span class="p">, </span>_CallbackType<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/design/observer.html#Observable.subscriptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.design.observer.Observable.subscriptions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get subscriptions of the given <code class="docutils literal notranslate"><span class="pre">event</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>event</strong> – Event for querying.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A list of tuples with subscribers and their callbacks.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -408,7 +428,6 @@ See <a class="reference external" href="https://en.wikipedia.org/wiki/Observer_p
                     <dt>Branches</dt>
                         <dd><a href="observer.html">main</a></dd>
                         <dd><a href="../../../dev/dependency/index.html">dev/dependency</a></dd>
-                        <dd><a href="../../../dev/observer/api_doc/design/observer.html">dev/observer</a></dd>
                 </dl>
         </div>
     </div>
