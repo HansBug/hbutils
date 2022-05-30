@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; hbutils 0.6.6 documentation</title>
+  <title>Index &mdash; hbutils 0.6.7 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.6.6
+                0.6.7
               </div>
             
           
@@ -263,6 +263,8 @@
         <li><a href="api_doc/color/model.html#hbutils.color.model.RGBColorProxy.__init__">(hbutils.color.model.RGBColorProxy method)</a>
 </li>
         <li><a href="api_doc/design/final.html#hbutils.design.final.FinalMeta.__init__">(hbutils.design.final.FinalMeta method)</a>
+</li>
+        <li><a href="api_doc/design/observer.html#hbutils.design.observer.Observable.__init__">(hbutils.design.observer.Observable method)</a>
 </li>
         <li><a href="api_doc/design/singleton.html#hbutils.design.singleton.SingletonMark.__init__">(hbutils.design.singleton.SingletonMark method)</a>
 </li>
@@ -487,11 +489,13 @@
 </li>
       <li><a href="api_doc/design/decorator.html#hbutils.design.decorator.decolize">decolize() (in module hbutils.design.decorator)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api_doc/collection/dimension.html#hbutils.collection.dimension.dimension_switch">dimension_switch() (in module hbutils.collection.dimension)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api_doc/testing/capture.html#hbutils.testing.capture.disable_output">disable_output() (in module hbutils.testing.capture)</a>
+</li>
+      <li><a href="api_doc/design/observer.html#hbutils.design.observer.Observable.dispatch">dispatch() (hbutils.design.observer.Observable method)</a>
 </li>
       <li><a href="api_doc/reflection/func.html#hbutils.reflection.func.dynamic_call">dynamic_call() (in module hbutils.reflection.func)</a>
 </li>
@@ -557,9 +561,11 @@
 </li>
       <li><a href="api_doc/model/clazz.html#hbutils.model.clazz.get_field">get_field() (in module hbutils.model.clazz)</a>
 </li>
+      <li><a href="api_doc/model/repr.html#hbutils.model.repr.get_repr_info">get_repr_info() (in module hbutils.model.repr)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="api_doc/model/repr.html#hbutils.model.repr.get_repr_info">get_repr_info() (in module hbutils.model.repr)</a>
+      <li><a href="api_doc/design/observer.html#hbutils.design.observer.Observable.get_subscribers">get_subscribers() (hbutils.design.observer.Observable method)</a>
 </li>
       <li><a href="api_doc/file/stream.html#hbutils.file.stream.getsize">getsize() (in module hbutils.file.stream)</a>
 </li>
@@ -737,6 +743,13 @@
 </li>
       </ul></li>
       <li>
+    hbutils.design.observer
+
+      <ul>
+        <li><a href="api_doc/design/observer.html#module-hbutils.design.observer">module</a>
+</li>
+      </ul></li>
+      <li>
     hbutils.design.singleton
 
       <ul>
@@ -806,6 +819,8 @@
         <li><a href="api_doc/file/stream.html#module-hbutils.file.stream">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     hbutils.model
 
@@ -813,8 +828,6 @@
         <li><a href="api_doc/model/index.html#module-hbutils.model">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     hbutils.model.clazz
 
@@ -1200,6 +1213,8 @@
 </li>
         <li><a href="api_doc/design/final.html#module-hbutils.design.final">hbutils.design.final</a>
 </li>
+        <li><a href="api_doc/design/observer.html#module-hbutils.design.observer">hbutils.design.observer</a>
+</li>
         <li><a href="api_doc/design/singleton.html#module-hbutils.design.singleton">hbutils.design.singleton</a>
 </li>
         <li><a href="api_doc/encoding/index.html#module-hbutils.encoding">hbutils.encoding</a>
@@ -1320,6 +1335,8 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api_doc/expression/native.html#hbutils.expression.native.ObjectExpression">ObjectExpression (class in hbutils.expression.native)</a>
+</li>
+      <li><a href="api_doc/design/observer.html#hbutils.design.observer.Observable">Observable (class in hbutils.design.observer)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
@@ -1499,6 +1516,8 @@
 </li>
       <li><a href="api_doc/reflection/exception.html#hbutils.reflection.exception.str_traceback">str_traceback() (in module hbutils.reflection.exception)</a>
 </li>
+      <li><a href="api_doc/design/observer.html#hbutils.design.observer.Observable.subscribe">subscribe() (hbutils.design.observer.Observable method)</a>
+</li>
       <li><a href="api_doc/collection/dimension.html#hbutils.collection.dimension.swap_2d">swap_2d() (in module hbutils.collection.dimension)</a>
 </li>
   </ul></td>
@@ -1536,6 +1555,10 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="api_doc/collection/sequence.html#hbutils.collection.sequence.unique">unique() (in module hbutils.collection.sequence)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api_doc/design/observer.html#hbutils.design.observer.Observable.unsubscribe">unsubscribe() (hbutils.design.observer.Observable method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -1667,9 +1690,8 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../dev/observer/index.html">dev/observer</a></dd>
-                        <dd><a href="../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="genindex.html">main</a></dd>
+                        <dd><a href="../dev/dependency/index.html">dev/dependency</a></dd>
                 </dl>
         </div>
     </div>
