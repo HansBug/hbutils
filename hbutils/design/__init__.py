@@ -5,4 +5,5 @@ Overview:
 """
 from .decorator import *
 from .final import *
+from .observer import *
 from .singleton import *

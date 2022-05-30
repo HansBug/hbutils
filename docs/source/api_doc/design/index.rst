@@ -10,4 +10,5 @@ hbutils.design
 
     decorator
     final
+    observer
     singleton
