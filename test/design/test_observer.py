@@ -36,24 +36,51 @@ class TestDesignObserver:
         assert (a_visited, b_visited) == (11, 0)
         o.dispatch('b')
         assert (a_visited, b_visited) == (11, 1)
+        assert o.subscriptions('a') == [
+            ('hansbug', _hansbug_watch_a),
+            ('stranger', _stranger_watch_a),
+        ]
+        assert o.subscriptions('b') == [
+            ('hansbug', _hansbug_watch_b),
+        ]
+        assert o.subscribers('a') == ['hansbug', 'stranger']
+        assert o.subscribers('b') == ['hansbug']
 
         o.unsubscribe('a', 'hansbug')
         o.dispatch('a')
         assert (a_visited, b_visited) == (21, 1)
         o.dispatch('b')
         assert (a_visited, b_visited) == (21, 2)
+        assert o.subscriptions('a') == [
+            ('stranger', _stranger_watch_a),
+        ]
+        assert o.subscriptions('b') == [
+            ('hansbug', _hansbug_watch_b),
+        ]
+        assert o.subscribers('a') == ['stranger']
+        assert o.subscribers('b') == ['hansbug']
 
         o.unsubscribe('a', 'stranger')
         o.dispatch('a')
         assert (a_visited, b_visited) == (21, 2)
         o.dispatch('b')
         assert (a_visited, b_visited) == (21, 3)
+        assert o.subscriptions('a') == []
+        assert o.subscriptions('b') == [
+            ('hansbug', _hansbug_watch_b),
+        ]
+        assert o.subscribers('a') == []
+        assert o.subscribers('b') == ['hansbug']
 
         o.unsubscribe('b', 'hansbug')
         o.dispatch('a')
         assert (a_visited, b_visited) == (21, 3)
         o.dispatch('b')
         assert (a_visited, b_visited) == (21, 3)
+        assert o.subscriptions('a') == []
+        assert o.subscriptions('b') == []
+        assert o.subscribers('a') == []
+        assert o.subscribers('b') == []
 
     def test_with_enum(self):
         @unique
