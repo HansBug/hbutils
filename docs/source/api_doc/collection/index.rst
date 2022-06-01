@@ -11,4 +11,5 @@ hbutils.collection
     dimension
     functional
     sequence
+    stacked
     structural
