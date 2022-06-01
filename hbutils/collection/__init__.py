@@ -5,4 +5,5 @@ Overview:
 from .dimension import *
 from .functional import *
 from .sequence import *
+from .stacked import *
 from .structural import *
