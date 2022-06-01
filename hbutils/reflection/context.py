@@ -1,6 +1,33 @@
 """
 Overview:
     Utilities for building context variables on thread level.
+
+    This is useful when implementing a with-block-based syntax.
+    For example:
+
+        >>> from contextlib import contextmanager
+        >>> from hbutils.reflection import context
+        >>>
+        >>> # developer's view
+        ... @contextmanager
+        ... def use_mul():  # set 'mul' to `True` in its with-block
+        ...     with context().vars(mul=True):
+        ...         yield
+        >>>
+        >>> def calc(a, b):  # logic of `calc` will be changed when 'mul' is given
+        ...     if context().get('mul', None):
+        ...         return a * b
+        ...     else:
+        ...         return a + b
+        >>>
+        >>> # user's view (magic-liked, isn't it?)
+        ... print(calc(3, 5))  # 3 + 5
+        8
+        >>> with use_mul():
+        ...     print(calc(3, 5))  # changed to 3 * 5
+        15
+        >>> print(calc(3, 5))  # back to 3 + 5, again :)
+        8
 """
 import collections.abc
 
