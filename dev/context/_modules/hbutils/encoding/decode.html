@@ -1,0 +1,326 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hbutils.encoding.decode &mdash; hbutils 0.6.8 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> hbutils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6.8
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/installation/index.html">Installation</a></li>
+</ul>
+<p><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/algorithm/index.html">hbutils.algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/binary/index.html">hbutils.binary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/collection/index.html">hbutils.collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/color/index.html">hbutils.color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/config/index.html">hbutils.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/design/index.html">hbutils.design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/expression/index.html">hbutils.expression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/file/index.html">hbutils.file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/model/index.html">hbutils.model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/random/index.html">hbutils.random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/reflection/index.html">hbutils.reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/scale/index.html">hbutils.scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/string/index.html">hbutils.string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/system/index.html">hbutils.system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/testing/index.html">hbutils.testing</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">hbutils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>hbutils.encoding.decode</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <h1>Source code for hbutils.encoding.decode</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Overview:</span>
+<span class="sd">    Functions to deal with encoding binary data easily.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span>
+
+<span class="kn">import</span> <span class="nn">chardet</span>
+
+<span class="kn">from</span> <span class="nn">..collection</span> <span class="kn">import</span> <span class="n">unique</span>
+
+<span class="n">_DEFAULT_ENCODING</span> <span class="o">=</span> <span class="s1">&#39;utf-8&#39;</span>
+<span class="n">_DEFAULT_PREFERRED_ENCODINGS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;utf-8&#39;</span><span class="p">,</span> <span class="s1">&#39;gbk&#39;</span><span class="p">,</span> <span class="s1">&#39;gb2312&#39;</span><span class="p">,</span> <span class="s1">&#39;gb18030&#39;</span><span class="p">,</span> <span class="s1">&#39;big5&#39;</span><span class="p">]</span>  <span class="c1"># common encodings for chinese</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;auto_decode&#39;</span>
+<span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">_decode</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">encoding</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">data</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoding</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="auto_decode"><a class="viewcode-back" href="../../../api_doc/encoding/decode.html#hbutils.encoding.decode.auto_decode">[docs]</a><span class="k">def</span> <span class="nf">auto_decode</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">,</span> <span class="n">encoding</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">prefers</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Auto decode binary data to string, the encoding mode will be automatically detected.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        - data (:obj:`bytes`): Original binary data to be decoded.</span>
+<span class="sd">        - encoding (:obj:`Optional[str]`): Encoding mode to be used, default is ``None`` which \</span>
+<span class="sd">            means this function need to automatically detect the encoding.</span>
+<span class="sd">        - prefers (:obj:`Optional[List[str]]`): Prefered encodings.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - str (:obj:`str`): Decoded string.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; auto_decode(b&#39;kdsfjldsjflkdsmgds&#39;)  # &#39;kdsfjldsjflkdsmgds&#39;</span>
+<span class="sd">        &gt;&gt;&gt; auto_decode(b&#39;\xd0\x94\xd0\xbe\xd0\xb1\xd1\x80\xd1\x8b\xd0\xb9 \xd0&#39;</span>
+<span class="sd">        ...             b&#39;\xb2\xd0\xb5\xd1\x87\xd0\xb5\xd1\x80&#39;)  # &quot;Добрый вечер&quot;</span>
+<span class="sd">        &gt;&gt;&gt; auto_decode(b&#39;\xa4\xb3\xa4\xf3\xa4\xd0\xa4\xf3\xa4\xcf&#39;)  # &quot;こんばんは&quot;</span>
+<span class="sd">        &gt;&gt;&gt; auto_decode(b&#39;\xcd\xed\xc9\xcf\xba\xc3&#39;)  # &quot;晚上好&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">encoding</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">_decode</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">encoding</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">prefers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">prefers</span> <span class="o">=</span> <span class="n">_DEFAULT_PREFERRED_ENCODINGS</span>
+        <span class="n">_elist</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="nb">bool</span><span class="p">,</span> <span class="n">unique</span><span class="p">([</span>
+            <span class="o">*</span><span class="n">prefers</span><span class="p">,</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">getdefaultencoding</span><span class="p">(),</span>
+            <span class="n">chardet</span><span class="o">.</span><span class="n">detect</span><span class="p">(</span><span class="n">data</span><span class="p">)[</span><span class="s1">&#39;encoding&#39;</span><span class="p">]</span>
+        <span class="p">]))</span>
+
+        <span class="n">last_err</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">enc</span> <span class="ow">in</span> <span class="n">_elist</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">_decode</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">enc</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">UnicodeDecodeError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">last_err</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">err</span><span class="o">.</span><span class="n">start</span> <span class="o">&gt;</span> <span class="n">last_err</span><span class="o">.</span><span class="n">start</span><span class="p">:</span>
+                    <span class="n">last_err</span> <span class="o">=</span> <span class="n">err</span>
+
+        <span class="k">raise</span> <span class="n">last_err</span></div>
+</pre></div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/context
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../../v0.0.1/index.html">v0.0.1</a></dd>
+                        <dd><a href="../../../../../v0.1.0/index.html">v0.1.0</a></dd>
+                        <dd><a href="../../../../../v0.1.1/index.html">v0.1.1</a></dd>
+                        <dd><a href="../../../../../v0.2.0/index.html">v0.2.0</a></dd>
+                        <dd><a href="../../../../../v0.3.0/index.html">v0.3.0</a></dd>
+                        <dd><a href="../../../../../v0.3.1/index.html">v0.3.1</a></dd>
+                        <dd><a href="../../../../../v0.3.2/index.html">v0.3.2</a></dd>
+                        <dd><a href="../../../../../v0.3.3/index.html">v0.3.3</a></dd>
+                        <dd><a href="../../../../../v0.4.0/index.html">v0.4.0</a></dd>
+                        <dd><a href="../../../../../v0.4.1/index.html">v0.4.1</a></dd>
+                        <dd><a href="../../../../../v0.4.2/index.html">v0.4.2</a></dd>
+                        <dd><a href="../../../../../v0.4.3/index.html">v0.4.3</a></dd>
+                        <dd><a href="../../../../../v0.4.4/index.html">v0.4.4</a></dd>
+                        <dd><a href="../../../../../v0.4.5/index.html">v0.4.5</a></dd>
+                        <dd><a href="../../../../../v0.4.6/index.html">v0.4.6</a></dd>
+                        <dd><a href="../../../../../v0.4.7/index.html">v0.4.7</a></dd>
+                        <dd><a href="../../../../../v0.5.0/index.html">v0.5.0</a></dd>
+                        <dd><a href="../../../../../v0.5.1/index.html">v0.5.1</a></dd>
+                        <dd><a href="../../../../../v0.5.2/index.html">v0.5.2</a></dd>
+                        <dd><a href="../../../../../v0.6.0/index.html">v0.6.0</a></dd>
+                        <dd><a href="../../../../../v0.6.1/index.html">v0.6.1</a></dd>
+                        <dd><a href="../../../../../v0.6.2/index.html">v0.6.2</a></dd>
+                        <dd><a href="../../../../../v0.6.3/index.html">v0.6.3</a></dd>
+                        <dd><a href="../../../../../v0.6.4/index.html">v0.6.4</a></dd>
+                        <dd><a href="../../../../../v0.6.5/index.html">v0.6.5</a></dd>
+                        <dd><a href="../../../../../v0.6.6/index.html">v0.6.6</a></dd>
+                        <dd><a href="../../../../../v0.6.7/index.html">v0.6.7</a></dd>
+                        <dd><a href="../../../../../v0.6.8/index.html">v0.6.8</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="decode.html">dev/context</a></dd>
+                        <dd><a href="../../../../dependency/index.html">dev/dependency</a></dd>
+                        <dd><a href="../../../../../main/index.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
