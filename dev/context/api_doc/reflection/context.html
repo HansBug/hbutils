@@ -192,8 +192,35 @@
     
   <section id="module-hbutils.reflection.context">
 <span id="hbutils-reflection-context"></span><h1>hbutils.reflection.context<a class="headerlink" href="#module-hbutils.reflection.context" title="Permalink to this headline">¶</a></h1>
-<dl class="simple">
+<dl>
 <dt>Overview:</dt><dd><p>Utilities for building context variables on thread level.</p>
+<p>This is useful when implementing a with-block-based syntax.
+For example:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.reflection</span> <span class="kn">import</span> <span class="n">context</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># developer&#39;s view</span>
+<span class="gp">... </span><span class="nd">@contextmanager</span>
+<span class="gp">... </span><span class="k">def</span> <span class="nf">use_mul</span><span class="p">():</span>  <span class="c1"># set &#39;mul&#39; to `True` in its with-block</span>
+<span class="gp">... </span>    <span class="k">with</span> <span class="n">context</span><span class="p">()</span><span class="o">.</span><span class="n">vars</span><span class="p">(</span><span class="n">mul</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">yield</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">calc</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>  <span class="c1"># logic of `calc` will be changed when &#39;mul&#39; is given</span>
+<span class="gp">... </span>    <span class="k">if</span> <span class="n">context</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;mul&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">a</span> <span class="o">*</span> <span class="n">b</span>
+<span class="gp">... </span>    <span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># user&#39;s view (magic-liked, isn&#39;t it?)</span>
+<span class="gp">... </span><span class="nb">print</span><span class="p">(</span><span class="n">calc</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>  <span class="c1"># 3 + 5</span>
+<span class="go">8</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">use_mul</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">calc</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>  <span class="c1"># changed to 3 * 5</span>
+<span class="go">15</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">calc</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>  <span class="c1"># back to 3 + 5, again :)</span>
+<span class="go">8</span>
+</pre></div>
+</div>
 </dd>
 </dl>
 <section id="contextvars">
