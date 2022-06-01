@@ -1,3 +1,4 @@
+from contextlib import contextmanager
 from threading import Thread
 
 import pytest
@@ -112,3 +113,21 @@ class TestReflectionContext:
             assert get_sum() == 7
 
         assert get_sum() == 0
+
+    def test_actual_usage(self):
+        @contextmanager
+        def use_mul():
+            with context().vars(mul=True):
+                yield
+
+        def calc(a, b):
+            if context().get('mul', None):
+                return a * b
+            else:
+                return a + b
+
+        assert calc(3, 5) == 8
+        with use_mul():
+            assert calc(3, 5) == 15
+
+        assert calc(3, 5) == 8
