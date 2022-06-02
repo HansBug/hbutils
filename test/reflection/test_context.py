@@ -1,4 +1,5 @@
 from contextlib import contextmanager
+from multiprocessing import Process, Manager
 from threading import Thread
 
 import pytest
@@ -7,6 +8,7 @@ from hbutils.reflection import context, cwrap
 from hbutils.reflection.context import ContextVars
 
 
+# noinspection DuplicatedCode
 @pytest.mark.unittest
 class TestReflectionContext:
     def test_context_simple(self):
@@ -98,6 +100,50 @@ class TestReflectionContext:
             t1.join()
 
             assert lst == [4, 4, 5, 4, 9, 4, 4]
+
+    def test_context_process(self):
+        manager = Manager()
+        lst = manager.list([])
+
+        def get_plus():
+            return context().get('a', 0) + context().get('b', 0)
+
+        def run_result():
+            lst.append(get_plus())
+            with context().vars(a=2):
+                lst.append(get_plus())
+                with context().vars(b=3):
+                    lst.append(get_plus())
+                lst.append(get_plus())
+
+                with context().vars(a=4, b=5):
+                    lst.append(get_plus())
+                lst.append(get_plus())
+            lst.append(get_plus())
+
+        with context().vars(a=1, b=2):  # no inherit
+            lst[:] = []
+            t1 = Process(target=run_result)
+            t1.start()
+            t1.join()
+
+            assert list(lst) == [0, 2, 5, 2, 9, 2, 0]
+
+        with context().vars(a=1, b=2):  # inherit
+            lst[:] = []
+            t1 = Process(target=cwrap(run_result))
+            t1.start()
+            t1.join()
+
+            assert list(lst) == [3, 4, 5, 4, 9, 4, 3]
+
+        with context().vars(a=1, b=2):  # inherit with extras
+            lst[:] = []
+            t1 = Process(target=cwrap(run_result, a=2))
+            t1.start()
+            t1.join()
+
+            assert list(lst) == [4, 4, 5, 4, 9, 4, 4]
 
     def test_context_inherit(self):
         cv = ContextVars(a=1, c=2)
