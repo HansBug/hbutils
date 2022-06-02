@@ -360,7 +360,9 @@
 <span class="sd">    :param vars_: External variables after inherit context.</span>
 
 <span class="sd">    .. note::</span>
-<span class="sd">        This function is important when you need to pass the current context into thread or processed.</span>
+<span class="sd">        :func:`cwrap` is important when you need to pass the current context into thread.</span>
+<span class="sd">        And **it is compitable on all platforms**.</span>
+
 <span class="sd">        For example:</span>
 
 <span class="sd">            &gt;&gt;&gt; from threading import Thread</span>
@@ -384,8 +386,9 @@
 <span class="sd">            Var detected, its value is 1.</span>
 
 <span class="sd">    .. warning::</span>
-<span class="sd">        :func:`cwrap` is not compitable on **Windows or Python3.8+ on macOS** when trying to open **new process**. \</span>
-<span class="sd">        (Creeation of threads are all-platform available). Please pass the context object manually at these environemts.</span>
+<span class="sd">        :func:`cwrap` **is not compitable on Windows or Python3.8+ on macOS** when creating **new process**.</span>
+<span class="sd">        Please pass in direct arguments by ``args`` argument of :class:`Process`.</span>
+<span class="sd">        If you insist on using :func:`context` feature, you need to pass the context object into the sub process.</span>
 <span class="sd">        For example:</span>
 
 <span class="sd">            &gt;&gt;&gt; from contextlib import contextmanager</span>

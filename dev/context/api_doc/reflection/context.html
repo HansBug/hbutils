@@ -348,8 +348,9 @@ It is not recommended constructing manually.</p>
 </dl>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This function is important when you need to pass the current context into thread or processed.
-For example:</p>
+<p><a class="reference internal" href="#hbutils.reflection.context.cwrap" title="hbutils.reflection.context.cwrap"><code class="xref py py-func docutils literal notranslate"><span class="pre">cwrap()</span></code></a> is important when you need to pass the current context into thread.
+And <strong>it is compitable on all platforms</strong>.</p>
+<p>For example:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Thread</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.reflection</span> <span class="kn">import</span> <span class="n">context</span><span class="p">,</span> <span class="n">cwrap</span>
 <span class="go">&gt;&gt;&gt;</span>
@@ -374,7 +375,9 @@ For example:</p>
 </div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p><a class="reference internal" href="#hbutils.reflection.context.cwrap" title="hbutils.reflection.context.cwrap"><code class="xref py py-func docutils literal notranslate"><span class="pre">cwrap()</span></code></a> is not compitable on <strong>Windows or Python3.8+ on macOS</strong> when trying to open <strong>new process</strong>.         (Creeation of threads are all-platform available). Please pass the context object manually at these environemts.
+<p><a class="reference internal" href="#hbutils.reflection.context.cwrap" title="hbutils.reflection.context.cwrap"><code class="xref py py-func docutils literal notranslate"><span class="pre">cwrap()</span></code></a> <strong>is not compitable on Windows or Python3.8+ on macOS</strong> when creating <strong>new process</strong>.
+Please pass in direct arguments by <code class="docutils literal notranslate"><span class="pre">args</span></code> argument of <code class="xref py py-class docutils literal notranslate"><span class="pre">Process</span></code>.
+If you insist on using <a class="reference internal" href="#hbutils.reflection.context.context" title="hbutils.reflection.context.context"><code class="xref py py-func docutils literal notranslate"><span class="pre">context()</span></code></a> feature, you need to pass the context object into the sub process.
 For example:</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Process</span>
