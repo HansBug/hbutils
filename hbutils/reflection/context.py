@@ -187,7 +187,9 @@ def cwrap(func, *, context_: Optional[ContextVars] = None, **vars_):
     :param vars_: External variables after inherit context.
 
     .. note::
-        This function is important when you need to pass the current context into thread or processed.
+        :func:`cwrap` is important when you need to pass the current context into thread.
+        And **it is compitable on all platforms**.
+
         For example:
 
             >>> from threading import Thread
@@ -209,6 +211,45 @@ def cwrap(func, *, context_: Optional[ContextVars] = None, **vars_):
             ...     t.start()
             ...     t.join()
             Var detected, its value is 1.
+
+    .. warning::
+        :func:`cwrap` **is not compitable on Windows or Python3.8+ on macOS** when creating **new process**.
+        Please pass in direct arguments by ``args`` argument of :class:`Process`.
+        If you insist on using :func:`context` feature, you need to pass the context object into the sub process.
+        For example:
+
+            >>> from contextlib import contextmanager
+            >>> from multiprocessing import Process
+            >>> from hbutils.reflection import context
+            >>>
+            >>> # developer's view
+            ... @contextmanager
+            ... def use_mul():  # set 'mul' to `True` in its with-block
+            ...     with context().vars(mul=True):
+            ...         yield
+            >>>
+            >>> def calc(a, b):  # logic of `calc` will be changed when 'mul' is given
+            ...     if context().get('mul', None):
+            ...         print(a * b)
+            ...     else:
+            ...         print(a + b)
+            >>>
+            >>> def _calc(a, b, ctx=None):
+            ...     with context().inherit(ctx or context()):
+            ...         return calc(a, b)
+            >>>
+            >>> # user's view
+            ... if __name__ == '__main__':
+            ...     calc(3, 5)  # 3 + 5
+            ...     with use_mul():
+            ...         p = Process(target=_calc, args=(3, 5, context()))
+            ...         p.start()
+            ...         p.join()
+            ...     calc(3, 5)  # back to 3 + 5, again :)
+            8
+            15
+            8
+
     """
     context_ = context_ or context()
 
