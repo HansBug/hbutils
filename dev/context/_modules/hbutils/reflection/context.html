@@ -382,6 +382,44 @@
 <span class="sd">            ...     t.start()</span>
 <span class="sd">            ...     t.join()</span>
 <span class="sd">            Var detected, its value is 1.</span>
+
+<span class="sd">    .. warning::</span>
+<span class="sd">        :func:`cwrap` is not compitable on **Windows or Python3.8+ on macOS** when trying to open **new process**. \</span>
+<span class="sd">        (Creeation of threads are all-platform available). Please pass the context object manually at these environemts.</span>
+<span class="sd">        For example:</span>
+
+<span class="sd">            &gt;&gt;&gt; from contextlib import contextmanager</span>
+<span class="sd">            &gt;&gt;&gt; from multiprocessing import Process</span>
+<span class="sd">            &gt;&gt;&gt; from hbutils.reflection import context</span>
+<span class="sd">            &gt;&gt;&gt;</span>
+<span class="sd">            &gt;&gt;&gt; # developer&#39;s view</span>
+<span class="sd">            ... @contextmanager</span>
+<span class="sd">            ... def use_mul():  # set &#39;mul&#39; to `True` in its with-block</span>
+<span class="sd">            ...     with context().vars(mul=True):</span>
+<span class="sd">            ...         yield</span>
+<span class="sd">            &gt;&gt;&gt;</span>
+<span class="sd">            &gt;&gt;&gt; def calc(a, b):  # logic of `calc` will be changed when &#39;mul&#39; is given</span>
+<span class="sd">            ...     if context().get(&#39;mul&#39;, None):</span>
+<span class="sd">            ...         print(a * b)</span>
+<span class="sd">            ...     else:</span>
+<span class="sd">            ...         print(a + b)</span>
+<span class="sd">            &gt;&gt;&gt;</span>
+<span class="sd">            &gt;&gt;&gt; def _calc(a, b, ctx=None):</span>
+<span class="sd">            ...     with context().inherit(ctx or context()):</span>
+<span class="sd">            ...         return calc(a, b)</span>
+<span class="sd">            &gt;&gt;&gt;</span>
+<span class="sd">            &gt;&gt;&gt; # user&#39;s view</span>
+<span class="sd">            ... if __name__ == &#39;__main__&#39;:</span>
+<span class="sd">            ...     calc(3, 5)  # 3 + 5</span>
+<span class="sd">            ...     with use_mul():</span>
+<span class="sd">            ...         p = Process(target=_calc, args=(3, 5, context()))</span>
+<span class="sd">            ...         p.start()</span>
+<span class="sd">            ...         p.join()</span>
+<span class="sd">            ...     calc(3, 5)  # back to 3 + 5, again :)</span>
+<span class="sd">            8</span>
+<span class="sd">            15</span>
+<span class="sd">            8</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">context_</span> <span class="o">=</span> <span class="n">context_</span> <span class="ow">or</span> <span class="n">context</span><span class="p">()</span>
 
