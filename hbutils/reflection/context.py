@@ -34,7 +34,7 @@ import collections.abc
 from contextlib import contextmanager
 from functools import wraps
 from multiprocessing import current_process
-from threading import current_thread, Lock
+from threading import current_thread
 from typing import Tuple, TypeVar, Iterator, Mapping, Optional
 
 __all__ = [
@@ -83,27 +83,26 @@ class ContextVars(collections.abc.Mapping):
         :param kwargs: Initial context values.
         """
         self._vars = dict(kwargs)
-        self._lock = Lock()
 
     @contextmanager
     def _with_vars(self, params: Mapping[_KeyType, _ValueType], clear: bool = False):
-        with self._lock:  # initialize new values
-            _origin = dict(self._vars)
-            self._vars.update(params)
-            if clear:
-                for key in list(self._vars.keys()):
-                    if key not in params:
-                        del self._vars[key]
+        # initialize new values
+        _origin = dict(self._vars)
+        self._vars.update(params)
+        if clear:
+            for key in list(self._vars.keys()):
+                if key not in params:
+                    del self._vars[key]
 
         try:
             yield
         finally:
-            with self._lock:  # de-initialize, recover changed values
-                for k in set(_origin.keys()) | set(self._vars.keys()):
-                    if k not in _origin:
-                        del self._vars[k]
-                    else:
-                        self._vars[k] = _origin[k]
+            # de-initialize, recover changed values
+            for k in set(_origin.keys()) | set(self._vars.keys()):
+                if k not in _origin:
+                    del self._vars[k]
+                else:
+                    self._vars[k] = _origin[k]
 
     @contextmanager
     def vars(self, **kwargs):
