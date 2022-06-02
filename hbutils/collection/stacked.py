@@ -21,7 +21,7 @@ class StackedMapping(Mapping):
         because which dict to write or delete can not be determined.
 
     Examples::
-        >>> from hbutils.collection import StackedMapping                                                                                                                                                 [10/1276]
+        >>> from hbutils.collection import StackedMapping
         >>>
         >>> d1 = {'a': 1, 'b': 2}
         >>> d2 = {'b': 3, 'c': 4, 'd': 5}
