@@ -1,3 +1,4 @@
+import unittest
 from contextlib import contextmanager
 from multiprocessing import Process, Manager
 from threading import Thread
@@ -6,6 +7,7 @@ import pytest
 
 from hbutils.reflection import context, cwrap
 from hbutils.reflection.context import ContextVars
+from hbutils.testing import OS, vpython
 
 
 # noinspection DuplicatedCode
@@ -101,6 +103,7 @@ class TestReflectionContext:
 
             assert lst == [4, 4, 5, 4, 9, 4, 4]
 
+    @unittest.skipIf(OS.windows or (OS.macos and vpython >= '3.8'), 'Process supported.')
     def test_context_process(self):
         manager = Manager()
         lst = manager.list([])
