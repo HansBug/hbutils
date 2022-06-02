@@ -68,7 +68,8 @@ class ContextVars(collections.abc.Mapping):
     .. note::
         This class is inherited from :class:`collections.abc.Mapping`.
         Main features of mapping object (such as ``__getitem__``, ``__len__``, ``__iter__``) are supported.
-        See `Collections Abstract Base Classes <https://docs.python.org/3/library/collections.abc.html#collections-abstract-base-classes>`_.
+        See `Collections Abstract Base Classes \
+        <https://docs.python.org/3/library/collections.abc.html#collections-abstract-base-classes>`_.
 
     .. warning::
         This object should be singleton on thread level.
