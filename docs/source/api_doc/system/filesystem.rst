@@ -18,4 +18,10 @@ copy
 .. autofunction:: copy
 
 
+remove
+---------------------
+
+.. autofunction:: remove
+
+
 
