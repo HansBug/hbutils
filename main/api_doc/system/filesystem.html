@@ -111,6 +111,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.system.filesystem</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#touch">touch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#copy">copy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#remove">remove</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="os.html">hbutils.system.os</a></li>
@@ -218,7 +219,7 @@ Just like the <code class="docutils literal notranslate"><span class="pre">touch
 <h2>copy<a class="headerlink" href="#copy" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="hbutils.system.filesystem.copy">
-<code class="sig-prename descclassname">hbutils.system.filesystem.</code><code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">src</span></em>, <em class="sig-param"><span class="n">dst</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/system/filesystem/directory.html#copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.filesystem.copy" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">hbutils.system.filesystem.</code><code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">src</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">dst</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/system/filesystem/directory.html#copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.filesystem.copy" title="Permalink to this definition">¶</a></dt>
 <dd><dl>
 <dt>Overview:</dt><dd><p>Copy a file or a directory from <code class="docutils literal notranslate"><span class="pre">src</span></code> to <code class="docutils literal notranslate"><span class="pre">dst</span></code>.
 <code class="docutils literal notranslate"><span class="pre">src</span></code> can be a file or a directory, both are supported.</p>
@@ -231,6 +232,24 @@ Just like the <code class="docutils literal notranslate"><span class="pre">touch
 <li><p><strong>src</strong> – Source path.</p></li>
 <li><p><strong>dst</strong> – Destination path.</p></li>
 </ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="remove">
+<h2>remove<a class="headerlink" href="#remove" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.filesystem.remove">
+<code class="sig-prename descclassname">hbutils.system.filesystem.</code><code class="sig-name descname">remove</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/system/filesystem/directory.html#remove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.filesystem.remove" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Remove a file or a directory at <code class="docutils literal notranslate"><span class="pre">file</span></code>.
+<code class="docutils literal notranslate"><span class="pre">file</span></code> can be a file or a directory, both are supported.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file</strong> – File or directory to be removed.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -315,9 +334,8 @@ Just like the <code class="docutils literal notranslate"><span class="pre">touch
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/file/api_doc/system/filesystem.html">dev/file</a></dd>
-                        <dd><a href="../../../dev/dependency/api_doc/system/filesystem.html">dev/dependency</a></dd>
                         <dd><a href="filesystem.html">main</a></dd>
+                        <dd><a href="../../../dev/dependency/api_doc/system/filesystem.html">dev/dependency</a></dd>
                 </dl>
         </div>
     </div>
