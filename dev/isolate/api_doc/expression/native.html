@@ -1,0 +1,639 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hbutils.expression.native &mdash; hbutils 0.6.9 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="hbutils.file" href="../file/index.html" />
+    <link rel="prev" title="hbutils.expression" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> hbutils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6.9
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+</ul>
+<p><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">hbutils.algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../binary/index.html">hbutils.binary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../collection/index.html">hbutils.collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../color/index.html">hbutils.color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/index.html">hbutils.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/index.html">hbutils.design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">hbutils.expression</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.expression.native</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#efunc">efunc</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#expr">expr</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#keep">keep</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#raw">raw</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#expression">Expression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#checkexpression">CheckExpression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#comparableexpression">ComparableExpression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#indexedexpression">IndexedExpression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#objectexpression">ObjectExpression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#logicalexpression">LogicalExpression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#mathexpression">MathExpression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bitwiseexpression">BitwiseExpression</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#generalexpression">GeneralExpression</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../file/index.html">hbutils.file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/index.html">hbutils.model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../random/index.html">hbutils.random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reflection/index.html">hbutils.reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scale/index.html">hbutils.scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../string/index.html">hbutils.string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../system/index.html">hbutils.system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/index.html">hbutils.testing</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">hbutils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">hbutils.expression</a> &raquo;</li>
+        
+      <li>hbutils.expression.native</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_doc/expression/native.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <section id="module-hbutils.expression.native">
+<span id="hbutils-expression-native"></span><h1>hbutils.expression.native<a class="headerlink" href="#module-hbutils.expression.native" title="Permalink to this headline">¶</a></h1>
+<section id="efunc">
+<h2>efunc<a class="headerlink" href="#efunc" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.expression.native.efunc">
+<code class="sig-prename descclassname">hbutils.expression.native.</code><code class="sig-name descname">efunc</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">e</span></em><span class="sig-paren">)</span> &#x2192; Callable<a class="reference internal" href="../../_modules/hbutils/expression/native/base.html#efunc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.expression.native.efunc" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Get callable object from any types.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>e</strong> – Original object.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Callable object. If given <code class="docutils literal notranslate"><span class="pre">e</span></code> is an <a class="reference internal" href="#hbutils.expression.native.Expression" title="hbutils.expression.native.Expression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Expression</span></code></a>, its callable method will be returned.         If given <code class="docutils literal notranslate"><span class="pre">e</span></code> is a function, an equivalent method will be returned. Otherwise, a method which always return         <code class="docutils literal notranslate"><span class="pre">e</span></code> will be returned.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is the key feature of the native expressions, you need to use <a class="reference internal" href="#hbutils.expression.native.efunc" title="hbutils.expression.native.efunc"><code class="xref py py-func docutils literal notranslate"><span class="pre">efunc()</span></code></a> function to transform         expressions to callable functions.</p>
+</div>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.expression</span> <span class="kn">import</span> <span class="n">keep</span><span class="p">,</span> <span class="n">efunc</span><span class="p">,</span> <span class="n">expr</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e1</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">efunc</span><span class="p">(</span><span class="n">e1</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">efunc</span><span class="p">(</span><span class="n">e1</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e2</span> <span class="o">=</span> <span class="n">expr</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">efunc</span><span class="p">(</span><span class="n">e2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">efunc</span><span class="p">(</span><span class="n">e2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="expr">
+<h2>expr<a class="headerlink" href="#expr" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.expression.native.expr">
+<code class="sig-prename descclassname">hbutils.expression.native.</code><code class="sig-name descname">expr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span></em>, <em class="sig-param"><span class="n">cls</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Type<span class="p">[</span>hbutils.expression.native.base.Expression<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/expression/native/general.html#expr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.expression.native.expr" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Transform any objects to <a class="reference internal" href="#hbutils.expression.native.Expression" title="hbutils.expression.native.Expression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Expression</span></code></a>.</p>
+<ul class="simple">
+<li><p>If the given <code class="docutils literal notranslate"><span class="pre">v</span></code> is an <a class="reference internal" href="#hbutils.expression.native.Expression" title="hbutils.expression.native.Expression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Expression</span></code></a>, <code class="docutils literal notranslate"><span class="pre">v</span></code> will be returned.</p></li>
+<li><p>If the given <code class="docutils literal notranslate"><span class="pre">v</span></code> is a callable object, expression with <code class="docutils literal notranslate"><span class="pre">v</span></code> will be returned.</p></li>
+<li><p>Otherwise, expression with <code class="docutils literal notranslate"><span class="pre">lambda</span> <span class="pre">x:</span> <span class="pre">v</span></code> will be returned.</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – Original value.</p></li>
+<li><p><strong>cls</strong> – Class of expression, should be a subclass of <a class="reference internal" href="#hbutils.expression.native.Expression" title="hbutils.expression.native.Expression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Expression</span></code></a>. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which         means <a class="reference internal" href="#hbutils.expression.native.GeneralExpression" title="hbutils.expression.native.GeneralExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeneralExpression</span></code></a> will be used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Generated expression.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="keep">
+<h2>keep<a class="headerlink" href="#keep" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.expression.native.keep">
+<code class="sig-prename descclassname">hbutils.expression.native.</code><code class="sig-name descname">keep</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cls</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Type<span class="p">[</span>hbutils.expression.native.base.Expression<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/expression/native/general.html#keep"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.expression.native.keep" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Alias for <code class="docutils literal notranslate"><span class="pre">expr(lambda</span> <span class="pre">x:</span> <span class="pre">x,</span> <span class="pre">cls)</span></code>.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>cls</strong> – Class of expression, should be a subclass of <a class="reference internal" href="#hbutils.expression.native.Expression" title="hbutils.expression.native.Expression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Expression</span></code></a>. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which         means <a class="reference internal" href="#hbutils.expression.native.GeneralExpression" title="hbutils.expression.native.GeneralExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeneralExpression</span></code></a> will be used.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Generated expression.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="raw">
+<h2>raw<a class="headerlink" href="#raw" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.expression.native.raw">
+<code class="sig-prename descclassname">hbutils.expression.native.</code><code class="sig-name descname">raw</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span></em>, <em class="sig-param"><span class="n">cls</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Type<span class="p">[</span>hbutils.expression.native.base.Expression<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/expression/native/general.html#raw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.expression.native.raw" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Alias for <code class="docutils literal notranslate"><span class="pre">expr(lambda</span> <span class="pre">x:</span> <span class="pre">v,</span> <span class="pre">cls)</span></code>.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – Raw value.</p></li>
+<li><p><strong>cls</strong> – Class of expression, should be a subclass of <a class="reference internal" href="#hbutils.expression.native.Expression" title="hbutils.expression.native.Expression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Expression</span></code></a>. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which         means <a class="reference internal" href="#hbutils.expression.native.GeneralExpression" title="hbutils.expression.native.GeneralExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeneralExpression</span></code></a> will be used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Generated expression.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="expression">
+<h2>Expression<a class="headerlink" href="#expression" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.expression.native.Expression">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.expression.native.</code><code class="sig-name descname">Expression</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/expression/native/base.html#Expression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.expression.native.Expression" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Base class of expressions.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="hbutils.expression.native.Expression.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/expression/native/base.html#Expression.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.expression.native.Expression.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of <a class="reference internal" href="#hbutils.expression.native.Expression" title="hbutils.expression.native.Expression"><code class="xref py py-class docutils literal notranslate"><span class="pre">Expression</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>func</strong> – Callable function, default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means a <code class="docutils literal notranslate"><span class="pre">lambda</span> <span class="pre">x:</span> <span class="pre">x</span></code> will be used.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.expression.native.Expression._expr">
+<em class="property">classmethod </em><code class="sig-name descname">_expr</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/expression/native/base.html#Expression._expr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.expression.native.Expression._expr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build expression with this class.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>v</strong> – Any types of value.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>An expression object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.expression.native.Expression._func">
+<code class="sig-name descname">_func</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/expression/native/base.html#Expression._func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.expression.native.Expression._func" title="Permalink to this definition">¶</a></dt>
+<dd><p>Expression building based on given <code class="docutils literal notranslate"><span class="pre">func</span></code> and arguments.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func</strong> – Logical function.</p></li>
+<li><p><strong>args</strong> – Positional arguments.</p></li>
+<li><p><strong>kwargs</strong> – Key-word arguments.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>New expression with current class.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.expression</span> <span class="kn">import</span> <span class="n">efunc</span><span class="p">,</span> <span class="n">Expression</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyExpression</span><span class="p">(</span><span class="n">Expression</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">e1</span> <span class="o">=</span> <span class="n">MyExpression</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">efunc</span><span class="p">(</span><span class="n">e1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">))(</span><span class="mi">5</span><span class="p">)</span>  <span class="c1"># 5 + 1 = 6</span>
+<span class="go">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">efunc</span><span class="p">(</span><span class="n">e1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">e1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">)))(</span><span class="mi">5</span><span class="p">)</span>  <span class="c1"># 5 + (5 + 1) = 11</span>
+<span class="go">11</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="checkexpression">
+<h2>CheckExpression<a class="headerlink" href="#checkexpression" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.expression.native.CheckExpression">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.expression.native.</code><code class="sig-name descname">CheckExpression</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/expression/native/feature.html#CheckExpression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.expression.native.CheckExpression" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Check expression.</p>
+</dd>
+<dt>Features:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">__eq__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">==</span> <span class="pre">y</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__ne__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">==</span> <span class="pre">y</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="comparableexpression">
+<h2>ComparableExpression<a class="headerlink" href="#comparableexpression" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.expression.native.ComparableExpression">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.expression.native.</code><code class="sig-name descname">ComparableExpression</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/expression/native/feature.html#ComparableExpression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.expression.native.ComparableExpression" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Comparable expression.</p>
+</dd>
+<dt>Features:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">__eq__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">==</span> <span class="pre">y</span></code> (the same as <a class="reference internal" href="#hbutils.expression.native.CheckExpression" title="hbutils.expression.native.CheckExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">CheckExpression</span></code></a>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__ne__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">==</span> <span class="pre">y</span></code> (the same as <a class="reference internal" href="#hbutils.expression.native.CheckExpression" title="hbutils.expression.native.CheckExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">CheckExpression</span></code></a>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__ge__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">&gt;=</span> <span class="pre">y</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__gt__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">&gt;</span> <span class="pre">y</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__le__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">&lt;=</span> <span class="pre">y</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__lt__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">&lt;</span> <span class="pre">y</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="indexedexpression">
+<h2>IndexedExpression<a class="headerlink" href="#indexedexpression" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.expression.native.IndexedExpression">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.expression.native.</code><code class="sig-name descname">IndexedExpression</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/expression/native/feature.html#IndexedExpression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.expression.native.IndexedExpression" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Indexed expression.</p>
+</dd>
+<dt>Features:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">__getitem__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x[y]</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="objectexpression">
+<h2>ObjectExpression<a class="headerlink" href="#objectexpression" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.expression.native.ObjectExpression">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.expression.native.</code><code class="sig-name descname">ObjectExpression</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/expression/native/feature.html#ObjectExpression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.expression.native.ObjectExpression" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Object-like expression.</p>
+</dd>
+<dt>Features:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">__getattr__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x.y</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__call__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x(*args,</span> <span class="pre">**kwargs)</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="logicalexpression">
+<h2>LogicalExpression<a class="headerlink" href="#logicalexpression" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.expression.native.LogicalExpression">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.expression.native.</code><code class="sig-name descname">LogicalExpression</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/expression/native/feature.html#LogicalExpression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.expression.native.LogicalExpression" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Logic expression.</p>
+</dd>
+<dt>Features:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">__and__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">and</span> <span class="pre">y</span></code> (written as <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">&amp;</span> <span class="pre">y</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__or__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">or</span> <span class="pre">y</span></code> (written as <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">|</span> <span class="pre">y</span></code>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__invert__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">x</span></code> (written as <code class="docutils literal notranslate"><span class="pre">~x</span></code>).</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Do not use this with <a class="reference internal" href="#hbutils.expression.native.BitwiseExpression" title="hbutils.expression.native.BitwiseExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">BitwiseExpression</span></code></a>, or unexpected conflict will be caused.</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="mathexpression">
+<h2>MathExpression<a class="headerlink" href="#mathexpression" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.expression.native.MathExpression">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.expression.native.</code><code class="sig-name descname">MathExpression</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/expression/native/feature.html#MathExpression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.expression.native.MathExpression" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Math calculation expression.</p>
+</dd>
+<dt>Features:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">__add__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">+</span> <span class="pre">y</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__sub__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">-</span> <span class="pre">y</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__mul__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">*</span> <span class="pre">y</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__truediv__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">/</span> <span class="pre">y</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__floordiv__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">//</span> <span class="pre">y</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__mod__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">%</span> <span class="pre">y</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__pow__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">**</span> <span class="pre">y</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__pos__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">+x</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__neg__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">-x</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="bitwiseexpression">
+<h2>BitwiseExpression<a class="headerlink" href="#bitwiseexpression" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.expression.native.BitwiseExpression">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.expression.native.</code><code class="sig-name descname">BitwiseExpression</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/expression/native/feature.html#BitwiseExpression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.expression.native.BitwiseExpression" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Bitwise expression class.</p>
+</dd>
+<dt>Features:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">__and__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">&amp;</span> <span class="pre">y</span></code> (bitwise).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__or__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">|</span> <span class="pre">y</span></code> (bitwise).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__xor__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">^</span> <span class="pre">y</span></code> (bitwise).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__lshift__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">&lt;&lt;</span> <span class="pre">y</span></code> (bitwise).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__rshift__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">x</span> <span class="pre">&gt;&gt;</span> <span class="pre">y</span></code> (bitwise).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">__invert__</span></code>, which means <code class="docutils literal notranslate"><span class="pre">~x</span></code> (bitwise).</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Do not use this with <a class="reference internal" href="#hbutils.expression.native.LogicalExpression" title="hbutils.expression.native.LogicalExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">LogicalExpression</span></code></a>, or unexpected conflict will be caused.</p>
+</div>
+</dd></dl>
+
+</section>
+<section id="generalexpression">
+<h2>GeneralExpression<a class="headerlink" href="#generalexpression" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.expression.native.GeneralExpression">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.expression.native.</code><code class="sig-name descname">GeneralExpression</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/expression/native/general.html#GeneralExpression"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.expression.native.GeneralExpression" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>General expression.</p>
+</dd>
+<dt>Features:</dt><dd><p>Inherited from <a class="reference internal" href="#hbutils.expression.native.ComparableExpression" title="hbutils.expression.native.ComparableExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">ComparableExpression</span></code></a>, <a class="reference internal" href="#hbutils.expression.native.IndexedExpression" title="hbutils.expression.native.IndexedExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">IndexedExpression</span></code></a>, <a class="reference internal" href="#hbutils.expression.native.ObjectExpression" title="hbutils.expression.native.ObjectExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectExpression</span></code></a>,         <a class="reference internal" href="#hbutils.expression.native.LogicalExpression" title="hbutils.expression.native.LogicalExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">LogicalExpression</span></code></a> and <a class="reference internal" href="#hbutils.expression.native.MathExpression" title="hbutils.expression.native.MathExpression"><code class="xref py py-class docutils literal notranslate"><span class="pre">MathExpression</span></code></a>.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../file/index.html" class="btn btn-neutral float-right" title="hbutils.file" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="hbutils.expression" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/isolate
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../v0.0.1/index.html">v0.0.1</a></dd>
+                        <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
+                        <dd><a href="../../../../v0.1.1/index.html">v0.1.1</a></dd>
+                        <dd><a href="../../../../v0.2.0/index.html">v0.2.0</a></dd>
+                        <dd><a href="../../../../v0.3.0/index.html">v0.3.0</a></dd>
+                        <dd><a href="../../../../v0.3.1/index.html">v0.3.1</a></dd>
+                        <dd><a href="../../../../v0.3.2/index.html">v0.3.2</a></dd>
+                        <dd><a href="../../../../v0.3.3/index.html">v0.3.3</a></dd>
+                        <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
+                        <dd><a href="../../../../v0.4.1/index.html">v0.4.1</a></dd>
+                        <dd><a href="../../../../v0.4.2/index.html">v0.4.2</a></dd>
+                        <dd><a href="../../../../v0.4.3/index.html">v0.4.3</a></dd>
+                        <dd><a href="../../../../v0.4.4/index.html">v0.4.4</a></dd>
+                        <dd><a href="../../../../v0.4.5/index.html">v0.4.5</a></dd>
+                        <dd><a href="../../../../v0.4.6/index.html">v0.4.6</a></dd>
+                        <dd><a href="../../../../v0.4.7/index.html">v0.4.7</a></dd>
+                        <dd><a href="../../../../v0.5.0/index.html">v0.5.0</a></dd>
+                        <dd><a href="../../../../v0.5.1/index.html">v0.5.1</a></dd>
+                        <dd><a href="../../../../v0.5.2/index.html">v0.5.2</a></dd>
+                        <dd><a href="../../../../v0.6.0/index.html">v0.6.0</a></dd>
+                        <dd><a href="../../../../v0.6.1/index.html">v0.6.1</a></dd>
+                        <dd><a href="../../../../v0.6.2/index.html">v0.6.2</a></dd>
+                        <dd><a href="../../../../v0.6.3/api_doc/expression/native.html">v0.6.3</a></dd>
+                        <dd><a href="../../../../v0.6.4/api_doc/expression/native.html">v0.6.4</a></dd>
+                        <dd><a href="../../../../v0.6.5/api_doc/expression/native.html">v0.6.5</a></dd>
+                        <dd><a href="../../../../v0.6.6/api_doc/expression/native.html">v0.6.6</a></dd>
+                        <dd><a href="../../../../v0.6.7/api_doc/expression/native.html">v0.6.7</a></dd>
+                        <dd><a href="../../../../v0.6.8/api_doc/expression/native.html">v0.6.8</a></dd>
+                        <dd><a href="../../../../v0.6.9/api_doc/expression/native.html">v0.6.9</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="native.html">dev/isolate</a></dd>
+                        <dd><a href="../../../dependency/index.html">dev/dependency</a></dd>
+                        <dd><a href="../../../../main/api_doc/expression/native.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
