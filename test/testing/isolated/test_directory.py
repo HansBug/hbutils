@@ -37,3 +37,18 @@ class TestLoggingIsolatedDirectory:
             assert pathlib.Path('README.md').read_text() == readme
             assert pathlib.Path('ts/__init__.py').read_text() == testing_init
             assert os.listdir('ts') == testing_dirs
+
+    def test_isolated_directory_with_nested_dir(self):
+        readme = pathlib.Path('README.md').read_text()
+        testing_init = pathlib.Path('hbutils/testing/__init__.py').read_text()
+        testing_dirs = os.listdir('hbutils/testing')
+        with isolated_directory({
+            '1/2/3/README.md': 'README.md',
+            '1/3/ts': 'hbutils/testing',
+        }):
+            assert os.path.exists('1/2/3/README.md')
+            assert pathlib.Path('1/2/3/README.md').read_text() == readme
+
+            assert os.path.exists('1/3/ts')
+            assert pathlib.Path('1/3/ts/__init__.py').read_text() == testing_init
+            assert os.listdir('1/3/ts') == testing_dirs
