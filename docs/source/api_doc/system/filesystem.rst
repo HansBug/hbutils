@@ -12,6 +12,12 @@ touch
 .. autofunction:: touch
 
 
+glob
+---------------------
+
+.. autofunction:: glob
+
+
 copy
 ---------------------
 
