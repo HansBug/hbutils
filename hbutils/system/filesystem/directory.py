@@ -8,6 +8,7 @@ import shutil
 
 __all__ = [
     'copy', 'remove',
+    'getsize',
 ]
 
 
@@ -44,3 +45,32 @@ def remove(file: str):
         shutil.rmtree(file)
     except NotADirectoryError:
         os.remove(file)
+
+
+def getsize(file: str):
+    """
+    Overview:
+        Get size of a file or a directory.
+
+    :param file: File path.
+    :return: Size of the file or the total size of the directory.
+
+    Examples::
+        >>> from hbutils.system import getsize
+        >>>
+        >>> getsize('README.md')  # a file
+        5368
+        >>> getsize('test')  # a directory
+        1575574
+    """
+    if os.path.isfile(file):
+        return os.path.getsize(file)
+    else:
+        total = 0
+        for dirpath, dirnames, filenames in os.walk(file):
+            for f in filenames:
+                fp = os.path.join(dirpath, f)
+                if not os.path.islink(fp):
+                    total += os.path.getsize(fp)
+
+        return total

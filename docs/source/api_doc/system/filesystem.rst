@@ -24,4 +24,9 @@ remove
 .. autofunction:: remove
 
 
+getsize
+---------------------
+
+.. autofunction:: getsize
+
 
