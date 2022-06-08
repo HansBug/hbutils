@@ -1,10 +1,11 @@
 import os
 import pathlib
+import unittest
 
 import pytest
 
 from hbutils.system import copy, remove, getsize
-from hbutils.testing import isolated_directory
+from hbutils.testing import isolated_directory, OS, Impl
 
 
 # noinspection DuplicatedCode
@@ -65,7 +66,8 @@ class TestSystemFilesystemDirectory:
             with pytest.raises(FileNotFoundError):
                 remove('1')
 
-    def test_getsize_file(self):
+    @unittest.skipIf(OS.windows and Impl.pypy, 'Symlink is not implemented on Windows PyPy.')
+    def test_getsize_file_with_symlink(self):
         with isolated_directory():
             with open('file1.txt', 'wb') as f1:
                 f1.write(b'\x02' * 1573)
@@ -79,7 +81,18 @@ class TestSystemFilesystemDirectory:
                 assert getsize('file1.txt') == 1573
                 assert getsize('file2.txt') == 1573
 
-    def test_getsize_directory(self):
+    def test_getsize_file_without_symlink(self):
+        with isolated_directory():
+            with open('file1.txt', 'wb') as f1:
+                f1.write(b'\x02' * 1573)
+
+            with isolated_directory({
+                'file1.txt': 'file1.txt',
+            }):
+                assert getsize('file1.txt') == 1573
+
+    @unittest.skipIf(OS.windows and Impl.pypy, 'Symlink is not implemented on Windows PyPy.')
+    def test_getsize_directory_with_symlink(self):
         with isolated_directory():
             with open('file1.txt', 'wb') as f1:
                 f1.write(b'\x02' * 1573)
@@ -95,6 +108,23 @@ class TestSystemFilesystemDirectory:
                 os.symlink('1/2/3/file1.txt', 'filex.txt')
                 os.symlink('2', '1/2/3/4')
 
+                assert getsize('1/2/3') == 1573 * 2
+                assert getsize('1/2') == 1573 * 2
+                assert getsize('1') == 1573 * 3
+                assert getsize('2') == 1573 * 1
+                assert getsize('.') == 1573 * 4
+
+    def test_getsize_directory_without_symlink(self):
+        with isolated_directory():
+            with open('file1.txt', 'wb') as f1:
+                f1.write(b'\x02' * 1573)
+
+            with isolated_directory({
+                '1/2/3/file1.txt': 'file1.txt',
+                '1/2/3/file2.txt': 'file1.txt',
+                '1/3/file1.txt': 'file1.txt',
+                '2/file1.txt': 'file1.txt',
+            }):
                 assert getsize('1/2/3') == 1573 * 2
                 assert getsize('1/2') == 1573 * 2
                 assert getsize('1') == 1573 * 3
