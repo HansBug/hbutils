@@ -64,7 +64,7 @@ def _dis_ratio(k):
 
 
 def rnd_colors(
-        count, lightness=0.5, saturation=1.0,
+        count, lightness=0.5, saturation=1.0, alpha=None,
         init_dis=4.0, lr=0.95, ur=1.5,
         rnd=None
 ) -> Iterator[Color]:
@@ -72,14 +72,14 @@ def rnd_colors(
     Overview:
         Generating random colors which are not similar.
 
-    Arguments:
-        - count: Count of colors.
-        - lightness: Lightness of the colors (in HLS color space), default is ``0.5``.
-        - saturation: Saturation of the colors (in HLS color space), default is ``1.0``.
-        - init_dis: Initial distance of colors, default is ``4.0``.
-        - lr: Lower ratio when generating, default is ``0.95``.
-        - hr: Upper ratio when generating, default is ``1.5``.
-        - rnd: Random object to be used, default is ``random.Random(0)``.
+    :param count: Count of colors.
+    :param lightness: Lightness of the colors (in HLS color space), default is ``0.5``.
+    :param saturation: Saturation of the colors (in HLS color space), default is ``1.0``.
+    :param alpha: Alpha of the colors, default is ``None``.
+    :param init_dis: Initial distance of colors, default is ``4.0``.
+    :param lr: Lower ratio when generating, default is ``0.95``.
+    :param ur: Upper ratio when generating, default is ``1.5``.
+    :param rnd: Random object to be used, default is ``random.Random(0)``.
 
     Returns:
         - colors (:obj:`Iterator[Color]`): A iterator of colors.
@@ -130,7 +130,7 @@ def rnd_colors(
                 if total_try_cnt <= count * 2:
                     min_distance *= ur
 
-                yield new_color
+                yield Color(new_color, alpha)
                 break
             else:
                 try_cnt += 1
