@@ -230,20 +230,26 @@
 <h2>rnd_colors<a class="headerlink" href="#rnd-colors" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="hbutils.color.utils.rnd_colors">
-<code class="sig-prename descclassname">hbutils.color.utils.</code><code class="sig-name descname">rnd_colors</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">count</span></em>, <em class="sig-param"><span class="n">lightness</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">saturation</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">init_dis</span><span class="o">=</span><span class="default_value">4.0</span></em>, <em class="sig-param"><span class="n">lr</span><span class="o">=</span><span class="default_value">0.95</span></em>, <em class="sig-param"><span class="n">ur</span><span class="o">=</span><span class="default_value">1.5</span></em>, <em class="sig-param"><span class="n">rnd</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Iterator<span class="p">[</span><a class="reference internal" href="model.html#hbutils.color.model.Color" title="hbutils.color.model.Color">hbutils.color.model.Color</a><span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/color/utils.html#rnd_colors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.color.utils.rnd_colors" title="Permalink to this definition">¶</a></dt>
-<dd><dl>
+<code class="sig-prename descclassname">hbutils.color.utils.</code><code class="sig-name descname">rnd_colors</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">count</span></em>, <em class="sig-param"><span class="n">lightness</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">saturation</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">alpha</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">init_dis</span><span class="o">=</span><span class="default_value">4.0</span></em>, <em class="sig-param"><span class="n">lr</span><span class="o">=</span><span class="default_value">0.95</span></em>, <em class="sig-param"><span class="n">ur</span><span class="o">=</span><span class="default_value">1.5</span></em>, <em class="sig-param"><span class="n">rnd</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Iterator<span class="p">[</span><a class="reference internal" href="model.html#hbutils.color.model.Color" title="hbutils.color.model.Color">hbutils.color.model.Color</a><span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/color/utils.html#rnd_colors"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.color.utils.rnd_colors" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
 <dt>Overview:</dt><dd><p>Generating random colors which are not similar.</p>
 </dd>
-<dt>Arguments:</dt><dd><ul class="simple">
-<li><p>count: Count of colors.</p></li>
-<li><p>lightness: Lightness of the colors (in HLS color space), default is <code class="docutils literal notranslate"><span class="pre">0.5</span></code>.</p></li>
-<li><p>saturation: Saturation of the colors (in HLS color space), default is <code class="docutils literal notranslate"><span class="pre">1.0</span></code>.</p></li>
-<li><p>init_dis: Initial distance of colors, default is <code class="docutils literal notranslate"><span class="pre">4.0</span></code>.</p></li>
-<li><p>lr: Lower ratio when generating, default is <code class="docutils literal notranslate"><span class="pre">0.95</span></code>.</p></li>
-<li><p>hr: Upper ratio when generating, default is <code class="docutils literal notranslate"><span class="pre">1.5</span></code>.</p></li>
-<li><p>rnd: Random object to be used, default is <code class="docutils literal notranslate"><span class="pre">random.Random(0)</span></code>.</p></li>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>count</strong> – Count of colors.</p></li>
+<li><p><strong>lightness</strong> – Lightness of the colors (in HLS color space), default is <code class="docutils literal notranslate"><span class="pre">0.5</span></code>.</p></li>
+<li><p><strong>saturation</strong> – Saturation of the colors (in HLS color space), default is <code class="docutils literal notranslate"><span class="pre">1.0</span></code>.</p></li>
+<li><p><strong>alpha</strong> – Alpha of the colors, default is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><strong>init_dis</strong> – Initial distance of colors, default is <code class="docutils literal notranslate"><span class="pre">4.0</span></code>.</p></li>
+<li><p><strong>lr</strong> – Lower ratio when generating, default is <code class="docutils literal notranslate"><span class="pre">0.95</span></code>.</p></li>
+<li><p><strong>ur</strong> – Upper ratio when generating, default is <code class="docutils literal notranslate"><span class="pre">1.5</span></code>.</p></li>
+<li><p><strong>rnd</strong> – Random object to be used, default is <code class="docutils literal notranslate"><span class="pre">random.Random(0)</span></code>.</p></li>
 </ul>
 </dd>
+</dl>
+<dl>
 <dt>Returns:</dt><dd><ul class="simple">
 <li><p>colors (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Iterator[Color]</span></code>): A iterator of colors.</p></li>
 </ul>

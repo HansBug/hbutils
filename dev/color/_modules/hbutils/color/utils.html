@@ -237,7 +237,7 @@
 
 
 <div class="viewcode-block" id="rnd_colors"><a class="viewcode-back" href="../../../api_doc/color/utils.html#hbutils.color.utils.rnd_colors">[docs]</a><span class="k">def</span> <span class="nf">rnd_colors</span><span class="p">(</span>
-        <span class="n">count</span><span class="p">,</span> <span class="n">lightness</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">saturation</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+        <span class="n">count</span><span class="p">,</span> <span class="n">lightness</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">saturation</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">init_dis</span><span class="o">=</span><span class="mf">4.0</span><span class="p">,</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">ur</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
         <span class="n">rnd</span><span class="o">=</span><span class="kc">None</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">Color</span><span class="p">]:</span>
@@ -245,14 +245,14 @@
 <span class="sd">    Overview:</span>
 <span class="sd">        Generating random colors which are not similar.</span>
 
-<span class="sd">    Arguments:</span>
-<span class="sd">        - count: Count of colors.</span>
-<span class="sd">        - lightness: Lightness of the colors (in HLS color space), default is ``0.5``.</span>
-<span class="sd">        - saturation: Saturation of the colors (in HLS color space), default is ``1.0``.</span>
-<span class="sd">        - init_dis: Initial distance of colors, default is ``4.0``.</span>
-<span class="sd">        - lr: Lower ratio when generating, default is ``0.95``.</span>
-<span class="sd">        - hr: Upper ratio when generating, default is ``1.5``.</span>
-<span class="sd">        - rnd: Random object to be used, default is ``random.Random(0)``.</span>
+<span class="sd">    :param count: Count of colors.</span>
+<span class="sd">    :param lightness: Lightness of the colors (in HLS color space), default is ``0.5``.</span>
+<span class="sd">    :param saturation: Saturation of the colors (in HLS color space), default is ``1.0``.</span>
+<span class="sd">    :param alpha: Alpha of the colors, default is ``None``.</span>
+<span class="sd">    :param init_dis: Initial distance of colors, default is ``4.0``.</span>
+<span class="sd">    :param lr: Lower ratio when generating, default is ``0.95``.</span>
+<span class="sd">    :param ur: Upper ratio when generating, default is ``1.5``.</span>
+<span class="sd">    :param rnd: Random object to be used, default is ``random.Random(0)``.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        - colors (:obj:`Iterator[Color]`): A iterator of colors.</span>
@@ -303,7 +303,7 @@
                 <span class="k">if</span> <span class="n">total_try_cnt</span> <span class="o">&lt;=</span> <span class="n">count</span> <span class="o">*</span> <span class="mi">2</span><span class="p">:</span>
                     <span class="n">min_distance</span> <span class="o">*=</span> <span class="n">ur</span>
 
-                <span class="k">yield</span> <span class="n">new_color</span>
+                <span class="k">yield</span> <span class="n">Color</span><span class="p">(</span><span class="n">new_color</span><span class="p">,</span> <span class="n">alpha</span><span class="p">)</span>
                 <span class="k">break</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">try_cnt</span> <span class="o">+=</span> <span class="mi">1</span>
