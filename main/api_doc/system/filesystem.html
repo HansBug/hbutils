@@ -112,6 +112,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#touch">touch</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#copy">copy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#remove">remove</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#getsize">getsize</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="os.html">hbutils.system.os</a></li>
@@ -255,6 +256,37 @@ Just like the <code class="docutils literal notranslate"><span class="pre">touch
 </dd></dl>
 
 </section>
+<section id="getsize">
+<h2>getsize<a class="headerlink" href="#getsize" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.filesystem.getsize">
+<code class="sig-prename descclassname">hbutils.system.filesystem.</code><code class="sig-name descname">getsize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/system/filesystem/directory.html#getsize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.filesystem.getsize" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Get size of a file or a directory.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file</strong> – File path.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Size of the file or the total size of the directory.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">getsize</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">getsize</span><span class="p">(</span><span class="s1">&#39;README.md&#39;</span><span class="p">)</span>  <span class="c1"># a file</span>
+<span class="go">5368</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">getsize</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>  <span class="c1"># a directory</span>
+<span class="go">1575574</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -335,9 +367,8 @@ Just like the <code class="docutils literal notranslate"><span class="pre">touch
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/filesystem/api_doc/system/filesystem.html">dev/filesystem</a></dd>
-                        <dd><a href="../../../dev/dependency/api_doc/system/filesystem.html">dev/dependency</a></dd>
                         <dd><a href="filesystem.html">main</a></dd>
+                        <dd><a href="../../../dev/dependency/api_doc/system/filesystem.html">dev/dependency</a></dd>
                 </dl>
         </div>
     </div>
