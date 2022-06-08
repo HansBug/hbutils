@@ -110,6 +110,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">hbutils.system</a><ul class="current">
 <li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.system.filesystem</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#touch">touch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#glob">glob</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#copy">copy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#remove">remove</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#getsize">getsize</a></li>
@@ -213,6 +214,71 @@ Just like the <code class="docutils literal notranslate"><span class="pre">touch
 </ul>
 </dd>
 </dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can use this like <code class="docutils literal notranslate"><span class="pre">touch</span></code> command on unix.</p>
+</div>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">touch</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">touch</span><span class="p">(</span><span class="s1">&#39;simple.txt&#39;</span><span class="p">)</span>  <span class="c1"># touch simple file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">touch</span><span class="p">(</span><span class="s1">&#39;1/2/3/simple.txt&#39;</span><span class="p">)</span>  <span class="c1"># touch file in nested directory (1/2/3 will be created)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="go">[&#39;1&#39;, &#39;simple.txt&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;1/2/3&#39;</span><span class="p">)</span>
+<span class="go">[&#39;simple.txt&#39;]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="glob">
+<h2>glob<a class="headerlink" href="#glob" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.filesystem.glob">
+<code class="sig-prename descclassname">hbutils.system.filesystem.</code><code class="sig-name descname">glob</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">items</span></em><span class="sig-paren">)</span> &#x2192; Iterator<span class="p">[</span>str<span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/system/filesystem/file.html#glob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.filesystem.glob" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Glob filter by the given <code class="docutils literal notranslate"><span class="pre">items</span></code>.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>items</strong> – Filter items.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Filtered existing paths.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#hbutils.system.filesystem.glob" title="hbutils.system.filesystem.glob"><code class="xref py py-func docutils literal notranslate"><span class="pre">glob()</span></code></a> is different from native <code class="docutils literal notranslate"><span class="pre">glob.glob</span></code>, for its return value is a generator instead of list.</p>
+</div>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">glob</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*.md&#39;</span><span class="p">))</span>  <span class="c1"># simple filter</span>
+<span class="go">[&#39;CONTRIBUTING.md&#39;, &#39;README.md&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*.md&#39;</span><span class="p">,</span> <span class="s1">&#39;*.txt&#39;</span><span class="p">))</span>  <span class="c1"># multiple filter</span>
+<span class="go">[&#39;CONTRIBUTING.md&#39;, &#39;README.md&#39;, &#39;requirements-test.txt&#39;, &#39;requirements-doc.txt&#39;, &#39;requirements.txt&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;hbutils/system/**/*.py&#39;</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>  <span class="c1"># nested filter</span>
+<span class="go">hbutils/system/__init__.py</span>
+<span class="go">hbutils/system/filesystem/directory.py</span>
+<span class="go">hbutils/system/filesystem/file.py</span>
+<span class="go">hbutils/system/filesystem/__init__.py</span>
+<span class="go">hbutils/system/python/package.py</span>
+<span class="go">hbutils/system/python/implementation.py</span>
+<span class="go">hbutils/system/python/version.py</span>
+<span class="go">hbutils/system/python/__init__.py</span>
+<span class="go">hbutils/system/os/type.py</span>
+<span class="go">hbutils/system/os/__init__.py</span>
+</pre></div>
+</div>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
@@ -220,19 +286,51 @@ Just like the <code class="docutils literal notranslate"><span class="pre">touch
 <h2>copy<a class="headerlink" href="#copy" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="hbutils.system.filesystem.copy">
-<code class="sig-prename descclassname">hbutils.system.filesystem.</code><code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">src</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">dst</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/system/filesystem/directory.html#copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.filesystem.copy" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">hbutils.system.filesystem.</code><code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">src1</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">src2</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">srcn_dst</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/system/filesystem/directory.html#copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.filesystem.copy" title="Permalink to this definition">¶</a></dt>
 <dd><dl>
-<dt>Overview:</dt><dd><p>Copy a file or a directory from <code class="docutils literal notranslate"><span class="pre">src</span></code> to <code class="docutils literal notranslate"><span class="pre">dst</span></code>.
-<code class="docutils literal notranslate"><span class="pre">src</span></code> can be a file or a directory, both are supported.</p>
+<dt>Overview:</dt><dd><p>Copy files or directories.</p>
+<p>No less than 2 arguments are accepted.
+When the last path is an existing path, all the fore paths will be copied to this path.
+Otherwise, the first path will be copied to the last path (exactly 2 arguments are accepted in this             case, or <code class="docutils literal notranslate"><span class="pre">NotADirectoryError</span></code> will be raised).</p>
 <p>From <a class="reference external" href="https://stackoverflow.com/a/1994840/6995899">Stack Overflow - Copy file or directories recursively in Python</a>.</p>
 </dd>
 </dl>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> – Source path.</p></li>
-<li><p><strong>dst</strong> – Destination path.</p></li>
-</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can use this like <code class="docutils literal notranslate"><span class="pre">cp</span> <span class="pre">-rf</span></code> command on unix.</p>
+</div>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">copy</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="go">[&#39;test&#39;, &#39;README.md&#39;, &#39;cloc.sh&#39;, &#39;LICENSE&#39;, &#39;codecov.yml&#39;, &#39;pytest.ini&#39;, &#39;Makefile&#39;, &#39;setup.py&#39;, &#39;requirements-test.txt&#39;, &#39;requirements-doc.txt&#39;, &#39;requirements.txt&#39;]</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copy</span><span class="p">(</span><span class="s1">&#39;cloc.sh&#39;</span><span class="p">,</span> <span class="s1">&#39;new_cloc.sh&#39;</span><span class="p">)</span>  <span class="c1"># copy file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copy</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="s1">&#39;new_test&#39;</span><span class="p">)</span>  <span class="c1"># copy directory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="go">[&#39;test&#39;, &#39;README.md&#39;, &#39;cloc.sh&#39;, &#39;LICENSE&#39;, &#39;codecov.yml&#39;, &#39;new_test&#39;, &#39;pytest.ini&#39;, &#39;Makefile&#39;, &#39;setup.py&#39;, &#39;requirements-test.txt&#39;, &#39;requirements-doc.txt&#39;, &#39;requirements.txt&#39;, &#39;new_cloc.sh&#39;]</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s1">&#39;new_path_1&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copy</span><span class="p">(</span><span class="s1">&#39;*.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;new_path_1&#39;</span><span class="p">)</span>  <span class="c1"># copy to new path</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;new_path_1&#39;</span><span class="p">)</span>
+<span class="go">[&#39;requirements-test.txt&#39;, &#39;requirements-doc.txt&#39;, &#39;requirements.txt&#39;]</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s1">&#39;new_path_2&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copy</span><span class="p">(</span><span class="s1">&#39;*.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;test/system/**/*.py&#39;</span><span class="p">,</span> <span class="s1">&#39;new_path_2&#39;</span><span class="p">)</span>  <span class="c1"># copy plenty of files to new path</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;new_path_2&#39;</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="go">test_version.py</span>
+<span class="go">test_file.py</span>
+<span class="go">test_type.py</span>
+<span class="go">test_package.py</span>
+<span class="go">test_implementation.py</span>
+<span class="go">requirements-test.txt</span>
+<span class="go">__init__.py</span>
+<span class="go">test_directory.py</span>
+<span class="go">requirements-doc.txt</span>
+<span class="go">requirements.txt</span>
+</pre></div>
+</div>
 </dd>
 </dl>
 </dd></dl>
@@ -242,7 +340,7 @@ Just like the <code class="docutils literal notranslate"><span class="pre">touch
 <h2>remove<a class="headerlink" href="#remove" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="hbutils.system.filesystem.remove">
-<code class="sig-prename descclassname">hbutils.system.filesystem.</code><code class="sig-name descname">remove</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/system/filesystem/directory.html#remove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.filesystem.remove" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">hbutils.system.filesystem.</code><code class="sig-name descname">remove</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">files</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/system/filesystem/directory.html#remove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.filesystem.remove" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>Overview:</dt><dd><p>Remove a file or a directory at <code class="docutils literal notranslate"><span class="pre">file</span></code>.
 <code class="docutils literal notranslate"><span class="pre">file</span></code> can be a file or a directory, both are supported.</p>
@@ -250,7 +348,49 @@ Just like the <code class="docutils literal notranslate"><span class="pre">touch
 </dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>file</strong> – File or directory to be removed.</p>
+<dd class="field-odd"><p><strong>files</strong> – Files or directories to be removed.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can use this like <code class="docutils literal notranslate"><span class="pre">rm</span> <span class="pre">-rf</span></code> command on unix.</p>
+</div>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">remove</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="go">[&#39;test&#39;, &#39;README.md&#39;, &#39;cloc.sh&#39;, &#39;codecov.yml&#39;, &#39;new_test&#39;, &#39;new_path_2&#39;, &#39;setup.py&#39;, &#39;requirements-test.txt&#39;, &#39;new_path_1&#39;, &#39;requirements-doc.txt&#39;, &#39;requirements.txt&#39;, &#39;new_cloc.sh&#39;]</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;codecov.yml&#39;</span><span class="p">)</span>  <span class="c1"># remove file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;new_test&#39;</span><span class="p">)</span>  <span class="c1"># remove directory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="go">[&#39;test&#39;, &#39;README.md&#39;, &#39;cloc.sh&#39;, &#39;new_path_2&#39;, &#39;setup.py&#39;, &#39;requirements-test.txt&#39;, &#39;new_path_1&#39;, &#39;requirements-doc.txt&#39;, &#39;requirements.txt&#39;, &#39;new_cloc.sh&#39;]</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;new_path_1&#39;</span><span class="p">)</span>
+<span class="go">[&#39;requirements-test.txt&#39;, &#39;requirements-doc.txt&#39;, &#39;requirements.txt&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;new_path_1/*.txt&#39;</span><span class="p">)</span>  <span class="c1"># remove files from directory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;new_path_1&#39;</span><span class="p">)</span>
+<span class="go">[]</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;new_path_2&#39;</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="go">test_version.py</span>
+<span class="go">test_file.py</span>
+<span class="go">test_type.py</span>
+<span class="go">test_package.py</span>
+<span class="go">test_implementation.py</span>
+<span class="go">requirements-test.txt</span>
+<span class="go">__init__.py</span>
+<span class="go">test_directory.py</span>
+<span class="go">requirements-doc.txt</span>
+<span class="go">requirements.txt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;README.md&#39;</span><span class="p">,</span> <span class="s1">&#39;test/**/*.py&#39;</span><span class="p">,</span> <span class="s1">&#39;new_path_2/*.py&#39;</span><span class="p">)</span>  <span class="c1"># remove plenty of files</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;new_path_2&#39;</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="go">requirements-test.txt</span>
+<span class="go">requirements-doc.txt</span>
+<span class="go">requirements.txt</span>
+</pre></div>
+</div>
 </dd>
 </dl>
 </dd></dl>
@@ -260,19 +400,23 @@ Just like the <code class="docutils literal notranslate"><span class="pre">touch
 <h2>getsize<a class="headerlink" href="#getsize" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="hbutils.system.filesystem.getsize">
-<code class="sig-prename descclassname">hbutils.system.filesystem.</code><code class="sig-name descname">getsize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/system/filesystem/directory.html#getsize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.filesystem.getsize" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">hbutils.system.filesystem.</code><code class="sig-name descname">getsize</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">files</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/system/filesystem/directory.html#getsize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.filesystem.getsize" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>Overview:</dt><dd><p>Get size of a file or a directory.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>file</strong> – File path.</p>
+<dd class="field-odd"><p><strong>files</strong> – File paths.</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Size of the file or the total size of the directory.</p>
 </dd>
 </dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can use this like <code class="docutils literal notranslate"><span class="pre">du</span> <span class="pre">-sh</span></code> command on unix.</p>
+</div>
 <dl>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">getsize</span>
 <span class="go">&gt;&gt;&gt;</span>
@@ -280,6 +424,8 @@ Just like the <code class="docutils literal notranslate"><span class="pre">touch
 <span class="go">5368</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">getsize</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>  <span class="c1"># a directory</span>
 <span class="go">1575574</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">getsize</span><span class="p">(</span><span class="s1">&#39;hbutils/**/*.py&#39;</span><span class="p">)</span>  <span class="c1"># glob filtered files</span>
+<span class="go">238080</span>
 </pre></div>
 </div>
 </dd>
@@ -367,9 +513,8 @@ Just like the <code class="docutils literal notranslate"><span class="pre">touch
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/filesystem/api_doc/system/filesystem.html">dev/filesystem</a></dd>
-                        <dd><a href="../../../dev/dependency/api_doc/system/filesystem.html">dev/dependency</a></dd>
                         <dd><a href="filesystem.html">main</a></dd>
+                        <dd><a href="../../../dev/dependency/api_doc/system/filesystem.html">dev/dependency</a></dd>
                 </dl>
         </div>
     </div>

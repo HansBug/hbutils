@@ -175,11 +175,13 @@
 <span class="sd">Overview:</span>
 <span class="sd">    Functions for file processing.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">glob</span> <span class="k">as</span> <span class="nn">gb</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">pathlib</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterator</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s1">&#39;touch&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;touch&#39;</span><span class="p">,</span> <span class="s1">&#39;glob&#39;</span><span class="p">,</span>
 <span class="p">]</span>
 
 
@@ -192,11 +194,61 @@
 <span class="sd">    :param file: Path of the file.</span>
 <span class="sd">    :param exist_ok: Exist is okay or not.</span>
 <span class="sd">    :param makedirs: Create directories when necessary.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        You can use this like ``touch`` command on unix.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; import os</span>
+<span class="sd">        &gt;&gt;&gt; from hbutils.system import touch</span>
+<span class="sd">        &gt;&gt;&gt; os.listdir(&#39;.&#39;)</span>
+<span class="sd">        []</span>
+<span class="sd">        &gt;&gt;&gt; touch(&#39;simple.txt&#39;)  # touch simple file</span>
+<span class="sd">        &gt;&gt;&gt; touch(&#39;1/2/3/simple.txt&#39;)  # touch file in nested directory (1/2/3 will be created)</span>
+<span class="sd">        &gt;&gt;&gt; os.listdir(&#39;.&#39;)</span>
+<span class="sd">        [&#39;1&#39;, &#39;simple.txt&#39;]</span>
+<span class="sd">        &gt;&gt;&gt; os.listdir(&#39;1/2/3&#39;)</span>
+<span class="sd">        [&#39;simple.txt&#39;]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">makedirs</span><span class="p">:</span>
         <span class="n">path</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="n">exist_ok</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">path</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="n">exist_ok</span><span class="p">)</span>
     <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">file</span><span class="p">)</span><span class="o">.</span><span class="n">touch</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="n">exist_ok</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="glob"><a class="viewcode-back" href="../../../../api_doc/system/filesystem.html#hbutils.system.filesystem.glob">[docs]</a><span class="k">def</span> <span class="nf">glob</span><span class="p">(</span><span class="o">*</span><span class="n">items</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Glob filter by the given ``items``.</span>
+
+<span class="sd">    :param items: Filter items.</span>
+<span class="sd">    :return: Filtered existing paths.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        :func:`glob` is different from native ``glob.glob``, for its return value is a generator instead of list.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from hbutils.system import glob</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; list(glob(&#39;*.md&#39;))  # simple filter</span>
+<span class="sd">        [&#39;CONTRIBUTING.md&#39;, &#39;README.md&#39;]</span>
+<span class="sd">        &gt;&gt;&gt; list(glob(&#39;*.md&#39;, &#39;*.txt&#39;))  # multiple filter</span>
+<span class="sd">        [&#39;CONTRIBUTING.md&#39;, &#39;README.md&#39;, &#39;requirements-test.txt&#39;, &#39;requirements-doc.txt&#39;, &#39;requirements.txt&#39;]</span>
+<span class="sd">        &gt;&gt;&gt; print(*glob(&#39;hbutils/system/**/*.py&#39;), sep=\&#39;\\n\&#39;)  # nested filter</span>
+<span class="sd">        hbutils/system/__init__.py</span>
+<span class="sd">        hbutils/system/filesystem/directory.py</span>
+<span class="sd">        hbutils/system/filesystem/file.py</span>
+<span class="sd">        hbutils/system/filesystem/__init__.py</span>
+<span class="sd">        hbutils/system/python/package.py</span>
+<span class="sd">        hbutils/system/python/implementation.py</span>
+<span class="sd">        hbutils/system/python/version.py</span>
+<span class="sd">        hbutils/system/python/__init__.py</span>
+<span class="sd">        hbutils/system/os/type.py</span>
+<span class="sd">        hbutils/system/os/__init__.py</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+        <span class="k">yield from</span> <span class="n">gb</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 </pre></div>
 
 
@@ -267,9 +319,8 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../../dev/filesystem/index.html">dev/filesystem</a></dd>
-                        <dd><a href="../../../../../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="file.html">main</a></dd>
+                        <dd><a href="../../../../../dev/dependency/index.html">dev/dependency</a></dd>
                 </dl>
         </div>
     </div>
