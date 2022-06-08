@@ -45,18 +45,29 @@ class TestColorModel:
         with pytest.raises(ValueError):
             Color('#aabbccd')
 
-        with pytest.warns(UserWarning):
-            c2 = Color('#aabbccdd', alpha=0.8)
+        c2 = Color('#aabbccdd', alpha=0.8)
         assert c2.rgb.red == int('aa', 16) / 255
         assert c2.rgb.green == int('bb', 16) / 255
         assert c2.rgb.blue == int('cc', 16) / 255
-        assert c2.alpha == int('dd', 16) / 255
+        assert c2.alpha == pytest.approx(0.8)
 
         c3 = Color('#aabbcc', alpha=0.8)
         assert c3.rgb.red == int('aa', 16) / 255
         assert c3.rgb.green == int('bb', 16) / 255
         assert c3.rgb.blue == int('cc', 16) / 255
         assert c3.alpha == 0.8
+
+        c4 = Color(Color('#aabbcc'), alpha=0.8)
+        assert c4.rgb.red == int('aa', 16) / 255
+        assert c4.rgb.green == int('bb', 16) / 255
+        assert c4.rgb.blue == int('cc', 16) / 255
+        assert c4.alpha == pytest.approx(0.8)
+
+        c5 = Color(Color('#aabbccdd'), alpha=0.8)
+        assert c5.rgb.red == int('aa', 16) / 255
+        assert c5.rgb.green == int('bb', 16) / 255
+        assert c5.rgb.blue == int('cc', 16) / 255
+        assert c5.alpha == pytest.approx(0.8)
 
     def test_basic_error(self):
         with pytest.raises(TypeError):
