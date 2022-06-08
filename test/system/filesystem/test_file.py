@@ -4,6 +4,7 @@ import pytest
 
 from hbutils.system import touch, glob
 from hbutils.testing import isolated_directory
+from ...testings import normpath
 
 
 @pytest.mark.unittest
@@ -31,20 +32,22 @@ class TestSystemFilesystemFile:
             touch('7/147.txt')
             touch('17.txt')
 
-            assert set(glob('1/2/3/4/*.txt')) == {
+            assert set(map(normpath, glob('1/2/3/4/*.txt'))) == set(map(normpath, [
                 '1/2/3/4/5.txt',
                 '1/2/3/4/6.txt',
-            }
-            assert set(glob('1/**/5.txt')) == {
+            ]))
+            assert set(map(normpath, glob('1/**/5.txt'))) == set(map(normpath, [
                 '1/2/3/4/5.txt',
                 '1/2/3/5.txt'
-            }
-            assert set(glob('**/*.txt')) == {
+            ]))
+            assert set(map(normpath, glob('**/*.txt'))) == set(map(normpath, [
                 '1/2/3/4/5.txt',
                 '1/2/3/5.txt',
                 '1/2/3/4/6.txt',
                 '1/4/7.txt',
                 '7/147.txt',
                 '17.txt',
-            }
-            assert set(glob('**/')) == {'1/4/', '1/2/3/', '1/2/', '1/', '7/', '1/2/3/4/'}
+            ]))
+            assert set(map(normpath, glob('**/'))) == set(map(normpath, [
+                '1/4/', '1/2/3/', '1/2/', '1/', '7/', '1/2/3/4/'
+            ]))
