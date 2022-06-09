@@ -7,7 +7,6 @@ Overview:
 import colorsys
 import math
 import re
-import warnings
 from typing import Optional, Union, Tuple
 
 from .base import _name_to_hex, _CSS3_NAME_MAPS
@@ -443,7 +442,7 @@ class Color:
         '#56a3f077'
     """
 
-    def __init__(self, c: Union[str, Tuple[float, float, float]], alpha: Optional[float] = None):
+    def __init__(self, c: Union[str, Tuple[float, float, float], 'Color'], alpha: Optional[float] = None):
         """
         Overview:
             Constructor of ``Color``.
@@ -457,6 +456,8 @@ class Color:
         if isinstance(c, tuple):
             self.__r, self.__g, self.__b = _r_mapper(c[0]), _g_mapper(c[1]), _b_mapper(c[2])
             self.__alpha = _a_mapper(alpha) if alpha is not None else None
+        elif isinstance(c, Color):
+            self.__init__(str(c), alpha)
         elif isinstance(c, str):
             if _RGB_COLOR_PATTERN.fullmatch(c):
                 _rgb_hex = c
@@ -475,12 +476,7 @@ class Color:
 
             r, g, b, a = map(_hex_to_ratio, (rs, gs, bs, as_))
             if alpha is not None:
-                if a is None:
-                    a = alpha
-                else:
-                    warnings.warn(UserWarning('The alpha value has already been included in '
-                                              f'the given hex color {repr(c)}, the assigned '
-                                              f'argument alpha will be ignored.'), stacklevel=2)
+                a = alpha
 
             self.__init__((r, g, b), a)
 
