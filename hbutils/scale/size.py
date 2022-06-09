@@ -3,7 +3,7 @@ Overview:
     Useful utilities for memory size units, such as MB/KB/B.
 """
 import warnings
-from typing import Union
+from typing import Union, Optional
 
 from bitmath import Byte
 from bitmath import parse_string_unsafe as parse_bytes
@@ -73,13 +73,13 @@ def size_to_bytes(size: _SIZE_TYPING) -> int:
     return _base_size_to_bytes(size)
 
 
-def size_to_bytes_str(size: _SIZE_TYPING) -> str:
+def size_to_bytes_str(size: _SIZE_TYPING, precision: Optional[int] = None) -> str:
     """
     Overview:
         Turn any types of memory size to string value in the best unit.
 
-    Arguments:
-        - size (:obj:`Union[int, float, str, Byte]`): Any types of size information.
+    :param size: Any types of size information.
+    :param precision: Precsion for float values. Default is ``None`` which means just show the original float number.
 
     Returns:
         - bytes (:obj:`int`): String formatted size value in the best unit.
@@ -95,5 +95,13 @@ def size_to_bytes_str(size: _SIZE_TYPING) -> str:
         >>> size_to_bytes_str('3.54 GiB')
         __main__:1: UserWarning: Float detected in variable in bytes (3801046056.96), rounded integer value (3801046057) is used.
         '3.540000000037253 GiB'
+        >>> size_to_bytes_str('3.54 GB', precision=0)  # use precision
+        '3 GiB'
+        >>> size_to_bytes_str('3.54 GB', precision=3)
+        '3.297 GiB'
     """
-    return str(Byte(_base_size_to_bytes(size)).best_prefix())
+    if precision is None:
+        format_str = "{value} {unit}"
+    else:
+        format_str = f"{{value:.{precision}f}} {{unit}}"
+    return Byte(_base_size_to_bytes(size)).best_prefix().format(format_str)
