@@ -3,12 +3,17 @@ Overview:
     Useful utilities for memory size units, such as MB/KB/B.
 """
 import warnings
+from enum import IntEnum, unique
 from typing import Union, Optional
 
-from bitmath import Byte
+from bitmath import Byte, NIST, SI
 from bitmath import parse_string_unsafe as parse_bytes
 
-__all__ = ['size_to_bytes', 'size_to_bytes_str']
+from ..model import int_enum_loads
+
+__all__ = [
+    'size_to_bytes', 'size_to_bytes_str'
+]
 
 _EPS = 1e-10
 
@@ -73,7 +78,14 @@ def size_to_bytes(size: _SIZE_TYPING) -> int:
     return _base_size_to_bytes(size)
 
 
-def size_to_bytes_str(size: _SIZE_TYPING, precision: Optional[int] = None) -> str:
+@int_enum_loads(name_preprocess=str.upper)
+@unique
+class SizeSystem(IntEnum):
+    NIST = NIST
+    SI = SI
+
+
+def size_to_bytes_str(size: _SIZE_TYPING, precision: Optional[int] = None, system='nist') -> str:
     """
     Overview:
         Turn any types of memory size to string value in the best unit.
@@ -99,9 +111,14 @@ def size_to_bytes_str(size: _SIZE_TYPING, precision: Optional[int] = None) -> st
         '3 GiB'
         >>> size_to_bytes_str('3.54 GB', precision=3)
         '3.297 GiB'
+        >>> size_to_bytes_str('3.54 GB', system='si')  # use GB/MB/KB instead of GiB/MiB/KiB
+        '3.54 GB'
+        >>> size_to_bytes_str('3.54 GB', precision=3, system='si')
+        '3.540 GB'
     """
+    system = SizeSystem.loads(system)
     if precision is None:
         format_str = "{value} {unit}"
     else:
         format_str = f"{{value:.{precision}f}} {{unit}}"
-    return Byte(_base_size_to_bytes(size)).best_prefix().format(format_str)
+    return Byte(_base_size_to_bytes(size)).best_prefix(system.value).format(format_str)

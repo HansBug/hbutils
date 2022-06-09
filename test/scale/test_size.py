@@ -28,3 +28,5 @@ class TestScaleSize:
         assert size_to_bytes_str('200000kib') == '195.3125 MiB'
         assert size_to_bytes_str('3.54 GB', precision=0) == '3 GiB'
         assert size_to_bytes_str('3.54 GB', precision=3) == '3.297 GiB'
+        assert size_to_bytes_str('3.54 GB', system='si') == '3.54 GB'
+        assert size_to_bytes_str('3.54 GB', system='si', precision=3) == '3.540 GB'
