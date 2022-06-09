@@ -180,7 +180,6 @@
 <span class="kn">import</span> <span class="nn">colorsys</span>
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">re</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">from</span> <span class="nn">.base</span> <span class="kn">import</span> <span class="n">_name_to_hex</span><span class="p">,</span> <span class="n">_CSS3_NAME_MAPS</span>
@@ -616,7 +615,7 @@
 <span class="sd">        &#39;#56a3f077&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Color.__init__"><a class="viewcode-back" href="../../../api_doc/color/model.html#hbutils.color.model.Color.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span> <span class="n">alpha</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Color.__init__"><a class="viewcode-back" href="../../../api_doc/color/model.html#hbutils.color.model.Color.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">c</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="s1">&#39;Color&#39;</span><span class="p">],</span> <span class="n">alpha</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Overview:</span>
 <span class="sd">            Constructor of ``Color``.</span>
@@ -630,6 +629,8 @@
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__r</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__g</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__b</span> <span class="o">=</span> <span class="n">_r_mapper</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">_g_mapper</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">_b_mapper</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__alpha</span> <span class="o">=</span> <span class="n">_a_mapper</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span> <span class="k">if</span> <span class="n">alpha</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">Color</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="n">alpha</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">if</span> <span class="n">_RGB_COLOR_PATTERN</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
                 <span class="n">_rgb_hex</span> <span class="o">=</span> <span class="n">c</span>
@@ -648,12 +649,7 @@
 
             <span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="n">_hex_to_ratio</span><span class="p">,</span> <span class="p">(</span><span class="n">rs</span><span class="p">,</span> <span class="n">gs</span><span class="p">,</span> <span class="n">bs</span><span class="p">,</span> <span class="n">as_</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">alpha</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">a</span> <span class="o">=</span> <span class="n">alpha</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="ne">UserWarning</span><span class="p">(</span><span class="s1">&#39;The alpha value has already been included in &#39;</span>
-                                              <span class="sa">f</span><span class="s1">&#39;the given hex color </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="si">}</span><span class="s1">, the assigned &#39;</span>
-                                              <span class="sa">f</span><span class="s1">&#39;argument alpha will be ignored.&#39;</span><span class="p">),</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+                <span class="n">a</span> <span class="o">=</span> <span class="n">alpha</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="fm">__init__</span><span class="p">((</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="n">a</span><span class="p">)</span>
 
@@ -990,9 +986,9 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="model.html">main</a></dd>
                         <dd><a href="../../../../dev/color/index.html">dev/color</a></dd>
                         <dd><a href="../../../../dev/dependency/index.html">dev/dependency</a></dd>
-                        <dd><a href="model.html">main</a></dd>
                 </dl>
         </div>
     </div>
