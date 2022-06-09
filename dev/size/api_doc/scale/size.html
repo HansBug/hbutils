@@ -228,7 +228,7 @@
 <h2>size_to_bytes_str<a class="headerlink" href="#size-to-bytes-str" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="hbutils.scale.size.size_to_bytes_str">
-<code class="sig-prename descclassname">hbutils.scale.size.</code><code class="sig-name descname">size_to_bytes_str</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>int<span class="p">, </span>float<span class="p">, </span>str<span class="p">, </span>bitmath.Byte<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">precision</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/scale/size.html#size_to_bytes_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.scale.size.size_to_bytes_str" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">hbutils.scale.size.</code><code class="sig-name descname">size_to_bytes_str</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>int<span class="p">, </span>float<span class="p">, </span>str<span class="p">, </span>bitmath.Byte<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">precision</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">system</span><span class="o">=</span><span class="default_value">'nist'</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/scale/size.html#size_to_bytes_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.scale.size.size_to_bytes_str" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>Overview:</dt><dd><p>Turn any types of memory size to string value in the best unit.</p>
 </dd>
@@ -260,6 +260,10 @@
 <span class="go">&#39;3 GiB&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">size_to_bytes_str</span><span class="p">(</span><span class="s1">&#39;3.54 GB&#39;</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="go">&#39;3.297 GiB&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">size_to_bytes_str</span><span class="p">(</span><span class="s1">&#39;3.54 GB&#39;</span><span class="p">,</span> <span class="n">system</span><span class="o">=</span><span class="s1">&#39;si&#39;</span><span class="p">)</span>  <span class="c1"># use GB/MB/KB instead of GiB/MiB/KiB</span>
+<span class="go">&#39;3.54 GB&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">size_to_bytes_str</span><span class="p">(</span><span class="s1">&#39;3.54 GB&#39;</span><span class="p">,</span> <span class="n">precision</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">system</span><span class="o">=</span><span class="s1">&#39;si&#39;</span><span class="p">)</span>
+<span class="go">&#39;3.540 GB&#39;</span>
 </pre></div>
 </div>
 </dd>
