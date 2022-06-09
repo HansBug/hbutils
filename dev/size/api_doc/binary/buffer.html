@@ -1,0 +1,397 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hbutils.binary.buffer &mdash; hbutils 0.6.11 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="hbutils.binary.float" href="float.html" />
+    <link rel="prev" title="hbutils.binary.bool" href="bool.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> hbutils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6.11
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+</ul>
+<p><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">hbutils.algorithm</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">hbutils.binary</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="base.html">hbutils.binary.base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bool.html">hbutils.binary.bool</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.binary.buffer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cbuffertype">CBufferType</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c-buffer">c_buffer</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="float.html">hbutils.binary.float</a></li>
+<li class="toctree-l2"><a class="reference internal" href="int.html">hbutils.binary.int</a></li>
+<li class="toctree-l2"><a class="reference internal" href="str.html">hbutils.binary.str</a></li>
+<li class="toctree-l2"><a class="reference internal" href="uint.html">hbutils.binary.uint</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../collection/index.html">hbutils.collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../color/index.html">hbutils.color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/index.html">hbutils.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/index.html">hbutils.design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../expression/index.html">hbutils.expression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file/index.html">hbutils.file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/index.html">hbutils.model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../random/index.html">hbutils.random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reflection/index.html">hbutils.reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scale/index.html">hbutils.scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../string/index.html">hbutils.string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../system/index.html">hbutils.system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/index.html">hbutils.testing</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">hbutils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">hbutils.binary</a> &raquo;</li>
+        
+      <li>hbutils.binary.buffer</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_doc/binary/buffer.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <section id="module-hbutils.binary.buffer">
+<span id="hbutils-binary-buffer"></span><h1>hbutils.binary.buffer<a class="headerlink" href="#module-hbutils.binary.buffer" title="Permalink to this headline">¶</a></h1>
+<section id="cbuffertype">
+<h2>CBufferType<a class="headerlink" href="#cbuffertype" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.binary.buffer.CBufferType">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.binary.buffer.</code><code class="sig-name descname">CBufferType</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/binary/buffer.html#CBufferType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.buffer.CBufferType" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Bytes type.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="hbutils.binary.buffer.CBufferType.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/binary/buffer.html#CBufferType.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.buffer.CBufferType.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of <a class="reference internal" href="#hbutils.binary.buffer.CBufferType" title="hbutils.binary.buffer.CBufferType"><code class="xref py py-class docutils literal notranslate"><span class="pre">CBufferType</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>size</strong> – Size of the buffer.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.binary.buffer.CBufferType.read">
+<code class="sig-name descname">read</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span></em><span class="sig-paren">)</span> &#x2192; bytes<a class="reference internal" href="../../_modules/hbutils/binary/buffer.html#CBufferType.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.buffer.CBufferType.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read bytes value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>file</strong> – Binary file, <code class="docutils literal notranslate"><span class="pre">io.BytesIO</span></code> is supported as well.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Bytes value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.binary.buffer.CBufferType.size">
+<em class="property">property </em><code class="sig-name descname">size</code><a class="headerlink" href="#hbutils.binary.buffer.CBufferType.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Size of the buffer.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.binary.buffer.CBufferType.write">
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span></em>, <em class="sig-param"><span class="n">val</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>bytearray<span class="p">, </span>bytes<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/binary/buffer.html#CBufferType.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.buffer.CBufferType.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write bytes value to binary IO object.
+If the length is not enough, <code class="docutils literal notranslate"><span class="pre">\\</span></code> will be filled afterwards to reach the given <code class="docutils literal notranslate"><span class="pre">size</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> – Binary file, <code class="docutils literal notranslate"><span class="pre">io.BytesIO</span></code> is supported as well.</p></li>
+<li><p><strong>val</strong> – Bytes value to write.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="c-buffer">
+<h2>c_buffer<a class="headerlink" href="#c-buffer" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.binary.buffer.c_buffer">
+<code class="sig-prename descclassname">hbutils.binary.buffer.</code><code class="sig-name descname">c_buffer</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#hbutils.binary.buffer.CBufferType" title="hbutils.binary.buffer.CBufferType">hbutils.binary.buffer.CBufferType</a><a class="reference internal" href="../../_modules/hbutils/binary/buffer.html#c_buffer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.buffer.c_buffer" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Reading and writing bytes with given size.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>size</strong> – Size of the buffer.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><a class="reference internal" href="#hbutils.binary.buffer.CBufferType" title="hbutils.binary.buffer.CBufferType"><code class="xref py py-class docutils literal notranslate"><span class="pre">CBufferType</span></code></a> object.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">io</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.binary</span> <span class="kn">import</span> <span class="n">c_buffer</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xde\xad\xbe\xef\x00\x12\x34\x56\x78\x00</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_buffer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_buffer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_buffer</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_buffer</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="go">b&#39;\xde&#39;</span>
+<span class="go">b&#39;\xad\xbe&#39;</span>
+<span class="go">b&#39;\xef\x00\x12&#39;</span>
+<span class="go">b&#39;4Vx\x00&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">c_buffer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xde</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">c_buffer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xad\xbe</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">c_buffer</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xef\x00\x12</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">c_buffer</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;4Vx&#39;</span><span class="p">)</span>  <span class="c1"># length is 3</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
+<span class="go">b&#39;\xde\xad\xbe\xef\x00\x124Vx\x00&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="float.html" class="btn btn-neutral float-right" title="hbutils.binary.float" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="bool.html" class="btn btn-neutral float-left" title="hbutils.binary.bool" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/size
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../v0.0.1/index.html">v0.0.1</a></dd>
+                        <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
+                        <dd><a href="../../../../v0.1.1/index.html">v0.1.1</a></dd>
+                        <dd><a href="../../../../v0.2.0/index.html">v0.2.0</a></dd>
+                        <dd><a href="../../../../v0.3.0/index.html">v0.3.0</a></dd>
+                        <dd><a href="../../../../v0.3.1/index.html">v0.3.1</a></dd>
+                        <dd><a href="../../../../v0.3.2/index.html">v0.3.2</a></dd>
+                        <dd><a href="../../../../v0.3.3/index.html">v0.3.3</a></dd>
+                        <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
+                        <dd><a href="../../../../v0.4.1/index.html">v0.4.1</a></dd>
+                        <dd><a href="../../../../v0.4.2/index.html">v0.4.2</a></dd>
+                        <dd><a href="../../../../v0.4.3/index.html">v0.4.3</a></dd>
+                        <dd><a href="../../../../v0.4.4/index.html">v0.4.4</a></dd>
+                        <dd><a href="../../../../v0.4.5/index.html">v0.4.5</a></dd>
+                        <dd><a href="../../../../v0.4.6/index.html">v0.4.6</a></dd>
+                        <dd><a href="../../../../v0.4.7/index.html">v0.4.7</a></dd>
+                        <dd><a href="../../../../v0.5.0/index.html">v0.5.0</a></dd>
+                        <dd><a href="../../../../v0.5.1/index.html">v0.5.1</a></dd>
+                        <dd><a href="../../../../v0.5.2/index.html">v0.5.2</a></dd>
+                        <dd><a href="../../../../v0.6.0/api_doc/binary/buffer.html">v0.6.0</a></dd>
+                        <dd><a href="../../../../v0.6.1/api_doc/binary/buffer.html">v0.6.1</a></dd>
+                        <dd><a href="../../../../v0.6.10/api_doc/binary/buffer.html">v0.6.10</a></dd>
+                        <dd><a href="../../../../v0.6.11/api_doc/binary/buffer.html">v0.6.11</a></dd>
+                        <dd><a href="../../../../v0.6.2/api_doc/binary/buffer.html">v0.6.2</a></dd>
+                        <dd><a href="../../../../v0.6.3/api_doc/binary/buffer.html">v0.6.3</a></dd>
+                        <dd><a href="../../../../v0.6.4/api_doc/binary/buffer.html">v0.6.4</a></dd>
+                        <dd><a href="../../../../v0.6.5/api_doc/binary/buffer.html">v0.6.5</a></dd>
+                        <dd><a href="../../../../v0.6.6/api_doc/binary/buffer.html">v0.6.6</a></dd>
+                        <dd><a href="../../../../v0.6.7/api_doc/binary/buffer.html">v0.6.7</a></dd>
+                        <dd><a href="../../../../v0.6.8/api_doc/binary/buffer.html">v0.6.8</a></dd>
+                        <dd><a href="../../../../v0.6.9/api_doc/binary/buffer.html">v0.6.9</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="buffer.html">dev/size</a></dd>
+                        <dd><a href="../../../dependency/api_doc/binary/buffer.html">dev/dependency</a></dd>
+                        <dd><a href="../../../../main/api_doc/binary/buffer.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
