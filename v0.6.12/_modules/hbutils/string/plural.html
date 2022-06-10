@@ -1,0 +1,397 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hbutils.string.plural &mdash; hbutils 0.6.12 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> hbutils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6.12
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/installation/index.html">Installation</a></li>
+</ul>
+<p><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/algorithm/index.html">hbutils.algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/binary/index.html">hbutils.binary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/collection/index.html">hbutils.collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/color/index.html">hbutils.color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/config/index.html">hbutils.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/design/index.html">hbutils.design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/expression/index.html">hbutils.expression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/file/index.html">hbutils.file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/model/index.html">hbutils.model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/random/index.html">hbutils.random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/reflection/index.html">hbutils.reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/scale/index.html">hbutils.scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/string/index.html">hbutils.string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/system/index.html">hbutils.system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/testing/index.html">hbutils.testing</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">hbutils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>hbutils.string.plural</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <h1>Source code for hbutils.string.plural</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Overview:</span>
+<span class="sd">    Useful utilities for pluralize your words.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="kn">import</span> <span class="nn">inflect</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;plural_form&#39;</span><span class="p">,</span> <span class="s1">&#39;plural_word&#39;</span><span class="p">,</span> <span class="s1">&#39;singular_form&#39;</span><span class="p">]</span>
+
+
+<span class="nd">@lru_cache</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">_default_engine</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">inflect</span><span class="o">.</span><span class="n">engine</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="plural_form"><a class="viewcode-back" href="../../../api_doc/string/plural.html#hbutils.string.plural.plural_form">[docs]</a><span class="k">def</span> <span class="nf">plural_form</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">engine</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">inflect</span><span class="o">.</span><span class="n">engine</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Get the pluralized form of the given ``word``.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        - word (:obj:`str`): The given word to be pluralized.</span>
+<span class="sd">        - engine (:obj:`Optional[inflect.engine]`): Engine to be used, \</span>
+<span class="sd">            default is ``None`` which means just use the default one.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - pluralized (:obj:`str`): Pluralized word.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from hbutils.string import plural_form</span>
+<span class="sd">        &gt;&gt;&gt; plural_form(&#39;it&#39;)</span>
+<span class="sd">        &#39;they&#39;</span>
+<span class="sd">        &gt;&gt;&gt; plural_form(&#39;word&#39;)</span>
+<span class="sd">        &#39;words&#39;</span>
+<span class="sd">        &gt;&gt;&gt; plural_form(&#39;woman&#39;)</span>
+<span class="sd">        &#39;women&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">engine</span> <span class="o">=</span> <span class="n">engine</span> <span class="ow">or</span> <span class="n">_default_engine</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">engine</span><span class="o">.</span><span class="n">plural</span><span class="p">(</span><span class="n">word</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="singular_form"><a class="viewcode-back" href="../../../api_doc/string/plural.html#hbutils.string.plural.singular_form">[docs]</a><span class="k">def</span> <span class="nf">singular_form</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">engine</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">inflect</span><span class="o">.</span><span class="n">engine</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Get the singular form of the given ``word``.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        - word (:obj:`str`): The given word to be singularized.</span>
+<span class="sd">        - engine (:obj:`Optional[inflect.engine]`): Engine to be used, \</span>
+<span class="sd">            default is ``None`` which means just use the default one.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - single (:obj:`str`): Singular form of word.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from hbutils.string import singular_form</span>
+<span class="sd">        &gt;&gt;&gt; singular_form(&#39;they&#39;)</span>
+<span class="sd">        &#39;it&#39;</span>
+<span class="sd">        &gt;&gt;&gt; singular_form(&#39;them&#39;)</span>
+<span class="sd">        &#39;it&#39;</span>
+<span class="sd">        &gt;&gt;&gt; singular_form(&#39;it&#39;)</span>
+<span class="sd">        &#39;it&#39;</span>
+<span class="sd">        &gt;&gt;&gt; singular_form(&#39;women&#39;)</span>
+<span class="sd">        &#39;woman&#39;</span>
+<span class="sd">        &gt;&gt;&gt; singular_form(&#39;words&#39;)</span>
+<span class="sd">        &#39;word&#39;</span>
+<span class="sd">        &gt;&gt;&gt; singular_form(&#39;themselves&#39;)</span>
+<span class="sd">        &#39;itself&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">engine</span> <span class="o">=</span> <span class="n">engine</span> <span class="ow">or</span> <span class="n">_default_engine</span><span class="p">()</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">singular_noun</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="p">:</span>  <span class="c1"># already a singular form</span>
+        <span class="k">return</span> <span class="n">word</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="plural_word"><a class="viewcode-back" href="../../../api_doc/string/plural.html#hbutils.string.plural.plural_word">[docs]</a><span class="k">def</span> <span class="nf">plural_word</span><span class="p">(</span><span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                <span class="n">num_text</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">num_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">engine</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">inflect</span><span class="o">.</span><span class="n">engine</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Get plural form of the whole word, with the number before the word.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        - count (:obj:`int`): Count of the word, should be a non-negative integer.</span>
+<span class="sd">        - word (:obj:`str`): Word to be pluralized.</span>
+<span class="sd">        - num_text (:obj:`bool`): Show the number as text format or not, \</span>
+<span class="sd">            default is ``False`` which means just use the arabic number for all the cases.</span>
+<span class="sd">        - num_threshold (:obj:`Optional[int]`): Threshold value when the number is shown as text, \</span>
+<span class="sd">            default is ``None`` which means just use english text format for all the cases.</span>
+<span class="sd">        - engine (:obj:`Optional[inflect.engine]`): Engine to be used, \</span>
+<span class="sd">            default is ``None`` which means just use the default one.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - plural_word (:obj:`str`): Pluralized word, with the number.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from hbutils.string import plural_word</span>
+<span class="sd">        &gt;&gt;&gt; plural_word(0, &#39;word&#39;)</span>
+<span class="sd">        &#39;0 words&#39;</span>
+<span class="sd">        &gt;&gt;&gt; plural_word(1, &#39;word&#39;)</span>
+<span class="sd">        &#39;1 word&#39;</span>
+<span class="sd">        &gt;&gt;&gt; plural_word(2, &#39;word&#39;)</span>
+<span class="sd">        &#39;2 words&#39;</span>
+<span class="sd">        &gt;&gt;&gt; plural_word(20, &#39;word&#39;)</span>
+<span class="sd">        &#39;20 words&#39;</span>
+<span class="sd">        &gt;&gt;&gt; plural_word(233, &#39;word&#39;)</span>
+<span class="sd">        &#39;233 words&#39;</span>
+<span class="sd">        &gt;&gt;&gt; plural_word(20, &#39;word&#39;, num_text=True)</span>
+<span class="sd">        &#39;twenty words&#39;</span>
+<span class="sd">        &gt;&gt;&gt; plural_word(233, &#39;word&#39;, num_text=True)</span>
+<span class="sd">        &#39;two hundred and thirty-three words&#39;</span>
+<span class="sd">        &gt;&gt;&gt; plural_word(20, &#39;word&#39;, num_text=True, num_threshold=99)</span>
+<span class="sd">        &#39;twenty words&#39;</span>
+<span class="sd">        &gt;&gt;&gt; plural_word(233, &#39;word&#39;, num_text=True, num_threshold=99)</span>
+<span class="sd">        &#39;233 words&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">engine</span> <span class="o">=</span> <span class="n">engine</span> <span class="ow">or</span> <span class="n">_default_engine</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">num_text</span><span class="p">:</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">number_to_words</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">num_threshold</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">num_threshold</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="ne">UserWarning</span><span class="p">(</span><span class="s1">&#39;Text-formatted number is not enabled, &#39;</span>
+                                      <span class="s1">&#39;so the num_threshold argument will be ignored.&#39;</span><span class="p">),</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+
+    <span class="n">single_word</span> <span class="o">=</span> <span class="n">singular_form</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
+    <span class="n">final_word</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">plural</span><span class="p">(</span><span class="n">single_word</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">number</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">final_word</span><span class="si">}</span><span class="s1">&#39;</span></div>
+</pre></div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: v0.6.12
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../v0.0.1/index.html">v0.0.1</a></dd>
+                        <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
+                        <dd><a href="../../../../v0.1.1/index.html">v0.1.1</a></dd>
+                        <dd><a href="../../../../v0.2.0/index.html">v0.2.0</a></dd>
+                        <dd><a href="../../../../v0.3.0/index.html">v0.3.0</a></dd>
+                        <dd><a href="../../../../v0.3.1/index.html">v0.3.1</a></dd>
+                        <dd><a href="../../../../v0.3.2/index.html">v0.3.2</a></dd>
+                        <dd><a href="../../../../v0.3.3/index.html">v0.3.3</a></dd>
+                        <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
+                        <dd><a href="../../../../v0.4.1/index.html">v0.4.1</a></dd>
+                        <dd><a href="../../../../v0.4.2/index.html">v0.4.2</a></dd>
+                        <dd><a href="../../../../v0.4.3/index.html">v0.4.3</a></dd>
+                        <dd><a href="../../../../v0.4.4/index.html">v0.4.4</a></dd>
+                        <dd><a href="../../../../v0.4.5/index.html">v0.4.5</a></dd>
+                        <dd><a href="../../../../v0.4.6/index.html">v0.4.6</a></dd>
+                        <dd><a href="../../../../v0.4.7/index.html">v0.4.7</a></dd>
+                        <dd><a href="../../../../v0.5.0/index.html">v0.5.0</a></dd>
+                        <dd><a href="../../../../v0.5.1/index.html">v0.5.1</a></dd>
+                        <dd><a href="../../../../v0.5.2/index.html">v0.5.2</a></dd>
+                        <dd><a href="../../../../v0.6.0/index.html">v0.6.0</a></dd>
+                        <dd><a href="../../../../v0.6.1/index.html">v0.6.1</a></dd>
+                        <dd><a href="../../../../v0.6.10/index.html">v0.6.10</a></dd>
+                        <dd><a href="../../../../v0.6.11/index.html">v0.6.11</a></dd>
+                        <dd><a href="plural.html">v0.6.12</a></dd>
+                        <dd><a href="../../../../v0.6.2/index.html">v0.6.2</a></dd>
+                        <dd><a href="../../../../v0.6.3/index.html">v0.6.3</a></dd>
+                        <dd><a href="../../../../v0.6.4/index.html">v0.6.4</a></dd>
+                        <dd><a href="../../../../v0.6.5/index.html">v0.6.5</a></dd>
+                        <dd><a href="../../../../v0.6.6/index.html">v0.6.6</a></dd>
+                        <dd><a href="../../../../v0.6.7/index.html">v0.6.7</a></dd>
+                        <dd><a href="../../../../v0.6.8/index.html">v0.6.8</a></dd>
+                        <dd><a href="../../../../v0.6.9/index.html">v0.6.9</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="../../../../dev/dependency/index.html">dev/dependency</a></dd>
+                        <dd><a href="../../../../main/index.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
