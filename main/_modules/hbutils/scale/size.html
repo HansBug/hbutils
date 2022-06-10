@@ -176,12 +176,17 @@
 <span class="sd">    Useful utilities for memory size units, such as MB/KB/B.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">IntEnum</span><span class="p">,</span> <span class="n">unique</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
 
-<span class="kn">from</span> <span class="nn">bitmath</span> <span class="kn">import</span> <span class="n">Byte</span>
+<span class="kn">from</span> <span class="nn">bitmath</span> <span class="kn">import</span> <span class="n">Byte</span><span class="p">,</span> <span class="n">NIST</span><span class="p">,</span> <span class="n">SI</span>
 <span class="kn">from</span> <span class="nn">bitmath</span> <span class="kn">import</span> <span class="n">parse_string_unsafe</span> <span class="k">as</span> <span class="n">parse_bytes</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;size_to_bytes&#39;</span><span class="p">,</span> <span class="s1">&#39;size_to_bytes_str&#39;</span><span class="p">]</span>
+<span class="kn">from</span> <span class="nn">..model</span> <span class="kn">import</span> <span class="n">int_enum_loads</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;size_to_bytes&#39;</span><span class="p">,</span> <span class="s1">&#39;size_to_bytes_str&#39;</span>
+<span class="p">]</span>
 
 <span class="n">_EPS</span> <span class="o">=</span> <span class="mf">1e-10</span>
 
@@ -246,13 +251,20 @@
     <span class="k">return</span> <span class="n">_base_size_to_bytes</span><span class="p">(</span><span class="n">size</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="size_to_bytes_str"><a class="viewcode-back" href="../../../api_doc/scale/size.html#hbutils.scale.size.size_to_bytes_str">[docs]</a><span class="k">def</span> <span class="nf">size_to_bytes_str</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="n">_SIZE_TYPING</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="nd">@int_enum_loads</span><span class="p">(</span><span class="n">name_preprocess</span><span class="o">=</span><span class="nb">str</span><span class="o">.</span><span class="n">upper</span><span class="p">)</span>
+<span class="nd">@unique</span>
+<span class="k">class</span> <span class="nc">SizeSystem</span><span class="p">(</span><span class="n">IntEnum</span><span class="p">):</span>
+    <span class="n">NIST</span> <span class="o">=</span> <span class="n">NIST</span>
+    <span class="n">SI</span> <span class="o">=</span> <span class="n">SI</span>
+
+
+<div class="viewcode-block" id="size_to_bytes_str"><a class="viewcode-back" href="../../../api_doc/scale/size.html#hbutils.scale.size.size_to_bytes_str">[docs]</a><span class="k">def</span> <span class="nf">size_to_bytes_str</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="n">_SIZE_TYPING</span><span class="p">,</span> <span class="n">precision</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">system</span><span class="o">=</span><span class="s1">&#39;nist&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Turn any types of memory size to string value in the best unit.</span>
 
-<span class="sd">    Arguments:</span>
-<span class="sd">        - size (:obj:`Union[int, float, str, Byte]`): Any types of size information.</span>
+<span class="sd">    :param size: Any types of size information.</span>
+<span class="sd">    :param precision: Precsion for float values. Default is ``None`` which means just show the original float number.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        - bytes (:obj:`int`): String formatted size value in the best unit.</span>
@@ -268,8 +280,21 @@
 <span class="sd">        &gt;&gt;&gt; size_to_bytes_str(&#39;3.54 GiB&#39;)</span>
 <span class="sd">        __main__:1: UserWarning: Float detected in variable in bytes (3801046056.96), rounded integer value (3801046057) is used.</span>
 <span class="sd">        &#39;3.540000000037253 GiB&#39;</span>
+<span class="sd">        &gt;&gt;&gt; size_to_bytes_str(&#39;3.54 GB&#39;, precision=0)  # use precision</span>
+<span class="sd">        &#39;3 GiB&#39;</span>
+<span class="sd">        &gt;&gt;&gt; size_to_bytes_str(&#39;3.54 GB&#39;, precision=3)</span>
+<span class="sd">        &#39;3.297 GiB&#39;</span>
+<span class="sd">        &gt;&gt;&gt; size_to_bytes_str(&#39;3.54 GB&#39;, system=&#39;si&#39;)  # use GB/MB/KB instead of GiB/MiB/KiB</span>
+<span class="sd">        &#39;3.54 GB&#39;</span>
+<span class="sd">        &gt;&gt;&gt; size_to_bytes_str(&#39;3.54 GB&#39;, precision=3, system=&#39;si&#39;)</span>
+<span class="sd">        &#39;3.540 GB&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">Byte</span><span class="p">(</span><span class="n">_base_size_to_bytes</span><span class="p">(</span><span class="n">size</span><span class="p">))</span><span class="o">.</span><span class="n">best_prefix</span><span class="p">())</span></div>
+    <span class="n">system</span> <span class="o">=</span> <span class="n">SizeSystem</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">system</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">precision</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">format_str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{value}</span><span class="s2"> </span><span class="si">{unit}</span><span class="s2">&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">format_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="se">{{</span><span class="s2">value:.</span><span class="si">{</span><span class="n">precision</span><span class="si">}</span><span class="s2">f</span><span class="se">}}</span><span class="s2"> </span><span class="se">{{</span><span class="s2">unit</span><span class="se">}}</span><span class="s2">&quot;</span>
+    <span class="k">return</span> <span class="n">Byte</span><span class="p">(</span><span class="n">_base_size_to_bytes</span><span class="p">(</span><span class="n">size</span><span class="p">))</span><span class="o">.</span><span class="n">best_prefix</span><span class="p">(</span><span class="n">system</span><span class="o">.</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">format_str</span><span class="p">)</span></div>
 </pre></div>
 
 
@@ -341,9 +366,8 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../dev/size/index.html">dev/size</a></dd>
-                        <dd><a href="../../../../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="size.html">main</a></dd>
+                        <dd><a href="../../../../dev/dependency/index.html">dev/dependency</a></dd>
                 </dl>
         </div>
     </div>
