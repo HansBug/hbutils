@@ -8,4 +8,5 @@ hbutils.algorithm
 .. toctree::
     :maxdepth: 3
 
+    linear
     topological

@@ -18,3 +18,10 @@ rnd_colors
 .. autofunction:: rnd_colors
 
 
+linear_gradient
+---------------------------------------------------
+
+.. autofunction:: linear_gradient
+
+
+
