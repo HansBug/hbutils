@@ -101,6 +101,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.color.utils</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#visual-distance">visual_distance</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#rnd-colors">rnd_colors</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#linear-gradient">linear_gradient</a></li>
 </ul>
 </li>
 </ul>
@@ -195,7 +196,7 @@
 <h2>visual_distance<a class="headerlink" href="#visual-distance" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="hbutils.color.utils.visual_distance">
-<code class="sig-prename descclassname">hbutils.color.utils.</code><code class="sig-name descname">visual_distance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">c1</span><span class="p">:</span> <span class="n"><a class="reference internal" href="model.html#hbutils.color.model.Color" title="hbutils.color.model.Color">hbutils.color.model.Color</a></span></em>, <em class="sig-param"><span class="n">c2</span><span class="p">:</span> <span class="n"><a class="reference internal" href="model.html#hbutils.color.model.Color" title="hbutils.color.model.Color">hbutils.color.model.Color</a></span></em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="../../_modules/hbutils/color/utils.html#visual_distance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.color.utils.visual_distance" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">hbutils.color.utils.</code><code class="sig-name descname">visual_distance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">c1</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="model.html#hbutils.color.model.Color" title="hbutils.color.model.Color">hbutils.color.model.Color</a><span class="p">, </span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">c2</span><span class="p">:</span> <span class="n">Union<span class="p">[</span><a class="reference internal" href="model.html#hbutils.color.model.Color" title="hbutils.color.model.Color">hbutils.color.model.Color</a><span class="p">, </span>str<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; float<a class="reference internal" href="../../_modules/hbutils/color/utils.html#visual_distance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.color.utils.visual_distance" title="Permalink to this definition">¶</a></dt>
 <dd><dl>
 <dt>Overview:</dt><dd><p>Get distance of 2 colors.</p>
 </dd>
@@ -210,13 +211,13 @@
 </dd>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.color</span> <span class="kn">import</span> <span class="n">visual_distance</span><span class="p">,</span> <span class="n">Color</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">visual_distance</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">Color</span><span class="o">.</span><span class="n">from_hex</span><span class="p">(</span><span class="s1">&#39;#ff0000&#39;</span><span class="p">),</span>
-<span class="gp">... </span>    <span class="n">Color</span><span class="o">.</span><span class="n">from_hex</span><span class="p">(</span><span class="s1">&#39;#00ff00&#39;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="s1">&#39;#ff0000&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;#00ff00&#39;</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="go">2.5495097567963922</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">visual_distance</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">Color</span><span class="o">.</span><span class="n">from_hex</span><span class="p">(</span><span class="s1">&#39;#778800&#39;</span><span class="p">),</span>
-<span class="gp">... </span>    <span class="n">Color</span><span class="o">.</span><span class="n">from_hex</span><span class="p">(</span><span class="s1">&#39;#887700&#39;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="s1">&#39;#778800&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;#887700&#39;</span>
 <span class="gp">... </span><span class="p">)</span>
 <span class="go">0.16996731711975946</span>
 </pre></div>
@@ -285,6 +286,79 @@
 <span class="go">#c09efa</span>
 <span class="go">#fabe9e</span>
 <span class="go">#9efaca</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="linear-gradient">
+<h2>linear_gradient<a class="headerlink" href="#linear-gradient" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.color.utils.linear_gradient">
+<code class="sig-prename descclassname">hbutils.color.utils.</code><code class="sig-name descname">linear_gradient</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">colors</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>Sequence<span class="p">[</span>Union<span class="p">[</span><a class="reference internal" href="model.html#hbutils.color.model.Color" title="hbutils.color.model.Color">hbutils.color.model.Color</a><span class="p">, </span>str<span class="p">]</span><span class="p">]</span><span class="p">, </span>Sequence<span class="p">[</span>Tuple<span class="p">[</span>float<span class="p">, </span>Union<span class="p">[</span><a class="reference internal" href="model.html#hbutils.color.model.Color" title="hbutils.color.model.Color">hbutils.color.model.Color</a><span class="p">, </span>str<span class="p">]</span><span class="p">]</span><span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; Callable<span class="p">[</span><span class="p">[</span>float<span class="p">]</span><span class="p">, </span><a class="reference internal" href="model.html#hbutils.color.model.Color" title="hbutils.color.model.Color">hbutils.color.model.Color</a><span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/color/utils.html#linear_gradient"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.color.utils.linear_gradient" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Linear gradient of the colors.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>colors</strong> – Colors to gradient.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A mapping function for gradient.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple Linear Gradientation</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.color</span> <span class="kn">import</span> <span class="n">linear_gradient</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">linear_gradient</span><span class="p">((</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;yellow&#39;</span><span class="p">,</span> <span class="s1">&#39;lime&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">&lt;Color red&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="go">&lt;Color #ff8000&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">&lt;Color #ffaa00&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="go">&lt;Color yellow&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">&lt;Color #aaff00&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span>
+<span class="go">&lt;Color #80ff00&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">&lt;Color lime&gt;</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Complex Linear Gradientation</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">f</span> <span class="o">=</span> <span class="n">linear_gradient</span><span class="p">(((</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">0.7</span><span class="p">,</span> <span class="s1">&#39;#ffff0044&#39;</span><span class="p">),</span> <span class="p">(</span><span class="mf">1.1</span><span class="p">,</span> <span class="s1">&#39;lime&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="o">-</span><span class="mf">0.2</span><span class="p">)</span>
+<span class="go">&lt;Color red, alpha: 1.000&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="go">&lt;Color #ff3900, alpha: 0.837&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mf">0.25</span><span class="p">)</span>
+<span class="go">&lt;Color #ff8000, alpha: 0.633&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">&lt;Color #ff9700, alpha: 0.565&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="go">&lt;Color #ffc600, alpha: 0.430&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mi">2</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>
+<span class="go">&lt;Color #fff600, alpha: 0.294&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mf">0.7</span><span class="p">)</span>
+<span class="go">&lt;Color yellow, alpha: 0.267&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mf">0.75</span><span class="p">)</span>
+<span class="go">&lt;Color #dfff00, alpha: 0.358&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="go">&lt;Color #bfff00, alpha: 0.450&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">&lt;Color #40ff00, alpha: 0.817&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">f</span><span class="p">(</span><span class="mf">1.1</span><span class="p">)</span>
+<span class="go">&lt;Color lime, alpha: 1.000&gt;</span>
 </pre></div>
 </div>
 </dd>
@@ -374,9 +448,8 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/color/api_doc/color/utils.html">dev/color</a></dd>
-                        <dd><a href="../../../dev/dependency/api_doc/color/utils.html">dev/dependency</a></dd>
                         <dd><a href="utils.html">main</a></dd>
+                        <dd><a href="../../../dev/dependency/api_doc/color/utils.html">dev/dependency</a></dd>
                 </dl>
         </div>
     </div>
