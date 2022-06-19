@@ -116,6 +116,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#vpip">vpip</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#os">OS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#impl">Impl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cmdv">cmdv</a></li>
 </ul>
 </li>
 </ul>
@@ -411,6 +412,41 @@ See <a class="reference external" href="https://docs.python.org/3/library/platfo
 </dd></dl>
 
 </section>
+<section id="cmdv">
+<h2>cmdv<a class="headerlink" href="#cmdv" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.testing.requires.cmdv">
+<code class="sig-prename descclassname">hbutils.testing.requires.</code><code class="sig-name descname">cmdv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">execfile</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../_modules/hbutils/testing/requires/cmd.html#cmdv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.requires.cmdv" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Check if the given command is exist in this environment, like the <code class="docutils literal notranslate"><span class="pre">command</span> <span class="pre">-v</span> <span class="pre">xxx</span></code> command in Linux.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>execfile</strong> – Executable file, such as <code class="docutils literal notranslate"><span class="pre">python</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>This executable file is exist or not.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">cmdv</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cmdv</span><span class="p">(</span><span class="s1">&#39;apt-get&#39;</span><span class="p">)</span>  <span class="c1"># should exist on Ubuntu</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cmdv</span><span class="p">(</span><span class="s1">&#39;bash&#39;</span><span class="p">)</span>  <span class="c1"># should exist on Linux</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cmdv</span><span class="p">(</span><span class="s1">&#39;cmd&#39;</span><span class="p">)</span>  <span class="c1"># should exist on Windows</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cmdv</span><span class="p">(</span><span class="s1">&#39;not_installed&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -491,9 +527,8 @@ See <a class="reference external" href="https://docs.python.org/3/library/platfo
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/where/api_doc/testing/requires.html">dev/where</a></dd>
-                        <dd><a href="../../../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="requires.html">main</a></dd>
+                        <dd><a href="../../../dev/dependency/index.html">dev/dependency</a></dd>
                 </dl>
         </div>
     </div>

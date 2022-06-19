@@ -114,6 +114,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#is-windows">is_windows</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#is-darwin">is_darwin</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#is-macos">is_macos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#which">which</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#where">where</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="python.html">hbutils.system.python</a></li>
@@ -266,6 +268,72 @@
 </dd></dl>
 
 </section>
+<section id="which">
+<h2>which<a class="headerlink" href="#which" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.os.which">
+<code class="sig-prename descclassname">hbutils.system.os.</code><code class="sig-name descname">which</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">execfile</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>str<span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/system/os/executable.html#which"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.os.which" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Returns first matching file path, which is the one when we operate in terminal.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>execfile</strong> – Executable file to locate (such as <code class="docutils literal notranslate"><span class="pre">python</span></code>).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Absolute path fo the executable file.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">which</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">which</span><span class="p">(</span><span class="s1">&#39;apt-get&#39;</span><span class="p">)</span>
+<span class="go">&#39;/usr/bin/apt-get&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">which</span><span class="p">(</span><span class="s1">&#39;bash&#39;</span><span class="p">)</span>
+<span class="go">&#39;/usr/bin/bash&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">which</span><span class="p">(</span><span class="s1">&#39;not_installed&#39;</span><span class="p">)</span>
+<span class="go">None</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="where">
+<h2>where<a class="headerlink" href="#where" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.os.where">
+<code class="sig-prename descclassname">hbutils.system.os.</code><code class="sig-name descname">where</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">execfile</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>str<span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/system/os/executable.html#where"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.os.where" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Returns all matching file paths.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>execfile</strong> – Executable file to locate (such as <code class="docutils literal notranslate"><span class="pre">python</span></code>).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The list of absolute paths of the executable files.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">where</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">where</span><span class="p">(</span><span class="s1">&#39;apt-get&#39;</span><span class="p">)</span>
+<span class="go">[&#39;/usr/bin/apt-get&#39;, &#39;/bin/apt-get&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">where</span><span class="p">(</span><span class="s1">&#39;bash&#39;</span><span class="p">)</span>
+<span class="go">[&#39;/usr/bin/bash&#39;, &#39;/bin/bash&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">where</span><span class="p">(</span><span class="s1">&#39;not_installed&#39;</span><span class="p">)</span>
+<span class="go">[]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -348,9 +416,8 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/where/api_doc/system/os.html">dev/where</a></dd>
-                        <dd><a href="../../../dev/dependency/api_doc/system/os.html">dev/dependency</a></dd>
                         <dd><a href="os.html">main</a></dd>
+                        <dd><a href="../../../dev/dependency/api_doc/system/os.html">dev/dependency</a></dd>
                 </dl>
         </div>
     </div>
