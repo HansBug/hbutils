@@ -33,4 +33,9 @@ Impl
     :members: cpython, pypy, jython, iron_python
 
 
+cmdv
+----------------------
+
+.. autofunction:: cmdv
+
 
