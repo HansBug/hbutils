@@ -30,4 +30,16 @@ is_macos
 .. autodata:: is_macos
 
 
+which
+---------------------
+
+.. autofunction:: which
+
+
+where
+---------------------
+
+.. autofunction:: where
+
+
 
