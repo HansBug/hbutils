@@ -26,6 +26,7 @@ Overview
     api_doc/collection/index
     api_doc/color/index
     api_doc/config/index
+    api_doc/dependency/index
     api_doc/design/index
     api_doc/encoding/index
     api_doc/expression/index
