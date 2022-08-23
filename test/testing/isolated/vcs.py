@@ -3,6 +3,8 @@ from pip._internal.utils.misc import hide_url
 from pip._internal.vcs import vcs
 from pip._internal.vcs.versioncontrol import VersionControl
 
+from hbutils.testing import vpython
+
 
 def _get_vcs_backend(url: str) -> VersionControl:
     return vcs.get_backend_for_scheme(Link(url).scheme)
@@ -41,5 +43,8 @@ def retrieve_from_vcs(url: str, dstpath: str, verbosity: int = 1):
         raise InvalidVCSURL(url)
 
     vcs_backend = _get_vcs_backend(url)
-    vcs_backend.obtain(dstpath, hide_url(url), verbosity)
+    if vpython >= '3.7':
+        vcs_backend.obtain(dstpath, hide_url(url), verbosity)
+    else:
+        vcs_backend.obtain(dstpath, hide_url(url))
     return dstpath

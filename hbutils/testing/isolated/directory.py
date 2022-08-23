@@ -133,7 +133,7 @@ def isolated_directory(mapping: Optional[Dict[str, str]] = None) -> ContextManag
 
     """
     _original_path = os.path.abspath(os.curdir)
-    with tempfile.TemporaryDirectory() as dirname:
+    with TemporaryDirectory() as dirname:
         for dst, src in (mapping or {}).items():
             dst_position = os.path.join(dirname, dst)
             os.makedirs(os.path.dirname(dst_position), exist_ok=True)
