@@ -1,10 +1,11 @@
 import os.path
 import pathlib
+import unittest
 from textwrap import dedent
 
 import pytest
 
-from hbutils.testing import isolated_directory
+from hbutils.testing import isolated_directory, vpython
 from .vcs import retrieve_from_vcs
 from ...testings import GITHUB_HOST
 
@@ -55,6 +56,7 @@ class TestLoggingIsolatedDirectory:
             assert pathlib.Path('1/3/ts/__init__.py').read_text() == testing_init
             assert os.listdir('1/3/ts') == testing_dirs
 
+    @unittest.skipUnless(vpython >= '3.7', 'python3.7+ only')
     def test_isolated_directory_example_retrieve_from_vcs(self):
         with isolated_directory():
             retrieve_from_vcs(f'git+https://{GITHUB_HOST}/igm4ai/template-simple.git', 'simple')
