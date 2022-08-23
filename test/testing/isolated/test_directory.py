@@ -5,6 +5,8 @@ from textwrap import dedent
 import pytest
 
 from hbutils.testing import isolated_directory
+from .vcs import retrieve_from_vcs
+from ...testings import GITHUB_HOST
 
 
 @pytest.mark.unittest
@@ -52,3 +54,8 @@ class TestLoggingIsolatedDirectory:
             assert os.path.exists('1/3/ts')
             assert pathlib.Path('1/3/ts/__init__.py').read_text() == testing_init
             assert os.listdir('1/3/ts') == testing_dirs
+
+    def test_isolated_directory_example_retrieve_from_vcs(self):
+        with isolated_directory():
+            retrieve_from_vcs(f'git+https://{GITHUB_HOST}/igm4ai/template-simple.git', 'simple')
+            assert 'igm.conf' in pathlib.Path('simple/meta.py').read_text()
