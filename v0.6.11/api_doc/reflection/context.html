@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
@@ -237,18 +237,18 @@ For example:</p>
 <p>This class is inherited from <code class="xref py py-class docutils literal notranslate"><span class="pre">collections.abc.Mapping</span></code>.
 Main features of mapping object (such as <code class="docutils literal notranslate"><span class="pre">__getitem__</span></code>, <code class="docutils literal notranslate"><span class="pre">__len__</span></code>, <code class="docutils literal notranslate"><span class="pre">__iter__</span></code>) are supported.
 See <a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections-abstract-base-classes">Collections Abstract Base Classes</a>.</p>
-</div>
+</aside>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>This object should be singleton on thread level.
 It is not recommended constructing manually.</p>
-</div>
+</aside>
 <dl class="py method">
 <dt id="hbutils.reflection.context.ContextVars.__init__">
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/reflection/context.html#ContextVars.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.reflection.context.ContextVars.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructor of <a class="reference internal" href="#hbutils.reflection.context.ContextVars" title="hbutils.reflection.context.ContextVars"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContextVars</span></code></a>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>kwargs</strong> – Initial context values.</p>
 </dd>
 </dl>
@@ -259,14 +259,14 @@ It is not recommended constructing manually.</p>
 <code class="sig-name descname">inherit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">context_</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#hbutils.reflection.context.ContextVars" title="hbutils.reflection.context.ContextVars">hbutils.reflection.context.ContextVars</a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/reflection/context.html#ContextVars.inherit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.reflection.context.ContextVars.inherit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Inherit variables from the given context.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>context</strong> – <a class="reference internal" href="#hbutils.reflection.context.ContextVars" title="hbutils.reflection.context.ContextVars"><code class="xref py py-class docutils literal notranslate"><span class="pre">ContextVars</span></code></a> object to inherit from.</p>
 </dd>
 </dl>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>After <a class="reference internal" href="#hbutils.reflection.context.ContextVars.inherit" title="hbutils.reflection.context.ContextVars.inherit"><code class="xref py py-meth docutils literal notranslate"><span class="pre">inherit()</span></code></a> is used, <strong>the original variables which not present in the given ``context_``             will be removed</strong>. This is different from <a class="reference internal" href="#hbutils.reflection.context.ContextVars.vars" title="hbutils.reflection.context.ContextVars.vars"><code class="xref py py-meth docutils literal notranslate"><span class="pre">vars()</span></code></a>, so attention.</p>
-</div>
+</aside>
 </dd></dl>
 
 <dl class="py method">
@@ -274,7 +274,7 @@ It is not recommended constructing manually.</p>
 <code class="sig-name descname">vars</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/reflection/context.html#ContextVars.vars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.reflection.context.ContextVars.vars" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adding variables into context of <code class="docutils literal notranslate"><span class="pre">with</span></code> block.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>kwargs</strong> – Additional context variables.</p>
 </dd>
 </dl>
@@ -301,7 +301,7 @@ It is not recommended constructing manually.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>See <a class="reference internal" href="#hbutils.reflection.context.context" title="hbutils.reflection.context.context"><code class="xref py py-func docutils literal notranslate"><span class="pre">context()</span></code></a>.</p>
-</div>
+</aside>
 </dd></dl>
 
 </dd></dl>
@@ -317,14 +317,14 @@ It is not recommended constructing manually.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Context object in this thread.</p>
 </dd>
 </dl>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This result is unique on one thread.</p>
-</div>
+</aside>
 </dd></dl>
 
 </section>
@@ -338,7 +338,7 @@ It is not recommended constructing manually.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>func</strong> – Original function to wrap.</p></li>
 <li><p><strong>context</strong> – Context for inheriting. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means <a class="reference internal" href="#hbutils.reflection.context.context" title="hbutils.reflection.context.context"><code class="xref py py-func docutils literal notranslate"><span class="pre">context()</span></code></a>’s result will be used.</p></li>
@@ -372,7 +372,7 @@ And <strong>it is compitable on all platforms</strong>.</p>
 <span class="go">Var detected, its value is 1.</span>
 </pre></div>
 </div>
-</div>
+</aside>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p><a class="reference internal" href="#hbutils.reflection.context.cwrap" title="hbutils.reflection.context.cwrap"><code class="xref py py-func docutils literal notranslate"><span class="pre">cwrap()</span></code></a> <strong>is not compitable on Windows or Python3.8+ on macOS</strong> when creating <strong>new process</strong>.
@@ -412,7 +412,7 @@ For example:</p>
 <span class="go">8</span>
 </pre></div>
 </div>
-</div>
+</aside>
 </dd></dl>
 
 </section>

@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
@@ -245,7 +245,7 @@ See <a class="reference external" href="https://en.wikipedia.org/wiki/Observer_p
 <code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">events</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>Type<span class="p">[</span>enum.Enum<span class="p">]</span><span class="p">, </span>list<span class="p">, </span>tuple<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/design/observer.html#Observable.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.design.observer.Observable.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Constructor of <a class="reference internal" href="#hbutils.design.observer.Observable" title="hbutils.design.observer.Observable"><code class="xref py py-class docutils literal notranslate"><span class="pre">Observable</span></code></a>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>events</strong> – Set of events, can be a list, tuple or an enum class.</p>
 </dd>
 </dl>
@@ -265,7 +265,7 @@ See <a class="reference external" href="https://en.wikipedia.org/wiki/Observer_p
 <span class="go">{&lt;MyIntEnum.A: 1&gt;: {}, &lt;MyIntEnum.B: 2&gt;: {}}</span>
 </pre></div>
 </div>
-</div>
+</aside>
 </dd></dl>
 
 <dl class="py method">
@@ -273,7 +273,7 @@ See <a class="reference external" href="https://en.wikipedia.org/wiki/Observer_p
 <code class="sig-name descname">dispatch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event</span><span class="p">:</span> <span class="n">_EventType</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/design/observer.html#Observable.dispatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.design.observer.Observable.dispatch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dispatch event.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>event</strong> – Event to be dispatched.</p>
 </dd>
 </dl>
@@ -284,7 +284,7 @@ See <a class="reference external" href="https://en.wikipedia.org/wiki/Observer_p
 <code class="sig-name descname">subscribe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event</span><span class="p">:</span> <span class="n">_EventType</span></em>, <em class="sig-param"><span class="n">subscriber</span><span class="p">:</span> <span class="n">_SubscriberType</span></em>, <em class="sig-param"><span class="n">callback</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>_CallbackType<span class="p">, </span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/design/observer.html#Observable.subscribe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.design.observer.Observable.subscribe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Subscribe to the given <code class="docutils literal notranslate"><span class="pre">event</span></code>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>event</strong> – Event to be subscribed.</p></li>
 <li><p><strong>subscriber</strong> – Subscriber of this subscription.</p></li>
@@ -301,7 +301,7 @@ See <a class="reference external" href="https://en.wikipedia.org/wiki/Observer_p
 <span class="gp">&gt;&gt;&gt; </span><span class="n">o</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="n">MyIntEnum</span><span class="o">.</span><span class="n">A</span><span class="p">,</span> <span class="s1">&#39;user4&#39;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="mi">2</span><span class="p">)</span>  <span class="c1"># X</span>
 </pre></div>
 </div>
-</div>
+</aside>
 </dd></dl>
 
 <dl class="py method">
@@ -309,10 +309,10 @@ See <a class="reference external" href="https://en.wikipedia.org/wiki/Observer_p
 <code class="sig-name descname">subscribers</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event</span><span class="p">:</span> <span class="n">_EventType</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>_SubscriberType<span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/design/observer.html#Observable.subscribers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.design.observer.Observable.subscribers" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get subscribers of the given <code class="docutils literal notranslate"><span class="pre">event</span></code>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>event</strong> – Event for querying.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A list of subscribers.</p>
 </dd>
 </dl>
@@ -323,10 +323,10 @@ See <a class="reference external" href="https://en.wikipedia.org/wiki/Observer_p
 <code class="sig-name descname">subscriptions</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event</span><span class="p">:</span> <span class="n">_EventType</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>Tuple<span class="p">[</span>_SubscriberType<span class="p">, </span>_CallbackType<span class="p">]</span><span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/design/observer.html#Observable.subscriptions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.design.observer.Observable.subscriptions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get subscriptions of the given <code class="docutils literal notranslate"><span class="pre">event</span></code>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>event</strong> – Event for querying.</p>
 </dd>
-<dt class="field-even">Returns</dt>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>A list of tuples with subscribers and their callbacks.</p>
 </dd>
 </dl>
@@ -337,7 +337,7 @@ See <a class="reference external" href="https://en.wikipedia.org/wiki/Observer_p
 <code class="sig-name descname">unsubscribe</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">event</span><span class="p">:</span> <span class="n">_EventType</span></em>, <em class="sig-param"><span class="n">subscriber</span><span class="p">:</span> <span class="n">_SubscriberType</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/design/observer.html#Observable.unsubscribe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.design.observer.Observable.unsubscribe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Unsubscribe from the given <code class="docutils literal notranslate"><span class="pre">event</span></code>.</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>event</strong> – Event to be unsubscribed.</p></li>
 <li><p><strong>subscriber</strong> – Subscriber of this unsubscription.</p></li>

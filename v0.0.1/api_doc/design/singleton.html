@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
@@ -207,7 +207,7 @@
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>In native singleton pattern, the constructor is not needed because         only one instance will be created in the whole lifetime. So when         <a class="reference internal" href="#hbutils.design.singleton.SingletonMeta" title="hbutils.design.singleton.SingletonMeta"><code class="xref py py-class docutils literal notranslate"><span class="pre">SingletonMeta</span></code></a> is used as metaclass, please keep the constructor         be non-argument, or just ignore the <code class="docutils literal notranslate"><span class="pre">__init__</span></code> function.</p>
-</div>
+</aside>
 <dl class="py method">
 <dt id="hbutils.design.singleton.SingletonMeta.__call__">
 <code class="sig-name descname">__call__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/design/singleton.html#SingletonMeta.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.design.singleton.SingletonMeta.__call__" title="Permalink to this definition">¶</a></dt>
@@ -246,7 +246,7 @@
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>This is an external case of singleton pattern. It can only contain one argument         (must be positional-supported), which differs from the native singleton case.</p>
-</div>
+</aside>
 <dl class="py method">
 <dt id="hbutils.design.singleton.ValueBasedSingletonMeta.__call__">
 <code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/design/singleton.html#ValueBasedSingletonMeta.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.design.singleton.ValueBasedSingletonMeta.__call__" title="Permalink to this definition">¶</a></dt>
@@ -274,7 +274,7 @@ Can be used when some default value is needed, especially when <cite>None</cite>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><a class="reference internal" href="#hbutils.design.singleton.SingletonMark" title="hbutils.design.singleton.SingletonMark"><code class="xref py py-class docutils literal notranslate"><span class="pre">SingletonMark</span></code></a> is a value-based singleton class, can be used to create an unique         value, especially in the cases which <code class="docutils literal notranslate"><span class="pre">None</span></code> is not suitable for the default value.</p>
-</div>
+</aside>
 <dl class="py method">
 <dt id="hbutils.design.singleton.SingletonMark.__eq__">
 <code class="sig-name descname">__eq__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">other</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/design/singleton.html#SingletonMark.__eq__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.design.singleton.SingletonMark.__eq__" title="Permalink to this definition">¶</a></dt>
