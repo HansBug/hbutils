@@ -28,7 +28,7 @@ Some useful functions and classes in Python infrastructure development.
 You can simply install it with `pip` command line from the official PyPI site.
 
 ```shell
-package install hbutils
+pip install hbutils
 ```
 
 For more information about installation, you can refer
