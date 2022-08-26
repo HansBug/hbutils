@@ -1,9 +1,11 @@
-import tempfile
+import os.path
+import pathlib
 from unittest.mock import patch, MagicMock
 
 import pytest
 
 from hbutils.system import get_localhost_ip, get_hosts
+from hbutils.testing import isolated_directory
 
 HOST_FILE_EXAMPLE = """
 # Kubernetes-managed hosts file.
@@ -22,18 +24,18 @@ fe00::2 ip6-allrouters
 
 @pytest.fixture()
 def fake_hostfile():
-    with tempfile.NamedTemporaryFile() as f:
-        f.write(HOST_FILE_EXAMPLE.encode())
-        f.flush()
+    with isolated_directory():
+        pathlib.Path('hosts').write_text(HOST_FILE_EXAMPLE)
+        hostfile_path = os.path.abspath('hosts')
 
-        with patch('hbutils.system.network.hosts.hostfile', MagicMock(return_value=f.name)):
-            yield f.name
+        with patch('hbutils.system.network.hosts.hostfile', MagicMock(return_value=hostfile_path)):
+            yield hostfile_path
 
 
 @pytest.mark.unittest
 class TestSystemNetworkHosts:
     def test_get_localhost_ip(self):
-        assert get_localhost_ip() == '127.0.0.1'
+        assert get_localhost_ip() in {'127.0.0.1', '::1'}
 
     def test_try_fake_hosts(self, fake_hostfile):
         assert get_hosts() == {
