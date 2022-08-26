@@ -1,0 +1,501 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hbutils.binary.str &mdash; hbutils 0.6.14 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="hbutils.binary.uint" href="uint.html" />
+    <link rel="prev" title="hbutils.binary.int" href="int.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> hbutils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.6.14
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+</ul>
+<p><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">hbutils.algorithm</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">hbutils.binary</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="base.html">hbutils.binary.base</a></li>
+<li class="toctree-l2"><a class="reference internal" href="bool.html">hbutils.binary.bool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="buffer.html">hbutils.binary.buffer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="float.html">hbutils.binary.float</a></li>
+<li class="toctree-l2"><a class="reference internal" href="int.html">hbutils.binary.int</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.binary.str</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#cstringtype">CStringType</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c-str">c_str</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#csizedstringtype">CSizedStringType</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#c-sized-str">c_sized_str</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="uint.html">hbutils.binary.uint</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../collection/index.html">hbutils.collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../color/index.html">hbutils.color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/index.html">hbutils.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/index.html">hbutils.design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../expression/index.html">hbutils.expression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file/index.html">hbutils.file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/index.html">hbutils.model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../random/index.html">hbutils.random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reflection/index.html">hbutils.reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scale/index.html">hbutils.scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../string/index.html">hbutils.string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../system/index.html">hbutils.system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/index.html">hbutils.testing</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">hbutils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">hbutils.binary</a> &raquo;</li>
+        
+      <li>hbutils.binary.str</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_doc/binary/str.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <section id="module-hbutils.binary.str">
+<span id="hbutils-binary-str"></span><h1>hbutils.binary.str<a class="headerlink" href="#module-hbutils.binary.str" title="Permalink to this headline">¶</a></h1>
+<section id="cstringtype">
+<h2>CStringType<a class="headerlink" href="#cstringtype" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.binary.str.CStringType">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.binary.str.</code><code class="sig-name descname">CStringType</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/binary/str.html#CStringType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.str.CStringType" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Simple string type.</p>
+<p>It should end with a single <code class="docutils literal notranslate"><span class="pre">\x00</span></code>, which is quite common in C language.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="hbutils.binary.str.CStringType.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/binary/str.html#CStringType.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.str.CStringType.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of <a class="reference internal" href="#hbutils.binary.str.CStringType" title="hbutils.binary.str.CStringType"><code class="xref py py-class docutils literal notranslate"><span class="pre">CStringType</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>encoding</strong> – Encoding type, default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means auto-detect the encodings.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.binary.str.CStringType.encoding">
+<em class="property">property </em><code class="sig-name descname">encoding</code><a class="headerlink" href="#hbutils.binary.str.CStringType.encoding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encoding type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.binary.str.CStringType.read">
+<code class="sig-name descname">read</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/binary/str.html#CStringType.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.str.CStringType.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read simple string value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file</strong> – Binary file, <code class="docutils literal notranslate"><span class="pre">io.BytesIO</span></code> is supported as well.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.binary.str.CStringType.write">
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span></em>, <em class="sig-param"><span class="n">val</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/binary/str.html#CStringType.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.str.CStringType.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write simple string value to binary IO object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> – Binary file, <code class="docutils literal notranslate"><span class="pre">io.BytesIO</span></code> is supported as well.</p></li>
+<li><p><strong>val</strong> – String to write.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="c-str">
+<h2>c_str<a class="headerlink" href="#c-str" title="Permalink to this headline">¶</a></h2>
+<dl class="py data">
+<dt id="hbutils.binary.str.c_str">
+<code class="sig-prename descclassname">hbutils.binary.str.</code><code class="sig-name descname">c_str</code><em class="property"> = &lt;hbutils.binary.str.CStringType object&gt;</em><a class="headerlink" href="#hbutils.binary.str.c_str" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Reading and writing simple string, ends with a single <code class="docutils literal notranslate"><span class="pre">\x00</span></code>.</p>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">io</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.binary</span> <span class="kn">import</span> <span class="n">c_str</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="sa">b</span><span class="s1">&#39;kdsfjldsjflkdsmgds</span><span class="se">\x00</span><span class="s1">&#39;</span>
+<span class="gp">... </span>        <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xd0\x94\xd0\xbe\xd0\xb1\xd1\x80\xd1\x8b\xd0\xb9</span><span class="s1"> </span><span class="se">\xd0</span><span class="s1">&#39;</span>
+<span class="gp">... </span>        <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xb2\xd0\xb5\xd1\x87\xd0\xb5\xd1\x80\x00</span><span class="s1">&#39;</span>
+<span class="gp">... </span>        <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xa4\xb3\xa4\xf3\xa4\xd0\xa4\xf3\xa4\xcf\x00</span><span class="s1">&#39;</span>
+<span class="gp">... </span>        <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xcd\xed\xc9\xcf\xba\xc3\x00</span><span class="s1">&#39;</span>
+<span class="gp">... </span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_str</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_str</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_str</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_str</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="go">kdsfjldsjflkdsmgds</span>
+<span class="go">Добрый вечер</span>
+<span class="go">こんばんは</span>
+<span class="go">晚上好</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">c_str</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">&quot;kdsfjld&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">c_str</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">&quot;Добрый&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
+<span class="go">b&#39;kdsfjld\x00\xd0\x94\xd0\xbe\xd0\xb1\xd1\x80\xd1\x8b\xd0\xb9\x00&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="csizedstringtype">
+<h2>CSizedStringType<a class="headerlink" href="#csizedstringtype" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.binary.str.CSizedStringType">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.binary.str.</code><code class="sig-name descname">CSizedStringType</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/binary/str.html#CSizedStringType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.str.CSizedStringType" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Sized string type.</p>
+<p>It should have a fixed size, which is defined like <code class="docutils literal notranslate"><span class="pre">char</span> <span class="pre">s[size]</span></code> in C language.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="hbutils.binary.str.CSizedStringType.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/binary/str.html#CSizedStringType.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.str.CSizedStringType.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of <a class="reference internal" href="#hbutils.binary.str.CStringType" title="hbutils.binary.str.CStringType"><code class="xref py py-class docutils literal notranslate"><span class="pre">CStringType</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>size</strong> – Size of the string’s space.</p></li>
+<li><p><strong>encoding</strong> – Encoding type, default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means auto-detect the encodings.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.binary.str.CSizedStringType.encoding">
+<em class="property">property </em><code class="sig-name descname">encoding</code><a class="headerlink" href="#hbutils.binary.str.CSizedStringType.encoding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encoding type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.binary.str.CSizedStringType.read">
+<code class="sig-name descname">read</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/binary/str.html#CSizedStringType.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.str.CSizedStringType.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read sized string value.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file</strong> – Binary file, <code class="docutils literal notranslate"><span class="pre">io.BytesIO</span></code> is supported as well.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.binary.str.CSizedStringType.size">
+<em class="property">property </em><code class="sig-name descname">size</code><a class="headerlink" href="#hbutils.binary.str.CSizedStringType.size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Size of the given type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.binary.str.CSizedStringType.write">
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span></em>, <em class="sig-param"><span class="n">val</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/binary/str.html#CSizedStringType.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.str.CSizedStringType.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write sized string value to binary IO object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> – Binary file, <code class="docutils literal notranslate"><span class="pre">io.BytesIO</span></code> is supported as well.</p></li>
+<li><p><strong>val</strong> – String to write.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="c-sized-str">
+<h2>c_sized_str<a class="headerlink" href="#c-sized-str" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.binary.str.c_sized_str">
+<code class="sig-prename descclassname">hbutils.binary.str.</code><code class="sig-name descname">c_sized_str</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#hbutils.binary.str.CSizedStringType" title="hbutils.binary.str.CSizedStringType">hbutils.binary.str.CSizedStringType</a><a class="reference internal" href="../../_modules/hbutils/binary/str.html#c_sized_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.binary.str.c_sized_str" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Reading and writing sized string, which occupy a fixed space..</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>size</strong> – Size of the string’s space.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">io</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.binary</span> <span class="kn">import</span> <span class="n">c_sized_str</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span>
+<span class="gp">... </span>        <span class="sa">b</span><span class="s1">&#39;kdsfjld</span><span class="se">\x00\x00\x00\x00\x00\x00\x00\x00</span><span class="s1">&#39;</span>
+<span class="gp">... </span>        <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xd0\x94\xd0\xbe\xd0\xb1\xd1\x80\xd1\x8b\xd0\xb9\x00\x00\x00</span><span class="s1">&#39;</span>
+<span class="gp">... </span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_sized_str</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_sized_str</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="go">kdsfjld</span>
+<span class="go">Добрый</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">c_sized_str</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">&quot;kdsfjld&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">c_sized_str</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s2">&quot;Добрый&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
+<span class="go">b&#39;kdsfjld\x00\x00\x00\x00\x00\x00\x00\x00\xd0\x94\xd0\xbe\xd0\xb1\xd1\x80\xd1\x8b\xd0\xb9\x00\x00\x00&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="uint.html" class="btn btn-neutral float-right" title="hbutils.binary.uint" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="int.html" class="btn btn-neutral float-left" title="hbutils.binary.int" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/hosts
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../v0.0.1/index.html">v0.0.1</a></dd>
+                        <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
+                        <dd><a href="../../../../v0.1.1/index.html">v0.1.1</a></dd>
+                        <dd><a href="../../../../v0.2.0/index.html">v0.2.0</a></dd>
+                        <dd><a href="../../../../v0.3.0/index.html">v0.3.0</a></dd>
+                        <dd><a href="../../../../v0.3.1/index.html">v0.3.1</a></dd>
+                        <dd><a href="../../../../v0.3.2/index.html">v0.3.2</a></dd>
+                        <dd><a href="../../../../v0.3.3/index.html">v0.3.3</a></dd>
+                        <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
+                        <dd><a href="../../../../v0.4.1/index.html">v0.4.1</a></dd>
+                        <dd><a href="../../../../v0.4.2/index.html">v0.4.2</a></dd>
+                        <dd><a href="../../../../v0.4.3/index.html">v0.4.3</a></dd>
+                        <dd><a href="../../../../v0.4.4/index.html">v0.4.4</a></dd>
+                        <dd><a href="../../../../v0.4.5/index.html">v0.4.5</a></dd>
+                        <dd><a href="../../../../v0.4.6/index.html">v0.4.6</a></dd>
+                        <dd><a href="../../../../v0.4.7/index.html">v0.4.7</a></dd>
+                        <dd><a href="../../../../v0.5.0/index.html">v0.5.0</a></dd>
+                        <dd><a href="../../../../v0.5.1/index.html">v0.5.1</a></dd>
+                        <dd><a href="../../../../v0.5.2/index.html">v0.5.2</a></dd>
+                        <dd><a href="../../../../v0.6.0/api_doc/binary/str.html">v0.6.0</a></dd>
+                        <dd><a href="../../../../v0.6.1/api_doc/binary/str.html">v0.6.1</a></dd>
+                        <dd><a href="../../../../v0.6.10/api_doc/binary/str.html">v0.6.10</a></dd>
+                        <dd><a href="../../../../v0.6.11/api_doc/binary/str.html">v0.6.11</a></dd>
+                        <dd><a href="../../../../v0.6.12/api_doc/binary/str.html">v0.6.12</a></dd>
+                        <dd><a href="../../../../v0.6.13/api_doc/binary/str.html">v0.6.13</a></dd>
+                        <dd><a href="../../../../v0.6.14/api_doc/binary/str.html">v0.6.14</a></dd>
+                        <dd><a href="../../../../v0.6.2/api_doc/binary/str.html">v0.6.2</a></dd>
+                        <dd><a href="../../../../v0.6.3/api_doc/binary/str.html">v0.6.3</a></dd>
+                        <dd><a href="../../../../v0.6.4/api_doc/binary/str.html">v0.6.4</a></dd>
+                        <dd><a href="../../../../v0.6.5/api_doc/binary/str.html">v0.6.5</a></dd>
+                        <dd><a href="../../../../v0.6.6/api_doc/binary/str.html">v0.6.6</a></dd>
+                        <dd><a href="../../../../v0.6.7/api_doc/binary/str.html">v0.6.7</a></dd>
+                        <dd><a href="../../../../v0.6.8/api_doc/binary/str.html">v0.6.8</a></dd>
+                        <dd><a href="../../../../v0.6.9/api_doc/binary/str.html">v0.6.9</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="str.html">dev/hosts</a></dd>
+                        <dd><a href="../../../dependency/api_doc/binary/str.html">dev/dependency</a></dd>
+                        <dd><a href="../../../../main/api_doc/binary/str.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
