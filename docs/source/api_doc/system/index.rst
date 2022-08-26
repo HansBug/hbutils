@@ -9,6 +9,7 @@ hbutils.system
     :maxdepth: 3
 
     filesystem
+    network
     os
     python
 
