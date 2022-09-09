@@ -26,3 +26,11 @@ AETGGenerator
 .. autoclass:: AETGGenerator
     :members: __init__, values, names, cases, tuple_cases, pairs
 
+
+tmatrix
+---------------------------------
+
+.. autofunction:: tmatrix
+
+
+
