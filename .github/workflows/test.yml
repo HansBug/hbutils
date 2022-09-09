@@ -61,6 +61,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 20
+          submodules: 'recursive'
       - name: Set up system dependences on Linux
         if: ${{ env.OS_NAME == 'Linux' }}
         shell: bash
