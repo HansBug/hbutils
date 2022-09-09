@@ -14,3 +14,4 @@ hbutils.reflection
     func
     imports
     iter
+    module

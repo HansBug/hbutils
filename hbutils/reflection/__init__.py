@@ -8,3 +8,4 @@ from .exception import *
 from .func import *
 from .imports import *
 from .iter import *
+from .module import *
