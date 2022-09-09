@@ -1,4 +1,4 @@
-from typing import Iterator, Mapping, Optional, List
+from typing import Iterator, Mapping, Optional, List, Any
 
 from .base import BaseGenerator, _single_dict_process, _single_to_tuple, _check_keys
 
@@ -8,10 +8,10 @@ class MatrixGenerator(BaseGenerator):
     Full matrix model, all the cases in this matrix will be iterated.
     """
 
-    def __init__(self, values: Mapping[str, object],
+    def __init__(self, values: Mapping[str, Any],
                  names: Optional[List[str]] = None,
-                 includes: Optional[List[Mapping[str, object]]] = None,
-                 excludes: Optional[List[Mapping[str, object]]] = None):
+                 includes: Optional[List[Mapping[str, Any]]] = None,
+                 excludes: Optional[List[Mapping[str, Any]]] = None):
         """
         Constructor of the :class:`hbutils.testing.MatrixGenerator` class.
         It is similar to GitHub Action's matrix.
@@ -36,20 +36,20 @@ class MatrixGenerator(BaseGenerator):
             _check_keys(excludes, _name_set)
 
     @property
-    def includes(self) -> List[Mapping[str, object]]:
+    def includes(self) -> List[Mapping[str, Any]]:
         """
         Include items.
         """
         return self.__includes
 
     @property
-    def excludes(self) -> List[Mapping[str, object]]:
+    def excludes(self) -> List[Mapping[str, Any]]:
         """
         Exclude items.
         """
         return self.__excludes
 
-    def cases(self) -> Iterator[Mapping[str, object]]:
+    def cases(self) -> Iterator[Mapping[str, Any]]:
         """
         Get the cases in this matrix.
 
