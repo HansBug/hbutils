@@ -114,6 +114,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#copy">copy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#remove">remove</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#getsize">getsize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#is-binary-file">is_binary_file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#is-text-file">is_text_file</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="network.html">hbutils.system.network</a></li>
@@ -434,6 +436,74 @@ Otherwise, the first path will be copied to the last path (exactly 2 arguments a
 </dd></dl>
 
 </section>
+<section id="is-binary-file">
+<h2>is_binary_file<a class="headerlink" href="#is-binary-file" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.filesystem.is_binary_file">
+<code class="sig-prename descclassname">hbutils.system.filesystem.</code><code class="sig-name descname">is_binary_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../_modules/hbutils/system/filesystem/binary.html#is_binary_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.filesystem.is_binary_file" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Check if the given file is binary file.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> – Filename.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Is binary file or not.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">is_binary_file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_binary_file</span><span class="p">(</span><span class="s1">&#39;rar_template-simple.rar&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_binary_file</span><span class="p">(</span><span class="s1">&#39;README.md&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Empty file will be seen as text file.</p>
+</aside>
+</dd></dl>
+
+</section>
+<section id="is-text-file">
+<h2>is_text_file<a class="headerlink" href="#is-text-file" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.filesystem.is_text_file">
+<code class="sig-prename descclassname">hbutils.system.filesystem.</code><code class="sig-name descname">is_text_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../_modules/hbutils/system/filesystem/binary.html#is_text_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.filesystem.is_text_file" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Check if the given file is text file.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> – Filename.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Is text file or not.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">is_text_file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_text_file</span><span class="p">(</span><span class="s1">&#39;rar_template-simple.rar&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_text_file</span><span class="p">(</span><span class="s1">&#39;README.md&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Empty file will be seen as text file.</p>
+</aside>
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -519,10 +589,9 @@ Otherwise, the first path will be copied to the last path (exactly 2 arguments a
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/matrix/api_doc/system/filesystem.html">dev/matrix</a></dd>
-                        <dd><a href="../../../dev/binary/api_doc/system/filesystem.html">dev/binary</a></dd>
-                        <dd><a href="../../../dev/dependency/api_doc/system/filesystem.html">dev/dependency</a></dd>
                         <dd><a href="filesystem.html">main</a></dd>
+                        <dd><a href="../../../dev/dependency/api_doc/system/filesystem.html">dev/dependency</a></dd>
+                        <dd><a href="../../../dev/matrix/api_doc/system/filesystem.html">dev/matrix</a></dd>
                 </dl>
         </div>
     </div>

@@ -36,3 +36,16 @@ getsize
 .. autofunction:: getsize
 
 
+is_binary_file
+---------------------
+
+.. autofunction:: is_binary_file
+
+
+is_text_file
+---------------------
+
+.. autofunction:: is_text_file
+
+
+
