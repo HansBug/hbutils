@@ -12,4 +12,10 @@ mount_pythonpath
 .. autofunction:: mount_pythonpath
 
 
+PythonPathEnv
+-------------------------
+
+.. autoclass:: PythonPathEnv
+    :members: __init__, mount
+
 

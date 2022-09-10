@@ -1,20 +1,78 @@
 import sys
+import types
 from contextlib import contextmanager
-from typing import ContextManager
+from typing import ContextManager, Mapping, List, Dict
 
-__all__ = ['mount_pythonpath']
+__all__ = [
+    'mount_pythonpath',
+    'PythonPathEnv',
+]
 
 
 @contextmanager
-def mount_pythonpath(*path, recover=True, recover_when_replaced=False) -> ContextManager:
+def _native_mount_pythonpath(paths: List[str], modules: Dict[str, types.ModuleType]) -> ContextManager:
+    oldpath, oldmodules = sys.path, sys.modules
+    try:
+        sys.path = paths
+        sys.modules = modules
+        yield
+    finally:
+        sys.path = oldpath
+        sys.modules = oldmodules
+
+
+class PythonPathEnv:
+    """
+    Overview:
+        Python environment object.
+    """
+
+    def __init__(self, pythonpath: List[str], modules: Mapping[str, types.ModuleType]):
+        """
+        Constructor of :class:`PythonPathEnv`.
+
+        :param pythonpath: Python path list.
+        :param modules: Modules loaded.
+        """
+        self.pythonpath: List[str] = list(pythonpath)
+        self.modules: Dict[str, types.ModuleType] = dict(modules)
+
+    @contextmanager
+    def mount(self, keep: bool = True) -> ContextManager['PythonPathEnv']:
+        """
+        Mount the ``PYTHONPATH`` and modules of this environment.
+
+        :param keep: Keep the changes inside. Default is ``True`` which means the new imports and modules \
+            will be kept inside and will be usable when next time the :meth:`mount` is called.
+
+        Examples::
+            >>> from hbutils.reflection import mount_pythonpath
+            >>> with mount_pythonpath('test/testfile/igm') as env:
+            ...     from gf1 import FIXED
+            ...     print('FIXED in igm:', FIXED)
+            FIXED in igm: 1234567
+            >>> with env.mount():
+            ...     from gf1 import FIXED
+            ...     print('FIXED in igm:', FIXED)
+            FIXED in igm: 1234567
+        """
+        if keep:
+            pythonpath, modules = self.pythonpath, self.modules
+        else:
+            pythonpath, modules = [*self.pythonpath], {**self.modules}
+
+        with _native_mount_pythonpath(pythonpath, modules):
+            yield self
+
+
+@contextmanager
+def mount_pythonpath(*path) -> ContextManager[PythonPathEnv]:
     """
     Overview:
         Append ``PYTHONPATH`` in context, the packages in given paths will be able to be imported.
         ``sys.modules`` will also be recovered when quit.
 
     :param path: Appended python path.
-    :param recover: Recover the ``sys.path`` when context is over, default is ``True``.
-    :param recover_when_replaced: If ``sys.path`` is replaced again, recover it or not, default is ``False``.
     
     Examples::
         Here is the testfile directory
@@ -51,19 +109,5 @@ def mount_pythonpath(*path, recover=True, recover_when_replaced=False) -> Contex
         ModuleNotFoundError: No module named 'gf1'
 
     """
-    oldpath = sys.path
-    oldmodules = sys.modules
-
-    newpath = [*path, *oldpath]
-    newmodules = {**sys.modules}
-
-    try:
-        sys.path = newpath
-        sys.modules = newmodules
-        yield
-    finally:
-        if recover:
-            if sys.path is newpath or recover_when_replaced:
-                sys.path = oldpath
-            if sys.modules is newmodules or recover_when_replaced:
-                sys.modules = oldmodules
+    with _native_mount_pythonpath([*path, *sys.path], {**sys.modules}):
+        yield PythonPathEnv(sys.path, sys.modules)
