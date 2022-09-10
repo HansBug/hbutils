@@ -4,6 +4,7 @@ Overview:
 """
 import io
 import os
+import pathlib
 from contextlib import redirect_stdout, redirect_stderr, contextmanager
 from threading import Lock
 from typing import ContextManager, Optional
@@ -12,6 +13,8 @@ __all__ = [
     'OutputCaptureResult',
     'capture_output', 'disable_output',
 ]
+
+from .._base import TemporaryDirectory
 
 
 class OutputCaptureResult:
@@ -65,10 +68,44 @@ class OutputCaptureResult:
 
 
 @contextmanager
-def capture_output() -> ContextManager[OutputCaptureResult]:
+def _capture_via_memory() -> ContextManager[OutputCaptureResult]:
+    r = OutputCaptureResult()
+    with io.StringIO() as sout, io.StringIO() as serr:
+        try:
+            with redirect_stdout(sout), redirect_stderr(serr):
+                yield r
+        finally:
+            r.put_result(
+                sout.getvalue(),
+                serr.getvalue(),
+            )
+
+
+@contextmanager
+def _capture_via_tempfile() -> ContextManager[OutputCaptureResult]:
+    r = OutputCaptureResult()
+    with TemporaryDirectory() as tdir:
+        stdout_file = os.path.join(tdir, 'stdout')
+        stderr_file = os.path.join(tdir, 'stderr')
+        try:
+            with open(stdout_file, 'w+') as f_stdout, open(stderr_file, 'w+') as f_stderr:
+                with redirect_stdout(f_stdout), redirect_stderr(f_stderr):
+                    yield r
+        finally:
+            r.put_result(
+                pathlib.Path(stdout_file).read_text(),
+                pathlib.Path(stderr_file).read_text(),
+            )
+
+
+@contextmanager
+def capture_output(mem: bool = False) -> ContextManager[OutputCaptureResult]:
     """
     Overview:
         Capture all the output to ``sys.stdout`` and ``sys.stderr`` in this ``with`` block.
+
+    :param mem: Use memory to put the result or not. Default is ``False`` \
+        which means the output will be redirected to temporary files.
 
     Examples::
         >>> from hbutils.testing import capture_output
@@ -83,18 +120,14 @@ def capture_output() -> ContextManager[OutputCaptureResult]:
         >>> r.stderr
         'this is stderr\\n'
 
-    """
+    .. note::
+        When ``mem`` is set to ``True``, :class:`io.StringIO` is used, which do not have ``fileno`` \
+            method. This may cause some problems in some cases (such as :func:`subprocess.run`).
 
-    r = OutputCaptureResult()
-    with io.StringIO() as sout, io.StringIO() as serr:
-        try:
-            with redirect_stdout(sout), redirect_stderr(serr):
-                yield r
-        finally:
-            r.put_result(
-                sout.getvalue(),
-                serr.getvalue(),
-            )
+    """
+    mock_func = _capture_via_memory if mem else _capture_via_tempfile
+    with mock_func() as co:
+        yield co
 
 
 @contextmanager

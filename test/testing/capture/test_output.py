@@ -1,15 +1,17 @@
+import subprocess
 import sys
 from textwrap import dedent
 
 import pytest
 
-from hbutils.testing import capture_output, disable_output
+from hbutils.testing import capture_output, disable_output, isolated_directory
 
 
 @pytest.mark.unittest
 class TestTestingCaptureOutput:
-    def test_capture_output(self):
-        with capture_output() as r:
+    @pytest.mark.parametrize(['mem'], [(True,), (False,)])
+    def test_capture_output(self, mem):
+        with capture_output(mem=mem) as r:
             print('This is stdout.')
             print('This is stderr.', file=sys.stderr)
             print('This is stdout line 2.')
@@ -23,6 +25,26 @@ class TestTestingCaptureOutput:
             This is stderr.
             This is stderr 2rd line.
         """).strip()
+
+    def test_capture_output_with_subprocess_run(self):
+        with isolated_directory():
+            with open('main.py', 'w') as f:
+                print('print("This is output")', file=f)
+                print('print("This is output 2")', file=f)
+                print('import sys', file=f)
+                print('print("This is output x", file=sys.stderr)', file=f)
+
+            with capture_output() as r:
+                process = subprocess.run([sys.executable, 'main.py'], stdout=sys.stdout, stderr=sys.stderr)
+                process.check_returncode()
+
+            assert list(map(str.strip, r.stdout.strip().splitlines())) == [
+                'This is output',
+                'This is output 2'
+            ]
+            assert list(map(str.strip, r.stderr.strip().splitlines())) == [
+                'This is output x'
+            ]
 
     def test_disable_output(self):
         with capture_output() as r:
