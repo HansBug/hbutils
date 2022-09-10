@@ -6,6 +6,7 @@ from pip._internal.vcs.versioncontrol import VersionControl
 from hbutils.testing import vpython
 
 
+
 def _get_vcs_backend(url: str) -> VersionControl:
     return vcs.get_backend_for_scheme(Link(url).scheme)
 

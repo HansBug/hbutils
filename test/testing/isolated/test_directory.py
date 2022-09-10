@@ -6,7 +6,7 @@ import pytest
 
 from hbutils.testing import isolated_directory
 from .vcs import retrieve_from_vcs
-from ...testings import GITHUB_HOST
+from ...testings.env import TEMPLATE_SIMPLE_REPO_GIT
 
 
 @pytest.mark.unittest
@@ -57,5 +57,5 @@ class TestLoggingIsolatedDirectory:
 
     def test_isolated_directory_example_retrieve_from_vcs(self):
         with isolated_directory():
-            retrieve_from_vcs(f'git+https://{GITHUB_HOST}/igm4ai/template-simple.git', 'simple')
+            retrieve_from_vcs(TEMPLATE_SIMPLE_REPO_GIT, 'simple')
             assert 'igm.conf' in pathlib.Path('simple/meta.py').read_text()
