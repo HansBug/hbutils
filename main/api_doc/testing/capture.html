@@ -198,10 +198,17 @@
 <h2>capture_output<a class="headerlink" href="#capture-output" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="hbutils.testing.capture.capture_output">
-<code class="sig-prename descclassname">hbutils.testing.capture.</code><code class="sig-name descname">capture_output</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; AbstractContextManager<span class="p">[</span>hbutils.testing.capture.output.OutputCaptureResult<span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/testing/capture/output.html#capture_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.capture.capture_output" title="Permalink to this definition">¶</a></dt>
-<dd><dl>
+<code class="sig-prename descclassname">hbutils.testing.capture.</code><code class="sig-name descname">capture_output</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mem</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; AbstractContextManager<span class="p">[</span>hbutils.testing.capture.output.OutputCaptureResult<span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/testing/capture/output.html#capture_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.capture.capture_output" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
 <dt>Overview:</dt><dd><p>Capture all the output to <code class="docutils literal notranslate"><span class="pre">sys.stdout</span></code> and <code class="docutils literal notranslate"><span class="pre">sys.stderr</span></code> in this <code class="docutils literal notranslate"><span class="pre">with</span></code> block.</p>
 </dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mem</strong> – Use memory to put the result or not. Default is <code class="docutils literal notranslate"><span class="pre">False</span></code>         which means the output will be redirected to temporary files.</p>
+</dd>
+</dl>
+<dl>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">capture_output</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sys</span>
 <span class="go">&gt;&gt;&gt;</span>
@@ -217,6 +224,10 @@
 </div>
 </dd>
 </dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">mem</span></code> is set to <code class="docutils literal notranslate"><span class="pre">True</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">io.StringIO</span></code> is used, which do not have <code class="docutils literal notranslate"><span class="pre">fileno</span></code>             method. This may cause some problems in some cases (such as <code class="xref py py-func docutils literal notranslate"><span class="pre">subprocess.run()</span></code>).</p>
+</aside>
 </dd></dl>
 
 </section>
@@ -378,9 +389,8 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/output/api_doc/testing/capture.html">dev/output</a></dd>
-                        <dd><a href="../../../dev/dependency/api_doc/testing/capture.html">dev/dependency</a></dd>
                         <dd><a href="capture.html">main</a></dd>
+                        <dd><a href="../../../dev/dependency/api_doc/testing/capture.html">dev/dependency</a></dd>
                 </dl>
         </div>
     </div>
