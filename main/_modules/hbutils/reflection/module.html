@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>hbutils.reflection.module &mdash; hbutils 0.7.0 documentation</title>
+  <title>hbutils.reflection.module &mdash; hbutils 0.7.1 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.7.0
+                0.7.1
               </div>
             
           
@@ -172,22 +172,80 @@
     
   <h1>Source code for hbutils.reflection.module</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">types</span>
 <span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">ContextManager</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">ContextManager</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;mount_pythonpath&#39;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;mount_pythonpath&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;PythonPathEnv&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<span class="nd">@contextmanager</span>
+<span class="k">def</span> <span class="nf">_native_mount_pythonpath</span><span class="p">(</span><span class="n">paths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">modules</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">ModuleType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">:</span>
+    <span class="n">oldpath</span><span class="p">,</span> <span class="n">oldmodules</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">paths</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">modules</span> <span class="o">=</span> <span class="n">modules</span>
+        <span class="k">yield</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">oldpath</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">modules</span> <span class="o">=</span> <span class="n">oldmodules</span>
+
+
+<div class="viewcode-block" id="PythonPathEnv"><a class="viewcode-back" href="../../../api_doc/reflection/module.html#hbutils.reflection.module.PythonPathEnv">[docs]</a><span class="k">class</span> <span class="nc">PythonPathEnv</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Python environment object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PythonPathEnv.__init__"><a class="viewcode-back" href="../../../api_doc/reflection/module.html#hbutils.reflection.module.PythonPathEnv.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pythonpath</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">modules</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">ModuleType</span><span class="p">]):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of :class:`PythonPathEnv`.</span>
+
+<span class="sd">        :param pythonpath: Python path list.</span>
+<span class="sd">        :param modules: Modules loaded.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pythonpath</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">pythonpath</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">ModuleType</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">modules</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="PythonPathEnv.mount"><a class="viewcode-back" href="../../../api_doc/reflection/module.html#hbutils.reflection.module.PythonPathEnv.mount">[docs]</a>    <span class="nd">@contextmanager</span>
+    <span class="k">def</span> <span class="nf">mount</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keep</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">[</span><span class="s1">&#39;PythonPathEnv&#39;</span><span class="p">]:</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Mount the ``PYTHONPATH`` and modules of this environment.</span>
+
+<span class="sd">        :param keep: Keep the changes inside. Default is ``True`` which means the new imports and modules \</span>
+<span class="sd">            will be kept inside and will be usable when next time the :meth:`mount` is called.</span>
+
+<span class="sd">        Examples::</span>
+<span class="sd">            &gt;&gt;&gt; from hbutils.reflection import mount_pythonpath</span>
+<span class="sd">            &gt;&gt;&gt; with mount_pythonpath(&#39;test/testfile/igm&#39;) as env:</span>
+<span class="sd">            ...     from gf1 import FIXED</span>
+<span class="sd">            ...     print(&#39;FIXED in igm:&#39;, FIXED)</span>
+<span class="sd">            FIXED in igm: 1234567</span>
+<span class="sd">            &gt;&gt;&gt; with env.mount():</span>
+<span class="sd">            ...     from gf1 import FIXED</span>
+<span class="sd">            ...     print(&#39;FIXED in igm:&#39;, FIXED)</span>
+<span class="sd">            FIXED in igm: 1234567</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">keep</span><span class="p">:</span>
+            <span class="n">pythonpath</span><span class="p">,</span> <span class="n">modules</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pythonpath</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">modules</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">pythonpath</span><span class="p">,</span> <span class="n">modules</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">pythonpath</span><span class="p">],</span> <span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">modules</span><span class="p">}</span>
+
+        <span class="k">with</span> <span class="n">_native_mount_pythonpath</span><span class="p">(</span><span class="n">pythonpath</span><span class="p">,</span> <span class="n">modules</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="bp">self</span></div></div>
 
 
 <div class="viewcode-block" id="mount_pythonpath"><a class="viewcode-back" href="../../../api_doc/reflection/module.html#hbutils.reflection.module.mount_pythonpath">[docs]</a><span class="nd">@contextmanager</span>
-<span class="k">def</span> <span class="nf">mount_pythonpath</span><span class="p">(</span><span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="n">recover</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">recover_when_replaced</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">mount_pythonpath</span><span class="p">(</span><span class="o">*</span><span class="n">path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">[</span><span class="n">PythonPathEnv</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Append ``PYTHONPATH`` in context, the packages in given paths will be able to be imported.</span>
 <span class="sd">        ``sys.modules`` will also be recovered when quit.</span>
 
 <span class="sd">    :param path: Appended python path.</span>
-<span class="sd">    :param recover: Recover the ``sys.path`` when context is over, default is ``True``.</span>
-<span class="sd">    :param recover_when_replaced: If ``sys.path`` is replaced again, recover it or not, default is ``False``.</span>
 <span class="sd">    </span>
 <span class="sd">    Examples::</span>
 <span class="sd">        Here is the testfile directory</span>
@@ -224,22 +282,8 @@
 <span class="sd">        ModuleNotFoundError: No module named &#39;gf1&#39;</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">oldpath</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span>
-    <span class="n">oldmodules</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span>
-
-    <span class="n">newpath</span> <span class="o">=</span> <span class="p">[</span><span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="o">*</span><span class="n">oldpath</span><span class="p">]</span>
-    <span class="n">newmodules</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">}</span>
-
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">newpath</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">modules</span> <span class="o">=</span> <span class="n">newmodules</span>
-        <span class="k">yield</span>
-    <span class="k">finally</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">recover</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span> <span class="ow">is</span> <span class="n">newpath</span> <span class="ow">or</span> <span class="n">recover_when_replaced</span><span class="p">:</span>
-                <span class="n">sys</span><span class="o">.</span><span class="n">path</span> <span class="o">=</span> <span class="n">oldpath</span>
-            <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span> <span class="ow">is</span> <span class="n">newmodules</span> <span class="ow">or</span> <span class="n">recover_when_replaced</span><span class="p">:</span>
-                <span class="n">sys</span><span class="o">.</span><span class="n">modules</span> <span class="o">=</span> <span class="n">oldmodules</span></div>
+    <span class="k">with</span> <span class="n">_native_mount_pythonpath</span><span class="p">([</span><span class="o">*</span><span class="n">path</span><span class="p">,</span> <span class="o">*</span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">],</span> <span class="p">{</span><span class="o">**</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">}):</span>
+        <span class="k">yield</span> <span class="n">PythonPathEnv</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">)</span></div>
 </pre></div>
 
 
@@ -315,9 +359,8 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../dev/path/index.html">dev/path</a></dd>
-                        <dd><a href="../../../../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="module.html">main</a></dd>
+                        <dd><a href="../../../../dev/dependency/index.html">dev/dependency</a></dd>
                 </dl>
         </div>
     </div>

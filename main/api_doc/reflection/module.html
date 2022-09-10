@@ -9,7 +9,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>hbutils.reflection.module &mdash; hbutils 0.7.0 documentation</title>
+  <title>hbutils.reflection.module &mdash; hbutils 0.7.1 documentation</title>
   
 
   
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                0.7.0
+                0.7.1
               </div>
             
           
@@ -113,6 +113,7 @@
 <li class="toctree-l2"><a class="reference internal" href="iter.html">hbutils.reflection.iter</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.reflection.module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#mount-pythonpath">mount_pythonpath</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pythonpathenv">PythonPathEnv</a></li>
 </ul>
 </li>
 </ul>
@@ -195,7 +196,7 @@
 <h2>mount_pythonpath<a class="headerlink" href="#mount-pythonpath" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="hbutils.reflection.module.mount_pythonpath">
-<code class="sig-prename descclassname">hbutils.reflection.module.</code><code class="sig-name descname">mount_pythonpath</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">path</span></em>, <em class="sig-param"><span class="n">recover</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">recover_when_replaced</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span> &#x2192; AbstractContextManager<a class="reference internal" href="../../_modules/hbutils/reflection/module.html#mount_pythonpath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.reflection.module.mount_pythonpath" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">hbutils.reflection.module.</code><code class="sig-name descname">mount_pythonpath</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">path</span></em><span class="sig-paren">)</span> &#x2192; AbstractContextManager<span class="p">[</span><a class="reference internal" href="#hbutils.reflection.module.PythonPathEnv" title="hbutils.reflection.module.PythonPathEnv">hbutils.reflection.module.PythonPathEnv</a><span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/reflection/module.html#mount_pythonpath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.reflection.module.mount_pythonpath" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>Overview:</dt><dd><p>Append <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> in context, the packages in given paths will be able to be imported.
 <code class="docutils literal notranslate"><span class="pre">sys.modules</span></code> will also be recovered when quit.</p>
@@ -203,11 +204,7 @@
 </dl>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>path</strong> – Appended python path.</p></li>
-<li><p><strong>recover</strong> – Recover the <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> when context is over, default is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
-<li><p><strong>recover_when_replaced</strong> – If <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> is replaced again, recover it or not, default is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
-</ul>
+<dd class="field-odd"><p><strong>path</strong> – Appended python path.</p>
 </dd>
 </dl>
 <dl>
@@ -246,6 +243,57 @@
 </div>
 </dd>
 </dl>
+</dd></dl>
+
+</section>
+<section id="pythonpathenv">
+<h2>PythonPathEnv<a class="headerlink" href="#pythonpathenv" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.reflection.module.PythonPathEnv">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.reflection.module.</code><code class="sig-name descname">PythonPathEnv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pythonpath</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">modules</span><span class="p">:</span> <span class="n">Mapping<span class="p">[</span>str<span class="p">, </span>module<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/reflection/module.html#PythonPathEnv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.reflection.module.PythonPathEnv" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Python environment object.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="hbutils.reflection.module.PythonPathEnv.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pythonpath</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">modules</span><span class="p">:</span> <span class="n">Mapping<span class="p">[</span>str<span class="p">, </span>module<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/reflection/module.html#PythonPathEnv.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.reflection.module.PythonPathEnv.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of <a class="reference internal" href="#hbutils.reflection.module.PythonPathEnv" title="hbutils.reflection.module.PythonPathEnv"><code class="xref py py-class docutils literal notranslate"><span class="pre">PythonPathEnv</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pythonpath</strong> – Python path list.</p></li>
+<li><p><strong>modules</strong> – Modules loaded.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.reflection.module.PythonPathEnv.mount">
+<code class="sig-name descname">mount</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">keep</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; AbstractContextManager<span class="p">[</span><a class="reference internal" href="#hbutils.reflection.module.PythonPathEnv" title="hbutils.reflection.module.PythonPathEnv">hbutils.reflection.module.PythonPathEnv</a><span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/reflection/module.html#PythonPathEnv.mount"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.reflection.module.PythonPathEnv.mount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mount the <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> and modules of this environment.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>keep</strong> – Keep the changes inside. Default is <code class="docutils literal notranslate"><span class="pre">True</span></code> which means the new imports and modules             will be kept inside and will be usable when next time the <a class="reference internal" href="#hbutils.reflection.module.PythonPathEnv.mount" title="hbutils.reflection.module.PythonPathEnv.mount"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mount()</span></code></a> is called.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.reflection</span> <span class="kn">import</span> <span class="n">mount_pythonpath</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">mount_pythonpath</span><span class="p">(</span><span class="s1">&#39;test/testfile/igm&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">env</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="kn">from</span> <span class="nn">gf1</span> <span class="kn">import</span> <span class="n">FIXED</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;FIXED in igm:&#39;</span><span class="p">,</span> <span class="n">FIXED</span><span class="p">)</span>
+<span class="go">FIXED in igm: 1234567</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">env</span><span class="o">.</span><span class="n">mount</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="kn">from</span> <span class="nn">gf1</span> <span class="kn">import</span> <span class="n">FIXED</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;FIXED in igm:&#39;</span><span class="p">,</span> <span class="n">FIXED</span><span class="p">)</span>
+<span class="go">FIXED in igm: 1234567</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -334,9 +382,8 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/path/api_doc/reflection/module.html">dev/path</a></dd>
-                        <dd><a href="../../../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="module.html">main</a></dd>
+                        <dd><a href="../../../dev/dependency/index.html">dev/dependency</a></dd>
                 </dl>
         </div>
     </div>
