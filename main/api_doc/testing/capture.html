@@ -114,11 +114,13 @@
 <li class="toctree-l3"><a class="reference internal" href="#outputcaptureresult">OutputCaptureResult</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#disable-output">disable_output</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#capture-exit">capture_exit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exitcaptureresult">ExitCaptureResult</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="generator.html">hbutils.testing.generator</a></li>
 <li class="toctree-l2"><a class="reference internal" href="isolated.html">hbutils.testing.isolated</a></li>
 <li class="toctree-l2"><a class="reference internal" href="requires.html">hbutils.testing.requires</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulate.html">hbutils.testing.simulate</a></li>
 </ul>
 </li>
 </ul>
@@ -309,7 +311,7 @@
 <h2>capture_exit<a class="headerlink" href="#capture-exit" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="hbutils.testing.capture.capture_exit">
-<code class="sig-prename descclassname">hbutils.testing.capture.</code><code class="sig-name descname">capture_exit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">default</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span> &#x2192; AbstractContextManager<span class="p">[</span>hbutils.testing.capture.exit._ExitCapture<span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/testing/capture/exit.html#capture_exit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.capture.capture_exit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">hbutils.testing.capture.</code><code class="sig-name descname">capture_exit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">default</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span> &#x2192; AbstractContextManager<span class="p">[</span>hbutils.testing.capture.exit.ExitCaptureResult<span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/testing/capture/exit.html#capture_exit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.capture.capture_exit" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>Overview:</dt><dd><p>Capture for exitcode, <code class="xref py py-func docutils literal notranslate"><span class="pre">quit()</span></code> and <code class="xref py py-func docutils literal notranslate"><span class="pre">sys.exit()</span></code> can be captured.</p>
 </dd>
@@ -345,6 +347,50 @@
 </div>
 </dd>
 </dl>
+</dd></dl>
+
+</section>
+<section id="exitcaptureresult">
+<h2>ExitCaptureResult<a class="headerlink" href="#exitcaptureresult" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.testing.capture.ExitCaptureResult">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.testing.capture.</code><code class="sig-name descname">ExitCaptureResult</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">exitcode</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/capture/exit.html#ExitCaptureResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.capture.ExitCaptureResult" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Model of exit capture result.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="hbutils.testing.capture.ExitCaptureResult.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">exitcode</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/capture/exit.html#ExitCaptureResult.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.capture.ExitCaptureResult.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of <a class="reference internal" href="#hbutils.testing.capture.ExitCaptureResult" title="hbutils.testing.capture.ExitCaptureResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">ExitCaptureResult</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>exitcode</strong> – Exitcode value.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.capture.ExitCaptureResult.exitcode">
+<em class="property">property </em><code class="sig-name descname">exitcode</code><a class="headerlink" href="#hbutils.testing.capture.ExitCaptureResult.exitcode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exitcode value.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Do not use this property when <a class="reference internal" href="#hbutils.testing.capture.capture_exit" title="hbutils.testing.capture.capture_exit"><code class="xref py py-func docutils literal notranslate"><span class="pre">capture_exit()</span></code></a> is not over, otherwise this result                 is not guaranteed to be correct.</p>
+</aside>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.capture.ExitCaptureResult.put_result">
+<code class="sig-name descname">put_result</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">exitcode</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/capture/exit.html#ExitCaptureResult.put_result"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.capture.ExitCaptureResult.put_result" title="Permalink to this definition">¶</a></dt>
+<dd><p>Put result inside this model.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>exitcode</strong> – New exitcode value.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -434,9 +480,8 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/entry/api_doc/testing/capture.html">dev/entry</a></dd>
-                        <dd><a href="../../../dev/dependency/api_doc/testing/capture.html">dev/dependency</a></dd>
                         <dd><a href="capture.html">main</a></dd>
+                        <dd><a href="../../../dev/dependency/api_doc/testing/capture.html">dev/dependency</a></dd>
                 </dl>
         </div>
     </div>

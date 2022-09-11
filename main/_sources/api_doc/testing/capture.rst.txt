@@ -31,3 +31,10 @@ capture_exit
 .. autofunction:: capture_exit
 
 
+ExitCaptureResult
+----------------------
+
+.. autoclass:: ExitCaptureResult
+    :members: __init__, exitcode, put_result
+
+
