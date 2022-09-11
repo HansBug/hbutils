@@ -7,7 +7,7 @@ from typing import ContextManager
 from unittest.mock import patch
 
 __all__ = [
-    'capture_exit',
+    'capture_exit', 'ExitCaptureResult'
 ]
 
 _DEFAULT_EXITCODE = 0
@@ -21,13 +21,42 @@ def _fake_exit(status=None):
     raise SystemExit(status)
 
 
-class _ExitCapture:
+class ExitCaptureResult:
+    """
+    Overview:
+        Model of exit capture result.
+    """
+
     def __init__(self, exitcode):
-        self.exitcode = exitcode
+        """
+        Constructor of :class:`ExitCaptureResult`.
+
+        :param exitcode: Exitcode value.
+        """
+        self.__exitcode = exitcode
+
+    @property
+    def exitcode(self) -> int:
+        """
+        Exitcode value.
+
+        .. note::
+            Do not use this property when :func:`capture_exit` is not over, otherwise this result \
+                is not guaranteed to be correct.
+        """
+        return self.__exitcode
+
+    def put_result(self, exitcode: int):
+        """
+        Put result inside this model.
+
+        :param exitcode: New exitcode value.
+        """
+        self.__exitcode = exitcode
 
 
 @contextmanager
-def capture_exit(default=0) -> ContextManager[_ExitCapture]:
+def capture_exit(default=0) -> ContextManager[ExitCaptureResult]:
     """
     Overview:
         Capture for exitcode, :func:`quit` and :func:`sys.exit` can be captured.
@@ -57,9 +86,9 @@ def capture_exit(default=0) -> ContextManager[_ExitCapture]:
         >>> ex.exitcode
         15
     """
-    capture = _ExitCapture(default)
+    capture = ExitCaptureResult(default)
     try:
         with patch('sys.exit', _fake_exit):
             yield capture
     except SystemExit as err:
-        capture.exitcode = _exitcode(err.code)
+        capture.put_result(_exitcode(err.code))

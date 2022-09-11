@@ -12,4 +12,5 @@ hbutils.testing
     generator
     isolated
     requires
+    simulate
 
