@@ -1,0 +1,431 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hbutils.file.stream &mdash; hbutils 0.7.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="hbutils.model" href="../model/index.html" />
+    <link rel="prev" title="hbutils.file" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> hbutils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.7.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+</ul>
+<p><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">hbutils.algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../binary/index.html">hbutils.binary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../collection/index.html">hbutils.collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../color/index.html">hbutils.color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/index.html">hbutils.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/index.html">hbutils.design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../expression/index.html">hbutils.expression</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">hbutils.file</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.file.stream</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#keep-cursor">keep_cursor</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#getsize">getsize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#is-eof">is_eof</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../model/index.html">hbutils.model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../random/index.html">hbutils.random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reflection/index.html">hbutils.reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scale/index.html">hbutils.scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../string/index.html">hbutils.string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../system/index.html">hbutils.system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/index.html">hbutils.testing</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">hbutils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">hbutils.file</a> &raquo;</li>
+        
+      <li>hbutils.file.stream</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_doc/file/stream.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <section id="module-hbutils.file.stream">
+<span id="hbutils-file-stream"></span><h1>hbutils.file.stream<a class="headerlink" href="#module-hbutils.file.stream" title="Permalink to this headline">¶</a></h1>
+<dl class="simple">
+<dt>Overview:</dt><dd><p>Utilities for processing streams.</p>
+</dd>
+</dl>
+<section id="keep-cursor">
+<h2>keep_cursor<a class="headerlink" href="#keep-cursor" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.file.stream.keep_cursor">
+<code class="sig-prename descclassname">hbutils.file.stream.</code><code class="sig-name descname">keep_cursor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>TextIO<span class="p">, </span>BinaryIO<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; AbstractContextManager<a class="reference internal" href="../../_modules/hbutils/file/stream.html#keep_cursor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.file.stream.keep_cursor" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Keep the cursor of the given file within a with-block.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file</strong> – File which cursor need to be kept.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">io</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.file</span> <span class="kn">import</span> <span class="n">keep_cursor</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xde\xad\xbe\xef</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">with</span> <span class="n">keep_cursor</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="k">with</span> <span class="n">keep_cursor</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>  <span class="c1"># still from 0</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="n">_</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="k">with</span> <span class="n">keep_cursor</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>  <span class="c1"># now from 2</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="k">with</span> <span class="n">keep_cursor</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>  <span class="c1"># still from 2</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+<span class="go">b&#39;\xde\xad&#39;</span>
+<span class="go">b&#39;\xde\xad\xbe\xef&#39;</span>
+<span class="go">b&#39;\xbe&#39;</span>
+<span class="go">b&#39;\xbe\xef&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Only seekable stream can use <a class="reference internal" href="#hbutils.file.stream.keep_cursor" title="hbutils.file.stream.keep_cursor"><code class="xref py py-func docutils literal notranslate"><span class="pre">keep_cursor()</span></code></a>.</p>
+</aside>
+</dd></dl>
+
+</section>
+<section id="getsize">
+<h2>getsize<a class="headerlink" href="#getsize" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.file.stream.getsize">
+<code class="sig-prename descclassname">hbutils.file.stream.</code><code class="sig-name descname">getsize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>TextIO<span class="p">, </span>BinaryIO<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../../_modules/hbutils/file/stream.html#getsize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.file.stream.getsize" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Get the size of the given <code class="docutils literal notranslate"><span class="pre">file</span></code> stream.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file</strong> – File which size need to access.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>File’s size.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">io</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.file</span> <span class="kn">import</span> <span class="n">getsize</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xde\xad\xbe\xef</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">getsize</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="go">4</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;README.md&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">getsize</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="go">2582</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Only seekable stream can use <a class="reference internal" href="#hbutils.file.stream.getsize" title="hbutils.file.stream.getsize"><code class="xref py py-func docutils literal notranslate"><span class="pre">getsize()</span></code></a>.</p>
+</aside>
+</dd></dl>
+
+</section>
+<section id="is-eof">
+<h2>is_eof<a class="headerlink" href="#is-eof" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.file.stream.is_eof">
+<code class="sig-prename descclassname">hbutils.file.stream.</code><code class="sig-name descname">is_eof</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>TextIO<span class="p">, </span>BinaryIO<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../_modules/hbutils/file/stream.html#is_eof"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.file.stream.is_eof" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Check if the file meets its end.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file</strong> – File to be checked.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Is EOF(end of file) or not.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">io</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.file</span> <span class="kn">import</span> <span class="n">is_eof</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xde\xad\xbe\xef</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">tell</span><span class="p">(),</span> <span class="n">is_eof</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="n">_</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">tell</span><span class="p">(),</span> <span class="n">is_eof</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="n">_</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">tell</span><span class="p">(),</span> <span class="n">is_eof</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="go">0 False</span>
+<span class="go">2 False</span>
+<span class="go">4 True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;README.md&#39;</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">tell</span><span class="p">(),</span> <span class="n">is_eof</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="n">_</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">tell</span><span class="p">(),</span> <span class="n">is_eof</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="n">_</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">tell</span><span class="p">(),</span> <span class="n">is_eof</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
+<span class="go">0 False</span>
+<span class="go">100 False</span>
+<span class="go">2582 True</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Only seekable stream can use <a class="reference internal" href="#hbutils.file.stream.is_eof" title="hbutils.file.stream.is_eof"><code class="xref py py-func docutils literal notranslate"><span class="pre">is_eof()</span></code></a>.</p>
+</aside>
+</dd></dl>
+
+</section>
+</section>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../model/index.html" class="btn btn-neutral float-right" title="hbutils.model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="hbutils.file" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/entry
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../v0.0.1/index.html">v0.0.1</a></dd>
+                        <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
+                        <dd><a href="../../../../v0.1.1/index.html">v0.1.1</a></dd>
+                        <dd><a href="../../../../v0.2.0/index.html">v0.2.0</a></dd>
+                        <dd><a href="../../../../v0.3.0/index.html">v0.3.0</a></dd>
+                        <dd><a href="../../../../v0.3.1/index.html">v0.3.1</a></dd>
+                        <dd><a href="../../../../v0.3.2/index.html">v0.3.2</a></dd>
+                        <dd><a href="../../../../v0.3.3/index.html">v0.3.3</a></dd>
+                        <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
+                        <dd><a href="../../../../v0.4.1/index.html">v0.4.1</a></dd>
+                        <dd><a href="../../../../v0.4.2/index.html">v0.4.2</a></dd>
+                        <dd><a href="../../../../v0.4.3/index.html">v0.4.3</a></dd>
+                        <dd><a href="../../../../v0.4.4/index.html">v0.4.4</a></dd>
+                        <dd><a href="../../../../v0.4.5/index.html">v0.4.5</a></dd>
+                        <dd><a href="../../../../v0.4.6/index.html">v0.4.6</a></dd>
+                        <dd><a href="../../../../v0.4.7/index.html">v0.4.7</a></dd>
+                        <dd><a href="../../../../v0.5.0/index.html">v0.5.0</a></dd>
+                        <dd><a href="../../../../v0.5.1/index.html">v0.5.1</a></dd>
+                        <dd><a href="../../../../v0.5.2/index.html">v0.5.2</a></dd>
+                        <dd><a href="../../../../v0.6.0/index.html">v0.6.0</a></dd>
+                        <dd><a href="../../../../v0.6.1/api_doc/file/stream.html">v0.6.1</a></dd>
+                        <dd><a href="../../../../v0.6.10/api_doc/file/stream.html">v0.6.10</a></dd>
+                        <dd><a href="../../../../v0.6.11/api_doc/file/stream.html">v0.6.11</a></dd>
+                        <dd><a href="../../../../v0.6.12/api_doc/file/stream.html">v0.6.12</a></dd>
+                        <dd><a href="../../../../v0.6.13/api_doc/file/stream.html">v0.6.13</a></dd>
+                        <dd><a href="../../../../v0.6.14/api_doc/file/stream.html">v0.6.14</a></dd>
+                        <dd><a href="../../../../v0.6.2/api_doc/file/stream.html">v0.6.2</a></dd>
+                        <dd><a href="../../../../v0.6.3/api_doc/file/stream.html">v0.6.3</a></dd>
+                        <dd><a href="../../../../v0.6.4/api_doc/file/stream.html">v0.6.4</a></dd>
+                        <dd><a href="../../../../v0.6.5/api_doc/file/stream.html">v0.6.5</a></dd>
+                        <dd><a href="../../../../v0.6.6/api_doc/file/stream.html">v0.6.6</a></dd>
+                        <dd><a href="../../../../v0.6.7/api_doc/file/stream.html">v0.6.7</a></dd>
+                        <dd><a href="../../../../v0.6.8/api_doc/file/stream.html">v0.6.8</a></dd>
+                        <dd><a href="../../../../v0.6.9/api_doc/file/stream.html">v0.6.9</a></dd>
+                        <dd><a href="../../../../v0.7.0/api_doc/file/stream.html">v0.7.0</a></dd>
+                        <dd><a href="../../../../v0.7.1/api_doc/file/stream.html">v0.7.1</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="stream.html">dev/entry</a></dd>
+                        <dd><a href="../../../dependency/api_doc/file/stream.html">dev/dependency</a></dd>
+                        <dd><a href="../../../../main/api_doc/file/stream.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
