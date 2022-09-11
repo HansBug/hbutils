@@ -196,7 +196,7 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">v</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unknown stdin type - </span><span class="si">{</span><span class="n">v</span><span class="si">!r}</span><span class="s1">.&#39;</span><span class="p">)</span>
 
@@ -318,6 +318,7 @@
                     <dt>Branches</dt>
                         <dd><a href="input.html">dev/stdin</a></dd>
                         <dd><a href="../../../../../dependency/index.html">dev/dependency</a></dd>
+                        <dd><a href="../../../../../exit/index.html">dev/exit</a></dd>
                         <dd><a href="../../../../../../main/index.html">main</a></dd>
                 </dl>
         </div>
