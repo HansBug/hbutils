@@ -113,6 +113,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#capture-output">capture_output</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#outputcaptureresult">OutputCaptureResult</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#disable-output">disable_output</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#capture-exit">capture_exit</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="generator.html">hbutils.testing.generator</a></li>
@@ -304,6 +305,49 @@
 </dd></dl>
 
 </section>
+<section id="capture-exit">
+<h2>capture_exit<a class="headerlink" href="#capture-exit" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.testing.capture.capture_exit">
+<code class="sig-prename descclassname">hbutils.testing.capture.</code><code class="sig-name descname">capture_exit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">default</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span> &#x2192; AbstractContextManager<span class="p">[</span>hbutils.testing.capture.exit._ExitCapture<span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/testing/capture/exit.html#capture_exit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.capture.capture_exit" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Capture for exitcode, <code class="xref py py-func docutils literal notranslate"><span class="pre">quit()</span></code> and <code class="xref py py-func docutils literal notranslate"><span class="pre">sys.exit()</span></code> can be captured.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>default</strong> – Default exitcode, default is <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">capture_exit</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">capture_exit</span><span class="p">()</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="k">pass</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span><span class="o">.</span><span class="n">exitcode</span>
+<span class="go">0</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">capture_exit</span><span class="p">()</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">quit</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span><span class="o">.</span><span class="n">exitcode</span>
+<span class="go">0</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">capture_exit</span><span class="p">()</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">quit</span><span class="p">(</span><span class="mh">0xf</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span><span class="o">.</span><span class="n">exitcode</span>
+<span class="go">15</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">capture_exit</span><span class="p">()</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mh">0xf</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ex</span><span class="o">.</span><span class="n">exitcode</span>
+<span class="go">15</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -390,10 +434,9 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/stdin/api_doc/testing/capture.html">dev/stdin</a></dd>
-                        <dd><a href="../../../dev/dependency/api_doc/testing/capture.html">dev/dependency</a></dd>
-                        <dd><a href="../../../dev/exit/api_doc/testing/capture.html">dev/exit</a></dd>
                         <dd><a href="capture.html">main</a></dd>
+                        <dd><a href="../../../dev/dependency/api_doc/testing/capture.html">dev/dependency</a></dd>
+                        <dd><a href="../../../dev/stdin/api_doc/testing/capture.html">dev/stdin</a></dd>
                 </dl>
         </div>
     </div>
