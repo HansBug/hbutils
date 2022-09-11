@@ -25,4 +25,9 @@ disable_output
 .. autofunction:: disable_output
 
 
+capture_exit
+----------------------
+
+.. autofunction:: capture_exit
+
 
