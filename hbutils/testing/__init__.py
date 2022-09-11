@@ -6,3 +6,4 @@ from .capture import *
 from .generator import *
 from .isolated import *
 from .requires import *
+from .simulate import *
