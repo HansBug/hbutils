@@ -113,6 +113,7 @@
 <li class="toctree-l2"><a class="reference internal" href="generator.html">hbutils.testing.generator</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.testing.isolated</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#isolated-directory">isolated_directory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#isolated-stdin">isolated_stdin</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="requires.html">hbutils.testing.requires</a></li>
@@ -248,6 +249,37 @@
 </dd></dl>
 
 </section>
+<section id="isolated-stdin">
+<h2>isolated_stdin<a class="headerlink" href="#isolated-stdin" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.testing.isolated.isolated_stdin">
+<code class="sig-prename descclassname">hbutils.testing.isolated.</code><code class="sig-name descname">isolated_stdin</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">mem</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/isolated/input.html#isolated_stdin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.isolated.isolated_stdin" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Isolation for stdin stream.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – Input content, a whole string or a list of string supported.</p></li>
+<li><p><strong>mem</strong> – Use memory or not. Default is <code class="docutils literal notranslate"><span class="pre">False</span></code> which means         a temporary file will be used as fake input stream.</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">isolated_stdin</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">isolated_stdin</span><span class="p">([</span><span class="s1">&#39;123&#39;</span><span class="p">,</span> <span class="s1">&#39;456&#39;</span><span class="p">]):</span>
+<span class="gp">... </span>    <span class="n">a</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">())</span>
+<span class="gp">... </span>    <span class="n">b</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">())</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+<span class="go">123 456 579</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -336,7 +368,6 @@
                     <dt>Branches</dt>
                         <dd><a href="isolated.html">main</a></dd>
                         <dd><a href="../../../dev/dependency/api_doc/testing/isolated.html">dev/dependency</a></dd>
-                        <dd><a href="../../../dev/stdin/api_doc/testing/isolated.html">dev/stdin</a></dd>
                 </dl>
         </div>
     </div>

@@ -13,3 +13,9 @@ isolated_directory
 .. autofunction:: isolated_directory
 
 
+isolated_stdin
+--------------------------
+
+.. autofunction:: isolated_stdin
+
+
