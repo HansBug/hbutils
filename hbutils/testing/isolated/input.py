@@ -23,7 +23,7 @@ def _to_input_text(v: Union[str, List[str]]) -> str:
     if isinstance(v, str):
         return v
     elif isinstance(v, list):
-        return os.linesep.join(v)
+        return '\n'.join(v)
     else:
         raise TypeError(f'Unknown stdin type - {v!r}.')
 

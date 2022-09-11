@@ -33,7 +33,14 @@ class TestTestingIsolatedInput:
 
             with isolated_stdin(['123', '456']):
                 process = subprocess.run([sys.executable, 'main.py'], stdin=sys.stdin, capture_output=True)
-                process.check_returncode()
+                assert process.returncode == 0, f'Exit code - {process.returncode!r}\n' \
+                                                f'----------------------------------------------\n' \
+                                                f'[Stdout]\n' \
+                                                f'{process.stdout}\n' \
+                                                f'\n' \
+                                                f'----------------------------------------------\n' \
+                                                f'[Stderr]\n' \
+                                                f'{process.stderr}\n'
                 assert process.stdout.strip() == b'123 456 579'
 
     def test_isolated_stdin_invalid_type(self):
