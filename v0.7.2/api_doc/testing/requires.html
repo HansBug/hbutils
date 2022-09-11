@@ -1,0 +1,557 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hbutils.testing.requires &mdash; hbutils 0.7.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="hbutils.testing.simulate" href="simulate.html" />
+    <link rel="prev" title="hbutils.testing.isolated" href="isolated.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> hbutils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.7.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+</ul>
+<p><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">hbutils.algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../binary/index.html">hbutils.binary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../collection/index.html">hbutils.collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../color/index.html">hbutils.color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/index.html">hbutils.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/index.html">hbutils.design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../expression/index.html">hbutils.expression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file/index.html">hbutils.file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/index.html">hbutils.model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../random/index.html">hbutils.random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reflection/index.html">hbutils.reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scale/index.html">hbutils.scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../string/index.html">hbutils.string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../system/index.html">hbutils.system</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">hbutils.testing</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="capture.html">hbutils.testing.capture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generator.html">hbutils.testing.generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="isolated.html">hbutils.testing.isolated</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.testing.requires</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#vpython">vpython</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#vpip">vpip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#os">OS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#impl">Impl</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cmdv">cmdv</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="simulate.html">hbutils.testing.simulate</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">hbutils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">hbutils.testing</a> &raquo;</li>
+        
+      <li>hbutils.testing.requires</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_doc/testing/requires.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <section id="module-hbutils.testing.requires">
+<span id="hbutils-testing-requires"></span><h1>hbutils.testing.requires<a class="headerlink" href="#module-hbutils.testing.requires" title="Permalink to this headline">¶</a></h1>
+<dl class="simple">
+<dt>Overview:</dt><dd><p>System requirements conditions for unittest.
+Can be used on <code class="docutils literal notranslate"><span class="pre">unittest.skipUnless</span></code>, <code class="docutils literal notranslate"><span class="pre">pytest.mark.skipUnless</span></code>, etc.</p>
+</dd>
+</dl>
+<section id="vpython">
+<h2>vpython<a class="headerlink" href="#vpython" title="Permalink to this headline">¶</a></h2>
+<dl class="py data">
+<dt id="hbutils.testing.requires.vpython">
+<code class="sig-prename descclassname">hbutils.testing.requires.</code><code class="sig-name descname">vpython</code><em class="property"> = &lt;VersionInfo 3.7.13&gt;</em><a class="headerlink" href="#hbutils.testing.requires.vpython" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Python version expression.</p>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">platform</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">unittest</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">vpython</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">TestMyCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>  <span class="c1"># on python 3.6</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_anytime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">assert</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">3</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipUnless</span><span class="p">(</span><span class="s1">&#39;3.6&#39;</span> <span class="o">&lt;=</span> <span class="n">vpython</span> <span class="o">&lt;</span> <span class="s1">&#39;3.7&#39;</span><span class="p">,</span> <span class="s1">&#39;py36 only&#39;</span><span class="p">)</span>  <span class="c1"># will run</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_on_python36</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">assert</span> <span class="n">platform</span><span class="o">.</span><span class="n">python_version_tuple</span><span class="p">()[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="p">(</span><span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;6&#39;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipUnless</span><span class="p">(</span><span class="s1">&#39;3.7&#39;</span> <span class="o">&lt;=</span> <span class="n">vpython</span> <span class="o">&lt;</span> <span class="s1">&#39;3.8&#39;</span><span class="p">,</span> <span class="s1">&#39;py37 only&#39;</span><span class="p">)</span>  <span class="c1"># will skip</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_on_python37</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">assert</span> <span class="n">platform</span><span class="o">.</span><span class="n">python_version_tuple</span><span class="p">()[:</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="p">(</span><span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;7&#39;</span><span class="p">)</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+<span class="go">..s</span>
+<span class="go">----------------------------------------------------------------------</span>
+<span class="go">Ran 3 tests in 0.000s</span>
+<span class="go">OK (skipped=1)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="vpip">
+<h2>vpip<a class="headerlink" href="#vpip" title="Permalink to this headline">¶</a></h2>
+<dl class="py data">
+<dt id="hbutils.testing.requires.vpip">
+<code class="sig-prename descclassname">hbutils.testing.requires.</code><code class="sig-name descname">vpip</code><em class="property"> = &lt;PipVersionInfo 22.2.2&gt;</em><a class="headerlink" href="#hbutils.testing.requires.vpip" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Pip version expression</p>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">unittest</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">vpip</span>
+<span class="gp">&gt;&gt;&gt; </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">TestMyCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_1_anytime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">assert</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">3</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipUnless</span><span class="p">(</span><span class="n">vpip</span> <span class="o">&gt;=</span> <span class="s1">&#39;21&#39;</span><span class="p">,</span> <span class="s1">&#39;pip21+ only&#39;</span><span class="p">)</span>  <span class="c1"># pip&gt;=21</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_2_on_pip21plus</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">assert</span> <span class="kc">True</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipUnless</span><span class="p">(</span><span class="n">vpip</span><span class="p">(</span><span class="s1">&#39;pip&#39;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="s1">&#39;21&#39;</span><span class="p">,</span> <span class="s1">&#39;pip21+ only&#39;</span><span class="p">)</span>  <span class="c1"># the same as above</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_3_on_pip21plus2</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">assert</span> <span class="kc">True</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipUnless</span><span class="p">(</span><span class="n">vpip</span><span class="p">(</span><span class="s1">&#39;setuptools&#39;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="s1">&#39;45&#39;</span> <span class="ow">or</span> <span class="n">vpip</span><span class="p">(</span><span class="s1">&#39;build&#39;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="s1">&#39;0.8&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>  <span class="c1"># setuptools&gt;=45 or build&gt;=0.8</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_4_on_setuptools_or_build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">assert</span> <span class="kc">True</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipUnless</span><span class="p">(</span><span class="ow">not</span> <span class="n">vpip</span> <span class="ow">and</span> <span class="n">vpip</span><span class="p">(</span><span class="s1">&#39;build&#39;</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="s1">&#39;0.8&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>  <span class="c1"># pip not installed, and build&gt;=0.8</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_5_on_nopip_and_build</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">assert</span> <span class="kc">True</span>
+<span class="gp">... </span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+<span class="go">....s</span>
+<span class="go">----------------------------------------------------------------------</span>
+<span class="go">Ran 5 tests in 0.000s</span>
+<span class="go">OK (skipped=1)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="os">
+<h2>OS<a class="headerlink" href="#os" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.testing.requires.OS">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.testing.requires.</code><code class="sig-name descname">OS</code><a class="reference internal" href="../../_modules/hbutils/testing/requires/expr.html#OS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.requires.OS" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Expressions for operating system.</p>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">unittest</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">OS</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">TestMyCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>  <span class="c1"># on Linux</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_1_anytime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">assert</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">3</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipUnless</span><span class="p">(</span><span class="n">OS</span><span class="o">.</span><span class="n">linux</span><span class="p">,</span> <span class="s1">&#39;linux only&#39;</span><span class="p">)</span>  <span class="c1"># only run on Linux</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_2_linux</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">assert</span> <span class="kc">True</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipUnless</span><span class="p">(</span><span class="n">OS</span><span class="o">.</span><span class="n">windows</span><span class="p">,</span> <span class="s1">&#39;windows only&#39;</span><span class="p">)</span>  <span class="c1"># only run on Windows</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_2_windows</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">assert</span> <span class="kc">True</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipUnless</span><span class="p">(</span><span class="n">OS</span><span class="o">.</span><span class="n">macos</span><span class="p">,</span> <span class="s1">&#39;macos only&#39;</span><span class="p">)</span>  <span class="c1"># only run on macOS</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_4_macos</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">assert</span> <span class="kc">True</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+<span class="go">..ss</span>
+<span class="go">----------------------------------------------------------------------</span>
+<span class="go">Ran 4 tests in 0.001s</span>
+<span class="go">OK (skipped=2)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="hbutils.testing.requires.OS.darwin">
+<code class="sig-name descname">darwin</code><em class="property"> = False</em><a class="headerlink" href="#hbutils.testing.requires.OS.darwin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is darwin (macos) system or not, related to your local OS.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="hbutils.testing.requires.OS.linux">
+<code class="sig-name descname">linux</code><em class="property"> = True</em><a class="headerlink" href="#hbutils.testing.requires.OS.linux" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is linux system or not, related to your local OS.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="hbutils.testing.requires.OS.macos">
+<code class="sig-name descname">macos</code><em class="property"> = False</em><a class="headerlink" href="#hbutils.testing.requires.OS.macos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for <code class="docutils literal notranslate"><span class="pre">OS.darwin</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="hbutils.testing.requires.OS.windows">
+<code class="sig-name descname">windows</code><em class="property"> = False</em><a class="headerlink" href="#hbutils.testing.requires.OS.windows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is windows system or not, related to your local OS.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="impl">
+<h2>Impl<a class="headerlink" href="#impl" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.testing.requires.Impl">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.testing.requires.</code><code class="sig-name descname">Impl</code><a class="reference internal" href="../../_modules/hbutils/testing/requires/expr.html#Impl"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.requires.Impl" title="Permalink to this definition">¶</a></dt>
+<dd><blockquote>
+<div><dl>
+<dt>Overview:</dt><dd><p>Expression for python implementation.
+See <a class="reference external" href="https://docs.python.org/3/library/platform.html#platform.python_implementation">platform.python_implementation()</a> .</p>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">unittest</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</div></blockquote>
+<dl>
+<dt>from hbutils.testing import Impl</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">TestMyCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>  <span class="c1"># on CPython</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_1_anytime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">assert</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">3</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipUnless</span><span class="p">(</span><span class="n">Impl</span><span class="o">.</span><span class="n">cpython</span><span class="p">,</span> <span class="s1">&#39;cpython only&#39;</span><span class="p">)</span>  <span class="c1"># only run on CPython</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_2_cpython</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">assert</span> <span class="kc">True</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipUnless</span><span class="p">(</span><span class="n">Impl</span><span class="o">.</span><span class="n">pypy</span><span class="p">,</span> <span class="s1">&#39;pypy only&#39;</span><span class="p">)</span>  <span class="c1"># only run on PyPy</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_3_pypy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">assert</span> <span class="kc">True</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipUnless</span><span class="p">(</span><span class="n">Impl</span><span class="o">.</span><span class="n">iron_python</span><span class="p">,</span> <span class="s1">&#39;ironpython only&#39;</span><span class="p">)</span>  <span class="c1"># only run on IronPython</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_4_ironpython</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">assert</span> <span class="kc">True</span>
+<span class="gp">...</span>
+<span class="gp">... </span>    <span class="nd">@unittest</span><span class="o">.</span><span class="n">skipUnless</span><span class="p">(</span><span class="n">Impl</span><span class="o">.</span><span class="n">jython</span><span class="p">,</span> <span class="s1">&#39;jython only&#39;</span><span class="p">)</span>  <span class="c1"># only run on Jython</span>
+<span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_5_jython</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="gp">... </span>        <span class="k">assert</span> <span class="kc">True</span>
+<span class="gp">...</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">unittest</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
+<span class="go">..sss</span>
+<span class="go">----------------------------------------------------------------------</span>
+<span class="go">Ran 5 tests in 0.000s</span>
+<span class="go">OK (skipped=3)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt id="hbutils.testing.requires.Impl.cpython">
+<code class="sig-name descname">cpython</code><em class="property"> = True</em><a class="headerlink" href="#hbutils.testing.requires.Impl.cpython" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is CPython (most-frequently-used python) or not, related to your local python.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="hbutils.testing.requires.Impl.iron_python">
+<code class="sig-name descname">iron_python</code><em class="property"> = False</em><a class="headerlink" href="#hbutils.testing.requires.Impl.iron_python" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is IronPython or not, related to your local python.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="hbutils.testing.requires.Impl.jython">
+<code class="sig-name descname">jython</code><em class="property"> = False</em><a class="headerlink" href="#hbutils.testing.requires.Impl.jython" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is Jython (java-based python) or not, related to your local python.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="hbutils.testing.requires.Impl.pypy">
+<code class="sig-name descname">pypy</code><em class="property"> = False</em><a class="headerlink" href="#hbutils.testing.requires.Impl.pypy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is PyPy or not, related to your local python.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="cmdv">
+<h2>cmdv<a class="headerlink" href="#cmdv" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.testing.requires.cmdv">
+<code class="sig-prename descclassname">hbutils.testing.requires.</code><code class="sig-name descname">cmdv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">execfile</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../_modules/hbutils/testing/requires/cmd.html#cmdv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.requires.cmdv" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Check if the given command is exist in this environment, like the <code class="docutils literal notranslate"><span class="pre">command</span> <span class="pre">-v</span> <span class="pre">xxx</span></code> command in Linux.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>execfile</strong> – Executable file, such as <code class="docutils literal notranslate"><span class="pre">python</span></code>.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>This executable file is exist or not.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">cmdv</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cmdv</span><span class="p">(</span><span class="s1">&#39;apt-get&#39;</span><span class="p">)</span>  <span class="c1"># should exist on Ubuntu</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cmdv</span><span class="p">(</span><span class="s1">&#39;bash&#39;</span><span class="p">)</span>  <span class="c1"># should exist on Linux</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cmdv</span><span class="p">(</span><span class="s1">&#39;cmd&#39;</span><span class="p">)</span>  <span class="c1"># should exist on Windows</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cmdv</span><span class="p">(</span><span class="s1">&#39;not_installed&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="simulate.html" class="btn btn-neutral float-right" title="hbutils.testing.simulate" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="isolated.html" class="btn btn-neutral float-left" title="hbutils.testing.isolated" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: v0.7.2
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../v0.0.1/index.html">v0.0.1</a></dd>
+                        <dd><a href="../../../v0.1.0/index.html">v0.1.0</a></dd>
+                        <dd><a href="../../../v0.1.1/index.html">v0.1.1</a></dd>
+                        <dd><a href="../../../v0.2.0/index.html">v0.2.0</a></dd>
+                        <dd><a href="../../../v0.3.0/index.html">v0.3.0</a></dd>
+                        <dd><a href="../../../v0.3.1/index.html">v0.3.1</a></dd>
+                        <dd><a href="../../../v0.3.2/index.html">v0.3.2</a></dd>
+                        <dd><a href="../../../v0.3.3/index.html">v0.3.3</a></dd>
+                        <dd><a href="../../../v0.4.0/index.html">v0.4.0</a></dd>
+                        <dd><a href="../../../v0.4.1/index.html">v0.4.1</a></dd>
+                        <dd><a href="../../../v0.4.2/index.html">v0.4.2</a></dd>
+                        <dd><a href="../../../v0.4.3/index.html">v0.4.3</a></dd>
+                        <dd><a href="../../../v0.4.4/index.html">v0.4.4</a></dd>
+                        <dd><a href="../../../v0.4.5/index.html">v0.4.5</a></dd>
+                        <dd><a href="../../../v0.4.6/index.html">v0.4.6</a></dd>
+                        <dd><a href="../../../v0.4.7/index.html">v0.4.7</a></dd>
+                        <dd><a href="../../../v0.5.0/index.html">v0.5.0</a></dd>
+                        <dd><a href="../../../v0.5.1/index.html">v0.5.1</a></dd>
+                        <dd><a href="../../../v0.5.2/index.html">v0.5.2</a></dd>
+                        <dd><a href="../../../v0.6.0/index.html">v0.6.0</a></dd>
+                        <dd><a href="../../../v0.6.1/index.html">v0.6.1</a></dd>
+                        <dd><a href="../../../v0.6.10/api_doc/testing/requires.html">v0.6.10</a></dd>
+                        <dd><a href="../../../v0.6.11/api_doc/testing/requires.html">v0.6.11</a></dd>
+                        <dd><a href="../../../v0.6.12/api_doc/testing/requires.html">v0.6.12</a></dd>
+                        <dd><a href="../../../v0.6.13/api_doc/testing/requires.html">v0.6.13</a></dd>
+                        <dd><a href="../../../v0.6.14/api_doc/testing/requires.html">v0.6.14</a></dd>
+                        <dd><a href="../../../v0.6.2/index.html">v0.6.2</a></dd>
+                        <dd><a href="../../../v0.6.3/api_doc/testing/requires.html">v0.6.3</a></dd>
+                        <dd><a href="../../../v0.6.4/api_doc/testing/requires.html">v0.6.4</a></dd>
+                        <dd><a href="../../../v0.6.5/api_doc/testing/requires.html">v0.6.5</a></dd>
+                        <dd><a href="../../../v0.6.6/api_doc/testing/requires.html">v0.6.6</a></dd>
+                        <dd><a href="../../../v0.6.7/api_doc/testing/requires.html">v0.6.7</a></dd>
+                        <dd><a href="../../../v0.6.8/api_doc/testing/requires.html">v0.6.8</a></dd>
+                        <dd><a href="../../../v0.6.9/api_doc/testing/requires.html">v0.6.9</a></dd>
+                        <dd><a href="../../../v0.7.0/api_doc/testing/requires.html">v0.7.0</a></dd>
+                        <dd><a href="../../../v0.7.1/api_doc/testing/requires.html">v0.7.1</a></dd>
+                        <dd><a href="requires.html">v0.7.2</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="../../../dev/dependency/index.html">dev/dependency</a></dd>
+                        <dd><a href="../../../main/api_doc/testing/requires.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
