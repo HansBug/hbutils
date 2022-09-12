@@ -114,6 +114,7 @@
 <li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.testing.isolated</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#isolated-directory">isolated_directory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#isolated-stdin">isolated_stdin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#isolated-entry-points">isolated_entry_points</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="requires.html">hbutils.testing.requires</a></li>
@@ -281,6 +282,55 @@
 </dd></dl>
 
 </section>
+<section id="isolated-entry-points">
+<h2>isolated_entry_points<a class="headerlink" href="#isolated-entry-points" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.testing.isolated.isolated_entry_points">
+<code class="sig-prename descclassname">hbutils.testing.isolated.</code><code class="sig-name descname">isolated_entry_points</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">group</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">fakes</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>List<span class="p">, </span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">auto_import</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">clear</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/isolated/entry_point.html#isolated_entry_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.isolated.isolated_entry_points" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Isolation for <code class="xref py py-func docutils literal notranslate"><span class="pre">pkg_resources.iter_entry_points()</span></code> function.
+Can be used to fake the plugins, or just disable the installed plugins.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>group</strong> – Group name.</p></li>
+<li><p><strong>fakes</strong> – Fake entry points. Dict or list are accepted.</p></li>
+<li><p><strong>auto_import</strong> – Auto import the object from string. Default is <code class="docutils literal notranslate"><span class="pre">True</span></code> which means if         a string is given, dynamic import will be performed.</p></li>
+<li><p><strong>clear</strong> – Clear the original entry points or not. Default is <code class="docutils literal notranslate"><span class="pre">False</span></code> which means the original         entry points will be kept and be able to be iterated.</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pkg_resources</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">isolated_entry_points</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">isolated_entry_points</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">,</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="p">(</span>
+<span class="gp">... </span>            <span class="s1">&#39;quick_import_object&#39;</span><span class="p">,</span>  <span class="c1"># name import</span>
+<span class="gp">... </span>            <span class="s1">&#39;hbutils.reflection.quick_import_object&#39;</span>
+<span class="gp">... </span>    <span class="p">),</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="s1">&#39;func_filter&#39;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">),</span>  <span class="c1"># named entry object</span>
+<span class="gp">... </span>    <span class="nb">map</span><span class="p">,</span>  <span class="c1"># simple function</span>
+<span class="gp">... </span>    <span class="s1">&#39;hbutils.system.is_binary_file&#39;</span><span class="p">,</span>  <span class="c1"># simple import</span>
+<span class="gp">... </span><span class="p">]):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">({</span><span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">ep</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span>
+<span class="gp">... </span>           <span class="n">pkg_resources</span><span class="o">.</span><span class="n">iter_entry_points</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">)})</span>
+<span class="go">{&#39;quick_import_object&#39;: &lt;function quick_import_object at 0x7fb17f4e5170&gt;, &#39;func_filter&#39;: &lt;class &#39;filter&#39;&gt;, &#39;map&#39;: &lt;class &#39;map&#39;&gt;, &#39;is_binary_file&#39;: &lt;function is_binary_file at 0x7fb17f55eef0&gt;}</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">isolated_entry_points</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">,</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s1">&#39;func_map&#39;</span><span class="p">:</span> <span class="nb">map</span><span class="p">,</span> <span class="s1">&#39;func_binary&#39;</span><span class="p">:</span> <span class="s1">&#39;hbutils.system.is_binary_file&#39;</span><span class="p">}):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">({</span><span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">ep</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span>
+<span class="gp">... </span>           <span class="n">pkg_resources</span><span class="o">.</span><span class="n">iter_entry_points</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">)})</span>
+<span class="go">{&#39;func_map&#39;: &lt;class &#39;map&#39;&gt;, &#39;func_binary&#39;: &lt;function is_binary_file at 0x7fb17f55eef0&gt;}</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -369,9 +419,8 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/entry_point/api_doc/testing/isolated.html">dev/entry_point</a></dd>
-                        <dd><a href="../../../dev/dependency/api_doc/testing/isolated.html">dev/dependency</a></dd>
                         <dd><a href="isolated.html">main</a></dd>
+                        <dd><a href="../../../dev/dependency/api_doc/testing/isolated.html">dev/dependency</a></dd>
                 </dl>
         </div>
     </div>
