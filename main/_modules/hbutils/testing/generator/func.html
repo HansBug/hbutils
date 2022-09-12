@@ -247,16 +247,6 @@
         <span class="n">final_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">kname</span><span class="p">)</span>
         <span class="n">final_values</span><span class="p">[</span><span class="n">kname</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 
-    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="n">MatrixMode</span><span class="o">.</span><span class="n">MATRIX</span><span class="p">:</span>
-        <span class="n">generator</span> <span class="o">=</span> <span class="n">MatrixGenerator</span><span class="p">(</span><span class="n">final_values</span><span class="p">,</span> <span class="n">final_names</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="n">MatrixMode</span><span class="o">.</span><span class="n">AETG</span><span class="p">:</span>
-        <span class="n">generator</span> <span class="o">=</span> <span class="n">AETGGenerator</span><span class="p">(</span>
-            <span class="n">final_values</span><span class="p">,</span> <span class="n">final_names</span><span class="p">,</span> <span class="n">rnd</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span>
-            <span class="n">pairs</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">progressive_for</span><span class="p">(</span><span class="n">final_names</span><span class="p">,</span> <span class="n">level</span><span class="p">))</span>
-        <span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid mode - </span><span class="si">{</span><span class="n">mode</span><span class="si">!r}</span><span class="s1">.&#39;</span><span class="p">)</span>  <span class="c1"># pragma: no cover</span>
-
     <span class="n">names</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">ranges</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -264,6 +254,16 @@
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
             <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">key</span><span class="p">:</span>
                 <span class="n">names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="n">MatrixMode</span><span class="o">.</span><span class="n">MATRIX</span><span class="p">:</span>
+        <span class="n">generator</span> <span class="o">=</span> <span class="n">MatrixGenerator</span><span class="p">(</span><span class="n">final_values</span><span class="p">,</span> <span class="n">final_names</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">mode</span> <span class="o">==</span> <span class="n">MatrixMode</span><span class="o">.</span><span class="n">AETG</span><span class="p">:</span>
+        <span class="n">generator</span> <span class="o">=</span> <span class="n">AETGGenerator</span><span class="p">(</span>
+            <span class="n">final_values</span><span class="p">,</span> <span class="n">final_names</span><span class="p">,</span> <span class="n">rnd</span><span class="o">=</span><span class="n">seed</span><span class="p">,</span>
+            <span class="n">pairs</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">progressive_for</span><span class="p">(</span><span class="n">final_names</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">level</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">)))),</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid mode - </span><span class="si">{</span><span class="n">mode</span><span class="si">!r}</span><span class="s1">.&#39;</span><span class="p">)</span>  <span class="c1"># pragma: no cover</span>
 
     <span class="n">pairs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">case</span> <span class="ow">in</span> <span class="n">generator</span><span class="o">.</span><span class="n">cases</span><span class="p">():</span>
@@ -356,8 +356,8 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="func.html">main</a></dd>
+                        <dd><a href="../../../../../dev/dependency/index.html">dev/dependency</a></dd>
                 </dl>
         </div>
     </div>
