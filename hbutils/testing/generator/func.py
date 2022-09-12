@@ -74,16 +74,6 @@ def tmatrix(ranges: Mapping[Union[str, Tuple[str, ...]], List],
         final_names.append(kname)
         final_values[kname] = value
 
-    if mode == MatrixMode.MATRIX:
-        generator = MatrixGenerator(final_values, final_names)
-    elif mode == MatrixMode.AETG:
-        generator = AETGGenerator(
-            final_values, final_names, rnd=seed,
-            pairs=list(progressive_for(final_names, level))
-        )
-    else:
-        raise ValueError(f'Invalid mode - {mode!r}.')  # pragma: no cover
-
     names = []
     for key in ranges.keys():
         if isinstance(key, str):
@@ -91,6 +81,16 @@ def tmatrix(ranges: Mapping[Union[str, Tuple[str, ...]], List],
         elif isinstance(key, tuple):
             for k in key:
                 names.append(k)
+
+    if mode == MatrixMode.MATRIX:
+        generator = MatrixGenerator(final_values, final_names)
+    elif mode == MatrixMode.AETG:
+        generator = AETGGenerator(
+            final_values, final_names, rnd=seed,
+            pairs=list(progressive_for(final_names, min(level, len(names)))),
+        )
+    else:
+        raise ValueError(f'Invalid mode - {mode!r}.')  # pragma: no cover
 
     pairs = []
     for case in generator.cases():

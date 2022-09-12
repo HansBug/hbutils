@@ -39,6 +39,12 @@ class TestTestingGeneratorFunc:
                        ]
                    )
 
+    def test_matrix_ateg_single(self):
+        assert tmatrix({'v': [True, False]}) == (
+            ['v', ],
+            [(True,), (False,)],
+        )
+
     def test_tmatrix_matrix(self):
         for i in range(5):
             assert tmatrix({
