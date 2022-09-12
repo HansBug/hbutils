@@ -19,3 +19,9 @@ isolated_stdin
 .. autofunction:: isolated_stdin
 
 
+isolated_entry_points
+--------------------------
+
+.. autofunction:: isolated_entry_points
+
+
