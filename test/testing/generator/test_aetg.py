@@ -193,3 +193,8 @@ class TestTestingGeneratorAETG:
                 pairs=[('a', 'c'), ('b', 'd'), ('e',)],
                 rnd='random.Random(0)',
             )
+
+    def test_single(self):
+        m = AETGGenerator({'a': [1, 2, 3]}, rnd=0)
+        assert m.names == ['a']
+        assert sorted(m.tuple_cases()) == [(1,), (2,), (3,)]

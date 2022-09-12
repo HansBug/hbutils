@@ -36,7 +36,7 @@ class _AETGValuePair(IComparable):
 
 
 def _create_init_pairs(names: List[str]) -> List[Tuple[str, ...]]:
-    return [(iname, jname) for iname, jname in progressive_for(names, 2)]
+    return list(progressive_for(names, min(2, len(names))))
 
 
 def _process_pairs(pairs: List[Tuple[str, ...]], names: List[str]) -> List[Tuple[str, ...]]:
