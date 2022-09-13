@@ -15,8 +15,23 @@ _NOT_GIVEN = SingletonMark('_TextAligner_NOT_GIVEN')
 
 
 class TextAligner:
+    """
+    Overview:
+        Text aligner for comparing texts in unittest.
+    """
+
     def __init__(self, line_rstrip: bool = True, keep_empty_tail: bool = False,
                  text_func=None, line_func=None, ls_func=None):
+        """
+        Constructor of :class:`TextAligner`.
+
+        :param line_rstrip: Right strip each line, default is ``True``.
+        :param keep_empty_tail: Keep the empty tail of the text, default is ``False``, which means the \
+            empty tails will be ignored.
+        :param text_func: Function for preprocessing whole text.
+        :param line_func: Function for processing each line.
+        :param ls_func: Function for processing lines list.
+        """
         self.__line_rstrip = line_rstrip
         self.__keep_empty_tail = keep_empty_tail
         self.__text_func = text_func or (lambda x: x)
@@ -24,6 +39,12 @@ class TextAligner:
         self.__ls_func = ls_func or (lambda x: x)
 
     def text_trans(self, text_func):
+        """
+        Transformation for the original text.
+
+        :param text_func: New text process function.
+        :return: A new :class:`TextAligner` object with ``text_func`` process.
+        """
         return self.__class__(
             self.__line_func, self.__keep_empty_tail,
             lambda x: text_func(self.__text_func(x)),
@@ -31,6 +52,12 @@ class TextAligner:
         )
 
     def line_map(self, line_func):
+        """
+        Mapping for the text of each line.
+
+        :param line_func: New line process function.
+        :return: A new :class:`TextAligner` object with ``line_func`` process.
+        """
         return self.__class__(
             self.__line_func, self.__keep_empty_tail,
             self.__text_func,
@@ -39,6 +66,12 @@ class TextAligner:
         )
 
     def ls_trans(self, ls_func):
+        """
+        Transformation for the separated lines.
+
+        :param ls_func: New lines process function.
+        :return: A new :class:`TextAligner` object with ``ls_func`` process.
+        """
         return self.__class__(
             self.__line_func, self.__keep_empty_tail,
             self.__text_func, self.__line_func,
@@ -46,9 +79,49 @@ class TextAligner:
         )
 
     def __getattr__(self, item: str) -> '_StrMethodProxy':
+        """
+        Append postprocess from :class:`str` of each line.
+
+        :param item: Method name.
+
+        Examples::
+            >>> from hbutils.testing import TextAligner
+            >>> text_align = TextAligner()
+            >>> print(text_align.lower().multiple_lines()('''
+            ... Python 3.6.5
+            ... Hello world!!
+            ...   Do not see me like this...
+            ... \\n\\n\\t\\n
+            ... '''))
+            python 3.6.5
+            hello world!!
+              do not see me like this...
+        """
         return _StrMethodProxy(self, item)
 
     def multiple_lines(self, lstrip: bool = True, dedent: bool = True):
+        """
+        Switch to multiple-line mode.
+
+        :param lstrip: Left strip the original text.
+        :param dedent: Dedent the text.
+
+        Examples::
+            >>> from hbutils.testing import TextAligner
+            >>> text_align = TextAligner()
+            >>> print(text_align.multiple_lines()('''
+            ... Python 3.6.5
+            ... Hello world!!
+            ...   Do not see me like this...
+            ... \\n\\n\\t\\n
+            ... '''))
+            Python 3.6.5
+            Hello world!!
+              Do not see me like this...
+
+        .. note::
+            With :meth:`multiple_lines`, the text's comparison will be compatible with text wrapper.
+        """
         align = self
         if dedent:
             align = align.text_trans(textwrap.dedent)
@@ -76,9 +149,59 @@ class TextAligner:
             raise TypeError(f'Invalid content type - {text!r}.')
 
     def splitlines(self, text: Union[str, List[str]]) -> List[str]:
+        """
+        Transform the original text or lines to list of aligned lines.
+
+        :param text: Original text or lines.
+        :return: List of split lines.
+
+        Examples::
+            >>> from hbutils.testing import TextAligner
+            >>> text_align = TextAligner()
+            >>> print(text_align.splitlines('''Python 3.6.5
+            ... Hello world!!
+            ...   Do not see me like this...
+            ... \\n\\n\\t\\n
+            ... '''))
+            ['Python 3.6.5', 'Hello world!!', '  Do not see me like this...']
+
+            >>> print(text_align.lstrip().splitlines('''Python 3.6.5
+            ... Hello world!!
+            ...   Do not see me like this...
+            ... \\n\\n\\t\\n
+            ... '''))
+            ['Python 3.6.5', 'Hello world!!', 'Do not see me like this...']
+        """
         return self._process(text)
 
     def __call__(self, text: Union[str, List[str]]) -> str:
+        """
+        Transform the original text or lines to aligned text.
+
+        :param text: Original text or lines.
+        :return: Aligned text.
+
+        Examples::
+            >>> from hbutils.testing import TextAligner
+            >>> text_align = TextAligner()
+            >>> print(text_align('''Python 3.6.5
+            ... Hello world!!
+            ...   Do not see me like this...
+            ... \\n\\n\\t\\n
+            ... '''))
+            Python 3.6.5
+            Hello world!!
+              Do not see me like this...
+
+            >>> print(text_align.lstrip()('''Python 3.6.5
+            ... Hello world!!
+            ...   Do not see me like this...
+            ... \\n\\n\\t\\n
+            ... '''))
+            Python 3.6.5
+            Hello world!!
+            Do not see me like this...
+        """
         return os.linesep.join(self._process(text))
 
     @staticmethod
@@ -127,6 +250,40 @@ class TextAligner:
 
     def assert_equal(self, expect: Union[str, List[str]], actual: Union[str, List[str]],
                      max_diff: int = 3, max_extra: int = 5):
+        """
+        Assert two string is equal.
+
+        :param expect: Expected text or lines.
+        :param actual: Actual text or lines.
+        :param max_diff: Max different lines to show in assertion message, default is ``3``.
+        :param max_extra: Max extra lines to show in assertion message, default is ``5``.
+
+        Examples::
+            >>> from hbutils.testing import TextAligner
+            >>> text_align = TextAligner()
+            >>> text_align.multiple_lines().assert_equal('''Python 3.6.5
+            ... Hello world!!
+            ...   Do not see me like this...
+            ... \\n\\n\\t\\n
+            ... ''', '''
+            ...         Python 3.6.5
+            ...         Hello world!!
+            ...           Do not see me like this...
+            ... ''')  # this is okay
+
+            >>> text_align.multiple_lines().assert_equal('''Python 3.6.5
+            ... Hello world!!
+            ...   Do not see me like this...
+            ... \\n\\n\\t\\n
+            ... ''', '''
+            ...         Python 3.6.5
+            ...         Hello world!!
+            ...         Do not see me like this...
+            ... ''')
+            AssertionError: Difference found in line 3:
+                Expect:   Do not see me like this...
+                Actual: Do not see me like this...
+        """
         expect, actual = self._process(expect), self._process(actual)
         assert expect == actual, self._eq_compare_message(expect, actual, max_diff, max_extra)
 
@@ -138,6 +295,12 @@ class TextAligner:
             return 'Actual text are completely the same as expected one!'
 
     def assert_not_equal(self, expect: Union[str, List[str]], actual: Union[str, List[str]]):
+        """
+        Assert two string is not equal, which is similar to :meth:`assert_equal`.
+
+        :param expect: Expected text or lines.
+        :param actual: Actual text or lines.
+        """
         expect, actual = self._process(expect), self._process(actual)
         assert expect != actual, self._ne_compare_message(expect, actual)
 
