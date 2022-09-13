@@ -9,6 +9,7 @@ hbutils.testing
     :maxdepth: 3
 
     capture
+    compare
     generator
     isolated
     requires
