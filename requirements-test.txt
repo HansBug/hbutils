@@ -9,3 +9,4 @@ pytest-rerunfailures~=10.2
 pytest-timeout~=2.0.2
 easydict>=1.7,<2
 click>=7.0.0
+numpy>=1.20

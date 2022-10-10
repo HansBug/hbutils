@@ -3,22 +3,37 @@ import types
 from contextlib import contextmanager
 from typing import ContextManager, Mapping, List, Dict
 
+from ..collection import get_recovery_func
+
 __all__ = [
     'mount_pythonpath',
     'PythonPathEnv',
 ]
 
 
+def _copy_list(origin: list, target: list):
+    origin[:] = target
+
+
+def _copy_dict(origin: dict, target: dict):
+    for key in set(origin.keys()) | set(target.keys()):
+        if key not in target:
+            del origin[key]
+        else:
+            origin[key] = target[key]
+
+
 @contextmanager
 def _native_mount_pythonpath(paths: List[str], modules: Dict[str, types.ModuleType]) -> ContextManager:
-    oldpath, oldmodules = sys.path, sys.modules
+    path_rec = get_recovery_func(sys.path)
+    modules_rec = get_recovery_func(sys.modules)
     try:
-        sys.path = paths
-        sys.modules = modules
+        _copy_list(sys.path, paths)
+        _copy_dict(sys.modules, modules)
         yield
     finally:
-        sys.path = oldpath
-        sys.modules = oldmodules
+        path_rec()
+        modules_rec()
 
 
 class PythonPathEnv:
