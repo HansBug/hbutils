@@ -3,8 +3,6 @@ import types
 from contextlib import contextmanager
 from typing import ContextManager, Mapping, List, Dict
 
-from ..collection import get_recovery_func
-
 __all__ = [
     'mount_pythonpath',
     'PythonPathEnv',
@@ -25,6 +23,7 @@ def _copy_dict(origin: dict, target: dict):
 
 @contextmanager
 def _native_mount_pythonpath(paths: List[str], modules: Dict[str, types.ModuleType]) -> ContextManager:
+    from ..collection import get_recovery_func
     path_rec = get_recovery_func(sys.path)
     modules_rec = get_recovery_func(sys.modules)
     try:
