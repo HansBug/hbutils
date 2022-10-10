@@ -4,6 +4,7 @@ Overview:
 """
 from .dimension import *
 from .functional import *
+from .recover import *
 from .sequence import *
 from .stacked import *
 from .structural import *
