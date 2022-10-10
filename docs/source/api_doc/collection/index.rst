@@ -10,6 +10,7 @@ hbutils.collection
 
     dimension
     functional
+    recover
     sequence
     stacked
     structural
