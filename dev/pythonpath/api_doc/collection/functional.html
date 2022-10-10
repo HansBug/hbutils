@@ -188,10 +188,51 @@
             
     
     
-  <section id="hbutils-collection-functional">
-<h1>hbutils.collection.functional<a class="headerlink" href="#hbutils-collection-functional" title="Permalink to this headline">¶</a></h1>
+  <section id="module-hbutils.collection.functional">
+<span id="hbutils-collection-functional"></span><h1>hbutils.collection.functional<a class="headerlink" href="#module-hbutils.collection.functional" title="Permalink to this headline">¶</a></h1>
+<dl class="simple">
+<dt>Overview:</dt><dd><p>Function operations for nested structure.</p>
+</dd>
+</dl>
 <section id="nested-map">
 <h2>nested_map<a class="headerlink" href="#nested-map" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.collection.functional.nested_map">
+<code class="sig-prename descclassname">hbutils.collection.functional.</code><code class="sig-name descname">nested_map</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">f</span></em>, <em class="sig-param"><span class="n">s</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/collection/functional.html#nested_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.collection.functional.nested_map" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Map the nested structure with a function.</p>
+</dd>
+<dt>Arguments:</dt><dd><ul class="simple">
+<li><p>f: The given function.</p></li>
+<li><p>s: Nested structure.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>result: Mapped nested structure.</p></li>
+</ul>
+</dd>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.collection</span> <span class="kn">import</span> <span class="n">nested_map</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nested_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}),</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)},</span>
+<span class="gp">... </span><span class="p">])</span>
+<span class="go">[3, 4, (5, {&#39;x&#39;: 3, &#39;y&#39;: 5}), {&#39;a&#39;: 4, &#39;b&#39;: (5, 6)}]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nested_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span>  <span class="nb">len</span><span class="p">(</span><span class="n">p</span><span class="p">),</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}),</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)},</span>
+<span class="gp">... </span><span class="p">])</span>
+<span class="go">[3, 4, (10, {&#39;x&#39;: 9, &#39;y&#39;: 15}), {&#39;a&#39;: 8, &#39;b&#39;: (15, 18)}]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nested_map</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="mi">233</span><span class="p">,</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">}),</span>
+<span class="gp">... </span>    <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)},</span>
+<span class="gp">... </span><span class="p">])</span>
+<span class="go">[233, 233, (233, {&#39;x&#39;: 233, &#39;y&#39;: 233}), {&#39;a&#39;: 233, &#39;b&#39;: (233, 233)}]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 </section>
 

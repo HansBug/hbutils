@@ -186,10 +186,45 @@
             
     
     
-  <section id="hbutils-encoding-decode">
-<h1>hbutils.encoding.decode<a class="headerlink" href="#hbutils-encoding-decode" title="Permalink to this headline">¶</a></h1>
+  <section id="module-hbutils.encoding.decode">
+<span id="hbutils-encoding-decode"></span><h1>hbutils.encoding.decode<a class="headerlink" href="#module-hbutils.encoding.decode" title="Permalink to this headline">¶</a></h1>
+<dl class="simple">
+<dt>Overview:</dt><dd><p>Functions to deal with encoding binary data easily.</p>
+</dd>
+</dl>
 <section id="auto-decode">
 <h2>auto_decode<a class="headerlink" href="#auto-decode" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.encoding.decode.auto_decode">
+<code class="sig-prename descclassname">hbutils.encoding.decode.</code><code class="sig-name descname">auto_decode</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span><span class="p">:</span> <span class="n">bytes</span></em>, <em class="sig-param"><span class="n">encoding</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">prefers</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/encoding/decode.html#auto_decode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.encoding.decode.auto_decode" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Auto decode binary data to string, the encoding mode will be automatically detected.</p>
+</dd>
+<dt>Arguments:</dt><dd><ul class="simple">
+<li><p>data (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bytes</span></code>): Original binary data to be decoded.</p></li>
+<li><dl class="simple">
+<dt>encoding (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[str]</span></code>): Encoding mode to be used, default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which </dt><dd><p>means this function need to automatically detect the encoding.</p>
+</dd>
+</dl>
+</li>
+<li><p>prefers (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[List[str]]</span></code>): Prefered encodings.</p></li>
+</ul>
+</dd>
+<dt>Returns:</dt><dd><ul class="simple">
+<li><p>str (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>): Decoded string.</p></li>
+</ul>
+</dd>
+</dl>
+<p>Examples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">auto_decode</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;kdsfjldsjflkdsmgds&#39;</span><span class="p">)</span>  <span class="c1"># &#39;kdsfjldsjflkdsmgds&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">auto_decode</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xd0\x94\xd0\xbe\xd0\xb1\xd1\x80\xd1\x8b\xd0\xb9</span><span class="s1"> </span><span class="se">\xd0</span><span class="s1">&#39;</span>
+<span class="gp">... </span>            <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xb2\xd0\xb5\xd1\x87\xd0\xb5\xd1\x80</span><span class="s1">&#39;</span><span class="p">)</span>  <span class="c1"># &quot;Добрый вечер&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">auto_decode</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xa4\xb3\xa4\xf3\xa4\xd0\xa4\xf3\xa4\xcf</span><span class="s1">&#39;</span><span class="p">)</span>  <span class="c1"># &quot;こんばんは&quot;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">auto_decode</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xcd\xed\xc9\xcf\xba\xc3</span><span class="s1">&#39;</span><span class="p">)</span>  <span class="c1"># &quot;晚上好&quot;</span>
+</pre></div>
+</div>
+</dd></dl>
+
 </section>
 </section>
 

@@ -188,10 +188,91 @@
             
     
     
-  <section id="hbutils-collection-stacked">
-<h1>hbutils.collection.stacked<a class="headerlink" href="#hbutils-collection-stacked" title="Permalink to this headline">¶</a></h1>
+  <section id="module-hbutils.collection.stacked">
+<span id="hbutils-collection-stacked"></span><h1>hbutils.collection.stacked<a class="headerlink" href="#module-hbutils.collection.stacked" title="Permalink to this headline">¶</a></h1>
 <section id="stackedmapping">
 <h2>StackedMapping<a class="headerlink" href="#stackedmapping" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.collection.stacked.StackedMapping">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.collection.stacked.</code><code class="sig-name descname">StackedMapping</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">mps</span><span class="p">:</span> <span class="n">collections.abc.Mapping</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/collection/stacked.html#StackedMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.collection.stacked.StackedMapping" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Stacked mapping data structure.</p>
+<p>Multiple mapping-liked object (such as <code class="docutils literal notranslate"><span class="pre">dict</span></code>) can be stacked together and accessed like one mapping object.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#hbutils.collection.stacked.StackedMapping" title="hbutils.collection.stacked.StackedMapping"><code class="xref py py-class docutils literal notranslate"><span class="pre">StackedMapping</span></code></a> is readonly. The <code class="docutils literal notranslate"><span class="pre">__setitem__</span></code> and <code class="docutils literal notranslate"><span class="pre">__delitem__</span></code>’s behaviour cannot be defined,         because which dict to write or delete can not be determined.</p>
+</aside>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.collection</span> <span class="kn">import</span> <span class="n">StackedMapping</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d1</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d2</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d3</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">StackedMapping</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">d2</span><span class="p">,</span> <span class="n">d3</span><span class="p">)</span>  <span class="c1">## stack together, d3 &gt; d2 &gt; d1</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>  <span class="c1"># __iter__</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+<span class="go">a 1</span>
+<span class="go">b 3</span>
+<span class="go">c 6</span>
+<span class="go">d 5</span>
+<span class="go">e 7</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span>  <span class="c1"># __getitem__, from d1[&#39;a&#39;]</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span>  <span class="c1"># from d2[&#39;b&#39;], d2 &gt; d1</span>
+<span class="go">3</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span>  <span class="c1"># from d3[&#39;c&#39;], d3 &gt; d2</span>
+<span class="go">6</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;d&#39;</span><span class="p">]</span>  <span class="c1"># from d2[&#39;d&#39;]</span>
+<span class="go">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;e&#39;</span><span class="p">]</span>  <span class="c1"># from d3[&#39;e&#39;]</span>
+<span class="go">7</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;c&#39;</span> <span class="ow">in</span> <span class="n">s</span>  <span class="c1"># __contains__</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="s1">&#39;f&#39;</span> <span class="ow">in</span> <span class="n">s</span>  <span class="c1"># &#39;f&#39; not found in neither d1, d2 nor d3</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">==</span> <span class="p">{</span><span class="s1">&#39;a&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;b&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">:</span> <span class="mi">7</span><span class="p">}</span>  <span class="c1"># __iter__</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>  <span class="c1"># __len__</span>
+<span class="go">5</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d2</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">11</span>  <span class="c1">## update original dicts</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">d2</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">d3</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">del</span> <span class="n">d1</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span>  <span class="c1"># __getitem__, from d1[&#39;a&#39;]</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span>  <span class="c1"># &#39;b&#39; nor found in neither d1, d2 nor d3</span>
+<span class="go">KeyError: &#39;b&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;c&#39;</span><span class="p">]</span>  <span class="c1"># from d2[&#39;c&#39;]</span>
+<span class="go">11</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;d&#39;</span><span class="p">]</span>  <span class="c1"># from d2[&#39;d&#39;]</span>
+<span class="go">5</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="p">[</span><span class="s1">&#39;e&#39;</span><span class="p">]</span>  <span class="c1"># from d3[&#39;e&#39;]</span>
+<span class="go">7</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>  <span class="c1"># &#39;b&#39; is no longer here</span>
+<span class="go">4</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="hbutils.collection.stacked.StackedMapping.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">mps</span><span class="p">:</span> <span class="n">collections.abc.Mapping</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/collection/stacked.html#StackedMapping.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.collection.stacked.StackedMapping.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of <a class="reference internal" href="#hbutils.collection.stacked.StackedMapping" title="hbutils.collection.stacked.StackedMapping"><code class="xref py py-class docutils literal notranslate"><span class="pre">StackedMapping</span></code></a>.</p>
+<p>Later mappings will be stacked on top of the earlier ones.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mps</strong> – Multiple mapping objects.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 </section>
 
