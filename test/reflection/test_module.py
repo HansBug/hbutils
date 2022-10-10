@@ -1,6 +1,9 @@
+from unittest import skipUnless
+
 import pytest
 
 from hbutils.reflection import mount_pythonpath
+from hbutils.testing import vpip
 from test.testings import get_testfile_path
 
 
@@ -40,6 +43,7 @@ class TestReflectionModule:
             assert m1() == pytest.approx(1038365.9804592021)
             assert m2() == pytest.approx(135673.20093683453)
 
+    @skipUnless(vpip('numpy'), 'Numpy required')
     def test_mount_with___import__(self):
         with mount_pythonpath():
             __import__('numpy')
