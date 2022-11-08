@@ -1,0 +1,498 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hbutils.testing.isolated &mdash; hbutils 0.7.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="hbutils.testing.requires" href="requires.html" />
+    <link rel="prev" title="hbutils.testing.generator" href="generator.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> hbutils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.7.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+</ul>
+<p><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">hbutils.algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../binary/index.html">hbutils.binary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../collection/index.html">hbutils.collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../color/index.html">hbutils.color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/index.html">hbutils.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/index.html">hbutils.design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../expression/index.html">hbutils.expression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file/index.html">hbutils.file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/index.html">hbutils.model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../random/index.html">hbutils.random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reflection/index.html">hbutils.reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scale/index.html">hbutils.scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../string/index.html">hbutils.string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../system/index.html">hbutils.system</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">hbutils.testing</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="capture.html">hbutils.testing.capture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compare.html">hbutils.testing.compare</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generator.html">hbutils.testing.generator</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.testing.isolated</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#isolated-directory">isolated_directory</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#isolated-stdin">isolated_stdin</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#isolated-entry-points">isolated_entry_points</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#isolated-logger">isolated_logger</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="requires.html">hbutils.testing.requires</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulate.html">hbutils.testing.simulate</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">hbutils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">hbutils.testing</a> &raquo;</li>
+        
+      <li>hbutils.testing.isolated</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_doc/testing/isolated.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <section id="module-hbutils.testing.isolated">
+<span id="hbutils-testing-isolated"></span><h1>hbutils.testing.isolated<a class="headerlink" href="#module-hbutils.testing.isolated" title="Permalink to this headline">¶</a></h1>
+<dl class="simple">
+<dt>Overview:</dt><dd><p>Utilities for isolating environment, which can be using in testing.</p>
+</dd>
+</dl>
+<section id="isolated-directory">
+<h2>isolated_directory<a class="headerlink" href="#isolated-directory" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.testing.isolated.isolated_directory">
+<code class="sig-prename descclassname">hbutils.testing.isolated.</code><code class="sig-name descname">isolated_directory</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mapping</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Dict<span class="p">[</span>str<span class="p">, </span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; AbstractContextManager<a class="reference internal" href="../../_modules/hbutils/testing/isolated/directory.html#isolated_directory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.isolated.isolated_directory" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Do something in an isolated directory.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mapping</strong> – Mappings for the isolated directory.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><ul class="simple">
+<li><p>Simple usage</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pathlib</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">isolated_directory</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">isolated_directory</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;file.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Line 1&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">f</span><span class="p">)</span>
+<span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Line 2rd&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">f</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s1">&#39;file.txt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
+<span class="go">[&#39;file.txt&#39;]</span>
+<span class="go">Line 1</span>
+<span class="go">Line 2rd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">))</span>
+<span class="go">[&#39;hbutils&#39;, &#39;README.md&#39;, &#39;requirements.txt&#39;, ...]</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Mapping files and directory inside</p></li>
+</ul>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">isolated_directory</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">isolated_directory</span><span class="p">({</span>
+<span class="gp">... </span>    <span class="s1">&#39;ts&#39;</span><span class="p">:</span> <span class="s1">&#39;hbutils/testing&#39;</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;README.md&#39;</span><span class="p">:</span> <span class="s1">&#39;README.md&#39;</span><span class="p">,</span>
+<span class="gp">... </span><span class="p">}):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">))</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;ts&#39;</span><span class="p">))</span>
+<span class="go">[&#39;README.md&#39;, &#39;ts&#39;]</span>
+<span class="go">[&#39;capture&#39;, &#39;generator&#39;, &#39;isolated&#39;, &#39;__init__.py&#39;]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="isolated-stdin">
+<h2>isolated_stdin<a class="headerlink" href="#isolated-stdin" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.testing.isolated.isolated_stdin">
+<code class="sig-prename descclassname">hbutils.testing.isolated.</code><code class="sig-name descname">isolated_stdin</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">v</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">mem</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/isolated/input.html#isolated_stdin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.isolated.isolated_stdin" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Isolation for stdin stream.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v</strong> – Input content, a whole string or a list of string supported.</p></li>
+<li><p><strong>mem</strong> – Use memory or not. Default is <code class="docutils literal notranslate"><span class="pre">False</span></code> which means         a temporary file will be used as fake input stream.</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">isolated_stdin</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">isolated_stdin</span><span class="p">([</span><span class="s1">&#39;123&#39;</span><span class="p">,</span> <span class="s1">&#39;456&#39;</span><span class="p">]):</span>
+<span class="gp">... </span>    <span class="n">a</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">())</span>
+<span class="gp">... </span>    <span class="n">b</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">input</span><span class="p">())</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span><span class="p">)</span>
+<span class="go">123 456 579</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="isolated-entry-points">
+<h2>isolated_entry_points<a class="headerlink" href="#isolated-entry-points" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.testing.isolated.isolated_entry_points">
+<code class="sig-prename descclassname">hbutils.testing.isolated.</code><code class="sig-name descname">isolated_entry_points</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">group</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">fakes</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>List<span class="p">, </span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">auto_import</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">clear</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/isolated/entry_point.html#isolated_entry_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.isolated.isolated_entry_points" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Isolation for <code class="xref py py-func docutils literal notranslate"><span class="pre">pkg_resources.iter_entry_points()</span></code> function.
+Can be used to fake the plugins, or just disable the installed plugins.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>group</strong> – Group name.</p></li>
+<li><p><strong>fakes</strong> – Fake entry points. Dict or list are accepted.</p></li>
+<li><p><strong>auto_import</strong> – Auto import the object from string. Default is <code class="docutils literal notranslate"><span class="pre">True</span></code> which means if         a string is given, dynamic import will be performed.</p></li>
+<li><p><strong>clear</strong> – Clear the original entry points or not. Default is <code class="docutils literal notranslate"><span class="pre">False</span></code> which means the original         entry points will be kept and be able to be iterated.</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pkg_resources</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">isolated_entry_points</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">isolated_entry_points</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">,</span> <span class="p">[</span>
+<span class="gp">... </span>    <span class="p">(</span>
+<span class="gp">... </span>            <span class="s1">&#39;quick_import_object&#39;</span><span class="p">,</span>  <span class="c1"># name import</span>
+<span class="gp">... </span>            <span class="s1">&#39;hbutils.reflection.quick_import_object&#39;</span>
+<span class="gp">... </span>    <span class="p">),</span>
+<span class="gp">... </span>    <span class="p">(</span><span class="s1">&#39;func_filter&#39;</span><span class="p">,</span> <span class="nb">filter</span><span class="p">),</span>  <span class="c1"># named entry object</span>
+<span class="gp">... </span>    <span class="nb">map</span><span class="p">,</span>  <span class="c1"># simple function</span>
+<span class="gp">... </span>    <span class="s1">&#39;hbutils.system.is_binary_file&#39;</span><span class="p">,</span>  <span class="c1"># simple import</span>
+<span class="gp">... </span><span class="p">]):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">({</span><span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">ep</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span>
+<span class="gp">... </span>           <span class="n">pkg_resources</span><span class="o">.</span><span class="n">iter_entry_points</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">)})</span>
+<span class="go">{&#39;quick_import_object&#39;: &lt;function quick_import_object at 0x7fb17f4e5170&gt;, &#39;func_filter&#39;: &lt;class &#39;filter&#39;&gt;, &#39;map&#39;: &lt;class &#39;map&#39;&gt;, &#39;is_binary_file&#39;: &lt;function is_binary_file at 0x7fb17f55eef0&gt;}</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">isolated_entry_points</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">,</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s1">&#39;func_map&#39;</span><span class="p">:</span> <span class="nb">map</span><span class="p">,</span> <span class="s1">&#39;func_binary&#39;</span><span class="p">:</span> <span class="s1">&#39;hbutils.system.is_binary_file&#39;</span><span class="p">}):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">({</span><span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">ep</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span>
+<span class="gp">... </span>           <span class="n">pkg_resources</span><span class="o">.</span><span class="n">iter_entry_points</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">)})</span>
+<span class="go">{&#39;func_map&#39;: &lt;class &#39;map&#39;&gt;, &#39;func_binary&#39;: &lt;function is_binary_file at 0x7fb17f55eef0&gt;}</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="isolated-logger">
+<h2>isolated_logger<a class="headerlink" href="#isolated-logger" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.testing.isolated.isolated_logger">
+<code class="sig-prename descclassname">hbutils.testing.isolated.</code><code class="sig-name descname">isolated_logger</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">logger</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>str<span class="p">, </span>logging.Logger<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">handlers</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>logging.Handler<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">close_handlers</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/isolated/logging.html#isolated_logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.isolated.isolated_logger" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Mock loggers in <cite>logging</cite> module.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>logger</strong> – Logger or logger’s name for isolation.</p></li>
+<li><p><strong>handlers</strong> – Initial handlers for isolation.</p></li>
+<li><p><strong>close_handlers</strong> – Close handler’s after complete.</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rich.logging</span> <span class="kn">import</span> <span class="n">RichHandler</span>  <span class="c1"># a 3rd-party logger</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">isolated_logger</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;this is error&#39;</span><span class="p">)</span>  <span class="c1"># normal log</span>
+<span class="go">ERROR:root:this is error</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;this is error&#39;</span><span class="p">)</span>
+<span class="go">ERROR:root:this is error</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">isolated_logger</span><span class="p">(</span><span class="n">handlers</span><span class="o">=</span><span class="p">[</span>  <span class="c1"># replaced with custom handlers</span>
+<span class="gp">... </span>    <span class="n">RichHandler</span><span class="p">(),</span>
+<span class="gp">... </span>    <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="s1">&#39;test_log.txt&#39;</span><span class="p">),</span>
+<span class="gp">... </span><span class="p">]):</span>
+<span class="gp">... </span>    <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;this is error inside 1&#39;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;this is error inside 2&#39;</span><span class="p">)</span>
+<span class="go">[11/08/22 15:39:37] ERROR    this is error inside 1                    &lt;stdin&gt;:5</span>
+<span class="go">                    ERROR    this is error inside 2                    &lt;stdin&gt;:6</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;this is error&#39;</span><span class="p">)</span>  <span class="c1"># change back to normal log</span>
+<span class="go">ERROR:root:this is error</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;this is error&#39;</span><span class="p">)</span>
+<span class="go">ERROR:root:this is error</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="requires.html" class="btn btn-neutral float-right" title="hbutils.testing.requires" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="generator.html" class="btn btn-neutral float-left" title="hbutils.testing.generator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/log
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../v0.0.1/index.html">v0.0.1</a></dd>
+                        <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
+                        <dd><a href="../../../../v0.1.1/index.html">v0.1.1</a></dd>
+                        <dd><a href="../../../../v0.2.0/index.html">v0.2.0</a></dd>
+                        <dd><a href="../../../../v0.3.0/index.html">v0.3.0</a></dd>
+                        <dd><a href="../../../../v0.3.1/index.html">v0.3.1</a></dd>
+                        <dd><a href="../../../../v0.3.2/index.html">v0.3.2</a></dd>
+                        <dd><a href="../../../../v0.3.3/index.html">v0.3.3</a></dd>
+                        <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
+                        <dd><a href="../../../../v0.4.1/index.html">v0.4.1</a></dd>
+                        <dd><a href="../../../../v0.4.2/index.html">v0.4.2</a></dd>
+                        <dd><a href="../../../../v0.4.3/index.html">v0.4.3</a></dd>
+                        <dd><a href="../../../../v0.4.4/index.html">v0.4.4</a></dd>
+                        <dd><a href="../../../../v0.4.5/index.html">v0.4.5</a></dd>
+                        <dd><a href="../../../../v0.4.6/index.html">v0.4.6</a></dd>
+                        <dd><a href="../../../../v0.4.7/index.html">v0.4.7</a></dd>
+                        <dd><a href="../../../../v0.5.0/api_doc/testing/isolated.html">v0.5.0</a></dd>
+                        <dd><a href="../../../../v0.5.1/api_doc/testing/isolated.html">v0.5.1</a></dd>
+                        <dd><a href="../../../../v0.5.2/api_doc/testing/isolated.html">v0.5.2</a></dd>
+                        <dd><a href="../../../../v0.6.0/api_doc/testing/isolated.html">v0.6.0</a></dd>
+                        <dd><a href="../../../../v0.6.1/api_doc/testing/isolated.html">v0.6.1</a></dd>
+                        <dd><a href="../../../../v0.6.10/api_doc/testing/isolated.html">v0.6.10</a></dd>
+                        <dd><a href="../../../../v0.6.11/api_doc/testing/isolated.html">v0.6.11</a></dd>
+                        <dd><a href="../../../../v0.6.12/api_doc/testing/isolated.html">v0.6.12</a></dd>
+                        <dd><a href="../../../../v0.6.13/api_doc/testing/isolated.html">v0.6.13</a></dd>
+                        <dd><a href="../../../../v0.6.14/api_doc/testing/isolated.html">v0.6.14</a></dd>
+                        <dd><a href="../../../../v0.6.2/api_doc/testing/isolated.html">v0.6.2</a></dd>
+                        <dd><a href="../../../../v0.6.3/api_doc/testing/isolated.html">v0.6.3</a></dd>
+                        <dd><a href="../../../../v0.6.4/api_doc/testing/isolated.html">v0.6.4</a></dd>
+                        <dd><a href="../../../../v0.6.5/api_doc/testing/isolated.html">v0.6.5</a></dd>
+                        <dd><a href="../../../../v0.6.6/api_doc/testing/isolated.html">v0.6.6</a></dd>
+                        <dd><a href="../../../../v0.6.7/api_doc/testing/isolated.html">v0.6.7</a></dd>
+                        <dd><a href="../../../../v0.6.8/api_doc/testing/isolated.html">v0.6.8</a></dd>
+                        <dd><a href="../../../../v0.6.9/api_doc/testing/isolated.html">v0.6.9</a></dd>
+                        <dd><a href="../../../../v0.7.0/api_doc/testing/isolated.html">v0.7.0</a></dd>
+                        <dd><a href="../../../../v0.7.1/api_doc/testing/isolated.html">v0.7.1</a></dd>
+                        <dd><a href="../../../../v0.7.2/api_doc/testing/isolated.html">v0.7.2</a></dd>
+                        <dd><a href="../../../../v0.7.3/api_doc/testing/isolated.html">v0.7.3</a></dd>
+                        <dd><a href="../../../../v0.7.4/api_doc/testing/isolated.html">v0.7.4</a></dd>
+                        <dd><a href="../../../../v0.7.5/api_doc/testing/isolated.html">v0.7.5</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="isolated.html">dev/log</a></dd>
+                        <dd><a href="../../../color/api_doc/testing/isolated.html">dev/color</a></dd>
+                        <dd><a href="../../../dependency/api_doc/testing/isolated.html">dev/dependency</a></dd>
+                        <dd><a href="../../../pythonpath/api_doc/testing/isolated.html">dev/pythonpath</a></dd>
+                        <dd><a href="../../../recover/api_doc/testing/isolated.html">dev/recover</a></dd>
+                        <dd><a href="../../../../main/api_doc/testing/isolated.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
