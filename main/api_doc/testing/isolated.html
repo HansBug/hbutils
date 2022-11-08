@@ -116,6 +116,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#isolated-directory">isolated_directory</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#isolated-stdin">isolated_stdin</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#isolated-entry-points">isolated_entry_points</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#isolated-logger">isolated_logger</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="requires.html">hbutils.testing.requires</a></li>
@@ -332,6 +333,56 @@ Can be used to fake the plugins, or just disable the installed plugins.</p>
 </dd></dl>
 
 </section>
+<section id="isolated-logger">
+<h2>isolated_logger<a class="headerlink" href="#isolated-logger" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.testing.isolated.isolated_logger">
+<code class="sig-prename descclassname">hbutils.testing.isolated.</code><code class="sig-name descname">isolated_logger</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">logger</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>str<span class="p">, </span>logging.Logger<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">handlers</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>logging.Handler<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">close_handlers</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/isolated/logging.html#isolated_logger"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.isolated.isolated_logger" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Mock loggers in <cite>logging</cite> module.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>logger</strong> – Logger or logger’s name for isolation.</p></li>
+<li><p><strong>handlers</strong> – Initial handlers for isolation.</p></li>
+<li><p><strong>close_handlers</strong> – Close handler’s after complete.</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rich.logging</span> <span class="kn">import</span> <span class="n">RichHandler</span>  <span class="c1"># a 3rd-party logger</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">isolated_logger</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;this is error&#39;</span><span class="p">)</span>  <span class="c1"># normal log</span>
+<span class="go">ERROR:root:this is error</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;this is error&#39;</span><span class="p">)</span>
+<span class="go">ERROR:root:this is error</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">isolated_logger</span><span class="p">(</span><span class="n">handlers</span><span class="o">=</span><span class="p">[</span>  <span class="c1"># replaced with custom handlers</span>
+<span class="gp">... </span>    <span class="n">RichHandler</span><span class="p">(),</span>
+<span class="gp">... </span>    <span class="n">logging</span><span class="o">.</span><span class="n">FileHandler</span><span class="p">(</span><span class="s1">&#39;test_log.txt&#39;</span><span class="p">),</span>
+<span class="gp">... </span><span class="p">]):</span>
+<span class="gp">... </span>    <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;this is error inside 1&#39;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;this is error inside 2&#39;</span><span class="p">)</span>
+<span class="go">[11/08/22 15:39:37] ERROR    this is error inside 1                    &lt;stdin&gt;:5</span>
+<span class="go">                    ERROR    this is error inside 2                    &lt;stdin&gt;:6</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;this is error&#39;</span><span class="p">)</span>  <span class="c1"># change back to normal log</span>
+<span class="go">ERROR:root:this is error</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;this is error&#39;</span><span class="p">)</span>
+<span class="go">ERROR:root:this is error</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -422,12 +473,11 @@ Can be used to fake the plugins, or just disable the installed plugins.</p>
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/log/api_doc/testing/isolated.html">dev/log</a></dd>
+                        <dd><a href="isolated.html">main</a></dd>
                         <dd><a href="../../../dev/color/api_doc/testing/isolated.html">dev/color</a></dd>
                         <dd><a href="../../../dev/dependency/api_doc/testing/isolated.html">dev/dependency</a></dd>
                         <dd><a href="../../../dev/pythonpath/api_doc/testing/isolated.html">dev/pythonpath</a></dd>
                         <dd><a href="../../../dev/recover/api_doc/testing/isolated.html">dev/recover</a></dd>
-                        <dd><a href="isolated.html">main</a></dd>
                 </dl>
         </div>
     </div>

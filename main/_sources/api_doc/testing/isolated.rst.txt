@@ -25,3 +25,9 @@ isolated_entry_points
 .. autofunction:: isolated_entry_points
 
 
+isolated_logger
+-------------------------
+
+.. autofunction:: isolated_logger
+
+

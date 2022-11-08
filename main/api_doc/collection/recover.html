@@ -105,6 +105,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#dictrecovery">DictRecovery</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#listrecovery">ListRecovery</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#tuplerecovery">TupleRecovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#nullrecovery">NullRecovery</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#genericobjectrecovery">GenericObjectRecovery</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="sequence.html">hbutils.collection.sequence</a></li>
@@ -406,7 +408,7 @@ Dict, list and tuple object are natively supported.</p>
 
 <dl class="py method">
 <dt id="hbutils.collection.recover.DictRecovery.from_origin">
-<em class="property">classmethod </em><code class="sig-name descname">from_origin</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">origin</span><span class="p">:</span> <span class="n">_DictType</span></em>, <em class="sig-param"><span class="n">recursive</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/collection/recover.html#DictRecovery.from_origin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.collection.recover.DictRecovery.from_origin" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">from_origin</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">origin</span><span class="p">:</span> <span class="n">_DictType</span></em>, <em class="sig-param"><span class="n">recursive</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#hbutils.collection.recover.DictRecovery" title="hbutils.collection.recover.DictRecovery">hbutils.collection.recover.DictRecovery</a><a class="reference internal" href="../../_modules/hbutils/collection/recover.html#DictRecovery.from_origin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.collection.recover.DictRecovery.from_origin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a recovery object by the given original object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -490,7 +492,7 @@ Dict, list and tuple object are natively supported.</p>
 
 <dl class="py method">
 <dt id="hbutils.collection.recover.ListRecovery.from_origin">
-<em class="property">classmethod </em><code class="sig-name descname">from_origin</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">origin</span><span class="p">:</span> <span class="n">_ListType</span></em>, <em class="sig-param"><span class="n">recursive</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#hbutils.collection.recover.BaseRecovery" title="hbutils.collection.recover.BaseRecovery">hbutils.collection.recover.BaseRecovery</a><a class="reference internal" href="../../_modules/hbutils/collection/recover.html#ListRecovery.from_origin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.collection.recover.ListRecovery.from_origin" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">from_origin</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">origin</span><span class="p">:</span> <span class="n">_ListType</span></em>, <em class="sig-param"><span class="n">recursive</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#hbutils.collection.recover.ListRecovery" title="hbutils.collection.recover.ListRecovery">hbutils.collection.recover.ListRecovery</a><a class="reference internal" href="../../_modules/hbutils/collection/recover.html#ListRecovery.from_origin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.collection.recover.ListRecovery.from_origin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a recovery object by the given original object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -574,7 +576,7 @@ Dict, list and tuple object are natively supported.</p>
 
 <dl class="py method">
 <dt id="hbutils.collection.recover.TupleRecovery.from_origin">
-<em class="property">classmethod </em><code class="sig-name descname">from_origin</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">origin</span><span class="p">:</span> <span class="n">_TupleType</span></em>, <em class="sig-param"><span class="n">recursive</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/collection/recover.html#TupleRecovery.from_origin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.collection.recover.TupleRecovery.from_origin" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="sig-name descname">from_origin</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">origin</span><span class="p">:</span> <span class="n">_TupleType</span></em>, <em class="sig-param"><span class="n">recursive</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#hbutils.collection.recover.TupleRecovery" title="hbutils.collection.recover.TupleRecovery">hbutils.collection.recover.TupleRecovery</a><a class="reference internal" href="../../_modules/hbutils/collection/recover.html#TupleRecovery.from_origin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.collection.recover.TupleRecovery.from_origin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a recovery object by the given original object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -592,6 +594,168 @@ Dict, list and tuple object are natively supported.</p>
 <dl class="py method">
 <dt id="hbutils.collection.recover.TupleRecovery.recover">
 <code class="sig-name descname">recover</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; _OriginType<a class="headerlink" href="#hbutils.collection.recover.TupleRecovery.recover" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recover the given object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Recovered object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="nullrecovery">
+<h2>NullRecovery<a class="headerlink" href="#nullrecovery" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.collection.recover.NullRecovery">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.collection.recover.</code><code class="sig-name descname">NullRecovery</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">origin</span><span class="p">:</span> <span class="n">_OriginType</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/collection/recover.html#NullRecovery"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.collection.recover.NullRecovery" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Empty recovery class for builtin immutable types.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="hbutils.collection.recover.NullRecovery.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">origin</span><span class="p">:</span> <span class="n">_OriginType</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hbutils.collection.recover.NullRecovery.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of <a class="reference internal" href="#hbutils.collection.recover.BaseRecovery" title="hbutils.collection.recover.BaseRecovery"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseRecovery</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>origin</strong> – Origin object to be recovered.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.collection.recover.NullRecovery._create_child">
+<em class="property">classmethod </em><code class="sig-name descname">_create_child</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">child</span></em>, <em class="sig-param"><span class="n">recursive</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hbutils.collection.recover.NullRecovery._create_child" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create child-level object for storage usage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>child</strong> – Original child-level object.</p></li>
+<li><p><strong>recursive</strong> – Recursive or not. Default is <code class="docutils literal notranslate"><span class="pre">True</span></code> which means the child-level object             contained in <code class="docutils literal notranslate"><span class="pre">origin</span></code> will be recovered as well.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Object for storage.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.collection.recover.NullRecovery._recover">
+<code class="sig-name descname">_recover</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/collection/recover.html#NullRecovery._recover"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.collection.recover.NullRecovery._recover" title="Permalink to this definition">¶</a></dt>
+<dd><p>Just do nothing.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.collection.recover.NullRecovery._recover_child">
+<em class="property">classmethod </em><code class="sig-name descname">_recover_child</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">child</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hbutils.collection.recover.NullRecovery._recover_child" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get recovered child-level object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>child</strong> – Child object, should be a <a class="reference internal" href="#hbutils.collection.recover.BaseRecovery" title="hbutils.collection.recover.BaseRecovery"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseRecovery</span></code></a> or native object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Recovered child-level object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.collection.recover.NullRecovery.from_origin">
+<em class="property">classmethod </em><code class="sig-name descname">from_origin</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">origin</span><span class="p">:</span> <span class="n">_OriginType</span></em>, <em class="sig-param"><span class="n">recursive</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#hbutils.collection.recover.NullRecovery" title="hbutils.collection.recover.NullRecovery">hbutils.collection.recover.NullRecovery</a><a class="reference internal" href="../../_modules/hbutils/collection/recover.html#NullRecovery.from_origin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.collection.recover.NullRecovery.from_origin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Just do nothing.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.collection.recover.NullRecovery.recover">
+<code class="sig-name descname">recover</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; _OriginType<a class="headerlink" href="#hbutils.collection.recover.NullRecovery.recover" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recover the given object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Recovered object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="genericobjectrecovery">
+<h2>GenericObjectRecovery<a class="headerlink" href="#genericobjectrecovery" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.collection.recover.GenericObjectRecovery">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.collection.recover.</code><code class="sig-name descname">GenericObjectRecovery</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">origin</span><span class="p">:</span> <span class="n">_OriginType</span></em>, <em class="sig-param"><span class="n">dict_</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="#hbutils.collection.recover.DictRecovery" title="hbutils.collection.recover.DictRecovery">DictRecovery</a><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/collection/recover.html#GenericObjectRecovery"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.collection.recover.GenericObjectRecovery" title="Permalink to this definition">¶</a></dt>
+<dd><dl>
+<dt>Overview:</dt><dd><p>Recovery class for generic objects.
+The <code class="docutils literal notranslate"><span class="pre">__dict__</span></code> will be recovered.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If what you need to recover is not only <code class="docutils literal notranslate"><span class="pre">__dict__</span></code>, may be you need to custom             recovery class by inheriting <a class="reference internal" href="#hbutils.collection.recover.BaseRecovery" title="hbutils.collection.recover.BaseRecovery"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseRecovery</span></code></a> class, and register it by             <a class="reference internal" href="#hbutils.collection.recover.register_recovery" title="hbutils.collection.recover.register_recovery"><code class="xref py py-func docutils literal notranslate"><span class="pre">register_recovery()</span></code></a> function.</p>
+</aside>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="hbutils.collection.recover.GenericObjectRecovery.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">origin</span><span class="p">:</span> <span class="n">_OriginType</span></em>, <em class="sig-param"><span class="n">dict_</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span><a class="reference internal" href="#hbutils.collection.recover.DictRecovery" title="hbutils.collection.recover.DictRecovery">DictRecovery</a><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/collection/recover.html#GenericObjectRecovery.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.collection.recover.GenericObjectRecovery.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of <a class="reference internal" href="#hbutils.collection.recover.GenericObjectRecovery" title="hbutils.collection.recover.GenericObjectRecovery"><code class="xref py py-class docutils literal notranslate"><span class="pre">GenericObjectRecovery</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>origin</strong> – Original object to recover.</p></li>
+<li><p><strong>dict</strong> – Recovery object of <code class="docutils literal notranslate"><span class="pre">__dict__</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code> when <code class="docutils literal notranslate"><span class="pre">origin</span></code> do not have <code class="docutils literal notranslate"><span class="pre">__dict__</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.collection.recover.GenericObjectRecovery._create_child">
+<em class="property">classmethod </em><code class="sig-name descname">_create_child</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">child</span></em>, <em class="sig-param"><span class="n">recursive</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hbutils.collection.recover.GenericObjectRecovery._create_child" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create child-level object for storage usage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>child</strong> – Original child-level object.</p></li>
+<li><p><strong>recursive</strong> – Recursive or not. Default is <code class="docutils literal notranslate"><span class="pre">True</span></code> which means the child-level object             contained in <code class="docutils literal notranslate"><span class="pre">origin</span></code> will be recovered as well.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Object for storage.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.collection.recover.GenericObjectRecovery._recover">
+<code class="sig-name descname">_recover</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/collection/recover.html#GenericObjectRecovery._recover"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.collection.recover.GenericObjectRecovery._recover" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recover the <code class="docutils literal notranslate"><span class="pre">__dict__</span></code>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.collection.recover.GenericObjectRecovery._recover_child">
+<em class="property">classmethod </em><code class="sig-name descname">_recover_child</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">child</span></em><span class="sig-paren">)</span><a class="headerlink" href="#hbutils.collection.recover.GenericObjectRecovery._recover_child" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get recovered child-level object.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>child</strong> – Child object, should be a <a class="reference internal" href="#hbutils.collection.recover.BaseRecovery" title="hbutils.collection.recover.BaseRecovery"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseRecovery</span></code></a> or native object.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Recovered child-level object.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.collection.recover.GenericObjectRecovery.from_origin">
+<em class="property">classmethod </em><code class="sig-name descname">from_origin</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">origin</span><span class="p">:</span> <span class="n">_OriginType</span></em>, <em class="sig-param"><span class="n">recursive</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="#hbutils.collection.recover.BaseRecovery" title="hbutils.collection.recover.BaseRecovery">hbutils.collection.recover.BaseRecovery</a><a class="reference internal" href="../../_modules/hbutils/collection/recover.html#GenericObjectRecovery.from_origin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.collection.recover.GenericObjectRecovery.from_origin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create recovery object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.collection.recover.GenericObjectRecovery.recover">
+<code class="sig-name descname">recover</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; _OriginType<a class="headerlink" href="#hbutils.collection.recover.GenericObjectRecovery.recover" title="Permalink to this definition">¶</a></dt>
 <dd><p>Recover the given object.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
@@ -693,12 +857,11 @@ Dict, list and tuple object are natively supported.</p>
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/log/api_doc/collection/recover.html">dev/log</a></dd>
+                        <dd><a href="recover.html">main</a></dd>
                         <dd><a href="../../../dev/color/index.html">dev/color</a></dd>
                         <dd><a href="../../../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="../../../dev/pythonpath/api_doc/collection/recover.html">dev/pythonpath</a></dd>
                         <dd><a href="../../../dev/recover/api_doc/collection/recover.html">dev/recover</a></dd>
-                        <dd><a href="recover.html">main</a></dd>
                 </dl>
         </div>
     </div>

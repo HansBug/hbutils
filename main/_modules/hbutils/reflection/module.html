@@ -197,8 +197,8 @@
 <span class="nd">@contextmanager</span>
 <span class="k">def</span> <span class="nf">_native_mount_pythonpath</span><span class="p">(</span><span class="n">paths</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">modules</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">ModuleType</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">:</span>
     <span class="kn">from</span> <span class="nn">..collection</span> <span class="kn">import</span> <span class="n">get_recovery_func</span>
-    <span class="n">path_rec</span> <span class="o">=</span> <span class="n">get_recovery_func</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-    <span class="n">modules_rec</span> <span class="o">=</span> <span class="n">get_recovery_func</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">)</span>
+    <span class="n">path_rec</span> <span class="o">=</span> <span class="n">get_recovery_func</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">modules_rec</span> <span class="o">=</span> <span class="n">get_recovery_func</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">,</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">_copy_list</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">paths</span><span class="p">)</span>
         <span class="n">_copy_dict</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">,</span> <span class="n">modules</span><span class="p">)</span>
@@ -378,12 +378,11 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../dev/log/index.html">dev/log</a></dd>
+                        <dd><a href="module.html">main</a></dd>
                         <dd><a href="../../../../dev/color/index.html">dev/color</a></dd>
                         <dd><a href="../../../../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="../../../../dev/pythonpath/index.html">dev/pythonpath</a></dd>
                         <dd><a href="../../../../dev/recover/index.html">dev/recover</a></dd>
-                        <dd><a href="module.html">main</a></dd>
                 </dl>
         </div>
     </div>
