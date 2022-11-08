@@ -1,7 +1,9 @@
 from typing import TypeVar, Type, List, Callable, Optional, Any, Dict
 
 __all__ = [
-    'BaseRecovery', 'DictRecovery', 'ListRecovery', 'TupleRecovery',
+    'BaseRecovery',
+    'DictRecovery', 'ListRecovery', 'TupleRecovery',
+    'NullRecovery', 'GenericObjectRecovery',
     'register_recovery', 'get_recovery_func',
 ]
 
@@ -122,7 +124,7 @@ class DictRecovery(BaseRecovery):
                 self.origin[key] = target[key]
 
     @classmethod
-    def from_origin(cls, origin: _DictType, recursive: bool = True):
+    def from_origin(cls, origin: _DictType, recursive: bool = True) -> 'DictRecovery':
         return cls(origin, {key: cls._create_child(value, recursive) for key, value in origin.items()})
 
 
@@ -146,7 +148,7 @@ class TupleRecovery(BaseRecovery):
             self._recover_child(item)
 
     @classmethod
-    def from_origin(cls, origin: _TupleType, recursive: bool = True):
+    def from_origin(cls, origin: _TupleType, recursive: bool = True) -> 'TupleRecovery':
         return cls(origin, [cls._create_child(item, recursive) for item in origin])
 
 
@@ -173,23 +175,85 @@ class ListRecovery(BaseRecovery):
         self.origin[:] = target
 
     @classmethod
-    def from_origin(cls, origin: _ListType, recursive: bool = True) -> 'BaseRecovery':
+    def from_origin(cls, origin: _ListType, recursive: bool = True) -> 'ListRecovery':
         return cls(origin, [cls._create_child(item, recursive) for item in origin])
+
+
+class NullRecovery(BaseRecovery):
+    """
+    Overview:
+        Empty recovery class for builtin immutable types.
+    """
+    __rtype__ = (int, float, str, bool, bytes, complex, range, slice)
+
+    def _recover(self):
+        """
+        Just do nothing.
+        """
+        pass
+
+    @classmethod
+    def from_origin(cls, origin: _OriginType, recursive: bool = True) -> 'NullRecovery':
+        """
+        Just do nothing.
+        """
+        return cls(origin)
+
+
+class GenericObjectRecovery(BaseRecovery):
+    """
+    Overview:
+        Recovery class for generic objects.
+        The ``__dict__`` will be recovered.
+
+        .. note::
+            If what you need to recover is not only ``__dict__``, may be you need to custom \
+            recovery class by inheriting :class:`BaseRecovery` class, and register it by \
+            :func:`register_recovery` function.
+    """
+    __rtype__ = object
+
+    def __init__(self, origin: _OriginType, dict_: Optional['DictRecovery']):
+        """
+        Constructor of :class:`GenericObjectRecovery`.
+
+        :param origin: Original object to recover.
+        :param dict_: Recovery object of ``__dict__``, ``None`` when ``origin`` do not have ``__dict__``
+        """
+        BaseRecovery.__init__(self, origin)
+        self.dict_ = dict_
+
+    def _recover(self):
+        """
+        Recover the ``__dict__``.
+        """
+        if self.dict_ is not None:
+            self.dict_.recover()
+
+    @classmethod
+    def from_origin(cls, origin: _OriginType, recursive: bool = True) -> 'BaseRecovery':
+        """
+        Create recovery object.
+        """
+        dict_ = DictRecovery.from_origin(origin.__dict__, recursive) if hasattr(origin, '__dict__') else None
+        return cls(origin, dict_)
 
 
 if _REC_CLASSES is None:
     _REC_CLASSES = []
+    register_recovery(GenericObjectRecovery)
+    register_recovery(NullRecovery)
+    register_recovery(TupleRecovery)
     register_recovery(DictRecovery)
     register_recovery(ListRecovery)
-    register_recovery(TupleRecovery)
 
 
 def _get_recovery_class(origin: _OriginType) -> Optional[Type[BaseRecovery]]:
-    for cls in _REC_CLASSES:
+    for cls in reversed(_REC_CLASSES):
         if isinstance(origin, cls.__rtype__):
             return cls
 
-    return None
+    assert False, f'The object cannot be wrapped by recoveries - {origin!r}'  # pragma: no cover
 
 
 def get_recovery_func(origin: _OriginType, recursive: bool = True) -> Callable[[], _OriginType]:
@@ -227,7 +291,4 @@ def get_recovery_func(origin: _OriginType, recursive: bool = True) -> Callable[[
 
     """
     cls = _get_recovery_class(origin)
-    if cls is not None:
-        return cls.from_origin(origin, recursive).recover
-    else:
-        return lambda: origin
+    return cls.from_origin(origin, recursive).recover

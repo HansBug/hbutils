@@ -199,3 +199,29 @@ class TestCollectionRecover:
         vx = func()
         assert vx is v
         assert vx == 1
+
+    def test_generic_class(self):
+        class MyClassA:
+            def __init__(self, x, y, z):
+                self.x = x
+                self._y = y
+                self.__z = z
+
+            def result(self):
+                return (self.x + self._y * 2) * self.__z
+
+        v1 = MyClassA(2, 4, 5)
+        f1 = get_recovery_func(v1)
+        assert v1.result() == 50
+
+        v1.x = 100
+        assert v1.result() == 540
+
+        v1._y = 20
+        assert v1.result() == 700
+
+        v1._MyClassA__z = 8
+        assert v1.result() == 1120
+
+        assert f1() is v1
+        assert v1.result() == 50
