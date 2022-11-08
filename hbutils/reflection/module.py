@@ -24,8 +24,8 @@ def _copy_dict(origin: dict, target: dict):
 @contextmanager
 def _native_mount_pythonpath(paths: List[str], modules: Dict[str, types.ModuleType]) -> ContextManager:
     from ..collection import get_recovery_func
-    path_rec = get_recovery_func(sys.path)
-    modules_rec = get_recovery_func(sys.modules)
+    path_rec = get_recovery_func(sys.path, recursive=False)
+    modules_rec = get_recovery_func(sys.modules, recursive=False)
     try:
         _copy_list(sys.path, paths)
         _copy_dict(sys.modules, modules)
