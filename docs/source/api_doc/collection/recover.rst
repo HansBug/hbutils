@@ -49,3 +49,19 @@ TupleRecovery
     :members: __init__, _recover, recover, _recover_child, from_origin, _create_child
 
 
+
+NullRecovery
+-----------------------------------------
+
+.. autoclass:: NullRecovery
+    :members: __init__, _recover, recover, _recover_child, from_origin, _create_child
+
+
+
+GenericObjectRecovery
+-----------------------------------------
+
+.. autoclass:: GenericObjectRecovery
+    :members: __init__, _recover, recover, _recover_child, from_origin, _create_child
+
+
