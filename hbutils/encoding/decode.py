@@ -3,9 +3,8 @@ Overview:
     Functions to deal with encoding binary data easily.
 """
 import sys
+from functools import lru_cache
 from typing import Optional, List
-
-import chardet
 
 from ..collection import unique
 
@@ -15,6 +14,18 @@ _DEFAULT_PREFERRED_ENCODINGS = ['utf-8', 'gbk', 'gb2312', 'gb18030', 'big5']  # 
 __all__ = [
     'auto_decode'
 ]
+
+
+@lru_cache()
+def _get_chardet():
+    try:
+        import chardet
+    except ImportError:
+        from ..system import pip_install
+        pip_install(['chardet>=3.0.4,<5'], silent=True)
+        import chardet
+
+    return chardet
 
 
 def _decode(data: bytes, encoding: str) -> str:
@@ -51,7 +62,7 @@ def auto_decode(data: bytes, encoding: Optional[str] = None, prefers: Optional[L
         _elist = filter(bool, unique([
             *prefers,
             sys.getdefaultencoding(),
-            chardet.detect(data)['encoding']
+            _get_chardet().detect(data)['encoding']
         ]))
 
         last_err = None
