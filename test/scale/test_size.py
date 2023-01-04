@@ -1,5 +1,4 @@
 import pytest
-from bitmath import MiB, GB
 
 from hbutils.scale import size_to_bytes, size_to_bytes_str
 
@@ -7,6 +6,8 @@ from hbutils.scale import size_to_bytes, size_to_bytes_str
 @pytest.mark.unittest
 class TestScaleSize:
     def test_size_to_bytes(self):
+        from bitmath import MiB, GB
+
         assert size_to_bytes(233) == 233
         with pytest.warns(UserWarning):
             assert size_to_bytes(2.3) == 2
