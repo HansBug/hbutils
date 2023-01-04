@@ -48,3 +48,45 @@ package_version
 
 
 
+load_req_file
+-----------------------------------
+
+.. autofunction:: load_req_file
+
+
+
+pip
+-----------------------------------
+
+.. autofunction:: pip
+
+
+
+check_reqs
+-----------------------------------
+
+.. autofunction:: check_reqs
+
+
+
+check_req_file
+-----------------------------------
+
+.. autofunction:: check_req_file
+
+
+
+pip_install
+-----------------------------------
+
+.. autofunction:: pip_install
+
+
+
+pip_install_req_file
+-----------------------------------
+
+.. autofunction:: pip_install_req_file
+
+
+

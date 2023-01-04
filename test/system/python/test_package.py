@@ -5,7 +5,8 @@ import pip as _pip_pkg
 import pytest
 from pkg_resources import parse_version
 
-from hbutils.system import package_version, load_req_file, check_reqs, check_req_file, pip, pip_install, which
+from hbutils.system import package_version, load_req_file, check_reqs, check_req_file, pip, pip_install, which, \
+    pip_install_req_file
 from hbutils.testing import capture_output, vpip
 from .test_version import _Version
 from ...testings import get_testfile_path, normpath
@@ -56,6 +57,21 @@ class TestSystemPythonPackage:
     def test_pip_install(self):
         try:
             pip_install(['where>=1.0.0'], silent=True)
+            assert vpip('where')
+
+            import where  # test the usage
+            assert normpath(where.first('python')) == normpath(which('python'))
+
+            pip('uninstall', '-y', 'where', silent=True)
+            assert not vpip('where')
+        finally:
+            if check_reqs(['where']):
+                pip('uninstall', '-y', 'where', silent=True)
+
+    @skipUnless(not vpip('where'), 'No \'where\' package required.')
+    def test_pip_install_from_file(self):
+        try:
+            pip_install_req_file(get_testfile_path('requirements-where.txt'), silent=True)
             assert vpip('where')
 
             import where  # test the usage
