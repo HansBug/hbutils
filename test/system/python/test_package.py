@@ -5,7 +5,7 @@ import pip as _pip_pkg
 import pytest
 from pkg_resources import parse_version
 
-from hbutils.system import package_version, load_req_file, check_reqs, check_req_file, pip, pip_install
+from hbutils.system import package_version, load_req_file, check_reqs, check_req_file, pip, pip_install, which
 from hbutils.testing import capture_output, vpip
 from .test_version import _Version
 from ...testings import get_testfile_path
@@ -57,6 +57,9 @@ class TestSystemPythonPackage:
         try:
             pip_install(['where>=1.0.0'], silent=True)
             assert vpip('where')
+
+            import where  # test the usage
+            assert where.first('python') == which('python')
 
             pip('uninstall', '-y', 'where', silent=True)
             assert not vpip('where')
