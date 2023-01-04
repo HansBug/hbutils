@@ -175,9 +175,18 @@
 <span class="sd">Overview:</span>
 <span class="sd">    Useful utilities for memory size units, such as MB/KB/B.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">importlib</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">IntEnum</span><span class="p">,</span> <span class="n">unique</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s1">&#39;bitmath&#39;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">..system</span> <span class="kn">import</span> <span class="n">pip_install</span>
+
+    <span class="n">pip_install</span><span class="p">([</span><span class="s1">&#39;bitmath==1.3.3.1&#39;</span><span class="p">],</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s1">&#39;bitmath&#39;</span><span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">bitmath</span> <span class="kn">import</span> <span class="n">Byte</span><span class="p">,</span> <span class="n">NIST</span><span class="p">,</span> <span class="n">SI</span>
 <span class="kn">from</span> <span class="nn">bitmath</span> <span class="kn">import</span> <span class="n">parse_string_unsafe</span> <span class="k">as</span> <span class="n">parse_bytes</span>
@@ -376,12 +385,11 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../dev/refactor/index.html">dev/refactor</a></dd>
+                        <dd><a href="size.html">main</a></dd>
                         <dd><a href="../../../../dev/color/index.html">dev/color</a></dd>
                         <dd><a href="../../../../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="../../../../dev/pythonpath/index.html">dev/pythonpath</a></dd>
                         <dd><a href="../../../../dev/recover/index.html">dev/recover</a></dd>
-                        <dd><a href="size.html">main</a></dd>
                 </dl>
         </div>
     </div>
