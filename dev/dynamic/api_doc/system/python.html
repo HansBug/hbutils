@@ -118,6 +118,12 @@
 <li class="toctree-l3"><a class="reference internal" href="#is-jython">is_jython</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#is-pypy">is_pypy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#package-version">package_version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#load-req-file">load_req_file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pip">pip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#check-reqs">check_reqs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#check-req-file">check_req_file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pip-install">pip_install</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pip-install-req-file">pip_install_req_file</a></li>
 </ul>
 </li>
 </ul>
@@ -313,6 +319,195 @@
 <span class="go">&lt;Version(&#39;59.6.0&#39;)&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">package_version</span><span class="p">(</span><span class="s1">&#39;not_a_package&#39;</span><span class="p">)</span>
 <span class="go">None</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="load-req-file">
+<h2>load_req_file<a class="headerlink" href="#load-req-file" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.python.load_req_file">
+<code class="sig-prename descclassname">hbutils.system.python.</code><code class="sig-name descname">load_req_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">requirements_file</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>str<span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/system/python/package.html#load_req_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.python.load_req_file" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Load requirements items from a <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code> file.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>requirements_file</strong> – Requirements file.</p>
+</dd>
+<dt class="field-even">Return requirements<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of requirements.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">load_req_file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">load_req_file</span><span class="p">(</span><span class="s1">&#39;requirements.txt&#39;</span><span class="p">)</span>
+<span class="go">[&#39;packaging&gt;=21.3&#39;, &#39;setuptools&gt;=50.0&#39;]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="pip">
+<h2>pip<a class="headerlink" href="#pip" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.python.pip">
+<code class="sig-prename descclassname">hbutils.system.python.</code><code class="sig-name descname">pip</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">args</span></em>, <em class="sig-param"><span class="n">silent</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/system/python/package.html#pip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.python.pip" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Run pip command with code.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>args</strong> – Command line arguments for <code class="docutils literal notranslate"><span class="pre">pip</span></code> command.</p></li>
+<li><p><strong>silent</strong> – Do not print anything. Default is false, which means print the output to <code class="docutils literal notranslate"><span class="pre">sys.stdout</span></code>         and <code class="docutils literal notranslate"><span class="pre">sys.stderr</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">pip</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pip</span><span class="p">(</span><span class="s1">&#39;-V&#39;</span><span class="p">)</span>
+<span class="go">pip 22.3.1 from /home/user/myproject/venv/lib/python3.7/site-packages/pip (python 3.7)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pip</span><span class="p">(</span><span class="s1">&#39;-V&#39;</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># nothing will be printed</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="check-reqs">
+<h2>check_reqs<a class="headerlink" href="#check-reqs" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.python.check_reqs">
+<code class="sig-prename descclassname">hbutils.system.python.</code><code class="sig-name descname">check_reqs</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">reqs</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../_modules/hbutils/system/python/package.html#check_reqs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.python.check_reqs" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Check if the given requirements are all satisfied.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>reqs</strong> – List of requirements.</p>
+</dd>
+<dt class="field-even">Return satisfied<span class="colon">:</span></dt>
+<dd class="field-even"><p>All the requirements in <code class="docutils literal notranslate"><span class="pre">reqs</span></code> satisfied or not.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">check_reqs</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">check_reqs</span><span class="p">([</span><span class="s1">&#39;pip&gt;=20.0&#39;</span><span class="p">])</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">check_reqs</span><span class="p">([</span><span class="s1">&#39;pip~=19.2&#39;</span><span class="p">])</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">check_reqs</span><span class="p">([</span><span class="s1">&#39;pip&gt;=20.0&#39;</span><span class="p">,</span> <span class="s1">&#39;setuptools&gt;=50.0&#39;</span><span class="p">])</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="check-req-file">
+<h2>check_req_file<a class="headerlink" href="#check-req-file" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.python.check_req_file">
+<code class="sig-prename descclassname">hbutils.system.python.</code><code class="sig-name descname">check_req_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">requirements_file</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../_modules/hbutils/system/python/package.html#check_req_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.python.check_req_file" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Check if the requirements in the given <code class="docutils literal notranslate"><span class="pre">requirements_file</span></code> is satisfied.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>requirements_file</strong> – Requirements file, such as <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>.</p>
+</dd>
+<dt class="field-even">Return satisfied<span class="colon">:</span></dt>
+<dd class="field-even"><p>All the requirements in <code class="docutils literal notranslate"><span class="pre">requirements_file</span></code> satisfied or not.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">check_req_file</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">check_req_file</span><span class="p">(</span><span class="s1">&#39;requirements.txt&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">check_req_file</span><span class="p">(</span><span class="s1">&#39;requirements-test.txt&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="pip-install">
+<h2>pip_install<a class="headerlink" href="#pip-install" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.python.pip_install">
+<code class="sig-prename descclassname">hbutils.system.python.</code><code class="sig-name descname">pip_install</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">reqs</span><span class="p">:</span> <span class="n">List<span class="p">[</span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">silent</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">force</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">user</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/system/python/package.html#pip_install"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.python.pip_install" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Pip install requirements with code.
+Similar to <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">req1</span> <span class="pre">req2</span> <span class="pre">...</span></code>.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>reqs</strong> – Requirement items to install.</p></li>
+<li><p><strong>silent</strong> – Do not print anything. Default is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+<li><p><strong>force</strong> – Force execute the <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code> command. Default is <code class="docutils literal notranslate"><span class="pre">False</span></code> which means the requirements         will be checked before installation, and the installation will be only executed when         some requirements not installed.</p></li>
+<li><p><strong>user</strong> – User mode, represents <code class="docutils literal notranslate"><span class="pre">--user</span></code> option in <code class="docutils literal notranslate"><span class="pre">pip</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">pip_install</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pip_install</span><span class="p">([</span><span class="s1">&#39;scikit-learn&#39;</span><span class="p">])</span>  <span class="c1"># not installed</span>
+<span class="go">Looking in indexes: https://xxx/simple</span>
+<span class="go">Collecting scikit-learn</span>
+<span class="go">  Using cached https://xxx/scikit_learn-1.0.2-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (24.8 MB)</span>
+<span class="go">Installing collected packages: threadpoolctl, scipy, joblib, scikit-learn</span>
+<span class="go">Successfully installed joblib-1.2.0 scikit-learn-1.0.2 scipy-1.7.3 threadpoolctl-3.1.0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pip_install</span><span class="p">([</span><span class="s1">&#39;numpy&gt;=1.10.0&#39;</span><span class="p">])</span>  <span class="c1"># installed</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pip_install</span><span class="p">([</span><span class="s1">&#39;numpy&gt;=1.10.0&#39;</span><span class="p">],</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># force execute</span>
+<span class="go">Looking in indexes: https://xxx/simple</span>
+<span class="go">Requirement already satisfied: numpy&gt;=1.10.0 in ./venv/lib/python3.7/site-packages (1.21.6)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="pip-install-req-file">
+<h2>pip_install_req_file<a class="headerlink" href="#pip-install-req-file" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.python.pip_install_req_file">
+<code class="sig-prename descclassname">hbutils.system.python.</code><code class="sig-name descname">pip_install_req_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">requirements_file</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">silent</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">force</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">user</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/system/python/package.html#pip_install_req_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.python.pip_install_req_file" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Pip install requirements from file with code.
+Similar to <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code>.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>requirements_file</strong> – Requirements file, such as <code class="docutils literal notranslate"><span class="pre">requirements.txt</span></code>.</p></li>
+<li><p><strong>silent</strong> – Do not print anything. Default is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p></li>
+<li><p><strong>force</strong> – Force execute the <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code> command. Default is <code class="docutils literal notranslate"><span class="pre">False</span></code> which means the requirements         will be checked before installation, and the installation will be only executed when         some requirements not installed.</p></li>
+<li><p><strong>user</strong> – User mode, represents <code class="docutils literal notranslate"><span class="pre">--user</span></code> option in <code class="docutils literal notranslate"><span class="pre">pip</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">pip_install_req_file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pip_install_req_file</span><span class="p">(</span><span class="s1">&#39;requirements.txt&#39;</span><span class="p">)</span>  <span class="c1"># pip install -r requirements.txt</span>
 </pre></div>
 </div>
 </dd>
