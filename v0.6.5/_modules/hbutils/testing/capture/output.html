@@ -188,13 +188,13 @@
 
 
 <div class="viewcode-block" id="OutputCaptureResult"><a class="viewcode-back" href="../../../../api_doc/testing/capture.html#hbutils.testing.capture.OutputCaptureResult">[docs]</a><span class="k">class</span> <span class="nc">OutputCaptureResult</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Result model of output capturing.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="OutputCaptureResult.__init__"><a class="viewcode-back" href="../../../../api_doc/testing/capture.html#hbutils.testing.capture.OutputCaptureResult.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructor of :class:`OutputCaptureResult`.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_stdout</span> <span class="o">=</span> <span class="kc">None</span>
@@ -203,7 +203,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_lock</span><span class="o">.</span><span class="n">acquire</span><span class="p">()</span></div>
 
 <div class="viewcode-block" id="OutputCaptureResult.put_result"><a class="viewcode-back" href="../../../../api_doc/testing/capture.html#hbutils.testing.capture.OutputCaptureResult.put_result">[docs]</a>    <span class="k">def</span> <span class="nf">put_result</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stdout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">stderr</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Put result inside this model.</span>
 
 <span class="sd">        :param stdout: Stdout result.</span>
@@ -214,7 +214,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">stdout</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Stdout of the output result.</span>
 
 <span class="sd">        .. note::</span>
@@ -226,7 +226,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">stderr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Stderr of the output result.</span>
 
 <span class="sd">        .. note::</span>
@@ -239,7 +239,7 @@
 
 <div class="viewcode-block" id="capture_output"><a class="viewcode-back" href="../../../../api_doc/testing/capture.html#hbutils.testing.capture.capture_output">[docs]</a><span class="nd">@contextmanager</span>
 <span class="k">def</span> <span class="nf">capture_output</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">[</span><span class="n">OutputCaptureResult</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Capture all the output to ``sys.stdout`` and ``sys.stderr`` in this ``with`` block.</span>
 
@@ -272,7 +272,7 @@
 
 <div class="viewcode-block" id="disable_output"><a class="viewcode-back" href="../../../../api_doc/testing/capture.html#hbutils.testing.capture.disable_output">[docs]</a><span class="nd">@contextmanager</span>
 <span class="k">def</span> <span class="nf">disable_output</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">[</span><span class="n">OutputCaptureResult</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Disable all the output to ``sys.stdout`` and ``sys.stderr`` in this ``with`` block.</span>
 
@@ -300,7 +300,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2022, HansBug
+        &copy; Copyright 2023, HansBug
 
     </p>
   </div>
@@ -368,6 +368,7 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../../../dev/dynamic/index.html">dev/dynamic</a></dd>
                         <dd><a href="../../../../../dev/color/index.html">dev/color</a></dd>
                         <dd><a href="../../../../../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="../../../../../dev/pythonpath/index.html">dev/pythonpath</a></dd>

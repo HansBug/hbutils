@@ -190,13 +190,13 @@
 
 
 <div class="viewcode-block" id="EntryRunResult"><a class="viewcode-back" href="../../../../api_doc/testing/simulate.html#hbutils.testing.simulate.EntryRunResult">[docs]</a><span class="k">class</span> <span class="nc">EntryRunResult</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Run result of one entry.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="EntryRunResult.__init__"><a class="viewcode-back" href="../../../../api_doc/testing/simulate.html#hbutils.testing.simulate.EntryRunResult.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exitcode</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">stdout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">stderr</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">error</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">]):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructor of :class:`EntryRunResult`.</span>
 
 <span class="sd">        :param exitcode: Exit code.</span>
@@ -211,28 +211,28 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">exitcode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Exit code.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__exitcode</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">stdout</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Output in standard output stream.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__stdout</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">stderr</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Output in standard error stream.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__stderr</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">error</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Uncaught exception raised inside.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__error</span>
@@ -291,7 +291,7 @@
 
 <div class="viewcode-block" id="simulate_entry"><a class="viewcode-back" href="../../../../api_doc/testing/simulate.html#hbutils.testing.simulate.simulate_entry">[docs]</a><span class="k">def</span> <span class="nf">simulate_entry</span><span class="p">(</span><span class="n">entry</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">argv</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
                    <span class="n">envs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EntryRunResult</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        CLI entry&#39;s simulation.</span>
 
@@ -393,7 +393,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2022, HansBug
+        &copy; Copyright 2023, HansBug
 
     </p>
   </div>
@@ -461,6 +461,7 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../../../dev/dynamic/index.html">dev/dynamic</a></dd>
                         <dd><a href="../../../../../dev/color/index.html">dev/color</a></dd>
                         <dd><a href="../../../../../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="../../../../../dev/pythonpath/index.html">dev/pythonpath</a></dd>

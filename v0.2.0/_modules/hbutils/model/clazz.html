@@ -216,7 +216,7 @@
 
 
 <div class="viewcode-block" id="asitems"><a class="viewcode-back" href="../../../api_doc/model/clazz.html#hbutils.model.clazz.asitems">[docs]</a><span class="k">def</span> <span class="nf">asitems</span><span class="p">(</span><span class="n">items</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Define fields in the class level.</span>
 
@@ -252,7 +252,7 @@
 
 
 <div class="viewcode-block" id="visual"><a class="viewcode-back" href="../../../api_doc/model/clazz.html#hbutils.model.clazz.visual">[docs]</a><span class="k">def</span> <span class="nf">visual</span><span class="p">(</span><span class="n">items</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">show_id</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Decorate class to be visible by `repr`.</span>
 
@@ -321,7 +321,7 @@
 
 
 <div class="viewcode-block" id="constructor"><a class="viewcode-back" href="../../../api_doc/model/clazz.html#hbutils.model.clazz.constructor">[docs]</a><span class="k">def</span> <span class="nf">constructor</span><span class="p">(</span><span class="n">params</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">doc</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Decorate class to create a init function.</span>
 
@@ -377,7 +377,7 @@
 
         <span class="n">_init_func_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">def __init__(self, </span><span class="si">{</span><span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">arg_items</span><span class="p">)</span><span class="si">}</span><span class="s2">):</span>
-<span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">_INDENT</span><span class="si">}</span><span class="s1">self.</span><span class="si">{</span><span class="n">_cls_prefix</span><span class="si">}{</span><span class="n">name</span><span class="si">}</span><span class="s1"> = </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">actual_items</span><span class="p">)</span><span class="si">}</span><span class="s2"></span>
+<span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">_INDENT</span><span class="si">}</span><span class="s1">self.</span><span class="si">{</span><span class="n">_cls_prefix</span><span class="si">}{</span><span class="n">name</span><span class="si">}</span><span class="s1"> = </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">_</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">actual_items</span><span class="p">)</span><span class="si">}</span>
 <span class="s2">        &quot;&quot;&quot;</span>
         <span class="n">fres</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="n">exec</span><span class="p">(</span><span class="n">_init_func_str</span><span class="p">,</span> <span class="n">fres</span><span class="p">)</span>
@@ -392,7 +392,7 @@
 
 
 <div class="viewcode-block" id="hasheq"><a class="viewcode-back" href="../../../api_doc/model/clazz.html#hbutils.model.clazz.hasheq">[docs]</a><span class="k">def</span> <span class="nf">hasheq</span><span class="p">(</span><span class="n">items</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Decorate class to be visible by `repr`.</span>
 
@@ -464,7 +464,7 @@
 
 
 <div class="viewcode-block" id="accessor"><a class="viewcode-back" href="../../../api_doc/model/clazz.html#hbutils.model.clazz.accessor">[docs]</a><span class="k">def</span> <span class="nf">accessor</span><span class="p">(</span><span class="n">items</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">readonly</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Decorate class to be accessible by the accessors.</span>
 
@@ -513,7 +513,7 @@
         <span class="k">for</span> <span class="n">itn</span><span class="p">,</span> <span class="n">itv</span> <span class="ow">in</span> <span class="n">pitems</span><span class="p">:</span>
             <span class="n">_getter_func_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">def get_</span><span class="si">{</span><span class="n">itn</span><span class="si">}</span><span class="s2">(self):</span>
-<span class="si">{</span><span class="n">_INDENT</span><span class="si">}</span><span class="s2">return self.</span><span class="si">{</span><span class="n">_cls_prefix</span><span class="si">}{</span><span class="n">itn</span><span class="si">}</span><span class="s2"></span>
+<span class="si">{</span><span class="n">_INDENT</span><span class="si">}</span><span class="s2">return self.</span><span class="si">{</span><span class="n">_cls_prefix</span><span class="si">}{</span><span class="n">itn</span><span class="si">}</span>
 <span class="s2">            &quot;&quot;&quot;</span>
             <span class="n">fres</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="n">exec</span><span class="p">(</span><span class="n">_getter_func_str</span><span class="p">,</span> <span class="n">fres</span><span class="p">)</span>
@@ -550,7 +550,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2022, HansBug
+        &copy; Copyright 2023, HansBug
 
     </p>
   </div>
@@ -618,6 +618,7 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../../dev/dynamic/index.html">dev/dynamic</a></dd>
                         <dd><a href="../../../../dev/color/index.html">dev/color</a></dd>
                         <dd><a href="../../../../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="../../../../dev/pythonpath/index.html">dev/pythonpath</a></dd>

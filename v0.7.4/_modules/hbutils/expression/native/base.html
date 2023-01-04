@@ -190,7 +190,7 @@
 
 
 <div class="viewcode-block" id="efunc"><a class="viewcode-back" href="../../../../api_doc/expression/native.html#hbutils.expression.native.efunc">[docs]</a><span class="k">def</span> <span class="nf">efunc</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Get callable object from any types.</span>
 
@@ -222,13 +222,13 @@
 
 
 <div class="viewcode-block" id="Expression"><a class="viewcode-back" href="../../../../api_doc/expression/native.html#hbutils.expression.native.Expression">[docs]</a><span class="k">class</span> <span class="nc">Expression</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Base class of expressions.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="Expression.__init__"><a class="viewcode-back" href="../../../../api_doc/expression/native.html#hbutils.expression.native.Expression.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructor of :class:`Expression`.</span>
 
 <span class="sd">        :param func: Callable function, default is ``None`` which means a ``lambda x: x`` will be used.</span>
@@ -236,7 +236,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_fcall</span> <span class="o">=</span> <span class="n">func</span> <span class="ow">or</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Expression._func"><a class="viewcode-back" href="../../../../api_doc/expression/native.html#hbutils.expression.native.Expression._func">[docs]</a>    <span class="k">def</span> <span class="nf">_func</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Expression building based on given ``func`` and arguments.</span>
 
 <span class="sd">        :param func: Logical function.</span>
@@ -271,7 +271,7 @@
 
 <div class="viewcode-block" id="Expression._expr"><a class="viewcode-back" href="../../../../api_doc/expression/native.html#hbutils.expression.native.Expression._expr">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">_expr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Build expression with this class.</span>
 
 <span class="sd">        :param v: Any types of value.</span>
@@ -296,7 +296,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2022, HansBug
+        &copy; Copyright 2023, HansBug
 
     </p>
   </div>
@@ -364,6 +364,7 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../../../dev/dynamic/index.html">dev/dynamic</a></dd>
                         <dd><a href="../../../../../dev/color/index.html">dev/color</a></dd>
                         <dd><a href="../../../../../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="../../../../../dev/pythonpath/index.html">dev/pythonpath</a></dd>

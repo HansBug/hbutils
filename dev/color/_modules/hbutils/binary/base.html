@@ -176,14 +176,14 @@
 
 
 <div class="viewcode-block" id="CIOType"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CIOType">[docs]</a><span class="k">class</span> <span class="nc">CIOType</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Basic IO type.</span>
 <span class="sd">        Used as base class of all the IO types.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="CIOType.read"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CIOType.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Read from binary IO object.</span>
 
 <span class="sd">        :param file: Binary file, ``io.BytesIO`` is supported as well.</span>
@@ -195,7 +195,7 @@
         <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma: no cover</span></div>
 
 <div class="viewcode-block" id="CIOType.write"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CIOType.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Write object to binary IO object.</span>
 
 <span class="sd">        :param file: Binary file, ``io.BytesIO`` is supported as well.</span>
@@ -208,13 +208,13 @@
 
 
 <div class="viewcode-block" id="CFixedType"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CFixedType">[docs]</a><span class="k">class</span> <span class="nc">CFixedType</span><span class="p">(</span><span class="n">CIOType</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Type with fixed size (such as ``int``, ``uint`` and ``float``).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="CFixedType.__init__"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CFixedType.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructor of :class:`CFixedType`.</span>
 
 <span class="sd">        :param size: Size of the type.</span>
@@ -223,7 +223,7 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Size of the given type.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__size</span>
@@ -236,13 +236,13 @@
 
 
 <div class="viewcode-block" id="CRangedIntType"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CRangedIntType">[docs]</a><span class="k">class</span> <span class="nc">CRangedIntType</span><span class="p">(</span><span class="n">CFixedType</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Type with fixed size and range (such as ``int`` and ``uint``).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="CRangedIntType.__init__"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CRangedIntType.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">minimum</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">maximum</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructor of :class:`CRangedIntType`.</span>
 
 <span class="sd">        :param size: Size of the type.</span>
@@ -256,14 +256,14 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">minimum</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Min value of the type.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__minimum</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">maximum</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Max value of the type.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__maximum</span>
@@ -276,13 +276,13 @@
 
 
 <div class="viewcode-block" id="CMarkedType"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CMarkedType">[docs]</a><span class="k">class</span> <span class="nc">CMarkedType</span><span class="p">(</span><span class="n">CFixedType</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Type with struct mark, which can be directly read by ``struct`` module.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="CMarkedType.__init__"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CMarkedType.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mark</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructor of :class:`CMarkedType`.</span>
 
 <span class="sd">        :param mark: Mark of the type.</span>
@@ -293,13 +293,13 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">mark</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Mark of the type, will be used to read from binary data with ``struct`` module.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mark</span>
 
 <div class="viewcode-block" id="CMarkedType.read"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CMarkedType.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Read from binary with ``struct`` module.</span>
 
 <span class="sd">        :param file: Binary file, ``io.BytesIO`` is supported as well.</span>
@@ -309,7 +309,7 @@
         <span class="k">return</span> <span class="n">r</span></div>
 
 <div class="viewcode-block" id="CMarkedType.write"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CMarkedType.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Write value to binary IO with ``struct`` module.</span>
 
 <span class="sd">        :param file: Binary file, ``io.BytesIO`` is supported as well.</span>
@@ -329,7 +329,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2022, HansBug
+        &copy; Copyright 2023, HansBug
 
     </p>
   </div>
@@ -397,6 +397,7 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../../dynamic/index.html">dev/dynamic</a></dd>
                         <dd><a href="base.html">dev/color</a></dd>
                         <dd><a href="../../../../dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="../../../../pythonpath/index.html">dev/pythonpath</a></dd>

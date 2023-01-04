@@ -209,13 +209,13 @@
 
 
 <div class="viewcode-block" id="PythonPathEnv"><a class="viewcode-back" href="../../../api_doc/reflection/module.html#hbutils.reflection.module.PythonPathEnv">[docs]</a><span class="k">class</span> <span class="nc">PythonPathEnv</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Python environment object.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="PythonPathEnv.__init__"><a class="viewcode-back" href="../../../api_doc/reflection/module.html#hbutils.reflection.module.PythonPathEnv.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pythonpath</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">modules</span><span class="p">:</span> <span class="n">Mapping</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">ModuleType</span><span class="p">]):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructor of :class:`PythonPathEnv`.</span>
 
 <span class="sd">        :param pythonpath: Python path list.</span>
@@ -226,7 +226,7 @@
 
 <div class="viewcode-block" id="PythonPathEnv.mount"><a class="viewcode-back" href="../../../api_doc/reflection/module.html#hbutils.reflection.module.PythonPathEnv.mount">[docs]</a>    <span class="nd">@contextmanager</span>
     <span class="k">def</span> <span class="nf">mount</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keep</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">[</span><span class="s1">&#39;PythonPathEnv&#39;</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Mount the ``PYTHONPATH`` and modules of this environment.</span>
 
 <span class="sd">        :param keep: Keep the changes inside. Default is ``True`` which means the new imports and modules \</span>
@@ -254,7 +254,7 @@
 
 <div class="viewcode-block" id="mount_pythonpath"><a class="viewcode-back" href="../../../api_doc/reflection/module.html#hbutils.reflection.module.mount_pythonpath">[docs]</a><span class="nd">@contextmanager</span>
 <span class="k">def</span> <span class="nf">mount_pythonpath</span><span class="p">(</span><span class="o">*</span><span class="n">path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">[</span><span class="n">PythonPathEnv</span><span class="p">]:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Append ``PYTHONPATH`` in context, the packages in given paths will be able to be imported.</span>
 <span class="sd">        ``sys.modules`` will also be recovered when quit.</span>
@@ -311,7 +311,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2022, HansBug
+        &copy; Copyright 2023, HansBug
 
     </p>
   </div>
@@ -379,6 +379,7 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../../dynamic/index.html">dev/dynamic</a></dd>
                         <dd><a href="../../../../color/index.html">dev/color</a></dd>
                         <dd><a href="../../../../dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="module.html">dev/pythonpath</a></dd>

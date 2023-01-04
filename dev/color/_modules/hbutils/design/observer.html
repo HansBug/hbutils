@@ -218,7 +218,7 @@
 
 
 <div class="viewcode-block" id="Observable"><a class="viewcode-back" href="../../../api_doc/design/observer.html#hbutils.design.observer.Observable">[docs]</a><span class="k">class</span> <span class="nc">Observable</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Observable object.</span>
 
@@ -261,7 +261,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="Observable.__init__"><a class="viewcode-back" href="../../../api_doc/design/observer.html#hbutils.design.observer.Observable.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="n">_EventSetType</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructor of :class:`Observable`.</span>
 
 <span class="sd">        :param events: Set of events, can be a list, tuple or an enum class.</span>
@@ -286,7 +286,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_events</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">_EventType</span><span class="p">,</span> <span class="n">Dict</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">_CallbackWrapper</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span><span class="n">e</span><span class="p">:</span> <span class="p">{}</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">events</span><span class="p">}</span></div>
 
 <div class="viewcode-block" id="Observable.subscribers"><a class="viewcode-back" href="../../../api_doc/design/observer.html#hbutils.design.observer.Observable.subscribers">[docs]</a>    <span class="k">def</span> <span class="nf">subscribers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">_EventType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">_SubscriberType</span><span class="p">]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get subscribers of the given ``event``.</span>
 
 <span class="sd">        :param event: Event for querying.</span>
@@ -295,7 +295,7 @@
         <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_observers</span><span class="p">[</span><span class="n">id_</span><span class="p">]</span> <span class="k">for</span> <span class="n">id_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_subscriptions</span><span class="p">(</span><span class="n">event</span><span class="p">)</span><span class="o">.</span><span class="n">keys</span><span class="p">()]</span></div>
 
 <div class="viewcode-block" id="Observable.subscriptions"><a class="viewcode-back" href="../../../api_doc/design/observer.html#hbutils.design.observer.Observable.subscriptions">[docs]</a>    <span class="k">def</span> <span class="nf">subscriptions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">_EventType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">_SubscriberType</span><span class="p">,</span> <span class="n">_CallbackType</span><span class="p">]]:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Get subscriptions of the given ``event``.</span>
 
 <span class="sd">        :param event: Event for querying.</span>
@@ -322,7 +322,7 @@
 
 <div class="viewcode-block" id="Observable.subscribe"><a class="viewcode-back" href="../../../api_doc/design/observer.html#hbutils.design.observer.Observable.subscribe">[docs]</a>    <span class="k">def</span> <span class="nf">subscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">_EventType</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">_SubscriberType</span><span class="p">,</span>
                   <span class="n">callback</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">_CallbackType</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Subscribe to the given ``event``.</span>
 
 <span class="sd">        :param event: Event to be subscribed.</span>
@@ -348,7 +348,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_put_subscription</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">,</span> <span class="n">callback</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Observable.unsubscribe"><a class="viewcode-back" href="../../../api_doc/design/observer.html#hbutils.design.observer.Observable.unsubscribe">[docs]</a>    <span class="k">def</span> <span class="nf">unsubscribe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">_EventType</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">:</span> <span class="n">_SubscriberType</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Unsubscribe from the given ``event``.</span>
 
 <span class="sd">        :param event: Event to be unsubscribed.</span>
@@ -357,7 +357,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_del_subscription</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Observable.dispatch"><a class="viewcode-back" href="../../../api_doc/design/observer.html#hbutils.design.observer.Observable.dispatch">[docs]</a>    <span class="k">def</span> <span class="nf">dispatch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">_EventType</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Dispatch event.</span>
 
 <span class="sd">        :param event: Event to be dispatched.</span>
@@ -377,7 +377,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2022, HansBug
+        &copy; Copyright 2023, HansBug
 
     </p>
   </div>
@@ -445,6 +445,7 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../../dynamic/index.html">dev/dynamic</a></dd>
                         <dd><a href="observer.html">dev/color</a></dd>
                         <dd><a href="../../../../dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="../../../../pythonpath/index.html">dev/pythonpath</a></dd>

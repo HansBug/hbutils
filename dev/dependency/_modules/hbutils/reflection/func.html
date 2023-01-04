@@ -195,7 +195,7 @@
 
 
 <div class="viewcode-block" id="fassign"><a class="viewcode-back" href="../../../api_doc/reflection/func.html#hbutils.reflection.func.fassign">[docs]</a><span class="k">def</span> <span class="nf">fassign</span><span class="p">(</span><span class="o">**</span><span class="n">assigns</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Do assignments to function.</span>
 
@@ -221,7 +221,7 @@
 
 
 <div class="viewcode-block" id="frename"><a class="viewcode-back" href="../../../api_doc/reflection/func.html#hbutils.reflection.func.frename">[docs]</a><span class="k">def</span> <span class="nf">frename</span><span class="p">(</span><span class="n">new_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Rename the given function.</span>
 
@@ -240,7 +240,7 @@
 
 
 <div class="viewcode-block" id="fcopy"><a class="viewcode-back" href="../../../api_doc/reflection/func.html#hbutils.reflection.func.fcopy">[docs]</a><span class="k">def</span> <span class="nf">fcopy</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Make a copy of given function.</span>
 
@@ -266,7 +266,7 @@
 
 
 <div class="viewcode-block" id="args_iter"><a class="viewcode-back" href="../../../api_doc/reflection/func.html#hbutils.reflection.func.args_iter">[docs]</a><span class="k">def</span> <span class="nf">args_iter</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Iterate all the arguments with index and value.</span>
 <span class="sd">        If argument is in `args`, the index should be integer increasing from 0.</span>
@@ -300,7 +300,7 @@
 
 
 <div class="viewcode-block" id="sigsupply"><a class="viewcode-back" href="../../../api_doc/reflection/func.html#hbutils.reflection.func.sigsupply">[docs]</a><span class="k">def</span> <span class="nf">sigsupply</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">sfunc</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        A solution for :func:`dynamic_call`. When ``func`` is a builtin function or method \</span>
 <span class="sd">        (which means its signature can not be captured by ``inspect.signature``), the signature of \</span>
@@ -343,7 +343,7 @@
 
 <div class="viewcode-block" id="dynamic_call"><a class="viewcode-back" href="../../../api_doc/reflection/func.html#hbutils.reflection.func.dynamic_call">[docs]</a><span class="nd">@decolize</span>
 <span class="k">def</span> <span class="nf">dynamic_call</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Decorate function to dynamic-call-supported function.</span>
 
@@ -403,7 +403,7 @@
 
 <div class="viewcode-block" id="static_call"><a class="viewcode-back" href="../../../api_doc/reflection/func.html#hbutils.reflection.func.static_call">[docs]</a><span class="nd">@decolize</span>
 <span class="k">def</span> <span class="nf">static_call</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">static_ok</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Static call, anti-calculation of dynamic call.</span>
 
@@ -421,7 +421,7 @@
 
 
 <div class="viewcode-block" id="pre_process"><a class="viewcode-back" href="../../../api_doc/reflection/func.html#hbutils.reflection.func.pre_process">[docs]</a><span class="k">def</span> <span class="nf">pre_process</span><span class="p">(</span><span class="n">processor</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Pre processor for function.</span>
 
@@ -464,7 +464,7 @@
 
 
 <div class="viewcode-block" id="post_process"><a class="viewcode-back" href="../../../api_doc/reflection/func.html#hbutils.reflection.func.post_process">[docs]</a><span class="k">def</span> <span class="nf">post_process</span><span class="p">(</span><span class="n">processor</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Post processor for function.</span>
 
@@ -506,7 +506,7 @@
 
 
 <div class="viewcode-block" id="raising"><a class="viewcode-back" href="../../../api_doc/reflection/func.html#hbutils.reflection.func.raising">[docs]</a><span class="k">def</span> <span class="nf">raising</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">,</span> <span class="ne">BaseException</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="ne">BaseException</span><span class="p">]]):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Decorate function with exception object return value to a raisisng function.</span>
 
@@ -557,7 +557,7 @@
 
 
 <div class="viewcode-block" id="warning_"><a class="viewcode-back" href="../../../api_doc/reflection/func.html#hbutils.reflection.func.warning_">[docs]</a><span class="k">def</span> <span class="nf">warning_</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Callable</span><span class="p">,</span> <span class="ne">Warning</span><span class="p">,</span> <span class="n">Type</span><span class="p">[</span><span class="ne">Warning</span><span class="p">],</span> <span class="nb">str</span><span class="p">]):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Decorate function with exception object return value to a ``warning_`` function.</span>
 
@@ -583,7 +583,7 @@
 
 
 <div class="viewcode-block" id="freduce"><a class="viewcode-back" href="../../../api_doc/reflection/func.html#hbutils.reflection.func.freduce">[docs]</a><span class="k">def</span> <span class="nf">freduce</span><span class="p">(</span><span class="n">init</span><span class="o">=</span><span class="n">NO_INITIAL</span><span class="p">,</span> <span class="n">pass_kwargs</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Make binary function be reducible.</span>
 
@@ -643,7 +643,7 @@
 
 
 <div class="viewcode-block" id="get_callable_hint"><a class="viewcode-back" href="../../../api_doc/reflection/func.html#hbutils.reflection.func.get_callable_hint">[docs]</a><span class="k">def</span> <span class="nf">get_callable_hint</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">Callable</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Get type hint of callable.</span>
 
@@ -689,7 +689,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2022, HansBug
+        &copy; Copyright 2023, HansBug
 
     </p>
   </div>
@@ -757,6 +757,7 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../../dynamic/index.html">dev/dynamic</a></dd>
                         <dd><a href="../../../../color/index.html">dev/color</a></dd>
                         <dd><a href="func.html">dev/dependency</a></dd>
                         <dd><a href="../../../../pythonpath/index.html">dev/pythonpath</a></dd>

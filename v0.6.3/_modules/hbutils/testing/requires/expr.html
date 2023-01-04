@@ -185,7 +185,7 @@
 
 
 <span class="k">class</span> <span class="nc">VersionCmpExpression</span><span class="p">(</span><span class="n">ComparableExpression</span><span class="p">,</span> <span class="n">LogicalExpression</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">pass</span>
 
@@ -267,7 +267,7 @@
 
 
 <div class="viewcode-block" id="OS"><a class="viewcode-back" href="../../../../api_doc/testing/requires.html#hbutils.testing.requires.OS">[docs]</a><span class="k">class</span> <span class="nc">OS</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Expressions for operating system.</span>
 
@@ -298,21 +298,21 @@
 <span class="sd">        OK (skipped=2)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">windows</span> <span class="o">=</span> <span class="n">expr</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">is_windows</span><span class="p">(),</span> <span class="bp">cls</span><span class="o">=</span><span class="n">OSExpression</span><span class="p">)</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Expression for windows system.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">linux</span> <span class="o">=</span> <span class="n">expr</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">is_linux</span><span class="p">(),</span> <span class="bp">cls</span><span class="o">=</span><span class="n">OSExpression</span><span class="p">)</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Expression for linux system.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">darwin</span> <span class="o">=</span> <span class="n">expr</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">is_darwin</span><span class="p">(),</span> <span class="bp">cls</span><span class="o">=</span><span class="n">OSExpression</span><span class="p">)</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Expression for darwin system (also named ``OS.macos``).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">macos</span> <span class="o">=</span> <span class="n">darwin</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Alias for ``OS.darwin``.</span>
 <span class="sd">    &quot;&quot;&quot;</span></div>
 
@@ -322,7 +322,7 @@
 
 
 <div class="viewcode-block" id="Impl"><a class="viewcode-back" href="../../../../api_doc/testing/requires.html#hbutils.testing.requires.Impl">[docs]</a><span class="k">class</span> <span class="nc">Impl</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Expression for python implementation.</span>
 <span class="sd">        See `platform.python_implementation() \</span>
@@ -359,22 +359,22 @@
 <span class="sd">        OK (skipped=3)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">cpython</span> <span class="o">=</span> <span class="n">expr</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">is_cpython</span><span class="p">(),</span> <span class="bp">cls</span><span class="o">=</span><span class="n">PythonImplementExpression</span><span class="p">)</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Expression for CPython (most-frequently-used python).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">iron_python</span> <span class="o">=</span> <span class="n">expr</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">is_ironpython</span><span class="p">(),</span> <span class="bp">cls</span><span class="o">=</span><span class="n">PythonImplementExpression</span><span class="p">)</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Expression for IronPython.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">jython</span> <span class="o">=</span> <span class="n">expr</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">is_jython</span><span class="p">(),</span> <span class="bp">cls</span><span class="o">=</span><span class="n">PythonImplementExpression</span><span class="p">)</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Expression for Jython (java-based python).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">pypy</span> <span class="o">=</span> <span class="n">expr</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">is_pypy</span><span class="p">(),</span> <span class="bp">cls</span><span class="o">=</span><span class="n">PythonImplementExpression</span><span class="p">)</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Expression for PyPy.</span>
 <span class="sd">    &quot;&quot;&quot;</span></div>
 </pre></div>
@@ -390,7 +390,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2022, HansBug
+        &copy; Copyright 2023, HansBug
 
     </p>
   </div>
@@ -458,6 +458,7 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../../../dev/dynamic/index.html">dev/dynamic</a></dd>
                         <dd><a href="../../../../../dev/color/index.html">dev/color</a></dd>
                         <dd><a href="../../../../../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="../../../../../dev/pythonpath/index.html">dev/pythonpath</a></dd>

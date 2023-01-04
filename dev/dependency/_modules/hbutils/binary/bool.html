@@ -183,13 +183,13 @@
 
 
 <div class="viewcode-block" id="CBoolType"><a class="viewcode-back" href="../../../api_doc/binary/bool.html#hbutils.binary.bool.CBoolType">[docs]</a><span class="k">class</span> <span class="nc">CBoolType</span><span class="p">(</span><span class="n">CFixedType</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Boolean type.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="CBoolType.__init__"><a class="viewcode-back" href="../../../api_doc/binary/bool.html#hbutils.binary.bool.CBoolType.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Constructor of :class:`CBoolType`.</span>
 
 <span class="sd">        :param size: Size of boolean type.</span>
@@ -198,7 +198,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__size</span> <span class="o">=</span> <span class="n">size</span></div>
 
 <div class="viewcode-block" id="CBoolType.read"><a class="viewcode-back" href="../../../api_doc/binary/bool.html#hbutils.binary.bool.CBoolType.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Read boolean value.</span>
 
 <span class="sd">        :param file: Binary file, ``io.BytesIO`` is supported as well.</span>
@@ -207,7 +207,7 @@
         <span class="k">return</span> <span class="nb">any</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__size</span><span class="p">))</span></div>
 
 <div class="viewcode-block" id="CBoolType.write"><a class="viewcode-back" href="../../../api_doc/binary/bool.html#hbutils.binary.bool.CBoolType.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span><span class="p">,</span> <span class="n">val</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Write boolean value to binary IO object.</span>
 
 <span class="sd">        :param file: Binary file, ``io.BytesIO`` is supported as well.</span>
@@ -256,7 +256,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2022, HansBug
+        &copy; Copyright 2023, HansBug
 
     </p>
   </div>
@@ -324,6 +324,7 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../../dynamic/index.html">dev/dynamic</a></dd>
                         <dd><a href="../../../../color/index.html">dev/color</a></dd>
                         <dd><a href="bool.html">dev/dependency</a></dd>
                         <dd><a href="../../../../pythonpath/index.html">dev/pythonpath</a></dd>
