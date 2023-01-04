@@ -4,3 +4,4 @@ pytimeparse>=1.1.8
 inflect>=5.2.0
 packaging>=21.3
 setuptools>=50.0
+torchfxxker>=1.2.1

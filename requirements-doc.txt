@@ -6,5 +6,4 @@ sphinx-toolbox
 plantumlcli>=0.0.2
 packaging
 sphinx-multiversion~=0.2.4
-where~=1.0.2
 easydict>=1.7,<2
