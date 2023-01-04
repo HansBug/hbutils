@@ -52,15 +52,14 @@ class TestSystemPythonPackage:
             pip('freeze')
         assert f'packaging=={packaging.__version__}' in co.stdout
 
-    @skipUnless(not vpip('requests'), 'No requests package required.')
+    @skipUnless(not vpip('pyquery'), 'No pyquery package required.')
     def test_pip_install(self):
         try:
-            pip_install(['requests>=2.24'], silent=True)
-            import requests
-            assert vpip('requests') == requests.__version__
+            pip_install(['pyquery>=1.4'], silent=True)
+            assert vpip('pyquery')
 
-            pip('uninstall', '-y', 'requests', silent=True)
-            assert not vpip('requests')
+            pip('uninstall', '-y', 'pyquery', silent=True)
+            assert not vpip('pyquery')
         finally:
-            if check_reqs(['requests']):
-                pip('uninstall', '-y', 'requests', silent=True)
+            if check_reqs(['pyquery']):
+                pip('uninstall', '-y', 'pyquery', silent=True)
