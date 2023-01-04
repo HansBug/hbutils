@@ -1,5 +1,4 @@
 chardet>=3.0.4,<5
-pytimeparse>=1.1.8
 inflect>=5.2.0
 packaging>=21.3
 setuptools>=50.0
