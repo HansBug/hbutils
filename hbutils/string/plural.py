@@ -6,7 +6,13 @@ import warnings
 from functools import lru_cache
 from typing import Optional
 
-import inflect
+try:
+    import inflect
+except ImportError:
+    from ..system import pip_install
+
+    pip_install(['inflect>=5.2.0'], silent=True)
+    import inflect
 
 __all__ = ['plural_form', 'plural_word', 'singular_form']
 
