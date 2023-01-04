@@ -8,7 +8,7 @@ from pkg_resources import parse_version
 from hbutils.system import package_version, load_req_file, check_reqs, check_req_file, pip, pip_install, which
 from hbutils.testing import capture_output, vpip
 from .test_version import _Version
-from ...testings import get_testfile_path
+from ...testings import get_testfile_path, normpath
 
 
 @pytest.mark.unittest
@@ -59,7 +59,7 @@ class TestSystemPythonPackage:
             assert vpip('where')
 
             import where  # test the usage
-            assert where.first('python') == which('python')
+            assert normpath(where.first('python')) == normpath(which('python'))
 
             pip('uninstall', '-y', 'where', silent=True)
             assert not vpip('where')
