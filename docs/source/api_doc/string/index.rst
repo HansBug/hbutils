@@ -8,6 +8,7 @@ hbutils.string
 .. toctree::
     :maxdepth: 3
 
+    ordinal
     plural
     template
     trunc
