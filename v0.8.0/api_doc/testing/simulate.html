@@ -1,0 +1,471 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hbutils.testing.simulate &mdash; hbutils 0.8.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="hbutils.testing.requires" href="requires.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> hbutils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.8.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+</ul>
+<p><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">hbutils.algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../binary/index.html">hbutils.binary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../collection/index.html">hbutils.collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../color/index.html">hbutils.color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/index.html">hbutils.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/index.html">hbutils.design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../expression/index.html">hbutils.expression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file/index.html">hbutils.file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/index.html">hbutils.model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../random/index.html">hbutils.random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reflection/index.html">hbutils.reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scale/index.html">hbutils.scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../string/index.html">hbutils.string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../system/index.html">hbutils.system</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">hbutils.testing</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="capture.html">hbutils.testing.capture</a></li>
+<li class="toctree-l2"><a class="reference internal" href="compare.html">hbutils.testing.compare</a></li>
+<li class="toctree-l2"><a class="reference internal" href="generator.html">hbutils.testing.generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="isolated.html">hbutils.testing.isolated</a></li>
+<li class="toctree-l2"><a class="reference internal" href="requires.html">hbutils.testing.requires</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.testing.simulate</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#simulate-entry">simulate_entry</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#entryrunresult">EntryRunResult</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">hbutils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">hbutils.testing</a> &raquo;</li>
+        
+      <li>hbutils.testing.simulate</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_doc/testing/simulate.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <section id="module-hbutils.testing.simulate">
+<span id="hbutils-testing-simulate"></span><h1>hbutils.testing.simulate<a class="headerlink" href="#module-hbutils.testing.simulate" title="Permalink to this headline">¶</a></h1>
+<dl class="simple">
+<dt>Overview:</dt><dd><p>Simulation for some special behaviour in Python.</p>
+</dd>
+</dl>
+<section id="simulate-entry">
+<h2>simulate_entry<a class="headerlink" href="#simulate-entry" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.testing.simulate.simulate_entry">
+<code class="sig-prename descclassname">hbutils.testing.simulate.</code><code class="sig-name descname">simulate_entry</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">entry</span><span class="p">:</span> <span class="n">Callable</span></em>, <em class="sig-param"><span class="n">argv</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">envs</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Mapping<span class="p">[</span>str<span class="p">, </span>str<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; hbutils.testing.simulate.entry.EntryRunResult<a class="reference internal" href="../../_modules/hbutils/testing/simulate/entry.html#simulate_entry"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.simulate.simulate_entry" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>CLI entry’s simulation.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>entry</strong> – Entry function, should be a simple function without any arguments.</p></li>
+<li><p><strong>argv</strong> – Command line arguments. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code>, which means do not mock <code class="docutils literal notranslate"><span class="pre">sys.argv</span></code>.</p></li>
+<li><p><strong>envs</strong> – Environment arguments. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code>, which means do not mock <code class="docutils literal notranslate"><span class="pre">os.environ</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A result object, in form of <a class="reference internal" href="#hbutils.testing.simulate.EntryRunResult" title="hbutils.testing.simulate.EntryRunResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">EntryRunResult</span></code></a>.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><p>We create a simple CLI code with <a class="reference external" href="https://click.palletsprojects.com/">click package</a>,             named <code class="docutils literal notranslate"><span class="pre">test_cli1.py</span></code></p>
+<div class="highlight-python notranslate"><div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span></pre></div></td><td class="code"><div><pre><span></span> <span class="kn">import</span> <span class="nn">sys</span>
+ <span class="kn">import</span> <span class="nn">click</span>
+
+ <span class="nd">@click</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s1">&#39;cli1&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;CLI-1 example&#39;</span><span class="p">)</span>
+ <span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s1">&#39;-c&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;optional C value&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+ <span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+ <span class="nd">@click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s1">&#39;b&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+ <span class="k">def</span> <span class="nf">cli1</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+     <span class="k">if</span> <span class="n">c</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s1"> + </span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s1"> = </span><span class="si">{</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+     <span class="k">else</span><span class="p">:</span>
+         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s1"> + </span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s1"> + </span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s1"> = </span><span class="si">{</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">c</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+
+ <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+     <span class="n">cli1</span><span class="p">()</span>
+</pre></div></td></tr></table></div>
+</div>
+<p>When we can try to simulate it.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">simulate_entry</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">test_cli1</span> <span class="kn">import</span> <span class="n">cli1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r1</span> <span class="o">=</span> <span class="n">simulate_entry</span><span class="p">(</span><span class="n">cli1</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;cli1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">r1</span><span class="o">.</span><span class="n">exitcode</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">r1</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+<span class="go">2 + 3 = 5</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r2</span> <span class="o">=</span> <span class="n">simulate_entry</span><span class="p">(</span><span class="n">cli1</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;cli1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="s1">&#39;3&#39;</span><span class="p">,</span> <span class="s1">&#39;-c&#39;</span><span class="p">,</span> <span class="s1">&#39;24&#39;</span><span class="p">])</span>  <span class="c1"># option</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">r2</span><span class="o">.</span><span class="n">exitcode</span><span class="p">)</span>
+<span class="go">0</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">r2</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+<span class="go">2 + 3 + 24 = 29</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r3</span> <span class="o">=</span> <span class="n">simulate_entry</span><span class="p">(</span><span class="n">cli1</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;cli&#39;</span><span class="p">,</span> <span class="s1">&#39;--help&#39;</span><span class="p">])</span>  <span class="c1"># help</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">r3</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+<span class="go">Usage: cli [OPTIONS] A B</span>
+<span class="go">  CLI-1 example</span>
+<span class="go">Options:</span>
+<span class="go">  -c INTEGER  optional C value</span>
+<span class="go">  --help      Show this message and exit.</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">r4</span> <span class="o">=</span> <span class="n">simulate_entry</span><span class="p">(</span><span class="n">cli1</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;cli&#39;</span><span class="p">,</span> <span class="s1">&#39;dklsfj&#39;</span><span class="p">])</span>  <span class="c1"># misusage</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">r4</span><span class="o">.</span><span class="n">exitcode</span><span class="p">)</span>
+<span class="go">2</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">r4</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+<span class="go">Usage: cli [OPTIONS] A B</span>
+<span class="go">Try &#39;cli --help&#39; for help.</span>
+<span class="go">Error: Invalid value for &#39;A&#39;: &#39;dklsfj&#39; is not a valid integer.</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please note that if there is uncaught exception raised inside the entry function,                 it will be caught and put into <code class="docutils literal notranslate"><span class="pre">error</span></code> property instead of be being printed                 to <code class="docutils literal notranslate"><span class="pre">stderr</span></code>. For example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">simulate_entry</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">def</span> <span class="nf">my_cli</span><span class="p">():</span>
+<span class="gp">... </span>    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="mi">233</span><span class="p">)</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">simulate_entry</span><span class="p">(</span><span class="n">my_cli</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">exitcode</span><span class="p">)</span>  <span class="c1"># will be 0x1</span>
+<span class="go">1</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>  <span class="c1"># nothing</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>  <span class="c1"># nothing as well</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">error</span><span class="p">))</span>  <span class="c1"># HERE!!!</span>
+<span class="go">ValueError(233)</span>
+</pre></div>
+</div>
+</aside>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="entryrunresult">
+<h2>EntryRunResult<a class="headerlink" href="#entryrunresult" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.testing.simulate.EntryRunResult">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.testing.simulate.</code><code class="sig-name descname">EntryRunResult</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">exitcode</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">stdout</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">stderr</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">error</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>BaseException<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/simulate/entry.html#EntryRunResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.simulate.EntryRunResult" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Run result of one entry.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="hbutils.testing.simulate.EntryRunResult.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">exitcode</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">stdout</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">stderr</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">error</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>BaseException<span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/simulate/entry.html#EntryRunResult.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.simulate.EntryRunResult.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of <a class="reference internal" href="#hbutils.testing.simulate.EntryRunResult" title="hbutils.testing.simulate.EntryRunResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">EntryRunResult</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>exitcode</strong> – Exit code.</p></li>
+<li><p><strong>stdout</strong> – Output in standard output stream.</p></li>
+<li><p><strong>stderr</strong> – Output in standard error stream.</p></li>
+<li><p><strong>error</strong> – Uncaught exception raised inside.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.simulate.EntryRunResult.error">
+<em class="property">property </em><code class="sig-name descname">error</code><a class="headerlink" href="#hbutils.testing.simulate.EntryRunResult.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uncaught exception raised inside.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.simulate.EntryRunResult.exitcode">
+<em class="property">property </em><code class="sig-name descname">exitcode</code><a class="headerlink" href="#hbutils.testing.simulate.EntryRunResult.exitcode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit code.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.simulate.EntryRunResult.stderr">
+<em class="property">property </em><code class="sig-name descname">stderr</code><a class="headerlink" href="#hbutils.testing.simulate.EntryRunResult.stderr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output in standard error stream.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.simulate.EntryRunResult.stdout">
+<em class="property">property </em><code class="sig-name descname">stdout</code><a class="headerlink" href="#hbutils.testing.simulate.EntryRunResult.stdout" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output in standard output stream.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="requires.html" class="btn btn-neutral float-left" title="hbutils.testing.requires" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2023, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: v0.8.0
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../v0.0.1/index.html">v0.0.1</a></dd>
+                        <dd><a href="../../../v0.1.0/index.html">v0.1.0</a></dd>
+                        <dd><a href="../../../v0.1.1/index.html">v0.1.1</a></dd>
+                        <dd><a href="../../../v0.2.0/index.html">v0.2.0</a></dd>
+                        <dd><a href="../../../v0.3.0/index.html">v0.3.0</a></dd>
+                        <dd><a href="../../../v0.3.1/index.html">v0.3.1</a></dd>
+                        <dd><a href="../../../v0.3.2/index.html">v0.3.2</a></dd>
+                        <dd><a href="../../../v0.3.3/index.html">v0.3.3</a></dd>
+                        <dd><a href="../../../v0.4.0/index.html">v0.4.0</a></dd>
+                        <dd><a href="../../../v0.4.1/index.html">v0.4.1</a></dd>
+                        <dd><a href="../../../v0.4.2/index.html">v0.4.2</a></dd>
+                        <dd><a href="../../../v0.4.3/index.html">v0.4.3</a></dd>
+                        <dd><a href="../../../v0.4.4/index.html">v0.4.4</a></dd>
+                        <dd><a href="../../../v0.4.5/index.html">v0.4.5</a></dd>
+                        <dd><a href="../../../v0.4.6/index.html">v0.4.6</a></dd>
+                        <dd><a href="../../../v0.4.7/index.html">v0.4.7</a></dd>
+                        <dd><a href="../../../v0.5.0/index.html">v0.5.0</a></dd>
+                        <dd><a href="../../../v0.5.1/index.html">v0.5.1</a></dd>
+                        <dd><a href="../../../v0.5.2/index.html">v0.5.2</a></dd>
+                        <dd><a href="../../../v0.6.0/index.html">v0.6.0</a></dd>
+                        <dd><a href="../../../v0.6.1/index.html">v0.6.1</a></dd>
+                        <dd><a href="../../../v0.6.10/index.html">v0.6.10</a></dd>
+                        <dd><a href="../../../v0.6.11/index.html">v0.6.11</a></dd>
+                        <dd><a href="../../../v0.6.12/index.html">v0.6.12</a></dd>
+                        <dd><a href="../../../v0.6.13/index.html">v0.6.13</a></dd>
+                        <dd><a href="../../../v0.6.14/index.html">v0.6.14</a></dd>
+                        <dd><a href="../../../v0.6.2/index.html">v0.6.2</a></dd>
+                        <dd><a href="../../../v0.6.3/index.html">v0.6.3</a></dd>
+                        <dd><a href="../../../v0.6.4/index.html">v0.6.4</a></dd>
+                        <dd><a href="../../../v0.6.5/index.html">v0.6.5</a></dd>
+                        <dd><a href="../../../v0.6.6/index.html">v0.6.6</a></dd>
+                        <dd><a href="../../../v0.6.7/index.html">v0.6.7</a></dd>
+                        <dd><a href="../../../v0.6.8/index.html">v0.6.8</a></dd>
+                        <dd><a href="../../../v0.6.9/index.html">v0.6.9</a></dd>
+                        <dd><a href="../../../v0.7.0/index.html">v0.7.0</a></dd>
+                        <dd><a href="../../../v0.7.1/index.html">v0.7.1</a></dd>
+                        <dd><a href="../../../v0.7.2/api_doc/testing/simulate.html">v0.7.2</a></dd>
+                        <dd><a href="../../../v0.7.3/api_doc/testing/simulate.html">v0.7.3</a></dd>
+                        <dd><a href="../../../v0.7.4/api_doc/testing/simulate.html">v0.7.4</a></dd>
+                        <dd><a href="../../../v0.7.5/api_doc/testing/simulate.html">v0.7.5</a></dd>
+                        <dd><a href="../../../v0.7.6/api_doc/testing/simulate.html">v0.7.6</a></dd>
+                        <dd><a href="simulate.html">v0.8.0</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="../../../dev/color/api_doc/testing/simulate.html">dev/color</a></dd>
+                        <dd><a href="../../../dev/dependency/index.html">dev/dependency</a></dd>
+                        <dd><a href="../../../dev/pythonpath/api_doc/testing/simulate.html">dev/pythonpath</a></dd>
+                        <dd><a href="../../../dev/recover/api_doc/testing/simulate.html">dev/recover</a></dd>
+                        <dd><a href="../../../main/api_doc/testing/simulate.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

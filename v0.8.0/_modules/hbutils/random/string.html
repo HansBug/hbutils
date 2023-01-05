@@ -1,0 +1,514 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hbutils.random.string &mdash; hbutils 0.8.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> hbutils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.8.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/installation/index.html">Installation</a></li>
+</ul>
+<p><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/algorithm/index.html">hbutils.algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/binary/index.html">hbutils.binary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/collection/index.html">hbutils.collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/color/index.html">hbutils.color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/config/index.html">hbutils.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/design/index.html">hbutils.design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/expression/index.html">hbutils.expression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/file/index.html">hbutils.file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/model/index.html">hbutils.model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/random/index.html">hbutils.random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/reflection/index.html">hbutils.reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/scale/index.html">hbutils.scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/string/index.html">hbutils.string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/system/index.html">hbutils.system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/testing/index.html">hbutils.testing</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">hbutils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>hbutils.random.string</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <h1>Source code for hbutils.random.string</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">_inst</span> <span class="k">as</span> <span class="n">_DEFAULT_RANDOM</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="kn">from</span> <span class="nn">.binary</span> <span class="kn">import</span> <span class="n">random_bytes</span>
+<span class="kn">from</span> <span class="nn">..encoding</span> <span class="kn">import</span> <span class="n">md5</span><span class="p">,</span> <span class="n">sha1</span><span class="p">,</span> <span class="n">base64_encode</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;random_digits&#39;</span><span class="p">,</span> <span class="s1">&#39;random_bin_digits&#39;</span><span class="p">,</span> <span class="s1">&#39;random_hex_digits&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;random_md5&#39;</span><span class="p">,</span> <span class="s1">&#39;random_sha1&#39;</span><span class="p">,</span> <span class="s1">&#39;random_base64&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;random_md5_with_timestamp&#39;</span><span class="p">,</span> <span class="s1">&#39;random_sha1_with_timestamp&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">_check_base</span><span class="p">(</span><span class="n">base</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">base</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Base should be an integer no less than 2, but </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">base</span><span class="p">)</span><span class="si">}</span><span class="s1"> found.&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">base</span> <span class="o">&gt;</span> <span class="mi">36</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Base should be an integer no greater then 36, but </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">base</span><span class="p">)</span><span class="si">}</span><span class="s1"> found.&#39;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Base should be an integer, but </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">base</span><span class="p">))</span><span class="si">}</span><span class="s1"> found.&#39;</span><span class="p">)</span>
+
+
+<span class="n">_0_ASCII</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">)</span>
+<span class="n">_LOWER_A_ASCII</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">)</span>
+<span class="n">_UPPER_A_ASCII</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_random_dchar</span><span class="p">(</span><span class="n">base</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">upper</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">rnd</span><span class="p">:</span> <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">):</span>
+    <span class="n">_val</span> <span class="o">=</span> <span class="n">rnd</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">base</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">_val</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="n">_base</span> <span class="o">=</span> <span class="n">_0_ASCII</span>
+    <span class="k">elif</span> <span class="n">upper</span><span class="p">:</span>
+        <span class="n">_base</span> <span class="o">=</span> <span class="n">_UPPER_A_ASCII</span> <span class="o">-</span> <span class="mi">10</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">_base</span> <span class="o">=</span> <span class="n">_LOWER_A_ASCII</span> <span class="o">-</span> <span class="mi">10</span>
+
+    <span class="k">return</span> <span class="nb">chr</span><span class="p">(</span><span class="n">_base</span> <span class="o">+</span> <span class="n">_val</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="random_digits"><a class="viewcode-back" href="../../../api_doc/random/string.html#hbutils.random.string.random_digits">[docs]</a><span class="k">def</span> <span class="nf">random_digits</span><span class="p">(</span><span class="n">length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span> <span class="n">base</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">upper</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">rnd</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Create random digits.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        - length (:obj:`int`): Length of the digits, default is 32.</span>
+<span class="sd">        - base (:obj:`int`): Base of the digits, should be in [2, 36], default is 10.</span>
+<span class="sd">        - upper (:obj:`bool`): Upper the hex chars, default is ``False``.</span>
+<span class="sd">        - rnd (:obj:`Optional[random.Random]`): Random object you used, \</span>
+<span class="sd">            default is ``None`` which means just use the default one provided by system.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - string (:obj:`str`): Random digital string.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from hbutils.random import random_digits</span>
+<span class="sd">        &gt;&gt;&gt; random_digits()</span>
+<span class="sd">        &#39;53518555004529024184262875530824&#39;</span>
+<span class="sd">        &gt;&gt;&gt; random_digits(base=8)</span>
+<span class="sd">        &#39;77337055655313664176450107031511&#39;</span>
+<span class="sd">        &gt;&gt;&gt; random_digits(48, base=8)</span>
+<span class="sd">        &#39;130107050101775254773050732461131017135371516420&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_check_base</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+    <span class="n">rnd</span> <span class="o">=</span> <span class="n">rnd</span> <span class="ow">or</span> <span class="n">_DEFAULT_RANDOM</span>
+
+    <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span> <span class="k">as</span> <span class="n">sio</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">length</span><span class="p">):</span>
+            <span class="n">sio</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">_random_dchar</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">rnd</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">sio</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="random_bin_digits"><a class="viewcode-back" href="../../../api_doc/random/string.html#hbutils.random.string.random_bin_digits">[docs]</a><span class="k">def</span> <span class="nf">random_bin_digits</span><span class="p">(</span><span class="n">length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span> <span class="n">rnd</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Create random binary digits.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        - length (:obj:`int`): Length of the digits, default is 32.</span>
+<span class="sd">        - rnd (:obj:`Optional[random.Random]`): Random object you used, \</span>
+<span class="sd">            default is ``None`` which means just use the default one provided by system.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - string (:obj:`str`): Random binary digital string.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from hbutils.random import random_bin_digits</span>
+<span class="sd">        &gt;&gt;&gt; random_bin_digits()</span>
+<span class="sd">        &#39;11001011010101101100011010010011&#39;</span>
+<span class="sd">        &gt;&gt;&gt; random_bin_digits(48)</span>
+<span class="sd">        &#39;010110000110101101111111011100010011101011010100&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">random_digits</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">rnd</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="random_hex_digits"><a class="viewcode-back" href="../../../api_doc/random/string.html#hbutils.random.string.random_hex_digits">[docs]</a><span class="k">def</span> <span class="nf">random_hex_digits</span><span class="p">(</span><span class="n">length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span> <span class="n">upper</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">rnd</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Create random hexidecimal digits.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        - length (:obj:`int`): Length of the digits, default is 32.</span>
+<span class="sd">        - rnd (:obj:`Optional[random.Random]`): Random object you used, \</span>
+<span class="sd">            default is ``None`` which means just use the default one provided by system.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - string (:obj:`str`): Random hexidecimal digital string.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from hbutils.random import random_hex_digits</span>
+<span class="sd">        &gt;&gt;&gt; random_hex_digits()</span>
+<span class="sd">        &#39;bf4eadfb8c1700d74024833c3ce211a7&#39;</span>
+<span class="sd">        &gt;&gt;&gt; random_hex_digits(upper=True)</span>
+<span class="sd">        &#39;7B85DE69A319BA132ACA27C7777A1C3E&#39;</span>
+<span class="sd">        &gt;&gt;&gt; random_hex_digits(48)</span>
+<span class="sd">        &#39;7175a23730391687b7b5230c72d702a1664833a1c66783cc&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">random_digits</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">upper</span><span class="p">,</span> <span class="n">rnd</span><span class="p">)</span></div>
+
+
+<span class="n">_RANDOM_BYTES_LENGTH</span> <span class="o">=</span> <span class="mi">64</span>
+
+
+<span class="k">def</span> <span class="nf">_random_hash</span><span class="p">(</span><span class="n">hash_func</span><span class="p">,</span> <span class="n">length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">_RANDOM_BYTES_LENGTH</span><span class="p">,</span> <span class="n">rnd</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">hash_func</span><span class="p">(</span><span class="n">random_bytes</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">allow_zero</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">rnd</span><span class="o">=</span><span class="n">rnd</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="random_md5"><a class="viewcode-back" href="../../../api_doc/random/string.html#hbutils.random.string.random_md5">[docs]</a><span class="k">def</span> <span class="nf">random_md5</span><span class="p">(</span><span class="n">rnd</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Create random md5 string.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        - rnd (:obj:`Optional[random.Random]`): Random object you used, \</span>
+<span class="sd">            default is ``None`` which means just use the default one provided by system.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - string (:obj:`str`): Random md5 string.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from hbutils.random import random_md5</span>
+<span class="sd">        &gt;&gt;&gt; random_md5()</span>
+<span class="sd">        &#39;bbffd8913a7c49161ebe31b9092a9016&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_random_hash</span><span class="p">(</span><span class="n">md5</span><span class="p">,</span> <span class="n">_RANDOM_BYTES_LENGTH</span><span class="p">,</span> <span class="n">rnd</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="random_sha1"><a class="viewcode-back" href="../../../api_doc/random/string.html#hbutils.random.string.random_sha1">[docs]</a><span class="k">def</span> <span class="nf">random_sha1</span><span class="p">(</span><span class="n">rnd</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Create random sha1 string.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        - rnd (:obj:`Optional[random.Random]`): Random object you used, \</span>
+<span class="sd">            default is ``None`` which means just use the default one provided by system.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - string (:obj:`str`): Random sha1 string.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from hbutils.random import random_sha1</span>
+<span class="sd">        &gt;&gt;&gt; random_sha1()</span>
+<span class="sd">        &#39;13135aa6b05482dcdbc1f5a25d117298571e7fab&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_random_hash</span><span class="p">(</span><span class="n">sha1</span><span class="p">,</span> <span class="n">_RANDOM_BYTES_LENGTH</span><span class="p">,</span> <span class="n">rnd</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="random_base64"><a class="viewcode-back" href="../../../api_doc/random/string.html#hbutils.random.string.random_base64">[docs]</a><span class="k">def</span> <span class="nf">random_base64</span><span class="p">(</span><span class="n">length</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">_RANDOM_BYTES_LENGTH</span><span class="p">,</span> <span class="n">rnd</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Create random base64, may be useful when matrix verification code.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        - length (:obj:`int`): Length of the original binary data, default is 64.</span>
+<span class="sd">        - rnd (:obj:`Optional[random.Random]`): Random object you used, \</span>
+<span class="sd">            default is ``None`` which means just use the default one provided by system.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - string (:obj:`str`): Random base64 string.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from hbutils.random import random_base64</span>
+<span class="sd">        &gt;&gt;&gt; random_base64()</span>
+<span class="sd">        &#39;PJZzHkM2-DpeXn1W9b3rp0I66MnOeD-31d2XYTA3va7N8DSNmQgvIINnvDMKWaRW-WHo_ftgKHg40z7XbDupbg==&#39;</span>
+<span class="sd">        &gt;&gt;&gt; random_base64(48)</span>
+<span class="sd">        &#39;siRZNSeytSUXlIgKYuZOzbhehhI7oabcxFDB07PkjyZ5b0DI5hGC0pqjJFlD6NGQ&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_random_hash</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">base64_encode</span><span class="p">,</span> <span class="n">urlsafe</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">length</span><span class="p">,</span> <span class="n">rnd</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_timestamp</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="random_md5_with_timestamp"><a class="viewcode-back" href="../../../api_doc/random/string.html#hbutils.random.string.random_md5_with_timestamp">[docs]</a><span class="k">def</span> <span class="nf">random_md5_with_timestamp</span><span class="p">(</span><span class="n">rnd</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Create random md5 string with timestamp.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        - rnd (:obj:`Optional[random.Random]`): Random object you used, \</span>
+<span class="sd">            default is ``None`` which means just use the default one provided by system.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - string (:obj:`str`): Random md5 string with timestamp.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from hbutils.random import random_md5_with_timestamp</span>
+<span class="sd">        &gt;&gt;&gt; random_md5_with_timestamp()</span>
+<span class="sd">        &#39;20220116233104357175_daf67fde4b758ff4aae21cc77f5ed689&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">_timestamp</span><span class="p">()</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">random_md5</span><span class="p">(</span><span class="n">rnd</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span></div>
+
+
+<div class="viewcode-block" id="random_sha1_with_timestamp"><a class="viewcode-back" href="../../../api_doc/random/string.html#hbutils.random.string.random_sha1_with_timestamp">[docs]</a><span class="k">def</span> <span class="nf">random_sha1_with_timestamp</span><span class="p">(</span><span class="n">rnd</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Create random sha1 string with timestamp.</span>
+
+<span class="sd">    Arguments:</span>
+<span class="sd">        - rnd (:obj:`Optional[random.Random]`): Random object you used, \</span>
+<span class="sd">            default is ``None`` which means just use the default one provided by system.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        - string (:obj:`str`): Random sha1 string with timestamp.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from hbutils.random import random_sha1_with_timestamp</span>
+<span class="sd">        &gt;&gt;&gt; random_sha1_with_timestamp()</span>
+<span class="sd">        &#39;20220116233121916685_fba840b80163b55cd2295d84286a438bf8acb7c0&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">_timestamp</span><span class="p">()</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">random_sha1</span><span class="p">(</span><span class="n">rnd</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span></div>
+</pre></div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2023, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: v0.8.0
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../v0.0.1/index.html">v0.0.1</a></dd>
+                        <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
+                        <dd><a href="../../../../v0.1.1/index.html">v0.1.1</a></dd>
+                        <dd><a href="../../../../v0.2.0/index.html">v0.2.0</a></dd>
+                        <dd><a href="../../../../v0.3.0/index.html">v0.3.0</a></dd>
+                        <dd><a href="../../../../v0.3.1/index.html">v0.3.1</a></dd>
+                        <dd><a href="../../../../v0.3.2/index.html">v0.3.2</a></dd>
+                        <dd><a href="../../../../v0.3.3/index.html">v0.3.3</a></dd>
+                        <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
+                        <dd><a href="../../../../v0.4.1/index.html">v0.4.1</a></dd>
+                        <dd><a href="../../../../v0.4.2/index.html">v0.4.2</a></dd>
+                        <dd><a href="../../../../v0.4.3/index.html">v0.4.3</a></dd>
+                        <dd><a href="../../../../v0.4.4/index.html">v0.4.4</a></dd>
+                        <dd><a href="../../../../v0.4.5/index.html">v0.4.5</a></dd>
+                        <dd><a href="../../../../v0.4.6/index.html">v0.4.6</a></dd>
+                        <dd><a href="../../../../v0.4.7/index.html">v0.4.7</a></dd>
+                        <dd><a href="../../../../v0.5.0/index.html">v0.5.0</a></dd>
+                        <dd><a href="../../../../v0.5.1/index.html">v0.5.1</a></dd>
+                        <dd><a href="../../../../v0.5.2/index.html">v0.5.2</a></dd>
+                        <dd><a href="../../../../v0.6.0/index.html">v0.6.0</a></dd>
+                        <dd><a href="../../../../v0.6.1/index.html">v0.6.1</a></dd>
+                        <dd><a href="../../../../v0.6.10/index.html">v0.6.10</a></dd>
+                        <dd><a href="../../../../v0.6.11/index.html">v0.6.11</a></dd>
+                        <dd><a href="../../../../v0.6.12/index.html">v0.6.12</a></dd>
+                        <dd><a href="../../../../v0.6.13/index.html">v0.6.13</a></dd>
+                        <dd><a href="../../../../v0.6.14/index.html">v0.6.14</a></dd>
+                        <dd><a href="../../../../v0.6.2/index.html">v0.6.2</a></dd>
+                        <dd><a href="../../../../v0.6.3/index.html">v0.6.3</a></dd>
+                        <dd><a href="../../../../v0.6.4/index.html">v0.6.4</a></dd>
+                        <dd><a href="../../../../v0.6.5/index.html">v0.6.5</a></dd>
+                        <dd><a href="../../../../v0.6.6/index.html">v0.6.6</a></dd>
+                        <dd><a href="../../../../v0.6.7/index.html">v0.6.7</a></dd>
+                        <dd><a href="../../../../v0.6.8/index.html">v0.6.8</a></dd>
+                        <dd><a href="../../../../v0.6.9/index.html">v0.6.9</a></dd>
+                        <dd><a href="../../../../v0.7.0/index.html">v0.7.0</a></dd>
+                        <dd><a href="../../../../v0.7.1/index.html">v0.7.1</a></dd>
+                        <dd><a href="../../../../v0.7.2/index.html">v0.7.2</a></dd>
+                        <dd><a href="../../../../v0.7.3/index.html">v0.7.3</a></dd>
+                        <dd><a href="../../../../v0.7.4/index.html">v0.7.4</a></dd>
+                        <dd><a href="../../../../v0.7.5/index.html">v0.7.5</a></dd>
+                        <dd><a href="../../../../v0.7.6/index.html">v0.7.6</a></dd>
+                        <dd><a href="string.html">v0.8.0</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="../../../../dev/color/index.html">dev/color</a></dd>
+                        <dd><a href="../../../../dev/dependency/index.html">dev/dependency</a></dd>
+                        <dd><a href="../../../../dev/pythonpath/index.html">dev/pythonpath</a></dd>
+                        <dd><a href="../../../../dev/recover/index.html">dev/recover</a></dd>
+                        <dd><a href="../../../../main/index.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
