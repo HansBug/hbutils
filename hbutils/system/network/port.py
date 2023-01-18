@@ -3,8 +3,6 @@ import socket
 import warnings
 from typing import Optional, Iterable
 
-from .hosts import get_localhost_ip
-
 __all__ = [
     'is_free_port',
     'get_free_port',
@@ -36,7 +34,7 @@ def is_free_port(port: int) -> bool:
         s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
         try:
-            s.bind((get_localhost_ip(), port))
+            s.bind(('', port))
         except PermissionError:
             return False
         except socket.error as e:
@@ -87,7 +85,7 @@ def get_free_port(ports: Optional[Iterable[int]] = None, strict: bool = True) ->
 
         for port in _ports:
             try:
-                s.bind((get_localhost_ip(), port))
+                s.bind(('', port))
             except PermissionError:
                 pass
             except socket.error as e:
