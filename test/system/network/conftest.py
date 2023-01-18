@@ -5,8 +5,6 @@ import urllib.request
 from contextlib import contextmanager
 from urllib.error import URLError
 
-from hbutils.system import get_localhost_ip
-
 
 @contextmanager
 def start_http_server(port, silent: bool = True):
@@ -21,7 +19,7 @@ def start_http_server(port, silent: bool = True):
             )
             while True:
                 try:
-                    urllib.request.urlopen(f'http://{get_localhost_ip()}:{port}', timeout=0.1)
+                    urllib.request.urlopen(f'http://127.0.0.1:{port}', timeout=0.1)
                 except URLError:
                     continue
                 else:
