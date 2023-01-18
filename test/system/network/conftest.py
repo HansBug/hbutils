@@ -3,6 +3,7 @@ import subprocess
 import sys
 import urllib.request
 from contextlib import contextmanager
+from http.client import HTTPException
 from urllib.error import URLError
 
 
@@ -19,8 +20,8 @@ def start_http_server(port, silent: bool = True):
             )
             while True:
                 try:
-                    urllib.request.urlopen(f'http://127.0.0.1:{port}', timeout=0.1)
-                except URLError:
+                    urllib.request.urlopen(f'http://127.0.0.1:{port}', timeout=0.2)
+                except (URLError, HTTPException):
                     continue
                 else:
                     break

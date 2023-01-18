@@ -1,6 +1,9 @@
+from unittest import skipUnless
+
 import pytest
 
 from hbutils.system import get_free_port, is_free_port
+from hbutils.testing import OS
 from .conftest import start_http_server
 
 
@@ -22,8 +25,15 @@ class TestSystemNetworkPort:
             port = get_free_port()
             assert port > 0
 
+    @skipUnless(OS.linux, 'linux required')
+    def test_get_free_port_native_linux(self):
         port = get_free_port(range(1, 2000))
         assert port >= 1024
+
+    @skipUnless(OS.windows or OS.macos, 'windows or macos required')
+    def test_get_free_port_native_non_linux(self):
+        port = get_free_port(range(1, 2000))
+        assert port >= 1
 
     def test_get_free_port_inuse(self):
         with start_http_server(35127):
