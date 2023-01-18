@@ -176,8 +176,6 @@
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Iterable</span>
 
-<span class="kn">from</span> <span class="nn">.hosts</span> <span class="kn">import</span> <span class="n">get_localhost_ip</span>
-
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;is_free_port&#39;</span><span class="p">,</span>
     <span class="s1">&#39;get_free_port&#39;</span><span class="p">,</span>
@@ -209,7 +207,7 @@
         <span class="n">s</span><span class="o">.</span><span class="n">setsockopt</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">SOL_SOCKET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SO_REUSEADDR</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">s</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="n">get_localhost_ip</span><span class="p">(),</span> <span class="n">port</span><span class="p">))</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">port</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">PermissionError</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
         <span class="k">except</span> <span class="n">socket</span><span class="o">.</span><span class="n">error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
@@ -260,7 +258,7 @@
 
         <span class="k">for</span> <span class="n">port</span> <span class="ow">in</span> <span class="n">_ports</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="n">s</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="n">get_localhost_ip</span><span class="p">(),</span> <span class="n">port</span><span class="p">))</span>
+                <span class="n">s</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">port</span><span class="p">))</span>
             <span class="k">except</span> <span class="ne">PermissionError</span><span class="p">:</span>
                 <span class="k">pass</span>
             <span class="k">except</span> <span class="n">socket</span><span class="o">.</span><span class="n">error</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
