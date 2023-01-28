@@ -176,16 +176,7 @@
 <span class="sd">    Useful utilities for time units, such as h/m/s.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">datetime</span>
-<span class="kn">import</span> <span class="nn">importlib</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Union</span>
-
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s1">&#39;pytimeparse&#39;</span><span class="p">)</span>
-<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">..system</span> <span class="kn">import</span> <span class="n">pip_install</span>
-
-    <span class="n">pip_install</span><span class="p">([</span><span class="s1">&#39;pytimeparse&gt;=1.1.8&#39;</span><span class="p">],</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="s1">&#39;pytimeparse&#39;</span><span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">pytimeparse</span> <span class="kn">import</span> <span class="n">parse</span> <span class="k">as</span> <span class="n">parse_duration</span>
 
