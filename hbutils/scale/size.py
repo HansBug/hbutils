@@ -2,18 +2,9 @@
 Overview:
     Useful utilities for memory size units, such as MB/KB/B.
 """
-import importlib
 import warnings
 from enum import IntEnum, unique
 from typing import Union, Optional
-
-try:
-    importlib.import_module('bitmath')
-except ImportError:
-    from ..system import pip_install
-
-    pip_install(['bitmath==1.3.3.1'], silent=True)
-    importlib.import_module('bitmath')
 
 from bitmath import Byte, NIST, SI
 from bitmath import parse_string_unsafe as parse_bytes
