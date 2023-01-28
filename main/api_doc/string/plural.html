@@ -39,7 +39,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="hbutils.string.template" href="template.html" />
-    <link rel="prev" title="hbutils.string.ordinal" href="ordinal.html" /> 
+    <link rel="prev" title="hbutils.string.inflection" href="inflection.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -107,7 +107,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../reflection/index.html">hbutils.reflection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../scale/index.html">hbutils.scale</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="index.html">hbutils.string</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="ordinal.html">hbutils.string.ordinal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inflection.html">hbutils.string.inflection</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.string.plural</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#plural-form">plural_form</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#singular-form">singular_form</a></li>
@@ -198,13 +198,13 @@
 <h2>plural_form<a class="headerlink" href="#plural-form" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="hbutils.string.plural.plural_form">
-<code class="sig-prename descclassname">hbutils.string.plural.</code><code class="sig-name descname">plural_form</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">word</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">engine</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>inflect.engine<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/plural.html#plural_form"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.plural.plural_form" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">hbutils.string.plural.</code><code class="sig-name descname">plural_form</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">word</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/plural.html#plural_form"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.plural.plural_form" title="Permalink to this definition">¶</a></dt>
 <dd><dl>
 <dt>Overview:</dt><dd><p>Get the pluralized form of the given <code class="docutils literal notranslate"><span class="pre">word</span></code>.</p>
+<p>The same as <a class="reference internal" href="inflection.html#hbutils.string.inflection.pluralize" title="hbutils.string.inflection.pluralize"><code class="xref py py-func docutils literal notranslate"><span class="pre">hbutils.string.inflection.pluralize()</span></code></a>.</p>
 </dd>
 <dt>Arguments:</dt><dd><ul class="simple">
 <li><p>word (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>): The given word to be pluralized.</p></li>
-<li><p>engine (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[inflect.engine]</span></code>): Engine to be used,             default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means just use the default one.</p></li>
 </ul>
 </dd>
 <dt>Returns:</dt><dd><ul class="simple">
@@ -229,13 +229,13 @@
 <h2>singular_form<a class="headerlink" href="#singular-form" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="hbutils.string.plural.singular_form">
-<code class="sig-prename descclassname">hbutils.string.plural.</code><code class="sig-name descname">singular_form</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">word</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">engine</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>inflect.engine<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/plural.html#singular_form"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.plural.singular_form" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">hbutils.string.plural.</code><code class="sig-name descname">singular_form</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">word</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/plural.html#singular_form"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.plural.singular_form" title="Permalink to this definition">¶</a></dt>
 <dd><dl>
 <dt>Overview:</dt><dd><p>Get the singular form of the given <code class="docutils literal notranslate"><span class="pre">word</span></code>.</p>
+<p>The same as <a class="reference internal" href="inflection.html#hbutils.string.inflection.singularize" title="hbutils.string.inflection.singularize"><code class="xref py py-func docutils literal notranslate"><span class="pre">hbutils.string.inflection.singularize()</span></code></a>.</p>
 </dd>
 <dt>Arguments:</dt><dd><ul class="simple">
 <li><p>word (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>): The given word to be singularized.</p></li>
-<li><p>engine (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[inflect.engine]</span></code>): Engine to be used,             default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means just use the default one.</p></li>
 </ul>
 </dd>
 <dt>Returns:</dt><dd><ul class="simple">
@@ -244,8 +244,6 @@
 </dd>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.string</span> <span class="kn">import</span> <span class="n">singular_form</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">singular_form</span><span class="p">(</span><span class="s1">&#39;they&#39;</span><span class="p">)</span>
-<span class="go">&#39;it&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">singular_form</span><span class="p">(</span><span class="s1">&#39;them&#39;</span><span class="p">)</span>
 <span class="go">&#39;it&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">singular_form</span><span class="p">(</span><span class="s1">&#39;it&#39;</span><span class="p">)</span>
 <span class="go">&#39;it&#39;</span>
@@ -266,16 +264,13 @@
 <h2>plural_word<a class="headerlink" href="#plural-word" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="hbutils.string.plural.plural_word">
-<code class="sig-prename descclassname">hbutils.string.plural.</code><code class="sig-name descname">plural_word</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">count</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">word</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">num_text</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">num_threshold</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">engine</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>inflect.engine<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/plural.html#plural_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.plural.plural_word" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">hbutils.string.plural.</code><code class="sig-name descname">plural_word</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">count</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">word</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/plural.html#plural_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.plural.plural_word" title="Permalink to this definition">¶</a></dt>
 <dd><dl>
 <dt>Overview:</dt><dd><p>Get plural form of the whole word, with the number before the word.</p>
 </dd>
 <dt>Arguments:</dt><dd><ul class="simple">
 <li><p>count (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>): Count of the word, should be a non-negative integer.</p></li>
 <li><p>word (<code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code>): Word to be pluralized.</p></li>
-<li><p>num_text (<code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code>): Show the number as text format or not,             default is <code class="docutils literal notranslate"><span class="pre">False</span></code> which means just use the arabic number for all the cases.</p></li>
-<li><p>num_threshold (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[int]</span></code>): Threshold value when the number is shown as text,             default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means just use english text format for all the cases.</p></li>
-<li><p>engine (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Optional[inflect.engine]</span></code>): Engine to be used,             default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means just use the default one.</p></li>
 </ul>
 </dd>
 <dt>Returns:</dt><dd><ul class="simple">
@@ -292,14 +287,6 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plural_word</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="s1">&#39;word&#39;</span><span class="p">)</span>
 <span class="go">&#39;20 words&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">plural_word</span><span class="p">(</span><span class="mi">233</span><span class="p">,</span> <span class="s1">&#39;word&#39;</span><span class="p">)</span>
-<span class="go">&#39;233 words&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plural_word</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="s1">&#39;word&#39;</span><span class="p">,</span> <span class="n">num_text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="go">&#39;twenty words&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plural_word</span><span class="p">(</span><span class="mi">233</span><span class="p">,</span> <span class="s1">&#39;word&#39;</span><span class="p">,</span> <span class="n">num_text</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="go">&#39;two hundred and thirty-three words&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plural_word</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="s1">&#39;word&#39;</span><span class="p">,</span> <span class="n">num_text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num_threshold</span><span class="o">=</span><span class="mi">99</span><span class="p">)</span>
-<span class="go">&#39;twenty words&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">plural_word</span><span class="p">(</span><span class="mi">233</span><span class="p">,</span> <span class="s1">&#39;word&#39;</span><span class="p">,</span> <span class="n">num_text</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">num_threshold</span><span class="o">=</span><span class="mi">99</span><span class="p">)</span>
 <span class="go">&#39;233 words&#39;</span>
 </pre></div>
 </div>
@@ -322,7 +309,7 @@
         <a href="template.html" class="btn btn-neutral float-right" title="hbutils.string.template" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="ordinal.html" class="btn btn-neutral float-left" title="hbutils.string.ordinal" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="inflection.html" class="btn btn-neutral float-left" title="hbutils.string.inflection" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
