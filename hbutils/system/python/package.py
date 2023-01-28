@@ -1,4 +1,5 @@
 import importlib
+import os
 import pathlib
 import subprocess
 import sys
@@ -92,6 +93,13 @@ def pip(*args, silent: bool = False):
             stdout=sys.stdout if not silent else subprocess.PIPE,
             stderr=sys.stderr if not silent else subprocess.PIPE,
         )
+        assert process.returncode, f'Error when calling {process.args!r}{os.linesep}' \
+                                   f'Error Code - {process.returncode}{os.linesep}' \
+                                   f'Stdout:{os.linesep}' \
+                                   f'{process.stdout}{os.linesep}' \
+                                   f'{os.linesep}' \
+                                   f'Stderr:{os.linesep}' \
+                                   f'{process.stderr}{os.linesep}'
         process.check_returncode()
     finally:
         if args and args[0] in {'install', 'uninstall'}:
