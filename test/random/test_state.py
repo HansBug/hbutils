@@ -2,7 +2,6 @@ import random
 from unittest import skipUnless
 
 import pytest
-import torch
 
 from hbutils.random import keep_global_state, global_seed, register_random_source, register_random_instance, \
     get_global_state, set_global_state, seedable_func
@@ -126,6 +125,8 @@ class TestRandomState:
     @skipUnless(vpip('torch'), 'torch required')
     @pytest.mark.parametrize(['seed'], [(i,) for i in range(10, 101, 10)])
     def test_seedable_func_with_torch(self, seed):
+        import torch
+
         @seedable_func
         def my_func(x, y):
             return x + 1 + 2 * y + torch.randn((20, 30))
