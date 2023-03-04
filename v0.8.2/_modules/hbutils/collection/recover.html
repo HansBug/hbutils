@@ -1,0 +1,574 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hbutils.collection.recover &mdash; hbutils 0.8.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> hbutils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.8.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/installation/index.html">Installation</a></li>
+</ul>
+<p><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/algorithm/index.html">hbutils.algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/binary/index.html">hbutils.binary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/collection/index.html">hbutils.collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/color/index.html">hbutils.color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/config/index.html">hbutils.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/design/index.html">hbutils.design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/expression/index.html">hbutils.expression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/file/index.html">hbutils.file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/model/index.html">hbutils.model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/random/index.html">hbutils.random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/reflection/index.html">hbutils.reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/scale/index.html">hbutils.scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/string/index.html">hbutils.string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/system/index.html">hbutils.system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/testing/index.html">hbutils.testing</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">hbutils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>hbutils.collection.recover</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <h1>Source code for hbutils.collection.recover</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;BaseRecovery&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;DictRecovery&#39;</span><span class="p">,</span> <span class="s1">&#39;ListRecovery&#39;</span><span class="p">,</span> <span class="s1">&#39;TupleRecovery&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;NullRecovery&#39;</span><span class="p">,</span> <span class="s1">&#39;GenericObjectRecovery&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;register_recovery&#39;</span><span class="p">,</span> <span class="s1">&#39;get_recovery_func&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">_OriginType</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;_OriginType&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="BaseRecovery"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.BaseRecovery">[docs]</a><span class="k">class</span> <span class="nc">BaseRecovery</span><span class="p">:</span>
+    <span class="n">__rtype__</span> <span class="o">=</span> <span class="nb">object</span>
+
+<div class="viewcode-block" id="BaseRecovery.__init__"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.BaseRecovery.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin</span><span class="p">:</span> <span class="n">_OriginType</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of :class:`BaseRecovery`.</span>
+
+<span class="sd">        :param origin: Origin object to be recovered.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">origin</span> <span class="o">=</span> <span class="n">origin</span></div>
+
+<div class="viewcode-block" id="BaseRecovery._recover"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.BaseRecovery._recover">[docs]</a>    <span class="k">def</span> <span class="nf">_recover</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Implementation for recovery.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma: no cover</span></div>
+
+<div class="viewcode-block" id="BaseRecovery.recover"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.BaseRecovery.recover">[docs]</a>    <span class="k">def</span> <span class="nf">recover</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">_OriginType</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Recover the given object.</span>
+
+<span class="sd">        :return: Recovered object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_recover</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">origin</span></div>
+
+<div class="viewcode-block" id="BaseRecovery._recover_child"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.BaseRecovery._recover_child">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_recover_child</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">child</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Get recovered child-level object.</span>
+
+<span class="sd">        :param child: Child object, should be a :class:`BaseRecovery` or native object.</span>
+<span class="sd">        :return: Recovered child-level object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">BaseRecovery</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">child</span><span class="o">.</span><span class="n">recover</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">child</span></div>
+
+<div class="viewcode-block" id="BaseRecovery.from_origin"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.BaseRecovery.from_origin">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_origin</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">origin</span><span class="p">:</span> <span class="n">_OriginType</span><span class="p">,</span> <span class="n">recursive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;BaseRecovery&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create a recovery object by the given original object.</span>
+
+<span class="sd">        :param origin: Original object to recover.</span>
+<span class="sd">        :param recursive: Recursive or not. Default is ``True`` which means the child-level object \</span>
+<span class="sd">            contained in ``origin`` will be recovered as well.</span>
+<span class="sd">        :return: Recovery object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma: no cover</span></div>
+
+<div class="viewcode-block" id="BaseRecovery._create_child"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.BaseRecovery._create_child">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_create_child</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">recursive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create child-level object for storage usage.</span>
+
+<span class="sd">        :param child: Original child-level object.</span>
+<span class="sd">        :param recursive: Recursive or not. Default is ``True`` which means the child-level object \</span>
+<span class="sd">            contained in ``origin`` will be recovered as well.</span>
+<span class="sd">        :return: Object for storage.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">recursive</span><span class="p">:</span>
+            <span class="n">clazz</span> <span class="o">=</span> <span class="n">_get_recovery_class</span><span class="p">(</span><span class="n">child</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">clazz</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">clazz</span><span class="o">.</span><span class="n">from_origin</span><span class="p">(</span><span class="n">child</span><span class="p">,</span> <span class="n">recursive</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">child</span></div></div>
+
+
+<span class="n">_REC_CLASSES</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">List</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">BaseRecovery</span><span class="p">]]]</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<div class="viewcode-block" id="register_recovery"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.register_recovery">[docs]</a><span class="k">def</span> <span class="nf">register_recovery</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseRecovery</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Register recovery class.</span>
+
+<span class="sd">    :param cls: Recovery class.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        This API is used for customize recovery for other classes. \</span>
+<span class="sd">        For more details, you may take a look at the source code of :class:`BaseRecovery`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_REC_CLASSES</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span></div>
+
+
+<span class="n">_DictType</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;_DictType&#39;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="DictRecovery"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.DictRecovery">[docs]</a><span class="k">class</span> <span class="nc">DictRecovery</span><span class="p">(</span><span class="n">BaseRecovery</span><span class="p">):</span>
+    <span class="n">__rtype__</span> <span class="o">=</span> <span class="nb">dict</span>
+
+<div class="viewcode-block" id="DictRecovery.__init__"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.DictRecovery.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin</span><span class="p">:</span> <span class="n">_DictType</span><span class="p">,</span> <span class="n">mp</span><span class="p">:</span> <span class="n">Dict</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of :class:`DictRecovery`.</span>
+
+<span class="sd">        :param origin: Origin object to be recovered.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">BaseRecovery</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mapping</span> <span class="o">=</span> <span class="n">mp</span></div>
+
+<div class="viewcode-block" id="DictRecovery._recover"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.DictRecovery._recover">[docs]</a>    <span class="k">def</span> <span class="nf">_recover</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">key</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recover_child</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">}</span>
+        <span class="n">keys</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">origin</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">|</span> <span class="nb">set</span><span class="p">(</span><span class="n">target</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">target</span><span class="p">:</span>
+                <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">origin</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">origin</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">target</span><span class="p">[</span><span class="n">key</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="DictRecovery.from_origin"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.DictRecovery.from_origin">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_origin</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">origin</span><span class="p">:</span> <span class="n">_DictType</span><span class="p">,</span> <span class="n">recursive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;DictRecovery&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_create_child</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">recursive</span><span class="p">)</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">origin</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span></div></div>
+
+
+<span class="n">_TupleType</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;_TupleType&#39;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="nb">tuple</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="TupleRecovery"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.TupleRecovery">[docs]</a><span class="k">class</span> <span class="nc">TupleRecovery</span><span class="p">(</span><span class="n">BaseRecovery</span><span class="p">):</span>
+    <span class="n">__rtype__</span> <span class="o">=</span> <span class="nb">tuple</span>
+
+<div class="viewcode-block" id="TupleRecovery.__init__"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.TupleRecovery.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin</span><span class="p">:</span> <span class="n">_TupleType</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">Any</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of :class:`TupleRecovery`.</span>
+
+<span class="sd">        :param origin: Origin object to be recovered.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">BaseRecovery</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">items</span> <span class="o">=</span> <span class="n">items</span></div>
+
+<div class="viewcode-block" id="TupleRecovery._recover"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.TupleRecovery._recover">[docs]</a>    <span class="k">def</span> <span class="nf">_recover</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_recover_child</span><span class="p">(</span><span class="n">item</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TupleRecovery.from_origin"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.TupleRecovery.from_origin">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_origin</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">origin</span><span class="p">:</span> <span class="n">_TupleType</span><span class="p">,</span> <span class="n">recursive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;TupleRecovery&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">_create_child</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">recursive</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">origin</span><span class="p">])</span></div></div>
+
+
+<span class="n">_ListType</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;_ListType&#39;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="nb">list</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ListRecovery"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.ListRecovery">[docs]</a><span class="k">class</span> <span class="nc">ListRecovery</span><span class="p">(</span><span class="n">BaseRecovery</span><span class="p">):</span>
+    <span class="n">__rtype__</span> <span class="o">=</span> <span class="nb">list</span>
+
+<div class="viewcode-block" id="ListRecovery.__init__"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.ListRecovery.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin</span><span class="p">:</span> <span class="n">_ListType</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="n">List</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of :class:`ListRecovery`.</span>
+
+<span class="sd">        :param origin: Origin object to be recovered.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">BaseRecovery</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">items</span> <span class="o">=</span> <span class="n">items</span></div>
+
+<div class="viewcode-block" id="ListRecovery._recover"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.ListRecovery._recover">[docs]</a>    <span class="k">def</span> <span class="nf">_recover</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">target</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_recover_child</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">origin</span><span class="p">[:]</span> <span class="o">=</span> <span class="n">target</span></div>
+
+<div class="viewcode-block" id="ListRecovery.from_origin"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.ListRecovery.from_origin">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_origin</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">origin</span><span class="p">:</span> <span class="n">_ListType</span><span class="p">,</span> <span class="n">recursive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;ListRecovery&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">_create_child</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">recursive</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">origin</span><span class="p">])</span></div></div>
+
+
+<div class="viewcode-block" id="NullRecovery"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.NullRecovery">[docs]</a><span class="k">class</span> <span class="nc">NullRecovery</span><span class="p">(</span><span class="n">BaseRecovery</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Empty recovery class for builtin immutable types.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__rtype__</span> <span class="o">=</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="nb">complex</span><span class="p">,</span> <span class="nb">range</span><span class="p">,</span> <span class="nb">slice</span><span class="p">)</span>
+
+<div class="viewcode-block" id="NullRecovery._recover"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.NullRecovery._recover">[docs]</a>    <span class="k">def</span> <span class="nf">_recover</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Just do nothing.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="NullRecovery.from_origin"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.NullRecovery.from_origin">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_origin</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">origin</span><span class="p">:</span> <span class="n">_OriginType</span><span class="p">,</span> <span class="n">recursive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;NullRecovery&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Just do nothing.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="GenericObjectRecovery"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.GenericObjectRecovery">[docs]</a><span class="k">class</span> <span class="nc">GenericObjectRecovery</span><span class="p">(</span><span class="n">BaseRecovery</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Recovery class for generic objects.</span>
+<span class="sd">        The ``__dict__`` will be recovered.</span>
+
+<span class="sd">        .. note::</span>
+<span class="sd">            If what you need to recover is not only ``__dict__``, may be you need to custom \</span>
+<span class="sd">            recovery class by inheriting :class:`BaseRecovery` class, and register it by \</span>
+<span class="sd">            :func:`register_recovery` function.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">__rtype__</span> <span class="o">=</span> <span class="nb">object</span>
+
+<div class="viewcode-block" id="GenericObjectRecovery.__init__"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.GenericObjectRecovery.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin</span><span class="p">:</span> <span class="n">_OriginType</span><span class="p">,</span> <span class="n">dict_</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="s1">&#39;DictRecovery&#39;</span><span class="p">]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of :class:`GenericObjectRecovery`.</span>
+
+<span class="sd">        :param origin: Original object to recover.</span>
+<span class="sd">        :param dict_: Recovery object of ``__dict__``, ``None`` when ``origin`` do not have ``__dict__``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">BaseRecovery</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">origin</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dict_</span> <span class="o">=</span> <span class="n">dict_</span></div>
+
+<div class="viewcode-block" id="GenericObjectRecovery._recover"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.GenericObjectRecovery._recover">[docs]</a>    <span class="k">def</span> <span class="nf">_recover</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Recover the ``__dict__``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dict_</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dict_</span><span class="o">.</span><span class="n">recover</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="GenericObjectRecovery.from_origin"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.GenericObjectRecovery.from_origin">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_origin</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">origin</span><span class="p">:</span> <span class="n">_OriginType</span><span class="p">,</span> <span class="n">recursive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;BaseRecovery&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Create recovery object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">dict_</span> <span class="o">=</span> <span class="n">DictRecovery</span><span class="o">.</span><span class="n">from_origin</span><span class="p">(</span><span class="n">origin</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">,</span> <span class="n">recursive</span><span class="p">)</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="s1">&#39;__dict__&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">dict_</span><span class="p">)</span></div></div>
+
+
+<span class="k">if</span> <span class="n">_REC_CLASSES</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">_REC_CLASSES</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">register_recovery</span><span class="p">(</span><span class="n">GenericObjectRecovery</span><span class="p">)</span>
+    <span class="n">register_recovery</span><span class="p">(</span><span class="n">NullRecovery</span><span class="p">)</span>
+    <span class="n">register_recovery</span><span class="p">(</span><span class="n">TupleRecovery</span><span class="p">)</span>
+    <span class="n">register_recovery</span><span class="p">(</span><span class="n">DictRecovery</span><span class="p">)</span>
+    <span class="n">register_recovery</span><span class="p">(</span><span class="n">ListRecovery</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_get_recovery_class</span><span class="p">(</span><span class="n">origin</span><span class="p">:</span> <span class="n">_OriginType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">BaseRecovery</span><span class="p">]]:</span>
+    <span class="k">for</span> <span class="bp">cls</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">_REC_CLASSES</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">__rtype__</span><span class="p">):</span>
+            <span class="k">return</span> <span class="bp">cls</span>
+
+    <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;The object cannot be wrapped by recoveries - </span><span class="si">{</span><span class="n">origin</span><span class="si">!r}</span><span class="s1">&#39;</span>  <span class="c1"># pragma: no cover</span>
+
+
+<div class="viewcode-block" id="get_recovery_func"><a class="viewcode-back" href="../../../api_doc/collection/recover.html#hbutils.collection.recover.get_recovery_func">[docs]</a><span class="k">def</span> <span class="nf">get_recovery_func</span><span class="p">(</span><span class="n">origin</span><span class="p">:</span> <span class="n">_OriginType</span><span class="p">,</span> <span class="n">recursive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[],</span> <span class="n">_OriginType</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Get recovery function for given object.</span>
+<span class="sd">        Dict, list and tuple object are natively supported.</span>
+
+<span class="sd">    :param origin: Original object to recover.</span>
+<span class="sd">    :param recursive: Recursive or not. Default is ``True`` which means the child-level object \</span>
+<span class="sd">        contained in ``origin`` will be recovered as well.</span>
+<span class="sd">    :return: Recovery function.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; from hbutils.collection import get_recovery_func</span>
+<span class="sd">        &gt;&gt;&gt; l = [1, {&#39;a&#39;: 1, &#39;b&#39;: 2}, 3, 4, 5]</span>
+<span class="sd">        &gt;&gt;&gt; print(id(l), l)</span>
+<span class="sd">        140146367304720 [1, {&#39;a&#39;: 1, &#39;b&#39;: 2}, 3, 4, 5]</span>
+<span class="sd">        &gt;&gt;&gt; f = get_recovery_func(l)</span>
+
+<span class="sd">        &gt;&gt;&gt; l[3] = 1</span>
+<span class="sd">        &gt;&gt;&gt; l.pop()</span>
+<span class="sd">        &gt;&gt;&gt; l.append(&#39;sdklfj&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; l.append(&#39;sdkfhjksd&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; l[1][&#39;c&#39;] = 2</span>
+<span class="sd">        &gt;&gt;&gt; l[1][&#39;a&#39;] = 100</span>
+<span class="sd">        &gt;&gt;&gt; print(id(l), l)</span>
+<span class="sd">        140146367304720 [1, {&#39;a&#39;: 100, &#39;b&#39;: 2, &#39;c&#39;: 2}, 3, 1, &#39;sdklfj&#39;, &#39;sdkfhjksd&#39;]</span>
+
+<span class="sd">        &gt;&gt;&gt; lx = f()</span>
+<span class="sd">        &gt;&gt;&gt; print(id(lx), lx)  # lx is l</span>
+<span class="sd">        140146367304720 [1, {&#39;a&#39;: 1, &#39;b&#39;: 2}, 3, 4, 5]</span>
+<span class="sd">        &gt;&gt;&gt; print(id(l), l)  # the value is recovered</span>
+<span class="sd">        140146367304720 [1, {&#39;a&#39;: 1, &#39;b&#39;: 2}, 3, 4, 5]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">cls</span> <span class="o">=</span> <span class="n">_get_recovery_class</span><span class="p">(</span><span class="n">origin</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_origin</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">recursive</span><span class="p">)</span><span class="o">.</span><span class="n">recover</span></div>
+</pre></div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2023, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: v0.8.2
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../v0.0.1/index.html">v0.0.1</a></dd>
+                        <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
+                        <dd><a href="../../../../v0.1.1/index.html">v0.1.1</a></dd>
+                        <dd><a href="../../../../v0.2.0/index.html">v0.2.0</a></dd>
+                        <dd><a href="../../../../v0.3.0/index.html">v0.3.0</a></dd>
+                        <dd><a href="../../../../v0.3.1/index.html">v0.3.1</a></dd>
+                        <dd><a href="../../../../v0.3.2/index.html">v0.3.2</a></dd>
+                        <dd><a href="../../../../v0.3.3/index.html">v0.3.3</a></dd>
+                        <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
+                        <dd><a href="../../../../v0.4.1/index.html">v0.4.1</a></dd>
+                        <dd><a href="../../../../v0.4.2/index.html">v0.4.2</a></dd>
+                        <dd><a href="../../../../v0.4.3/index.html">v0.4.3</a></dd>
+                        <dd><a href="../../../../v0.4.4/index.html">v0.4.4</a></dd>
+                        <dd><a href="../../../../v0.4.5/index.html">v0.4.5</a></dd>
+                        <dd><a href="../../../../v0.4.6/index.html">v0.4.6</a></dd>
+                        <dd><a href="../../../../v0.4.7/index.html">v0.4.7</a></dd>
+                        <dd><a href="../../../../v0.5.0/index.html">v0.5.0</a></dd>
+                        <dd><a href="../../../../v0.5.1/index.html">v0.5.1</a></dd>
+                        <dd><a href="../../../../v0.5.2/index.html">v0.5.2</a></dd>
+                        <dd><a href="../../../../v0.6.0/index.html">v0.6.0</a></dd>
+                        <dd><a href="../../../../v0.6.1/index.html">v0.6.1</a></dd>
+                        <dd><a href="../../../../v0.6.10/index.html">v0.6.10</a></dd>
+                        <dd><a href="../../../../v0.6.11/index.html">v0.6.11</a></dd>
+                        <dd><a href="../../../../v0.6.12/index.html">v0.6.12</a></dd>
+                        <dd><a href="../../../../v0.6.13/index.html">v0.6.13</a></dd>
+                        <dd><a href="../../../../v0.6.14/index.html">v0.6.14</a></dd>
+                        <dd><a href="../../../../v0.6.2/index.html">v0.6.2</a></dd>
+                        <dd><a href="../../../../v0.6.3/index.html">v0.6.3</a></dd>
+                        <dd><a href="../../../../v0.6.4/index.html">v0.6.4</a></dd>
+                        <dd><a href="../../../../v0.6.5/index.html">v0.6.5</a></dd>
+                        <dd><a href="../../../../v0.6.6/index.html">v0.6.6</a></dd>
+                        <dd><a href="../../../../v0.6.7/index.html">v0.6.7</a></dd>
+                        <dd><a href="../../../../v0.6.8/index.html">v0.6.8</a></dd>
+                        <dd><a href="../../../../v0.6.9/index.html">v0.6.9</a></dd>
+                        <dd><a href="../../../../v0.7.0/index.html">v0.7.0</a></dd>
+                        <dd><a href="../../../../v0.7.1/index.html">v0.7.1</a></dd>
+                        <dd><a href="../../../../v0.7.2/index.html">v0.7.2</a></dd>
+                        <dd><a href="../../../../v0.7.3/index.html">v0.7.3</a></dd>
+                        <dd><a href="../../../../v0.7.4/index.html">v0.7.4</a></dd>
+                        <dd><a href="../../../../v0.7.5/index.html">v0.7.5</a></dd>
+                        <dd><a href="../../../../v0.7.6/index.html">v0.7.6</a></dd>
+                        <dd><a href="../../../../v0.8.0/index.html">v0.8.0</a></dd>
+                        <dd><a href="../../../../v0.8.1/index.html">v0.8.1</a></dd>
+                        <dd><a href="recover.html">v0.8.2</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="../../../../dev/color/index.html">dev/color</a></dd>
+                        <dd><a href="../../../../dev/dependency/index.html">dev/dependency</a></dd>
+                        <dd><a href="../../../../dev/port/index.html">dev/port</a></dd>
+                        <dd><a href="../../../../dev/pythonpath/index.html">dev/pythonpath</a></dd>
+                        <dd><a href="../../../../dev/recover/index.html">dev/recover</a></dd>
+                        <dd><a href="../../../../main/index.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
