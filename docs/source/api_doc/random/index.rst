@@ -10,4 +10,5 @@ hbutils.random
 
     binary
     sequence
+    state
     string
