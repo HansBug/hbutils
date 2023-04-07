@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>hbutils.string.plural &mdash; hbutils 0.8.0 documentation</title>
+  <title>hbutils.string.plural &mdash; hbutils 0.8.2 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.8.0
+                0.8.2
               </div>
             
           
@@ -175,35 +175,23 @@
 <span class="sd">Overview:</span>
 <span class="sd">    Useful utilities for pluralize your words.</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
 
-<span class="k">try</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">inflect</span>
-<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">..system</span> <span class="kn">import</span> <span class="n">pip_install</span>
+<span class="kn">from</span> <span class="nn">.inflection</span> <span class="kn">import</span> <span class="n">pluralize</span><span class="p">,</span> <span class="n">singularize</span>
 
-    <span class="n">pip_install</span><span class="p">([</span><span class="s1">&#39;inflect&gt;=5.2.0&#39;</span><span class="p">],</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="kn">import</span> <span class="nn">inflect</span>
-
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;plural_form&#39;</span><span class="p">,</span> <span class="s1">&#39;plural_word&#39;</span><span class="p">,</span> <span class="s1">&#39;singular_form&#39;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;plural_form&#39;</span><span class="p">,</span> <span class="s1">&#39;plural_word&#39;</span><span class="p">,</span> <span class="s1">&#39;singular_form&#39;</span>
+<span class="p">]</span>
 
 
-<span class="nd">@lru_cache</span><span class="p">()</span>
-<span class="k">def</span> <span class="nf">_default_engine</span><span class="p">():</span>
-    <span class="k">return</span> <span class="n">inflect</span><span class="o">.</span><span class="n">engine</span><span class="p">()</span>
-
-
-<div class="viewcode-block" id="plural_form"><a class="viewcode-back" href="../../../api_doc/string/plural.html#hbutils.string.plural.plural_form">[docs]</a><span class="k">def</span> <span class="nf">plural_form</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">engine</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">inflect</span><span class="o">.</span><span class="n">engine</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="plural_form"><a class="viewcode-back" href="../../../api_doc/string/plural.html#hbutils.string.plural.plural_form">[docs]</a><span class="k">def</span> <span class="nf">plural_form</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Get the pluralized form of the given ``word``.</span>
 
+<span class="sd">        The same as :func:`hbutils.string.inflection.pluralize`.</span>
+
 <span class="sd">    Arguments:</span>
 <span class="sd">        - word (:obj:`str`): The given word to be pluralized.</span>
-<span class="sd">        - engine (:obj:`Optional[inflect.engine]`): Engine to be used, \</span>
-<span class="sd">            default is ``None`` which means just use the default one.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        - pluralized (:obj:`str`): Pluralized word.</span>
@@ -217,19 +205,18 @@
 <span class="sd">        &gt;&gt;&gt; plural_form(&#39;woman&#39;)</span>
 <span class="sd">        &#39;women&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">engine</span> <span class="o">=</span> <span class="n">engine</span> <span class="ow">or</span> <span class="n">_default_engine</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">engine</span><span class="o">.</span><span class="n">plural</span><span class="p">(</span><span class="n">word</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">pluralize</span><span class="p">(</span><span class="n">word</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="singular_form"><a class="viewcode-back" href="../../../api_doc/string/plural.html#hbutils.string.plural.singular_form">[docs]</a><span class="k">def</span> <span class="nf">singular_form</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">engine</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">inflect</span><span class="o">.</span><span class="n">engine</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="singular_form"><a class="viewcode-back" href="../../../api_doc/string/plural.html#hbutils.string.plural.singular_form">[docs]</a><span class="k">def</span> <span class="nf">singular_form</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Get the singular form of the given ``word``.</span>
 
+<span class="sd">        The same as :func:`hbutils.string.inflection.singularize`.</span>
+
 <span class="sd">    Arguments:</span>
 <span class="sd">        - word (:obj:`str`): The given word to be singularized.</span>
-<span class="sd">        - engine (:obj:`Optional[inflect.engine]`): Engine to be used, \</span>
-<span class="sd">            default is ``None`` which means just use the default one.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        - single (:obj:`str`): Singular form of word.</span>
@@ -237,8 +224,6 @@
 <span class="sd">    Examples::</span>
 <span class="sd">        &gt;&gt;&gt; from hbutils.string import singular_form</span>
 <span class="sd">        &gt;&gt;&gt; singular_form(&#39;they&#39;)</span>
-<span class="sd">        &#39;it&#39;</span>
-<span class="sd">        &gt;&gt;&gt; singular_form(&#39;them&#39;)</span>
 <span class="sd">        &#39;it&#39;</span>
 <span class="sd">        &gt;&gt;&gt; singular_form(&#39;it&#39;)</span>
 <span class="sd">        &#39;it&#39;</span>
@@ -249,17 +234,10 @@
 <span class="sd">        &gt;&gt;&gt; singular_form(&#39;themselves&#39;)</span>
 <span class="sd">        &#39;itself&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">engine</span> <span class="o">=</span> <span class="n">engine</span> <span class="ow">or</span> <span class="n">_default_engine</span><span class="p">()</span>
-    <span class="n">result</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">singular_noun</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">result</span><span class="p">:</span>  <span class="c1"># already a singular form</span>
-        <span class="k">return</span> <span class="n">word</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">result</span></div>
+    <span class="k">return</span> <span class="n">singularize</span><span class="p">(</span><span class="n">word</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="plural_word"><a class="viewcode-back" href="../../../api_doc/string/plural.html#hbutils.string.plural.plural_word">[docs]</a><span class="k">def</span> <span class="nf">plural_word</span><span class="p">(</span><span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-                <span class="n">num_text</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">num_threshold</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-                <span class="n">engine</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">inflect</span><span class="o">.</span><span class="n">engine</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<div class="viewcode-block" id="plural_word"><a class="viewcode-back" href="../../../api_doc/string/plural.html#hbutils.string.plural.plural_word">[docs]</a><span class="k">def</span> <span class="nf">plural_word</span><span class="p">(</span><span class="n">count</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Get plural form of the whole word, with the number before the word.</span>
@@ -267,12 +245,6 @@
 <span class="sd">    Arguments:</span>
 <span class="sd">        - count (:obj:`int`): Count of the word, should be a non-negative integer.</span>
 <span class="sd">        - word (:obj:`str`): Word to be pluralized.</span>
-<span class="sd">        - num_text (:obj:`bool`): Show the number as text format or not, \</span>
-<span class="sd">            default is ``False`` which means just use the arabic number for all the cases.</span>
-<span class="sd">        - num_threshold (:obj:`Optional[int]`): Threshold value when the number is shown as text, \</span>
-<span class="sd">            default is ``None`` which means just use english text format for all the cases.</span>
-<span class="sd">        - engine (:obj:`Optional[inflect.engine]`): Engine to be used, \</span>
-<span class="sd">            default is ``None`` which means just use the default one.</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        - plural_word (:obj:`str`): Pluralized word, with the number.</span>
@@ -289,27 +261,12 @@
 <span class="sd">        &#39;20 words&#39;</span>
 <span class="sd">        &gt;&gt;&gt; plural_word(233, &#39;word&#39;)</span>
 <span class="sd">        &#39;233 words&#39;</span>
-<span class="sd">        &gt;&gt;&gt; plural_word(20, &#39;word&#39;, num_text=True)</span>
-<span class="sd">        &#39;twenty words&#39;</span>
-<span class="sd">        &gt;&gt;&gt; plural_word(233, &#39;word&#39;, num_text=True)</span>
-<span class="sd">        &#39;two hundred and thirty-three words&#39;</span>
-<span class="sd">        &gt;&gt;&gt; plural_word(20, &#39;word&#39;, num_text=True, num_threshold=99)</span>
-<span class="sd">        &#39;twenty words&#39;</span>
-<span class="sd">        &gt;&gt;&gt; plural_word(233, &#39;word&#39;, num_text=True, num_threshold=99)</span>
-<span class="sd">        &#39;233 words&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">engine</span> <span class="o">=</span> <span class="n">engine</span> <span class="ow">or</span> <span class="n">_default_engine</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">num_text</span><span class="p">:</span>
-        <span class="n">number</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">number_to_words</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="n">num_threshold</span><span class="p">)</span>
+    <span class="n">single_word</span> <span class="o">=</span> <span class="n">singular_form</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">count</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">plural_form</span><span class="p">(</span><span class="n">single_word</span><span class="p">)</span><span class="si">}</span><span class="s1">&#39;</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">num_threshold</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="ne">UserWarning</span><span class="p">(</span><span class="s1">&#39;Text-formatted number is not enabled, &#39;</span>
-                                      <span class="s1">&#39;so the num_threshold argument will be ignored.&#39;</span><span class="p">),</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">number</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
-
-    <span class="n">single_word</span> <span class="o">=</span> <span class="n">singular_form</span><span class="p">(</span><span class="n">word</span><span class="p">,</span> <span class="n">engine</span><span class="p">)</span>
-    <span class="n">final_word</span> <span class="o">=</span> <span class="n">engine</span><span class="o">.</span><span class="n">plural</span><span class="p">(</span><span class="n">single_word</span><span class="p">,</span> <span class="n">count</span><span class="p">)</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">number</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">final_word</span><span class="si">}</span><span class="s1">&#39;</span></div>
+        <span class="k">return</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">single_word</span><span class="si">}</span><span class="s1">&#39;</span></div>
 </pre></div>
 
 
@@ -394,9 +351,9 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="plural.html">dev/port</a></dd>
                         <dd><a href="../../../../color/index.html">dev/color</a></dd>
                         <dd><a href="../../../../dependency/index.html">dev/dependency</a></dd>
-                        <dd><a href="plural.html">dev/port</a></dd>
                         <dd><a href="../../../../pythonpath/index.html">dev/pythonpath</a></dd>
                         <dd><a href="../../../../recover/index.html">dev/recover</a></dd>
                         <dd><a href="../../../../../main/index.html">main</a></dd>

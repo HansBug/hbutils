@@ -9,7 +9,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>hbutils.string &mdash; hbutils 0.8.0 documentation</title>
+  <title>hbutils.string &mdash; hbutils 0.8.2 documentation</title>
   
 
   
@@ -38,7 +38,7 @@
   <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="hbutils.string.ordinal" href="ordinal.html" />
+    <link rel="next" title="hbutils.string.inflection" href="inflection.html" />
     <link rel="prev" title="hbutils.scale.time" href="../scale/time.html" /> 
 </head>
 
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                0.8.0
+                0.8.2
               </div>
             
           
@@ -107,7 +107,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../reflection/index.html">hbutils.reflection</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../scale/index.html">hbutils.scale</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">hbutils.string</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ordinal.html">hbutils.string.ordinal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inflection.html">hbutils.string.inflection</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plural.html">hbutils.string.plural</a></li>
 <li class="toctree-l2"><a class="reference internal" href="template.html">hbutils.string.template</a></li>
 <li class="toctree-l2"><a class="reference internal" href="trunc.html">hbutils.string.trunc</a></li>
@@ -189,9 +189,19 @@
 </dl>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="ordinal.html">hbutils.string.ordinal</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="ordinal.html#ordinal">ordinal</a></li>
-<li class="toctree-l2"><a class="reference internal" href="ordinal.html#ordinalize">ordinalize</a></li>
+<li class="toctree-l1"><a class="reference internal" href="inflection.html">hbutils.string.inflection</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="inflection.html#camelize">camelize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inflection.html#dasherize">dasherize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inflection.html#humanize">humanize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inflection.html#ordinal">ordinal</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inflection.html#ordinalize">ordinalize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inflection.html#parameterize">parameterize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inflection.html#pluralize">pluralize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inflection.html#singularize">singularize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inflection.html#tableize">tableize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inflection.html#titleize">titleize</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inflection.html#transliterate">transliterate</a></li>
+<li class="toctree-l2"><a class="reference internal" href="inflection.html#underscore">underscore</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="plural.html">hbutils.string.plural</a><ul>
@@ -221,7 +231,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="ordinal.html" class="btn btn-neutral float-right" title="hbutils.string.ordinal" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="inflection.html" class="btn btn-neutral float-right" title="hbutils.string.inflection" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../scale/time.html" class="btn btn-neutral float-left" title="hbutils.scale.time" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -304,9 +314,9 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="index.html">dev/port</a></dd>
                         <dd><a href="../../../color/api_doc/string/index.html">dev/color</a></dd>
                         <dd><a href="../../../dependency/api_doc/string/index.html">dev/dependency</a></dd>
-                        <dd><a href="index.html">dev/port</a></dd>
                         <dd><a href="../../../pythonpath/api_doc/string/index.html">dev/pythonpath</a></dd>
                         <dd><a href="../../../recover/api_doc/string/index.html">dev/recover</a></dd>
                         <dd><a href="../../../../main/api_doc/string/index.html">main</a></dd>
