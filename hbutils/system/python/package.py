@@ -86,19 +86,25 @@ def pip(*args, silent: bool = False):
         pip 22.3.1 from /home/user/myproject/venv/lib/python3.7/site-packages/pip (python 3.7)
         >>> pip('-V', silent=True)  # nothing will be printed
     """
-    with open(os.devnull, 'w') as sout:
-        try:
-            process = subprocess.run(
-                [sys.executable, '-m', 'pip', *args],
-                stdin=sys.stdin if not silent else None,
-                stdout=sys.stdout if not silent else sout,
-                stderr=sys.stderr if not silent else sout,
-            )
-            process.check_returncode()
-        finally:
-            if args and args[0] in {'install', 'uninstall'}:
-                importlib.reload(pkg_resources)
-                _init_pip_packages()
+    try:
+        process = subprocess.run(
+            [sys.executable, '-m', 'pip', *args],
+            stdin=sys.stdin if not silent else None,
+            stdout=sys.stdout if not silent else subprocess.PIPE,
+            stderr=sys.stderr if not silent else subprocess.PIPE,
+        )
+        assert not process.returncode, f'Error when calling {process.args!r}{os.linesep}' \
+                                       f'Error Code - {process.returncode}{os.linesep}' \
+                                       f'Stdout:{os.linesep}' \
+                                       f'{process.stdout.decode()}{os.linesep}' \
+                                       f'{os.linesep}' \
+                                       f'Stderr:{os.linesep}' \
+                                       f'{process.stderr.decode()}{os.linesep}'
+        process.check_returncode()
+    finally:
+        if args and args[0] in {'install', 'uninstall'}:
+            importlib.reload(pkg_resources)
+            _init_pip_packages()
 
 
 def check_reqs(reqs: List[str]) -> bool:

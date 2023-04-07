@@ -3,16 +3,7 @@ Overview:
     Useful utilities for time units, such as h/m/s.
 """
 import datetime
-import importlib
 from typing import Union
-
-try:
-    importlib.import_module('pytimeparse')
-except ImportError:
-    from ..system import pip_install
-
-    pip_install(['pytimeparse>=1.1.8'], silent=True)
-    importlib.import_module('pytimeparse')
 
 from pytimeparse import parse as parse_duration
 
