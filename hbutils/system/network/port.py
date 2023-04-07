@@ -35,7 +35,7 @@ def is_free_port(port: int) -> bool:
 
         try:
             s.bind(('', port))
-        except PermissionError:
+        except (PermissionError, OSError):
             return False
         except socket.error as e:
             if e.errno == errno.EADDRINUSE:

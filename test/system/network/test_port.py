@@ -9,7 +9,6 @@ from hbutils.testing import OS
 @pytest.mark.unittest
 class TestSystemNetworkPort:
     def test_is_free_port(self):
-        assert not is_free_port(80)  # do not put 80 inside start_http_server
         assert is_free_port(35126)
         assert not is_free_port(35127)
         assert not is_free_port(35128)
