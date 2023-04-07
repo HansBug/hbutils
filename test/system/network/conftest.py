@@ -1,12 +1,12 @@
 import os
 import subprocess
 import sys
-import urllib.request
 from contextlib import contextmanager
-from http.client import HTTPException
 from urllib.error import URLError
 
 import pytest
+import requests
+from requests.exceptions import RequestException
 
 
 @contextmanager
@@ -22,8 +22,9 @@ def start_http_server(port, silent: bool = True):
             )
             while True:
                 try:
-                    urllib.request.urlopen(f'http://127.0.0.1:{port}', timeout=0.2)
-                except (URLError, HTTPException):
+                    resp = requests.head(f'http://127.0.0.1:{port}', timeout=0.2)
+                    resp.raise_for_status()
+                except (URLError, RequestException, ConnectionError):
                     continue
                 else:
                     break
