@@ -1,4 +1,3 @@
-import errno
 import socket
 import warnings
 from typing import Optional, Iterable
@@ -28,26 +27,8 @@ def is_free_port(port: int) -> bool:
         >>> is_free_port(35022)
         True
     """
-    s = None
-    try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-
-        try:
-            s.bind(('', port))
-        except (PermissionError, OSError):
-            return False
-        except socket.error as e:
-            if e.errno == errno.EADDRINUSE:
-                return False
-            else:
-                raise  # pragma: no cover
-        else:
-            return True
-
-    finally:
-        if s is not None:
-            s.close()
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        return s.connect_ex(('localhost', port)) != 0
 
 
 def get_free_port(ports: Optional[Iterable[int]] = None, strict: bool = True) -> int:
@@ -71,33 +52,28 @@ def get_free_port(ports: Optional[Iterable[int]] = None, strict: bool = True) ->
         OSError: No free port can be allocated with in range(22, 80).
         >>> get_free_port(range(22, 80), strict=False)
         44317
+
+    .. note::
+        Due to the safety consideration of OS, only ports over 1024 will be used.
     """
-    _ports = list(ports or [])
+    _ports = [p for p in (ports or []) if p >= 1024]
     if not strict or not _ports:
         if not _ports and strict:
-            warnings.warn('No ports provided, so strict mode will be disabled.', stacklevel=2)
-        _ports.append(0)
+            warnings.warn('No usable ports provided, so strict mode will be disabled.', stacklevel=2)
+            strict = False
 
-    s = None
-    try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-
+    if _ports:
         for port in _ports:
-            try:
-                s.bind(('', port))
-            except PermissionError:
-                pass
-            except socket.error as e:
-                if e.errno == errno.EADDRINUSE:
-                    pass
-                else:
-                    raise  # pragma: no cover
-            else:
-                _, port_ = s.getsockname()
-                return port_
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+                s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+                if s.connect_ex(('localhost', port)) != 0:
+                    return port
 
+    if not strict:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+            s.bind(('', 0))
+            _, port_ = s.getsockname()
+            return port_
+    else:
         raise OSError(f'No free port can be allocated with in {ports}.')
-    finally:
-        if s is not None:
-            s.close()
