@@ -6,6 +6,8 @@ from contextlib import contextmanager
 from http.client import HTTPException
 from urllib.error import URLError
 
+import pytest
+
 
 @contextmanager
 def start_http_server(port, silent: bool = True):
@@ -32,3 +34,9 @@ def start_http_server(port, silent: bool = True):
             if process is not None:
                 process.kill()
                 process.wait()
+
+
+@pytest.fixture(scope='session', autouse=True)
+def start_http_server_on_35127_and_35128():
+    with start_http_server(35127), start_http_server(35128):
+        yield
