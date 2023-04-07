@@ -27,3 +27,17 @@ get_localhost_ip
 
 
 
+is_free_port
+--------------------------
+
+.. autofunction:: is_free_port
+
+
+
+get_free_port
+--------------------------
+
+.. autofunction:: get_free_port
+
+
+
