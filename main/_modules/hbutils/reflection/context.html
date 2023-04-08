@@ -208,10 +208,11 @@
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
 <span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">current_process</span>
 <span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">current_thread</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">ContextManager</span><span class="p">,</span> <span class="n">Any</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;context&#39;</span><span class="p">,</span> <span class="s1">&#39;cwrap&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;nested_with&#39;</span><span class="p">,</span>
 <span class="p">]</span>
 
 
@@ -433,6 +434,82 @@
                 <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">_new_func</span></div>
+
+
+<span class="k">def</span> <span class="nf">_yield_nested_for</span><span class="p">(</span><span class="n">contexts</span><span class="p">,</span> <span class="n">depth</span><span class="p">,</span> <span class="n">items</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">depth</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">contexts</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">contexts</span><span class="p">[</span><span class="n">depth</span><span class="p">]</span> <span class="k">as</span> <span class="n">current_item</span><span class="p">:</span>
+            <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_item</span><span class="p">)</span>
+            <span class="k">yield from</span> <span class="n">_yield_nested_for</span><span class="p">(</span><span class="n">contexts</span><span class="p">,</span> <span class="n">depth</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">items</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="nested_with"><a class="viewcode-back" href="../../../api_doc/reflection/context.html#hbutils.reflection.context.nested_with">[docs]</a><span class="nd">@contextmanager</span>
+<span class="k">def</span> <span class="nf">nested_with</span><span class="p">(</span><span class="o">*</span><span class="n">contexts</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="o">...</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Nested with, enter and exit multiple contexts.</span>
+
+<span class="sd">    :param contexts: Contexts to manage.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; import os.path</span>
+<span class="sd">        &gt;&gt;&gt; import pathlib</span>
+<span class="sd">        &gt;&gt;&gt; import tempfile</span>
+<span class="sd">        &gt;&gt;&gt; from contextlib import contextmanager</span>
+<span class="sd">        &gt;&gt;&gt; from hbutils.reflection import nested_with</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; # allocate a temporary directory, and put one file inside</span>
+<span class="sd">        &gt;&gt;&gt; @contextmanager</span>
+<span class="sd">        ... def opent(x):</span>
+<span class="sd">        ...     with tempfile.TemporaryDirectory() as td:</span>
+<span class="sd">        ...         pathlib.Path(os.path.join(td, f&#39;{x}.txt&#39;)).write_text(f&#39;this is {x}!&#39;)</span>
+<span class="sd">        ...         yield td</span>
+<span class="sd">        &gt;&gt;&gt;</span>
+<span class="sd">        &gt;&gt;&gt; # let&#39;s try it</span>
+<span class="sd">        &gt;&gt;&gt; with opent(1) as d:</span>
+<span class="sd">        ...     print(os.listdir(d))</span>
+<span class="sd">        ...     print(pathlib.Path(f&#39;{d}/1.txt&#39;).read_text())</span>
+<span class="sd">        [&#39;1.txt&#39;]</span>
+<span class="sd">        this is 1!</span>
+<span class="sd">        &gt;&gt;&gt; # open 5 temporary directories at one time</span>
+<span class="sd">        &gt;&gt;&gt; with nested_with(*map(opent, range(5))) as ds:</span>
+<span class="sd">        ...     for d in ds:</span>
+<span class="sd">        ...         print(d)</span>
+<span class="sd">        ...         print(os.path.exists(d), os.listdir(d))</span>
+<span class="sd">        ...         print(pathlib.Path(f&#39;{d}/{os.listdir(d)[0]}&#39;).read_text())</span>
+<span class="sd">        /tmp/tmp3u1984br</span>
+<span class="sd">        True [&#39;0.txt&#39;]</span>
+<span class="sd">        this is 0!</span>
+<span class="sd">        /tmp/tmp0yx56hv0</span>
+<span class="sd">        True [&#39;1.txt&#39;]</span>
+<span class="sd">        this is 1!</span>
+<span class="sd">        /tmp/tmpu_33drm3</span>
+<span class="sd">        True [&#39;2.txt&#39;]</span>
+<span class="sd">        this is 2!</span>
+<span class="sd">        /tmp/tmpqal_vzgi</span>
+<span class="sd">        True [&#39;3.txt&#39;]</span>
+<span class="sd">        this is 3!</span>
+<span class="sd">        /tmp/tmpy99_wwtt</span>
+<span class="sd">        True [&#39;4.txt&#39;]</span>
+<span class="sd">        this is 4!</span>
+<span class="sd">        &gt;&gt;&gt; # these directories are released now</span>
+<span class="sd">        &gt;&gt;&gt; for d in ds:</span>
+<span class="sd">        ...     print(d)</span>
+<span class="sd">        ...     print(os.path.exists(d))  # not exist anymore</span>
+<span class="sd">        /tmp/tmp3u1984br</span>
+<span class="sd">        False</span>
+<span class="sd">        /tmp/tmp0yx56hv0</span>
+<span class="sd">        False</span>
+<span class="sd">        /tmp/tmpu_33drm3</span>
+<span class="sd">        False</span>
+<span class="sd">        /tmp/tmpqal_vzgi</span>
+<span class="sd">        False</span>
+<span class="sd">        /tmp/tmpy99_wwtt</span>
+<span class="sd">        False</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">yield from</span> <span class="n">_yield_nested_for</span><span class="p">(</span><span class="n">contexts</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="p">[])</span></div>
 </pre></div>
 
 
@@ -518,12 +595,11 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../dev/with/index.html">dev/with</a></dd>
+                        <dd><a href="context.html">main</a></dd>
                         <dd><a href="../../../../dev/color/index.html">dev/color</a></dd>
                         <dd><a href="../../../../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="../../../../dev/pythonpath/index.html">dev/pythonpath</a></dd>
                         <dd><a href="../../../../dev/recover/index.html">dev/recover</a></dd>
-                        <dd><a href="context.html">main</a></dd>
                 </dl>
         </div>
     </div>
