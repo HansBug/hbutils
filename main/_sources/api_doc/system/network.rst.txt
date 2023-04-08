@@ -41,3 +41,17 @@ get_free_port
 
 
 
+urlsplit
+--------------------------
+
+.. autofunction:: urlsplit
+
+
+
+SplitURL
+--------------------------
+
+.. autoclass:: SplitURL
+    :members: query_dict, filename, path_segments, __str__, __repr__
+
+
