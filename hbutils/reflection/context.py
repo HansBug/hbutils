@@ -35,10 +35,11 @@ from contextlib import contextmanager
 from functools import wraps
 from multiprocessing import current_process
 from threading import current_thread
-from typing import Tuple, TypeVar, Iterator, Mapping, Optional
+from typing import Tuple, TypeVar, Iterator, Mapping, Optional, ContextManager, Any
 
 __all__ = [
     'context', 'cwrap',
+    'nested_with',
 ]
 
 
@@ -260,3 +261,79 @@ def cwrap(func, *, context_: Optional[ContextVars] = None, **vars_):
                 return func(*args, **kwargs)
 
     return _new_func
+
+
+def _yield_nested_for(contexts, depth, items):
+    if depth >= len(contexts):
+        yield tuple(items)
+    else:
+        with contexts[depth] as current_item:
+            items.append(current_item)
+            yield from _yield_nested_for(contexts, depth + 1, items)
+
+
+@contextmanager
+def nested_with(*contexts) -> ContextManager[Tuple[Any, ...]]:
+    """
+    Overview:
+        Nested with, enter and exit multiple contexts.
+
+    :param contexts: Contexts to manage.
+
+    Examples::
+        >>> import os.path
+        >>> import pathlib
+        >>> import tempfile
+        >>> from contextlib import contextmanager
+        >>> from hbutils.reflection import nested_with
+        >>>
+        >>> # allocate a temporary directory, and put one file inside
+        >>> @contextmanager
+        ... def opent(x):
+        ...     with tempfile.TemporaryDirectory() as td:
+        ...         pathlib.Path(os.path.join(td, f'{x}.txt')).write_text(f'this is {x}!')
+        ...         yield td
+        >>>
+        >>> # let's try it
+        >>> with opent(1) as d:
+        ...     print(os.listdir(d))
+        ...     print(pathlib.Path(f'{d}/1.txt').read_text())
+        ['1.txt']
+        this is 1!
+        >>> # open 5 temporary directories at one time
+        >>> with nested_with(*map(opent, range(5))) as ds:
+        ...     for d in ds:
+        ...         print(d)
+        ...         print(os.path.exists(d), os.listdir(d))
+        ...         print(pathlib.Path(f'{d}/{os.listdir(d)[0]}').read_text())
+        /tmp/tmp3u1984br
+        True ['0.txt']
+        this is 0!
+        /tmp/tmp0yx56hv0
+        True ['1.txt']
+        this is 1!
+        /tmp/tmpu_33drm3
+        True ['2.txt']
+        this is 2!
+        /tmp/tmpqal_vzgi
+        True ['3.txt']
+        this is 3!
+        /tmp/tmpy99_wwtt
+        True ['4.txt']
+        this is 4!
+        >>> # these directories are released now
+        >>> for d in ds:
+        ...     print(d)
+        ...     print(os.path.exists(d))  # not exist anymore
+        /tmp/tmp3u1984br
+        False
+        /tmp/tmp0yx56hv0
+        False
+        /tmp/tmpu_33drm3
+        False
+        /tmp/tmpqal_vzgi
+        False
+        /tmp/tmpy99_wwtt
+        False
+    """
+    yield from _yield_nested_for(contexts, 0, [])

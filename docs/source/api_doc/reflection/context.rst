@@ -26,3 +26,10 @@ cwrap
 
 
 
+nested_with
+-----------------------
+
+.. autofunction:: nested_with
+
+
+

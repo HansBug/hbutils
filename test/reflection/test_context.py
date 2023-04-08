@@ -1,3 +1,6 @@
+import os.path
+import pathlib
+import tempfile
 import unittest
 from contextlib import contextmanager
 from multiprocessing import Process, Manager
@@ -6,8 +9,15 @@ from threading import Thread
 import pytest
 
 from hbutils.reflection import context, cwrap
-from hbutils.reflection.context import ContextVars
+from hbutils.reflection.context import ContextVars, nested_with
 from hbutils.testing import OS, vpython
+
+
+@contextmanager
+def opent(x):
+    with tempfile.TemporaryDirectory() as td:
+        pathlib.Path(os.path.join(td, f'{x}.txt')).write_text(f'this is {x}!')
+        yield td
 
 
 # noinspection DuplicatedCode
@@ -180,3 +190,20 @@ class TestReflectionContext:
             assert calc(3, 5) == 15
 
         assert calc(3, 5) == 8
+
+    def test_nested_with(self):
+        with opent(1) as d:
+            assert os.path.exists(d)
+            assert os.listdir(d)
+            assert os.path.exists(os.path.join(d, '1.txt'))
+            assert pathlib.Path(os.path.join(d, '1.txt')).read_text().strip() == 'this is 1!'
+
+        with nested_with(*map(opent, range(30))) as ds:
+            for i, d in enumerate(ds):
+                assert os.path.exists(d)
+                assert os.listdir(d)
+                assert os.path.exists(os.path.join(d, f'{i}.txt'))
+                assert pathlib.Path(os.path.join(d, f'{i}.txt')).read_text().strip() == f'this is {i}!'
+
+        for d in ds:
+            assert not os.path.exists(d)
