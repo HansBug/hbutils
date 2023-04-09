@@ -6,8 +6,7 @@ import os
 from contextlib import contextmanager
 from typing import ContextManager, Dict, Optional
 
-from .._base import TemporaryDirectory
-from ...system import copy
+from ...system import copy, TemporaryDirectory
 
 __all__ = [
     'isolated_directory',
