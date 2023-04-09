@@ -1,0 +1,577 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hbutils.testing.compare &mdash; hbutils 0.8.5 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="hbutils.testing.generator" href="generator.html" />
+    <link rel="prev" title="hbutils.testing.capture" href="capture.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> hbutils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.8.5
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+</ul>
+<p><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">hbutils.algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../binary/index.html">hbutils.binary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../collection/index.html">hbutils.collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../color/index.html">hbutils.color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/index.html">hbutils.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/index.html">hbutils.design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../expression/index.html">hbutils.expression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file/index.html">hbutils.file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/index.html">hbutils.model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../random/index.html">hbutils.random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reflection/index.html">hbutils.reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scale/index.html">hbutils.scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../string/index.html">hbutils.string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../system/index.html">hbutils.system</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">hbutils.testing</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="capture.html">hbutils.testing.capture</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.testing.compare</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#textaligner">TextAligner</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="generator.html">hbutils.testing.generator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="isolated.html">hbutils.testing.isolated</a></li>
+<li class="toctree-l2"><a class="reference internal" href="requires.html">hbutils.testing.requires</a></li>
+<li class="toctree-l2"><a class="reference internal" href="simulate.html">hbutils.testing.simulate</a></li>
+</ul>
+</li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">hbutils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">hbutils.testing</a> &raquo;</li>
+        
+      <li>hbutils.testing.compare</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_doc/testing/compare.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <section id="module-hbutils.testing.compare">
+<span id="hbutils-testing-compare"></span><h1>hbutils.testing.compare<a class="headerlink" href="#module-hbutils.testing.compare" title="Permalink to this headline">¶</a></h1>
+<section id="textaligner">
+<h2>TextAligner<a class="headerlink" href="#textaligner" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.testing.compare.TextAligner">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.testing.compare.</code><code class="sig-name descname">TextAligner</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">line_rstrip</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">keep_empty_tail</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">text_func</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">line_func</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ls_func</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/compare/text.html#TextAligner"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.compare.TextAligner" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Text aligner for comparing texts in unittest.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="hbutils.testing.compare.TextAligner.__call__">
+<code class="sig-name descname">__call__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/testing/compare/text.html#TextAligner.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.compare.TextAligner.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform the original text or lines to aligned text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>text</strong> – Original text or lines.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Aligned text.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">TextAligner</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">text_align</span> <span class="o">=</span> <span class="n">TextAligner</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">text_align</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;Python 3.6.5</span>
+<span class="gp">... </span><span class="s1">Hello world!!</span>
+<span class="gp">... </span><span class="s1">  Do not see me like this...</span>
+<span class="gp">... </span><span class="se">\n\n\t\n</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="p">))</span>
+<span class="go">Python 3.6.5</span>
+<span class="go">Hello world!!</span>
+<span class="go">  Do not see me like this...</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">text_align</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()(</span><span class="s1">&#39;&#39;&#39;Python 3.6.5</span>
+<span class="gp">... </span><span class="s1">Hello world!!</span>
+<span class="gp">... </span><span class="s1">  Do not see me like this...</span>
+<span class="gp">... </span><span class="se">\n\n\t\n</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="p">))</span>
+<span class="go">Python 3.6.5</span>
+<span class="go">Hello world!!</span>
+<span class="go">Do not see me like this...</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.compare.TextAligner.__getattr__">
+<code class="sig-name descname">__getattr__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">item</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; hbutils.testing.compare.text._StrMethodProxy<a class="reference internal" href="../../_modules/hbutils/testing/compare/text.html#TextAligner.__getattr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.compare.TextAligner.__getattr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append postprocess from <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code> of each line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>item</strong> – Method name.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">TextAligner</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">text_align</span> <span class="o">=</span> <span class="n">TextAligner</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">text_align</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">multiple_lines</span><span class="p">()(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">Python 3.6.5</span>
+<span class="gp">... </span><span class="s1">Hello world!!</span>
+<span class="gp">... </span><span class="s1">  Do not see me like this...</span>
+<span class="gp">... </span><span class="se">\n\n\t\n</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="p">))</span>
+<span class="go">python 3.6.5</span>
+<span class="go">hello world!!</span>
+<span class="go">  do not see me like this...</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.compare.TextAligner.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">line_rstrip</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">keep_empty_tail</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em>, <em class="sig-param"><span class="n">text_func</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">line_func</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ls_func</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/compare/text.html#TextAligner.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.compare.TextAligner.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Constructor of <a class="reference internal" href="#hbutils.testing.compare.TextAligner" title="hbutils.testing.compare.TextAligner"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAligner</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>line_rstrip</strong> – Right strip each line, default is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p></li>
+<li><p><strong>keep_empty_tail</strong> – Keep the empty tail of the text, default is <code class="docutils literal notranslate"><span class="pre">False</span></code>, which means the             empty tails will be ignored.</p></li>
+<li><p><strong>text_func</strong> – Function for preprocessing whole text.</p></li>
+<li><p><strong>line_func</strong> – Function for processing each line.</p></li>
+<li><p><strong>ls_func</strong> – Function for processing lines list.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.compare.TextAligner.assert_equal">
+<code class="sig-name descname">assert_equal</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">expect</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">actual</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">max_diff</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">3</span></em>, <em class="sig-param"><span class="n">max_extra</span><span class="p">:</span> <span class="n">int</span> <span class="o">=</span> <span class="default_value">5</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/compare/text.html#TextAligner.assert_equal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.compare.TextAligner.assert_equal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assert two string is equal.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>expect</strong> – Expected text or lines.</p></li>
+<li><p><strong>actual</strong> – Actual text or lines.</p></li>
+<li><p><strong>max_diff</strong> – Max different lines to show in assertion message, default is <code class="docutils literal notranslate"><span class="pre">3</span></code>.</p></li>
+<li><p><strong>max_extra</strong> – Max extra lines to show in assertion message, default is <code class="docutils literal notranslate"><span class="pre">5</span></code>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">TextAligner</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">text_align</span> <span class="o">=</span> <span class="n">TextAligner</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">text_align</span><span class="o">.</span><span class="n">multiple_lines</span><span class="p">()</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;Python 3.6.5</span>
+<span class="gp">... </span><span class="s1">Hello world!!</span>
+<span class="gp">... </span><span class="s1">  Do not see me like this...</span>
+<span class="gp">... </span><span class="se">\n\n\t\n</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">        Python 3.6.5</span>
+<span class="gp">... </span><span class="s1">        Hello world!!</span>
+<span class="gp">... </span><span class="s1">          Do not see me like this...</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>  <span class="c1"># this is okay</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">text_align</span><span class="o">.</span><span class="n">multiple_lines</span><span class="p">()</span><span class="o">.</span><span class="n">assert_equal</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;Python 3.6.5</span>
+<span class="gp">... </span><span class="s1">Hello world!!</span>
+<span class="gp">... </span><span class="s1">  Do not see me like this...</span>
+<span class="gp">... </span><span class="se">\n\n\t\n</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">        Python 3.6.5</span>
+<span class="gp">... </span><span class="s1">        Hello world!!</span>
+<span class="gp">... </span><span class="s1">        Do not see me like this...</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="p">)</span>
+<span class="go">AssertionError: Difference found in line 3:</span>
+<span class="go">    Expect:   Do not see me like this...</span>
+<span class="go">    Actual: Do not see me like this...</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.compare.TextAligner.assert_not_equal">
+<code class="sig-name descname">assert_not_equal</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">expect</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span></em>, <em class="sig-param"><span class="n">actual</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/compare/text.html#TextAligner.assert_not_equal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.compare.TextAligner.assert_not_equal" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assert two string is not equal, which is similar to <a class="reference internal" href="#hbutils.testing.compare.TextAligner.assert_equal" title="hbutils.testing.compare.TextAligner.assert_equal"><code class="xref py py-meth docutils literal notranslate"><span class="pre">assert_equal()</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>expect</strong> – Expected text or lines.</p></li>
+<li><p><strong>actual</strong> – Actual text or lines.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.compare.TextAligner.line_map">
+<code class="sig-name descname">line_map</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">line_func</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/compare/text.html#TextAligner.line_map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.compare.TextAligner.line_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mapping for the text of each line.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>line_func</strong> – New line process function.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new <a class="reference internal" href="#hbutils.testing.compare.TextAligner" title="hbutils.testing.compare.TextAligner"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAligner</span></code></a> object with <code class="docutils literal notranslate"><span class="pre">line_func</span></code> process.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.compare.TextAligner.ls_trans">
+<code class="sig-name descname">ls_trans</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ls_func</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/compare/text.html#TextAligner.ls_trans"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.compare.TextAligner.ls_trans" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transformation for the separated lines.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>ls_func</strong> – New lines process function.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new <a class="reference internal" href="#hbutils.testing.compare.TextAligner" title="hbutils.testing.compare.TextAligner"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAligner</span></code></a> object with <code class="docutils literal notranslate"><span class="pre">ls_func</span></code> process.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.compare.TextAligner.multiple_lines">
+<code class="sig-name descname">multiple_lines</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">lstrip</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">dedent</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/compare/text.html#TextAligner.multiple_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.compare.TextAligner.multiple_lines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Switch to multiple-line mode.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>lstrip</strong> – Left strip the original text.</p></li>
+<li><p><strong>dedent</strong> – Dedent the text.</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">TextAligner</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">text_align</span> <span class="o">=</span> <span class="n">TextAligner</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">text_align</span><span class="o">.</span><span class="n">multiple_lines</span><span class="p">()(</span><span class="s1">&#39;&#39;&#39;</span>
+<span class="gp">... </span><span class="s1">Python 3.6.5</span>
+<span class="gp">... </span><span class="s1">Hello world!!</span>
+<span class="gp">... </span><span class="s1">  Do not see me like this...</span>
+<span class="gp">... </span><span class="se">\n\n\t\n</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="p">))</span>
+<span class="go">Python 3.6.5</span>
+<span class="go">Hello world!!</span>
+<span class="go">  Do not see me like this...</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>With <a class="reference internal" href="#hbutils.testing.compare.TextAligner.multiple_lines" title="hbutils.testing.compare.TextAligner.multiple_lines"><code class="xref py py-meth docutils literal notranslate"><span class="pre">multiple_lines()</span></code></a>, the text’s comparison will be compatible with text wrapper.</p>
+</aside>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.compare.TextAligner.splitlines">
+<code class="sig-name descname">splitlines</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>str<span class="p">, </span>List<span class="p">[</span>str<span class="p">]</span><span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; List<span class="p">[</span>str<span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/testing/compare/text.html#TextAligner.splitlines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.compare.TextAligner.splitlines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform the original text or lines to list of aligned lines.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>text</strong> – Original text or lines.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of split lines.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">TextAligner</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">text_align</span> <span class="o">=</span> <span class="n">TextAligner</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">text_align</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;Python 3.6.5</span>
+<span class="gp">... </span><span class="s1">Hello world!!</span>
+<span class="gp">... </span><span class="s1">  Do not see me like this...</span>
+<span class="gp">... </span><span class="se">\n\n\t\n</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="p">))</span>
+<span class="go">[&#39;Python 3.6.5&#39;, &#39;Hello world!!&#39;, &#39;  Do not see me like this...&#39;]</span>
+</pre></div>
+</div>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">text_align</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="s1">&#39;&#39;&#39;Python 3.6.5</span>
+<span class="gp">... </span><span class="s1">Hello world!!</span>
+<span class="gp">... </span><span class="s1">  Do not see me like this...</span>
+<span class="gp">... </span><span class="se">\n\n\t\n</span>
+<span class="gp">... </span><span class="s1">&#39;&#39;&#39;</span><span class="p">))</span>
+<span class="go">[&#39;Python 3.6.5&#39;, &#39;Hello world!!&#39;, &#39;Do not see me like this...&#39;]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.testing.compare.TextAligner.text_trans">
+<code class="sig-name descname">text_trans</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text_func</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/compare/text.html#TextAligner.text_trans"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.compare.TextAligner.text_trans" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transformation for the original text.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>text_func</strong> – New text process function.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A new <a class="reference internal" href="#hbutils.testing.compare.TextAligner" title="hbutils.testing.compare.TextAligner"><code class="xref py py-class docutils literal notranslate"><span class="pre">TextAligner</span></code></a> object with <code class="docutils literal notranslate"><span class="pre">text_func</span></code> process.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="generator.html" class="btn btn-neutral float-right" title="hbutils.testing.generator" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="capture.html" class="btn btn-neutral float-left" title="hbutils.testing.capture" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2023, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: v0.8.5
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../v0.0.1/index.html">v0.0.1</a></dd>
+                        <dd><a href="../../../v0.1.0/index.html">v0.1.0</a></dd>
+                        <dd><a href="../../../v0.1.1/index.html">v0.1.1</a></dd>
+                        <dd><a href="../../../v0.2.0/index.html">v0.2.0</a></dd>
+                        <dd><a href="../../../v0.3.0/index.html">v0.3.0</a></dd>
+                        <dd><a href="../../../v0.3.1/index.html">v0.3.1</a></dd>
+                        <dd><a href="../../../v0.3.2/index.html">v0.3.2</a></dd>
+                        <dd><a href="../../../v0.3.3/index.html">v0.3.3</a></dd>
+                        <dd><a href="../../../v0.4.0/index.html">v0.4.0</a></dd>
+                        <dd><a href="../../../v0.4.1/index.html">v0.4.1</a></dd>
+                        <dd><a href="../../../v0.4.2/index.html">v0.4.2</a></dd>
+                        <dd><a href="../../../v0.4.3/index.html">v0.4.3</a></dd>
+                        <dd><a href="../../../v0.4.4/index.html">v0.4.4</a></dd>
+                        <dd><a href="../../../v0.4.5/index.html">v0.4.5</a></dd>
+                        <dd><a href="../../../v0.4.6/index.html">v0.4.6</a></dd>
+                        <dd><a href="../../../v0.4.7/index.html">v0.4.7</a></dd>
+                        <dd><a href="../../../v0.5.0/index.html">v0.5.0</a></dd>
+                        <dd><a href="../../../v0.5.1/index.html">v0.5.1</a></dd>
+                        <dd><a href="../../../v0.5.2/index.html">v0.5.2</a></dd>
+                        <dd><a href="../../../v0.6.0/index.html">v0.6.0</a></dd>
+                        <dd><a href="../../../v0.6.1/index.html">v0.6.1</a></dd>
+                        <dd><a href="../../../v0.6.10/index.html">v0.6.10</a></dd>
+                        <dd><a href="../../../v0.6.11/index.html">v0.6.11</a></dd>
+                        <dd><a href="../../../v0.6.12/index.html">v0.6.12</a></dd>
+                        <dd><a href="../../../v0.6.13/index.html">v0.6.13</a></dd>
+                        <dd><a href="../../../v0.6.14/index.html">v0.6.14</a></dd>
+                        <dd><a href="../../../v0.6.2/index.html">v0.6.2</a></dd>
+                        <dd><a href="../../../v0.6.3/index.html">v0.6.3</a></dd>
+                        <dd><a href="../../../v0.6.4/index.html">v0.6.4</a></dd>
+                        <dd><a href="../../../v0.6.5/index.html">v0.6.5</a></dd>
+                        <dd><a href="../../../v0.6.6/index.html">v0.6.6</a></dd>
+                        <dd><a href="../../../v0.6.7/index.html">v0.6.7</a></dd>
+                        <dd><a href="../../../v0.6.8/index.html">v0.6.8</a></dd>
+                        <dd><a href="../../../v0.6.9/index.html">v0.6.9</a></dd>
+                        <dd><a href="../../../v0.7.0/index.html">v0.7.0</a></dd>
+                        <dd><a href="../../../v0.7.1/index.html">v0.7.1</a></dd>
+                        <dd><a href="../../../v0.7.2/index.html">v0.7.2</a></dd>
+                        <dd><a href="../../../v0.7.3/index.html">v0.7.3</a></dd>
+                        <dd><a href="../../../v0.7.4/api_doc/testing/compare.html">v0.7.4</a></dd>
+                        <dd><a href="../../../v0.7.5/api_doc/testing/compare.html">v0.7.5</a></dd>
+                        <dd><a href="../../../v0.7.6/api_doc/testing/compare.html">v0.7.6</a></dd>
+                        <dd><a href="../../../v0.8.0/api_doc/testing/compare.html">v0.8.0</a></dd>
+                        <dd><a href="../../../v0.8.1/api_doc/testing/compare.html">v0.8.1</a></dd>
+                        <dd><a href="../../../v0.8.2/api_doc/testing/compare.html">v0.8.2</a></dd>
+                        <dd><a href="../../../v0.8.3/api_doc/testing/compare.html">v0.8.3</a></dd>
+                        <dd><a href="../../../v0.8.4/api_doc/testing/compare.html">v0.8.4</a></dd>
+                        <dd><a href="compare.html">v0.8.5</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="../../../dev/color/api_doc/testing/compare.html">dev/color</a></dd>
+                        <dd><a href="../../../dev/dependency/index.html">dev/dependency</a></dd>
+                        <dd><a href="../../../dev/pythonpath/api_doc/testing/compare.html">dev/pythonpath</a></dd>
+                        <dd><a href="../../../dev/recover/api_doc/testing/compare.html">dev/recover</a></dd>
+                        <dd><a href="../../../main/api_doc/testing/compare.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
