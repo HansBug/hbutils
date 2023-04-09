@@ -7,7 +7,7 @@ import os
 from contextlib import _RedirectStream, contextmanager
 from typing import List, Union, ContextManager, TextIO
 
-from hbutils.testing._base import TemporaryDirectory
+from ...system import TemporaryDirectory
 
 __all__ = [
     'isolated_stdin',

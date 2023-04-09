@@ -49,3 +49,7 @@ is_text_file
 
 
 
+TemporaryDirectory
+--------------------------
+
+.. autoclass:: TemporaryDirectory

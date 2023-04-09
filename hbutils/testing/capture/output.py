@@ -14,7 +14,7 @@ __all__ = [
     'capture_output', 'disable_output',
 ]
 
-from .._base import TemporaryDirectory
+from ...system import TemporaryDirectory
 
 
 class OutputCaptureResult:

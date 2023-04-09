@@ -1,20 +1,33 @@
+"""
+Overview:
+    Backport support of :class:`tempfile.TemporaryDirectory` in python3.7 on Windows.
+"""
 import os
+import platform
 import shutil
 import tempfile
 import warnings
 import weakref
-from tempfile import TemporaryDirectory as _OriginTemporaryFileClass
 
-from .requires import vpython
+__all__ = [
+    'TemporaryDirectory',
+]
 
-if vpython >= '3.8':
-    TemporaryDirectory = _OriginTemporaryFileClass
+_python_version_tuple = tuple(map(int, platform.python_version_tuple()))
+
+if _python_version_tuple >= (3, 8):
+    from tempfile import TemporaryDirectory
 else:
-    class TemporaryDirectory(object):  # pragma: no cover
+    class TemporaryDirectory(object):
         """
-        THIS CLASS IS COPIED FROM PYTHON3.8's TEMPFILE.
-        Because PermissionError will be raised when use native TemporaryDirectory on Windows python3.7.
-        This class should be removed when python3.7 is no longer supported.
+        .. note::
+            **This class is copied from python3.8's tempfile library.**
+
+            Because PermissionError will be raised when use native TemporaryDirectory on **Windows python3.7**.
+            This class should be removed when python3.7 is no longer supported.
+
+            See `tempfile.TemporaryDirectory <https://docs.python.org/3/library/tempfile.html#tempfile.TemporaryDirectory>`_
+            for more details.
 
         Create and return a temporary directory.  This has the same
         behavior as mkdtemp but can be used as a context manager.  For
