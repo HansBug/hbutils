@@ -5,4 +5,5 @@ Overview:
 from .inflection import *
 from .plural import *
 from .template import *
+from .tree import *
 from .trunc import *

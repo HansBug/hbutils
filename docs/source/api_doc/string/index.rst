@@ -11,4 +11,5 @@ hbutils.string
     inflection
     plural
     template
+    tree
     trunc
