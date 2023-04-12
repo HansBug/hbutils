@@ -136,6 +136,8 @@ def disable_output(encoding='utf-8') -> ContextManager[OutputCaptureResult]:
     Overview:
         Disable all the output to ``sys.stdout`` and ``sys.stderr`` in this ``with`` block.
 
+    :param encoding: Encoding of null file, default is ``utf-8``.
+
     Examples::
         >>> import sys
         >>> from hbutils.testing import disable_output
