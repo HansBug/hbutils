@@ -481,7 +481,7 @@
 <span class="k">class</span> <span class="nc">_StrMethodProxy</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">align</span><span class="p">:</span> <span class="n">TextAligner</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__align</span> <span class="o">=</span> <span class="n">align</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="ow">and</span> <span class="n">callable</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">callable</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">)):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Attribute </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s1"> not found in str.&#39;</span><span class="p">)</span>
@@ -575,11 +575,11 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../../../../main/index.html">main</a></dd>
                         <dd><a href="../../../../../color/index.html">dev/color</a></dd>
                         <dd><a href="../../../../../dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="text.html">dev/pythonpath</a></dd>
                         <dd><a href="../../../../../recover/index.html">dev/recover</a></dd>
-                        <dd><a href="../../../../../../main/index.html">main</a></dd>
                 </dl>
         </div>
     </div>

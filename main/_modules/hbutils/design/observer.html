@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>hbutils.design.observer &mdash; hbutils 0.8.5 documentation</title>
+  <title>hbutils.design.observer &mdash; hbutils 0.8.6 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.8.5
+                0.8.6
               </div>
             
           
@@ -342,7 +342,7 @@
             <span class="n">callback</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">subscriber</span><span class="p">,</span> <span class="s1">&#39;update&#39;</span><span class="p">)</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">callback</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">callback</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">subscriber</span><span class="p">,</span> <span class="n">callback</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">callback</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">callable</span><span class="p">(</span><span class="n">callback</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Callback should be callable, but </span><span class="si">{</span><span class="nb">repr</span><span class="p">(</span><span class="n">callback</span><span class="p">)</span><span class="si">}</span><span class="s1"> found.&#39;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_put_subscription</span><span class="p">(</span><span class="n">event</span><span class="p">,</span> <span class="n">subscriber</span><span class="p">,</span> <span class="n">callback</span><span class="p">)</span></div>
@@ -451,11 +451,11 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="observer.html">main</a></dd>
                         <dd><a href="../../../../dev/color/index.html">dev/color</a></dd>
                         <dd><a href="../../../../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="../../../../dev/pythonpath/index.html">dev/pythonpath</a></dd>
                         <dd><a href="../../../../dev/recover/index.html">dev/recover</a></dd>
-                        <dd><a href="observer.html">main</a></dd>
                 </dl>
         </div>
     </div>

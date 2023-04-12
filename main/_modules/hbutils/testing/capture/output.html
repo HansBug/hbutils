@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>hbutils.testing.capture.output &mdash; hbutils 0.8.5 documentation</title>
+  <title>hbutils.testing.capture.output &mdash; hbutils 0.8.6 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.8.5
+                0.8.6
               </div>
             
           
@@ -304,10 +304,12 @@
 
 
 <div class="viewcode-block" id="disable_output"><a class="viewcode-back" href="../../../../api_doc/testing/capture.html#hbutils.testing.capture.disable_output">[docs]</a><span class="nd">@contextmanager</span>
-<span class="k">def</span> <span class="nf">disable_output</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">[</span><span class="n">OutputCaptureResult</span><span class="p">]:</span>
+<span class="k">def</span> <span class="nf">disable_output</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ContextManager</span><span class="p">[</span><span class="n">OutputCaptureResult</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Disable all the output to ``sys.stdout`` and ``sys.stderr`` in this ``with`` block.</span>
+
+<span class="sd">    :param encoding: Encoding of null file, default is ``utf-8``.</span>
 
 <span class="sd">    Examples::</span>
 <span class="sd">        &gt;&gt;&gt; import sys</span>
@@ -317,7 +319,7 @@
 <span class="sd">        ...     print(&#39;this is stdout&#39;)</span>
 <span class="sd">        ...     print(&#39;this is stderr&#39;, file=sys.stderr)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">devnull</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">sout</span><span class="p">:</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">devnull</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">)</span> <span class="k">as</span> <span class="n">sout</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">redirect_stdout</span><span class="p">(</span><span class="n">sout</span><span class="p">),</span> <span class="n">redirect_stderr</span><span class="p">(</span><span class="n">sout</span><span class="p">):</span>
             <span class="k">yield</span></div>
 </pre></div>
@@ -407,11 +409,11 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="output.html">main</a></dd>
                         <dd><a href="../../../../../dev/color/index.html">dev/color</a></dd>
                         <dd><a href="../../../../../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="../../../../../dev/pythonpath/index.html">dev/pythonpath</a></dd>
                         <dd><a href="../../../../../dev/recover/index.html">dev/recover</a></dd>
-                        <dd><a href="output.html">main</a></dd>
                 </dl>
         </div>
     </div>

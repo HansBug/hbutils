@@ -9,7 +9,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>hbutils.testing.capture &mdash; hbutils 0.8.5 documentation</title>
+  <title>hbutils.testing.capture &mdash; hbutils 0.8.6 documentation</title>
   
 
   
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                0.8.5
+                0.8.6
               </div>
             
           
@@ -291,10 +291,17 @@
 <h2>disable_output<a class="headerlink" href="#disable-output" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="hbutils.testing.capture.disable_output">
-<code class="sig-prename descclassname">hbutils.testing.capture.</code><code class="sig-name descname">disable_output</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; AbstractContextManager<span class="p">[</span>hbutils.testing.capture.output.OutputCaptureResult<span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/testing/capture/output.html#disable_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.capture.disable_output" title="Permalink to this definition">¶</a></dt>
-<dd><dl>
+<code class="sig-prename descclassname">hbutils.testing.capture.</code><code class="sig-name descname">disable_output</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">'utf-8'</span></em><span class="sig-paren">)</span> &#x2192; AbstractContextManager<span class="p">[</span>hbutils.testing.capture.output.OutputCaptureResult<span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/testing/capture/output.html#disable_output"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.capture.disable_output" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
 <dt>Overview:</dt><dd><p>Disable all the output to <code class="docutils literal notranslate"><span class="pre">sys.stdout</span></code> and <code class="docutils literal notranslate"><span class="pre">sys.stderr</span></code> in this <code class="docutils literal notranslate"><span class="pre">with</span></code> block.</p>
 </dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>encoding</strong> – Encoding of null file, default is <code class="docutils literal notranslate"><span class="pre">utf-8</span></code>.</p>
+</dd>
+</dl>
+<dl>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">sys</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">disable_output</span>
 <span class="go">&gt;&gt;&gt;</span>
@@ -492,11 +499,11 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="capture.html">main</a></dd>
                         <dd><a href="../../../dev/color/api_doc/testing/capture.html">dev/color</a></dd>
                         <dd><a href="../../../dev/dependency/api_doc/testing/capture.html">dev/dependency</a></dd>
                         <dd><a href="../../../dev/pythonpath/api_doc/testing/capture.html">dev/pythonpath</a></dd>
                         <dd><a href="../../../dev/recover/api_doc/testing/capture.html">dev/recover</a></dd>
-                        <dd><a href="capture.html">main</a></dd>
                 </dl>
         </div>
     </div>
