@@ -131,7 +131,7 @@ def capture_output(mem: bool = False) -> ContextManager[OutputCaptureResult]:
 
 
 @contextmanager
-def disable_output() -> ContextManager[OutputCaptureResult]:
+def disable_output(encoding='utf-8') -> ContextManager[OutputCaptureResult]:
     """
     Overview:
         Disable all the output to ``sys.stdout`` and ``sys.stderr`` in this ``with`` block.
@@ -144,6 +144,6 @@ def disable_output() -> ContextManager[OutputCaptureResult]:
         ...     print('this is stdout')
         ...     print('this is stderr', file=sys.stderr)
     """
-    with open(os.devnull, 'w') as sout:
+    with open(os.devnull, 'w', encoding=encoding) as sout:
         with redirect_stdout(sout), redirect_stderr(sout):
             yield
