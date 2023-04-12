@@ -3,6 +3,7 @@ import sys
 from textwrap import dedent
 
 import pytest
+from tqdm.auto import tqdm
 
 from hbutils.testing import capture_output, disable_output, isolated_directory
 
@@ -66,3 +67,13 @@ class TestTestingCaptureOutput:
             This is stderr 2rd line.
             This is stderr 3rd line.
         """).strip()
+
+    def test_disable_output_with_tqdm(self):
+        with capture_output() as r:
+            with disable_output():
+                f = tqdm(total=10)
+                f.set_description('你好，这个是中文')
+                f.update(5)
+
+        assert not r.stdout.strip()
+        assert not r.stderr.strip()

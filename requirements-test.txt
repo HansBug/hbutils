@@ -14,3 +14,4 @@ torch>=1.1.0; python_version < '3.11' and implementation_name != 'pypy'
 faker; python_version > '3.7'
 requests>=2.20
 testtools>=2
+tqdm
