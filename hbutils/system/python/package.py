@@ -1,9 +1,13 @@
+import functools
+import itertools
 import os
 import pathlib
 import subprocess
 import sys
 from typing import List
 from typing import Optional
+
+from packaging.requirements import Requirement
 
 try:
     import importlib.metadata as importlib_metadata
@@ -44,6 +48,76 @@ def package_version(name: str) -> Optional[Version]:
         return None
 
 
+def _nonblank(text):
+    return text and not text.startswith('#')
+
+
+@functools.singledispatch
+def yield_lines(iterable):
+    r"""
+    Based on https://github.com/jaraco/jaraco.text/blob/main/jaraco/text/__init__.py#L537 .
+    Yield valid lines of a string or iterable.
+    >>> list(yield_lines(''))
+    []
+    >>> list(yield_lines(['foo', 'bar']))
+    ['foo', 'bar']
+    >>> list(yield_lines('foo\nbar'))
+    ['foo', 'bar']
+    >>> list(yield_lines('\nfoo\n#bar\nbaz #comment'))
+    ['foo', 'baz #comment']
+    >>> list(yield_lines(['foo\nbar', 'baz', 'bing\n\n\n']))
+    ['foo', 'bar', 'baz', 'bing']
+    """
+    return itertools.chain.from_iterable(map(yield_lines, iterable))
+
+
+@yield_lines.register(str)
+def _(text):
+    return filter(_nonblank, map(str.strip, text.splitlines()))
+
+
+def drop_comment(line):
+    """
+    Based on https://github.com/jaraco/jaraco.text/blob/main/jaraco/text/__init__.py#L560 .
+    Drop comments.
+    >>> drop_comment('foo # bar')
+    'foo'
+    A hash without a space may be in a URL.
+    >>> drop_comment('https://example.com/foo#bar')
+    'https://example.com/foo#bar'
+    """
+    return line.partition(' #')[0]
+
+
+def join_continuation(lines):
+    r"""
+    Based on https://github.com/jaraco/jaraco.text/blob/main/jaraco/text/__init__.py#L575 .
+    Join lines continued by a trailing backslash.
+    >>> list(join_continuation(['foo \\', 'bar', 'baz']))
+    ['foobar', 'baz']
+    >>> list(join_continuation(['foo \\', 'bar', 'baz']))
+    ['foobar', 'baz']
+    >>> list(join_continuation(['foo \\', 'bar \\', 'baz']))
+    ['foobarbaz']
+    Not sure why, but...
+    The character preceding the backslash is also elided.
+    >>> list(join_continuation(['goo\\', 'dly']))
+    ['godly']
+    A terrible idea, but...
+    If no line is available to continue, suppress the lines.
+    >>> list(join_continuation(['foo', 'bar\\', 'baz\\']))
+    ['foo']
+    """
+    lines = iter(lines)
+    for item in lines:
+        while item.endswith('\\'):
+            try:  # pragma: no cover
+                item = item[:-2].strip() + next(lines)
+            except StopIteration:
+                return
+        yield item
+
+
 def load_req_file(requirements_file: str) -> List[str]:
     """
     Overview:
@@ -58,7 +132,10 @@ def load_req_file(requirements_file: str) -> List[str]:
         ['packaging>=21.3', 'setuptools>=50.0']
     """
     with pathlib.Path(requirements_file).open() as reqfile:
-        return list(map(str, pkg_resources.parse_requirements(reqfile)))
+        return list(map(
+            lambda x: str(Requirement(x)),
+            join_continuation(map(drop_comment, yield_lines(reqfile)))
+        ))
 
 
 def pip(*args, silent: bool = False):
