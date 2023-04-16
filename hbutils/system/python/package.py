@@ -5,7 +5,10 @@ import sys
 from typing import List
 from typing import Optional
 
-import importlib_metadata
+try:
+    import importlib.metadata as importlib_metadata
+except (ModuleNotFoundError, ImportError):
+    import importlib_metadata
 import pkg_resources
 from packaging.version import Version
 

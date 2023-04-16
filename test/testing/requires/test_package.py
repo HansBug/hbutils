@@ -3,9 +3,12 @@ from contextlib import contextmanager
 from dataclasses import dataclass
 from unittest import mock
 
+try:
+    import importlib.metadata as importlib_metadata
+except (ModuleNotFoundError, ImportError):
+    import importlib_metadata
 import pytest
 from easydict import EasyDict
-from importlib_metadata import PackageNotFoundError
 
 from hbutils.testing import vpip, disable_output
 
@@ -17,7 +20,10 @@ class _VersionProxy:
 
 @contextmanager
 def _mock_for_package_version(versions, clear=False):
-    from importlib_metadata import distribution as _origin_dist
+    try:
+        from importlib.metadata import distribution as _origin_dist
+    except (ModuleNotFoundError, ImportError):
+        from importlib_metadata import distribution as _origin_dist
     versions = {name.lower(): v for name, v in versions.items()}
 
     def _callable(name):
@@ -25,11 +31,11 @@ def _mock_for_package_version(versions, clear=False):
             return _VersionProxy(versions[name])
         else:
             if clear:
-                raise PackageNotFoundError
+                raise importlib_metadata.PackageNotFoundError
             else:
                 return _origin_dist(name)
 
-    with mock.patch('importlib_metadata.distribution', _callable):
+    with mock.patch('hbutils.system.python.package.importlib_metadata.distribution', _callable):
         yield
 
 
