@@ -171,12 +171,16 @@
     
     
   <h1>Source code for hbutils.system.python.package</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span></span><span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">pathlib</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+
+<span class="kn">from</span> <span class="nn">packaging.requirements</span> <span class="kn">import</span> <span class="n">Requirement</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">importlib.metadata</span> <span class="k">as</span> <span class="nn">importlib_metadata</span>
@@ -217,6 +221,76 @@
         <span class="k">return</span> <span class="kc">None</span></div>
 
 
+<span class="k">def</span> <span class="nf">_nonblank</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">text</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">text</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">)</span>
+
+
+<span class="nd">@functools</span><span class="o">.</span><span class="n">singledispatch</span>
+<span class="k">def</span> <span class="nf">yield_lines</span><span class="p">(</span><span class="n">iterable</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Based on https://github.com/jaraco/jaraco.text/blob/main/jaraco/text/__init__.py#L537 .</span>
+<span class="sd">    Yield valid lines of a string or iterable.</span>
+<span class="sd">    &gt;&gt;&gt; list(yield_lines(&#39;&#39;))</span>
+<span class="sd">    []</span>
+<span class="sd">    &gt;&gt;&gt; list(yield_lines([&#39;foo&#39;, &#39;bar&#39;]))</span>
+<span class="sd">    [&#39;foo&#39;, &#39;bar&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; list(yield_lines(&#39;foo\nbar&#39;))</span>
+<span class="sd">    [&#39;foo&#39;, &#39;bar&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; list(yield_lines(&#39;\nfoo\n#bar\nbaz #comment&#39;))</span>
+<span class="sd">    [&#39;foo&#39;, &#39;baz #comment&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; list(yield_lines([&#39;foo\nbar&#39;, &#39;baz&#39;, &#39;bing\n\n\n&#39;]))</span>
+<span class="sd">    [&#39;foo&#39;, &#39;bar&#39;, &#39;baz&#39;, &#39;bing&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">itertools</span><span class="o">.</span><span class="n">chain</span><span class="o">.</span><span class="n">from_iterable</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">yield_lines</span><span class="p">,</span> <span class="n">iterable</span><span class="p">))</span>
+
+
+<span class="nd">@yield_lines</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">filter</span><span class="p">(</span><span class="n">_nonblank</span><span class="p">,</span> <span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">strip</span><span class="p">,</span> <span class="n">text</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()))</span>
+
+
+<span class="k">def</span> <span class="nf">drop_comment</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Based on https://github.com/jaraco/jaraco.text/blob/main/jaraco/text/__init__.py#L560 .</span>
+<span class="sd">    Drop comments.</span>
+<span class="sd">    &gt;&gt;&gt; drop_comment(&#39;foo # bar&#39;)</span>
+<span class="sd">    &#39;foo&#39;</span>
+<span class="sd">    A hash without a space may be in a URL.</span>
+<span class="sd">    &gt;&gt;&gt; drop_comment(&#39;https://example.com/foo#bar&#39;)</span>
+<span class="sd">    &#39;https://example.com/foo#bar&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">line</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s1">&#39; #&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">join_continuation</span><span class="p">(</span><span class="n">lines</span><span class="p">):</span>
+<span class="w">    </span><span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Based on https://github.com/jaraco/jaraco.text/blob/main/jaraco/text/__init__.py#L575 .</span>
+<span class="sd">    Join lines continued by a trailing backslash.</span>
+<span class="sd">    &gt;&gt;&gt; list(join_continuation([&#39;foo \\&#39;, &#39;bar&#39;, &#39;baz&#39;]))</span>
+<span class="sd">    [&#39;foobar&#39;, &#39;baz&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; list(join_continuation([&#39;foo \\&#39;, &#39;bar&#39;, &#39;baz&#39;]))</span>
+<span class="sd">    [&#39;foobar&#39;, &#39;baz&#39;]</span>
+<span class="sd">    &gt;&gt;&gt; list(join_continuation([&#39;foo \\&#39;, &#39;bar \\&#39;, &#39;baz&#39;]))</span>
+<span class="sd">    [&#39;foobarbaz&#39;]</span>
+<span class="sd">    Not sure why, but...</span>
+<span class="sd">    The character preceding the backslash is also elided.</span>
+<span class="sd">    &gt;&gt;&gt; list(join_continuation([&#39;goo\\&#39;, &#39;dly&#39;]))</span>
+<span class="sd">    [&#39;godly&#39;]</span>
+<span class="sd">    A terrible idea, but...</span>
+<span class="sd">    If no line is available to continue, suppress the lines.</span>
+<span class="sd">    &gt;&gt;&gt; list(join_continuation([&#39;foo&#39;, &#39;bar\\&#39;, &#39;baz\\&#39;]))</span>
+<span class="sd">    [&#39;foo&#39;]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">:</span>
+        <span class="k">while</span> <span class="n">item</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\\</span><span class="s1">&#39;</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="n">item</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">+</span> <span class="nb">next</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+                <span class="k">return</span>
+        <span class="k">yield</span> <span class="n">item</span>
+
+
 <div class="viewcode-block" id="load_req_file"><a class="viewcode-back" href="../../../../api_doc/system/python.html#hbutils.system.python.load_req_file">[docs]</a><span class="k">def</span> <span class="nf">load_req_file</span><span class="p">(</span><span class="n">requirements_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
@@ -231,7 +305,10 @@
 <span class="sd">        [&#39;packaging&gt;=21.3&#39;, &#39;setuptools&gt;=50.0&#39;]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">with</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">requirements_file</span><span class="p">)</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="k">as</span> <span class="n">reqfile</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">parse_requirements</span><span class="p">(</span><span class="n">reqfile</span><span class="p">)))</span></div>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">Requirement</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span>
+            <span class="n">join_continuation</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">drop_comment</span><span class="p">,</span> <span class="n">yield_lines</span><span class="p">(</span><span class="n">reqfile</span><span class="p">)))</span>
+        <span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="pip"><a class="viewcode-back" href="../../../../api_doc/system/python.html#hbutils.system.python.pip">[docs]</a><span class="k">def</span> <span class="nf">pip</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">silent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
