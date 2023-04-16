@@ -1,11 +1,36 @@
 import unittest
+from contextlib import contextmanager
+from dataclasses import dataclass
 from unittest import mock
 
 import pytest
 from easydict import EasyDict
+from importlib_metadata import PackageNotFoundError
 
-from hbutils.system.python.package import PIP_PACKAGES
 from hbutils.testing import vpip, disable_output
+
+
+@dataclass
+class _VersionProxy:
+    version: str
+
+
+@contextmanager
+def _mock_for_package_version(versions, clear=False):
+    from importlib_metadata import distribution as _origin_dist
+    versions = {name.lower(): v for name, v in versions.items()}
+
+    def _callable(name):
+        if name in versions:
+            return _VersionProxy(versions[name])
+        else:
+            if clear:
+                raise PackageNotFoundError
+            else:
+                return _origin_dist(name)
+
+    with mock.patch('importlib_metadata.distribution', _callable):
+        yield
 
 
 def _get_test_class():
@@ -31,7 +56,7 @@ def _get_test_class():
 class TestTestingRequiresPackage:
     def test_simple_1(self):
         d = EasyDict({})
-        with disable_output(), mock.patch.dict(PIP_PACKAGES, {'pip': '19.3.1'}, clear=True):
+        with disable_output(), _mock_for_package_version({'pip': '19.3.1'}, clear=True):
             _TestPythonPackage = _get_test_class()
             runner = unittest.TextTestRunner()
             runner.run(_TestPythonPackage('test_pip20', d))
@@ -43,7 +68,7 @@ class TestTestingRequiresPackage:
         d = EasyDict({})
 
         with disable_output(), \
-                mock.patch.dict(PIP_PACKAGES, {'pip': '20.3.1'}, clear=True):
+                _mock_for_package_version({'pip': '20.3.1'}, clear=True):
             _TestPythonPackage = _get_test_class()
             runner = unittest.TextTestRunner()
             runner.run(_TestPythonPackage('test_pip20', d))
@@ -54,7 +79,7 @@ class TestTestingRequiresPackage:
     def test_simple_3(self):
         d = EasyDict({})
         with disable_output(), \
-                mock.patch.dict(PIP_PACKAGES, {'pip': '20.3.1', 'setuptools': '46.1.7', 'click': '6.4.2'}, clear=True):
+                _mock_for_package_version({'pip': '20.3.1', 'setuptools': '46.1.7', 'click': '6.4.2'}, clear=True):
             _TestPythonPackage = _get_test_class()
             runner = unittest.TextTestRunner()
             runner.run(_TestPythonPackage('test_pip20', d))
@@ -65,7 +90,7 @@ class TestTestingRequiresPackage:
     def test_simple_4(self):
         d = EasyDict({})
         with disable_output(), \
-                mock.patch.dict(PIP_PACKAGES, {'pip': '19.3.1', 'setuptools': '46.1.7', 'click': '6.4.2'}, clear=True):
+                _mock_for_package_version({'pip': '19.3.1', 'setuptools': '46.1.7', 'click': '6.4.2'}, clear=True):
             _TestPythonPackage = _get_test_class()
             runner = unittest.TextTestRunner()
             runner.run(_TestPythonPackage('test_pip20', d))
@@ -76,7 +101,7 @@ class TestTestingRequiresPackage:
     def test_simple_5(self):
         d = EasyDict({})
         with disable_output(), \
-                mock.patch.dict(PIP_PACKAGES, {'setuptools': '46.1.7', 'click': '7.4.2'}, clear=True):
+                _mock_for_package_version({'setuptools': '46.1.7', 'click': '7.4.2'}, clear=True):
             _TestPythonPackage = _get_test_class()
             runner = unittest.TextTestRunner()
             runner.run(_TestPythonPackage('test_pip20', d))

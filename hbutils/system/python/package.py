@@ -1,11 +1,11 @@
-import importlib
 import os
 import pathlib
 import subprocess
 import sys
-from typing import Dict, Optional
 from typing import List
+from typing import Optional
 
+import importlib_metadata
 import pkg_resources
 from packaging.version import Version
 
@@ -15,18 +15,6 @@ __all__ = [
     'check_reqs', 'check_req_file',
     'pip_install', 'pip_install_req_file',
 ]
-
-PIP_PACKAGES: Dict[str, str] = {}
-
-
-def _init_pip_packages():
-    global PIP_PACKAGES
-    PIP_PACKAGES.clear()
-    for i in pkg_resources.working_set:
-        PIP_PACKAGES[i.key.lower()] = i.version
-
-
-_init_pip_packages()
 
 
 def package_version(name: str) -> Optional[Version]:
@@ -47,10 +35,9 @@ def package_version(name: str) -> Optional[Version]:
         >>> package_version('not_a_package')
         None
     """
-    _lower_name = name.lower()
-    if _lower_name in PIP_PACKAGES:
-        return pkg_resources.parse_version(PIP_PACKAGES[_lower_name])
-    else:
+    try:
+        return Version(importlib_metadata.distribution(name.lower()).version)
+    except importlib_metadata.PackageNotFoundError:
         return None
 
 
@@ -86,25 +73,20 @@ def pip(*args, silent: bool = False):
         pip 22.3.1 from /home/user/myproject/venv/lib/python3.7/site-packages/pip (python 3.7)
         >>> pip('-V', silent=True)  # nothing will be printed
     """
-    try:
-        process = subprocess.run(
-            [sys.executable, '-m', 'pip', *args],
-            stdin=sys.stdin if not silent else None,
-            stdout=sys.stdout if not silent else subprocess.PIPE,
-            stderr=sys.stderr if not silent else subprocess.PIPE,
-        )
-        assert not process.returncode, f'Error when calling {process.args!r}{os.linesep}' \
-                                       f'Error Code - {process.returncode}{os.linesep}' \
-                                       f'Stdout:{os.linesep}' \
-                                       f'{process.stdout.decode()}{os.linesep}' \
-                                       f'{os.linesep}' \
-                                       f'Stderr:{os.linesep}' \
-                                       f'{process.stderr.decode()}{os.linesep}'
-        process.check_returncode()
-    finally:
-        if args and args[0] in {'install', 'uninstall'}:
-            importlib.reload(pkg_resources)
-            _init_pip_packages()
+    process = subprocess.run(
+        [sys.executable, '-m', 'pip', *args],
+        stdin=sys.stdin if not silent else None,
+        stdout=sys.stdout if not silent else subprocess.PIPE,
+        stderr=sys.stderr if not silent else subprocess.PIPE,
+    )
+    assert not process.returncode, f'Error when calling {process.args!r}{os.linesep}' \
+                                   f'Error Code - {process.returncode}{os.linesep}' \
+                                   f'Stdout:{os.linesep}' \
+                                   f'{process.stdout.decode()}{os.linesep}' \
+                                   f'{os.linesep}' \
+                                   f'Stderr:{os.linesep}' \
+                                   f'{process.stderr.decode()}{os.linesep}'
+    process.check_returncode()
 
 
 def check_reqs(reqs: List[str]) -> bool:

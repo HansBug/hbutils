@@ -1,28 +1,53 @@
+from contextlib import contextmanager
+from dataclasses import dataclass
 from unittest import mock, skipUnless
 
 import packaging
 import pip as _pip_pkg
 import pytest
-from pkg_resources import parse_version
+from importlib_metadata import PackageNotFoundError
+from packaging.version import Version
 
 from hbutils.system import package_version, load_req_file, check_reqs, check_req_file, pip, pip_install, which, \
     pip_install_req_file
 from hbutils.testing import capture_output, vpip
-from .test_version import _Version
 from ...testings import get_testfile_path, normpath
+
+
+@dataclass
+class _VersionProxy:
+    version: str
+
+
+@contextmanager
+def _mock_for_package_version(versions, clear=False):
+    from importlib_metadata import distribution as _origin_dist
+    versions = {name.lower(): v for name, v in versions.items()}
+
+    def _callable(name):
+        if name in versions:
+            return _VersionProxy(versions[name])
+        else:
+            if clear:
+                raise PackageNotFoundError
+            else:
+                return _origin_dist(name)
+
+    with mock.patch('importlib_metadata.distribution', _callable):
+        yield
 
 
 @pytest.mark.unittest
 class TestSystemPythonPackage:
     def test_package_version(self):
-        assert isinstance(package_version("chardet"), _Version)
-        assert package_version("chardet") >= parse_version("3.0.4")
-        assert package_version("chardet") < parse_version("5")
+        assert isinstance(package_version("chardet"), Version)
+        assert package_version("chardet") >= Version("3.0.4")
+        assert package_version("chardet") < Version("5")
         assert package_version("This_is_an_fxxking_name") is None
 
-        with mock.patch.dict('hbutils.system.python.package.PIP_PACKAGES', {'pip': '19.3.1'}):
-            assert package_version('pip') == parse_version('19.3.1')
-            assert package_version('PIP') == parse_version('19.3.1')
+        with _mock_for_package_version({'pip': '19.3.1'}):
+            assert package_version('pip') == Version('19.3.1')
+            assert package_version('PIP') == Version('19.3.1')
             assert package_version('pipxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx') is None
 
     def test_load_req_file(self):
