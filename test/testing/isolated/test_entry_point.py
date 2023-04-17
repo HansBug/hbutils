@@ -1,3 +1,5 @@
+import inspect
+
 import pkg_resources
 import pytest
 
@@ -14,6 +16,9 @@ try:
     import importlib.metadata as _py38_metadata
 except (ModuleNotFoundError, ImportError):
     _py38_metadata = None
+    _py38_func_has_params = False
+else:
+    _py38_func_has_params = bool(inspect.signature(_py38_metadata.entry_points).parameters)
 
 
 def _test_for_all(group, name=None, expected=None):
@@ -25,7 +30,15 @@ def _test_for_all(group, name=None, expected=None):
     if _py37_metadata:
         assert {entry.name: entry.load() for entry in _py37_metadata.entry_points(**_metadata_kwargs)} == expected
     if _py38_metadata:
-        assert {entry.name: entry.load() for entry in _py38_metadata.entry_points(**_metadata_kwargs)} == expected
+        if _py38_func_has_params:
+            assert {entry.name: entry.load() for entry in _py38_metadata.entry_points(**_metadata_kwargs)} == expected
+        else:
+            assert {
+                       entry.name: entry.load()
+                       for _, entries in _py38_metadata.entry_points().items()
+                       for entry in entries
+                       if (group is None or entry.group == group) and (name is None or entry.name == name)
+                   } == expected
 
 
 def _test_for_unnamed_set(group, name=None, expected=None):
@@ -36,7 +49,15 @@ def _test_for_unnamed_set(group, name=None, expected=None):
     if _py37_metadata:
         assert {entry.load() for entry in _py37_metadata.entry_points(**_metadata_kwargs)} == expected
     if _py38_metadata:
-        assert {entry.load() for entry in _py38_metadata.entry_points(**_metadata_kwargs)} == expected
+        if _py38_func_has_params:
+            assert {entry.load() for entry in _py38_metadata.entry_points(**_metadata_kwargs)} == expected
+        else:
+            assert {
+                       entry.load()
+                       for _, entries in _py38_metadata.entry_points().items()
+                       for entry in entries
+                       if (group is None or entry.group == group) and (name is None or entry.name == name)
+                   } == expected
 
 
 @pytest.mark.unittest

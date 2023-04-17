@@ -1,4 +1,6 @@
+import inspect
 from contextlib import contextmanager
+from dataclasses import dataclass
 from functools import wraps
 from itertools import chain
 from typing import Iterator, Tuple, Any, Union, List, Dict
@@ -11,17 +13,14 @@ __all__ = [
 ]
 
 
+@dataclass
 class _FakeEntryPoint:
-    def __init__(self, name, dist):
-        self.__name = name
-        self.__dist = dist
-
-    @property
-    def name(self) -> str:
-        return self.__name
+    name: str
+    group: str
+    dist: object
 
     def load(self):
-        return self.__dist
+        return self.dist
 
 
 _max_fake_id = 0
@@ -64,9 +63,9 @@ def _yield_from_units(fes, auto_import: bool = True) -> Iterator[Tuple[str, Any]
         raise TypeError(f'Unknown type of fake entries - {fes!r}.')  # pragma: no cover
 
 
-def _yield_fake_entries(fes, auto_import: bool = True) -> Iterator[_FakeEntryPoint]:
+def _yield_fake_entries(group, fes, auto_import: bool = True) -> Iterator[_FakeEntryPoint]:
     for name, dist in _yield_from_units(fes, auto_import):
-        yield _FakeEntryPoint(name, dist)
+        yield _FakeEntryPoint(name, group, dist)
 
 
 @contextmanager
@@ -135,7 +134,7 @@ def isolated_entry_points(group: str, fakes: Union[List, Dict[str, Any], None] =
                 return False
 
         if group == group_name:
-            mocked = _yield_fake_entries(fakes or [], auto_import)
+            mocked = _yield_fake_entries(group_name, fakes or [], auto_import)
             if not clear:
                 mocked = chain(mocked, _origin_iep(group, name))
             yield from filter(_check_name, mocked)
@@ -166,9 +165,10 @@ def isolated_entry_points(group: str, fakes: Union[List, Dict[str, Any], None] =
                     return False
 
             if group_ is None or group_ == group_name:
-                mocked = _yield_fake_entries(fakes or [], auto_import)
+                mocked = _yield_fake_entries(group_name, fakes or [], auto_import)
                 if not clear:
                     mocked = chain(mocked, _py37_origin_entry_points(**kwargs))
+                # noinspection PyTypeChecker
                 yield from filter(_check_name, mocked)
             else:
                 yield from _py37_origin_entry_points(**kwargs)
@@ -179,6 +179,7 @@ def isolated_entry_points(group: str, fakes: Union[List, Dict[str, Any], None] =
         _py38_metadata = None
     else:
         _py38_origin_entry_points = _py38_metadata.entry_points
+        _py38_func_has_params = bool(inspect.signature(_py38_metadata.entry_points).parameters)
 
         @wraps(_py38_origin_entry_points)
         def _py38_entry_points(**kwargs):
@@ -196,13 +197,28 @@ def isolated_entry_points(group: str, fakes: Union[List, Dict[str, Any], None] =
                 else:
                     return False
 
-            if group_ is None or group_ == group_name:
-                mocked = _yield_fake_entries(fakes or [], auto_import)
+            # noinspection PyArgumentList
+            _base_result = _py38_origin_entry_points(**kwargs)
+            if isinstance(_base_result, dict):  # kwargs must be empty
+                _retval = _base_result.copy()
+                mocked = _yield_fake_entries(group_name, fakes or [], auto_import)
                 if not clear:
-                    mocked = chain(mocked, _py38_origin_entry_points(**kwargs))
-                yield from filter(_check_name, mocked)
+                    mocked = chain(mocked, (_retval.get(group_name, None) or []))
+
+                # noinspection PyTypeChecker
+                _retval[group_name] = (list if _py38_func_has_params else tuple)(filter(_check_name, mocked))
+                return _retval
             else:
-                yield from _py38_origin_entry_points(**kwargs)
+                if group_ is None or group_ == group_name:
+                    mocked = _yield_fake_entries(group_name, fakes or [], auto_import)
+                    if not clear:
+                        mocked = chain(mocked, _base_result)
+
+                    # noinspection PyTypeChecker
+                    return list(filter(_check_name, mocked))
+                else:
+
+                    return _base_result
 
     mocks = []
     mocks.append(patch('pkg_resources.iter_entry_points', MagicMock(side_effect=_new_iter_func)))
