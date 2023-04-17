@@ -9,7 +9,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>hbutils.testing.isolated &mdash; hbutils 0.8.6 documentation</title>
+  <title>hbutils.testing.isolated &mdash; hbutils 0.9.0 documentation</title>
   
 
   
@@ -63,7 +63,7 @@
             
             
               <div class="version">
-                0.8.6
+                0.9.0
               </div>
             
           
@@ -289,9 +289,10 @@
 <dl class="py function">
 <dt id="hbutils.testing.isolated.isolated_entry_points">
 <code class="sig-prename descclassname">hbutils.testing.isolated.</code><code class="sig-name descname">isolated_entry_points</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">group</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">fakes</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Union<span class="p">[</span>List<span class="p">, </span>Dict<span class="p">[</span>str<span class="p">, </span>Any<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">auto_import</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">clear</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/testing/isolated/entry_point.html#isolated_entry_points"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.isolated.isolated_entry_points" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
+<dd><dl>
 <dt>Overview:</dt><dd><p>Isolation for <code class="xref py py-func docutils literal notranslate"><span class="pre">pkg_resources.iter_entry_points()</span></code> function.
 Can be used to fake the plugins, or just disable the installed plugins.</p>
+<p><code class="docutils literal notranslate"><span class="pre">importlib.metadata</span></code> and <code class="docutils literal notranslate"><span class="pre">importlib_metadata</span></code> are supported now.</p>
 </dd>
 </dl>
 <dl class="field-list simple">
@@ -305,8 +306,22 @@ Can be used to fake the plugins, or just disable the installed plugins.</p>
 </dd>
 </dl>
 <dl>
-<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pkg_resources</span>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">importlib.metadata</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">importlib_metadata</span>  <span class="c1"># backport for py3.7</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pkg_resources</span>  <span class="c1"># deprecated</span>
+<span class="go">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">isolated_entry_points</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># nothing at the beginning</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">({</span><span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">ep</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span>
+<span class="gp">... </span>       <span class="n">pkg_resources</span><span class="o">.</span><span class="n">iter_entry_points</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">)})</span>
+<span class="go">{}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+<span class="go">None</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">importlib_metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">))</span>
+<span class="go">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># mock the plugins</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">isolated_entry_points</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">,</span> <span class="p">[</span>
 <span class="gp">... </span>    <span class="p">(</span>
 <span class="gp">... </span>            <span class="s1">&#39;quick_import_object&#39;</span><span class="p">,</span>  <span class="c1"># name import</span>
@@ -318,16 +333,45 @@ Can be used to fake the plugins, or just disable the installed plugins.</p>
 <span class="gp">... </span><span class="p">]):</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">({</span><span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">ep</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span>
 <span class="gp">... </span>           <span class="n">pkg_resources</span><span class="o">.</span><span class="n">iter_entry_points</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">)})</span>
-<span class="go">{&#39;quick_import_object&#39;: &lt;function quick_import_object at 0x7fb17f4e5170&gt;, &#39;func_filter&#39;: &lt;class &#39;filter&#39;&gt;, &#39;map&#39;: &lt;class &#39;map&#39;&gt;, &#39;is_binary_file&#39;: &lt;function is_binary_file at 0x7fb17f55eef0&gt;}</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">isolated_entry_points</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">,</span> <span class="p">{</span>
-<span class="gp">... </span>    <span class="s1">&#39;func_map&#39;</span><span class="p">:</span> <span class="nb">map</span><span class="p">,</span> <span class="s1">&#39;func_binary&#39;</span><span class="p">:</span> <span class="s1">&#39;hbutils.system.is_binary_file&#39;</span><span class="p">}):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">()[</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">])</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">importlib_metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="go">{&#39;quick_import_object&#39;: &lt;function quick_import_object at 0x7f6d0dd5ad40&gt;, &#39;func_filter&#39;: &lt;class &#39;filter&#39;&gt;, &#39;map&#39;: &lt;class &#39;map&#39;&gt;, &#39;is_binary_file&#39;: &lt;function is_binary_file at 0x7f6d0dcd8550&gt;}</span>
+<span class="go">[_FakeEntryPoint(name=&#39;quick_import_object&#39;, group=&#39;my_plugin&#39;, dist=&lt;function quick_import_object at 0x7f6d0dd5ad40&gt;), _FakeEntryPoint(name=&#39;func_filter&#39;, group=&#39;my_plugin&#39;, dist=&lt;class &#39;filter&#39;&gt;), _Fak</span>
+<span class="go">eEntryPoint(name=&#39;map&#39;, group=&#39;my_plugin&#39;, dist=&lt;class &#39;map&#39;&gt;), _FakeEntryPoint(name=&#39;is_binary_file&#39;, group=&#39;my_plugin&#39;, dist=&lt;function is_binary_file at 0x7f6d0dcd8550&gt;)]</span>
+<span class="go">[_FakeEntryPoint(name=&#39;quick_import_object&#39;, group=&#39;my_plugin&#39;, dist=&lt;function quick_import_object at 0x7f6d0dd5ad40&gt;), _FakeEntryPoint(name=&#39;func_filter&#39;, group=&#39;my_plugin&#39;, dist=&lt;class &#39;filter&#39;&gt;), _Fak</span>
+<span class="go">eEntryPoint(name=&#39;map&#39;, group=&#39;my_plugin&#39;, dist=&lt;class &#39;map&#39;&gt;), _FakeEntryPoint(name=&#39;is_binary_file&#39;, group=&#39;my_plugin&#39;, dist=&lt;function is_binary_file at 0x7f6d0dcd8550&gt;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">isolated_entry_points</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">,</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s1">&#39;func_map&#39;</span><span class="p">:</span> <span class="nb">map</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;func_binary&#39;</span><span class="p">:</span> <span class="s1">&#39;hbutils.system.is_binary_file&#39;</span>
+<span class="gp">... </span><span class="p">}):</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">({</span><span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">ep</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span>
 <span class="gp">... </span>           <span class="n">pkg_resources</span><span class="o">.</span><span class="n">iter_entry_points</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">)})</span>
-<span class="go">{&#39;func_map&#39;: &lt;class &#39;map&#39;&gt;, &#39;func_binary&#39;: &lt;function is_binary_file at 0x7fb17f55eef0&gt;}</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">()[</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">])</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">importlib_metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="go">{&#39;func_map&#39;: &lt;class &#39;map&#39;&gt;, &#39;func_binary&#39;: &lt;function is_binary_file at 0x7f6d0dcd8550&gt;}</span>
+<span class="go">[_FakeEntryPoint(name=&#39;func_map&#39;, group=&#39;my_plugin&#39;, dist=&lt;class &#39;map&#39;&gt;), _FakeEntryPoint(name=&#39;func_binary&#39;, group=&#39;my_plugin&#39;, dist=&lt;function is_binary_file at 0x7f6d0dcd8550&gt;)]</span>
+<span class="go">[_FakeEntryPoint(name=&#39;func_map&#39;, group=&#39;my_plugin&#39;, dist=&lt;class &#39;map&#39;&gt;), _FakeEntryPoint(name=&#39;func_binary&#39;, group=&#39;my_plugin&#39;, dist=&lt;function is_binary_file at 0x7f6d0dcd8550&gt;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># nothing at the ending</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">({</span><span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">ep</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span>
+<span class="gp">... </span>       <span class="n">pkg_resources</span><span class="o">.</span><span class="n">iter_entry_points</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">)})</span>
+<span class="go">{}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+<span class="go">None</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">importlib_metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">))</span>
+<span class="go">()</span>
 </pre></div>
 </div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> package is no longer officially supported.
+However, certain libraries that rely on hbutils are still in use,
+hence temporary support will be provided. The official guidance must be followed to
+migrate to <code class="docutils literal notranslate"><span class="pre">importlib.metadata</span></code> at the earliest opportunity.
+In addition, support for the <code class="docutils literal notranslate"><span class="pre">pkg_resources</span></code> package in this function will be
+discontinued in the next major version.</p>
+</aside>
 </dd>
 </dl>
 </dd></dl>
@@ -481,12 +525,11 @@ Can be used to fake the plugins, or just disable the installed plugins.</p>
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/deprecate/api_doc/testing/isolated.html">dev/deprecate</a></dd>
+                        <dd><a href="isolated.html">main</a></dd>
                         <dd><a href="../../../dev/color/api_doc/testing/isolated.html">dev/color</a></dd>
                         <dd><a href="../../../dev/dependency/api_doc/testing/isolated.html">dev/dependency</a></dd>
                         <dd><a href="../../../dev/pythonpath/api_doc/testing/isolated.html">dev/pythonpath</a></dd>
                         <dd><a href="../../../dev/recover/api_doc/testing/isolated.html">dev/recover</a></dd>
-                        <dd><a href="isolated.html">main</a></dd>
                 </dl>
         </div>
     </div>
