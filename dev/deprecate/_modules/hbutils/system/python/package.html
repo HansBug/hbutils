@@ -177,16 +177,15 @@
 <span class="kn">import</span> <span class="nn">pathlib</span>
 <span class="kn">import</span> <span class="nn">subprocess</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Optional</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span>
 
 <span class="kn">from</span> <span class="nn">packaging.requirements</span> <span class="kn">import</span> <span class="n">Requirement</span>
+<span class="kn">from</span> <span class="nn">packaging.utils</span> <span class="kn">import</span> <span class="n">canonicalize_name</span>
 
 <span class="k">try</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">importlib.metadata</span> <span class="k">as</span> <span class="nn">importlib_metadata</span>
 <span class="k">except</span> <span class="p">(</span><span class="ne">ModuleNotFoundError</span><span class="p">,</span> <span class="ne">ImportError</span><span class="p">):</span>
     <span class="kn">import</span> <span class="nn">importlib_metadata</span>
-<span class="kn">import</span> <span class="nn">pkg_resources</span>
 <span class="kn">from</span> <span class="nn">packaging.version</span> <span class="kn">import</span> <span class="n">Version</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
@@ -216,7 +215,7 @@
 <span class="sd">        None</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">Version</span><span class="p">(</span><span class="n">importlib_metadata</span><span class="o">.</span><span class="n">distribution</span><span class="p">(</span><span class="n">name</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Version</span><span class="p">(</span><span class="n">importlib_metadata</span><span class="o">.</span><span class="n">distribution</span><span class="p">(</span><span class="n">canonicalize_name</span><span class="p">(</span><span class="n">name</span><span class="p">))</span><span class="o">.</span><span class="n">version</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">importlib_metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 
@@ -342,6 +341,33 @@
     <span class="n">process</span><span class="o">.</span><span class="n">check_returncode</span><span class="p">()</span></div>
 
 
+<span class="k">def</span> <span class="nf">_yield_reqs_to_install</span><span class="p">(</span><span class="n">req</span><span class="p">:</span> <span class="n">Requirement</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">importlib_metadata</span><span class="o">.</span><span class="n">distribution</span><span class="p">(</span><span class="n">req</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">version</span>
+    <span class="k">except</span> <span class="n">importlib_metadata</span><span class="o">.</span><span class="n">PackageNotFoundError</span><span class="p">:</span>  <span class="c1"># req not installed</span>
+        <span class="k">yield</span> <span class="n">req</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">req</span><span class="o">.</span><span class="n">specifier</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">version</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">child_req</span> <span class="ow">in</span> <span class="p">(</span><span class="n">importlib_metadata</span><span class="o">.</span><span class="n">metadata</span><span class="p">(</span><span class="n">req</span><span class="o">.</span><span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">get_all</span><span class="p">(</span><span class="s1">&#39;Requires-Dist&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">[]):</span>
+                <span class="n">child_req_obj</span> <span class="o">=</span> <span class="n">Requirement</span><span class="p">(</span><span class="n">child_req</span><span class="p">)</span>
+
+                <span class="n">need_check</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="k">for</span> <span class="n">extra</span> <span class="ow">in</span> <span class="n">req</span><span class="o">.</span><span class="n">extras</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">child_req_obj</span><span class="o">.</span><span class="n">marker</span> <span class="ow">and</span> <span class="n">child_req_obj</span><span class="o">.</span><span class="n">marker</span><span class="o">.</span><span class="n">evaluate</span><span class="p">({</span><span class="s1">&#39;extra&#39;</span><span class="p">:</span> <span class="n">extra</span><span class="p">}):</span>
+                        <span class="n">need_check</span> <span class="o">=</span> <span class="kc">True</span>
+                        <span class="k">break</span>
+
+                <span class="k">if</span> <span class="n">need_check</span><span class="p">:</span>  <span class="c1"># check for extra reqs</span>
+                    <span class="k">yield from</span> <span class="n">_yield_reqs_to_install</span><span class="p">(</span><span class="n">child_req_obj</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>  <span class="c1"># main version not match</span>
+            <span class="k">yield</span> <span class="n">req</span>
+
+
+<span class="k">def</span> <span class="nf">_check_req</span><span class="p">(</span><span class="n">req</span><span class="p">:</span> <span class="n">Requirement</span><span class="p">):</span>
+    <span class="k">return</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">islice</span><span class="p">(</span><span class="n">_yield_reqs_to_install</span><span class="p">(</span><span class="n">req</span><span class="p">),</span> <span class="mi">1</span><span class="p">)))</span>
+
+
 <div class="viewcode-block" id="check_reqs"><a class="viewcode-back" href="../../../../api_doc/system/python.html#hbutils.system.python.check_reqs">[docs]</a><span class="k">def</span> <span class="nf">check_reqs</span><span class="p">(</span><span class="n">reqs</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
@@ -359,12 +385,7 @@
 <span class="sd">        &gt;&gt;&gt; check_reqs([&#39;pip&gt;=20.0&#39;, &#39;setuptools&gt;=50.0&#39;])</span>
 <span class="sd">        True</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">pkg_resources</span><span class="o">.</span><span class="n">require</span><span class="p">(</span><span class="n">reqs</span><span class="p">)</span>
-    <span class="k">except</span> <span class="p">(</span><span class="n">pkg_resources</span><span class="o">.</span><span class="n">DistributionNotFound</span><span class="p">,</span> <span class="n">pkg_resources</span><span class="o">.</span><span class="n">VersionConflict</span><span class="p">):</span>
-        <span class="k">return</span> <span class="kc">False</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="kc">True</span></div>
+    <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">_check_req</span><span class="p">(</span><span class="n">Requirement</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span> <span class="n">reqs</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="check_req_file"><a class="viewcode-back" href="../../../../api_doc/system/python.html#hbutils.system.python.check_req_file">[docs]</a><span class="k">def</span> <span class="nf">check_req_file</span><span class="p">(</span><span class="n">requirements_file</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
