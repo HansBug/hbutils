@@ -86,8 +86,22 @@ def isolated_entry_points(group: str, fakes: Union[List, Dict[str, Any], None] =
         entry points will be kept and be able to be iterated.
 
     Examples::
-        >>> import pkg_resources
+        >>> import importlib.metadata
+        >>> import importlib_metadata  # backport for py3.7
+        >>> import pkg_resources  # deprecated
+        >>>
         >>> from hbutils.testing import isolated_entry_points
+        >>>
+        >>> # nothing at the beginning
+        >>> print({ep.name: ep.load() for ep in
+        ...        pkg_resources.iter_entry_points('my_plugin')})
+        {}
+        >>> print(importlib.metadata.entry_points().get('my_plugin', None))
+        None
+        >>> print(importlib_metadata.entry_points(group='my_plugin'))
+        ()
+        >>>
+        >>> # mock the plugins
         >>> with isolated_entry_points('my_plugin', [
         ...     (
         ...             'quick_import_object',  # name import
@@ -99,13 +113,34 @@ def isolated_entry_points(group: str, fakes: Union[List, Dict[str, Any], None] =
         ... ]):
         ...     print({ep.name: ep.load() for ep in
         ...            pkg_resources.iter_entry_points('my_plugin')})
-        {'quick_import_object': <function quick_import_object at 0x7fb17f4e5170>, 'func_filter': <class 'filter'>, 'map': <class 'map'>, 'is_binary_file': <function is_binary_file at 0x7fb17f55eef0>}
-
+        ...     print(importlib.metadata.entry_points()['my_plugin'])
+        ...     print(importlib_metadata.entry_points(group='my_plugin'))
+        ...
+        {'quick_import_object': <function quick_import_object at 0x7f6d0dd5ad40>, 'func_filter': <class 'filter'>, 'map': <class 'map'>, 'is_binary_file': <function is_binary_file at 0x7f6d0dcd8550>}
+        [_FakeEntryPoint(name='quick_import_object', group='my_plugin', dist=<function quick_import_object at 0x7f6d0dd5ad40>), _FakeEntryPoint(name='func_filter', group='my_plugin', dist=<class 'filter'>), _Fak
+        eEntryPoint(name='map', group='my_plugin', dist=<class 'map'>), _FakeEntryPoint(name='is_binary_file', group='my_plugin', dist=<function is_binary_file at 0x7f6d0dcd8550>)]
+        [_FakeEntryPoint(name='quick_import_object', group='my_plugin', dist=<function quick_import_object at 0x7f6d0dd5ad40>), _FakeEntryPoint(name='func_filter', group='my_plugin', dist=<class 'filter'>), _Fak
+        eEntryPoint(name='map', group='my_plugin', dist=<class 'map'>), _FakeEntryPoint(name='is_binary_file', group='my_plugin', dist=<function is_binary_file at 0x7f6d0dcd8550>)]
         >>> with isolated_entry_points('my_plugin', {
-        ...     'func_map': map, 'func_binary': 'hbutils.system.is_binary_file'}):
+        ...     'func_map': map,
+        ...     'func_binary': 'hbutils.system.is_binary_file'
+        ... }):
         ...     print({ep.name: ep.load() for ep in
         ...            pkg_resources.iter_entry_points('my_plugin')})
-        {'func_map': <class 'map'>, 'func_binary': <function is_binary_file at 0x7fb17f55eef0>}
+        ...     print(importlib.metadata.entry_points()['my_plugin'])
+        ...     print(importlib_metadata.entry_points(group='my_plugin'))
+        ...
+        {'func_map': <class 'map'>, 'func_binary': <function is_binary_file at 0x7f6d0dcd8550>}
+        [_FakeEntryPoint(name='func_map', group='my_plugin', dist=<class 'map'>), _FakeEntryPoint(name='func_binary', group='my_plugin', dist=<function is_binary_file at 0x7f6d0dcd8550>)]
+        [_FakeEntryPoint(name='func_map', group='my_plugin', dist=<class 'map'>), _FakeEntryPoint(name='func_binary', group='my_plugin', dist=<function is_binary_file at 0x7f6d0dcd8550>)]
+        >>> # nothing at the ending
+        >>> print({ep.name: ep.load() for ep in
+        ...        pkg_resources.iter_entry_points('my_plugin')})
+        {}
+        >>> print(importlib.metadata.entry_points().get('my_plugin', None))
+        None
+        >>> print(importlib_metadata.entry_points(group='my_plugin'))
+        ()
 
         .. warning::
             The ``pkg_resources`` package is no longer officially supported.
@@ -169,9 +204,9 @@ def isolated_entry_points(group: str, fakes: Union[List, Dict[str, Any], None] =
                 if not clear:
                     mocked = chain(mocked, _py37_origin_entry_points(**kwargs))
                 # noinspection PyTypeChecker
-                yield from filter(_check_name, mocked)
+                return list(filter(_check_name, mocked))
             else:
-                yield from _py37_origin_entry_points(**kwargs)
+                return list(_py37_origin_entry_points(**kwargs))
 
     try:
         import importlib.metadata as _py38_metadata
