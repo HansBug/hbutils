@@ -177,7 +177,7 @@
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Dict</span>
 <span class="kn">from</span> <span class="nn">unittest.mock</span> <span class="kn">import</span> <span class="n">patch</span><span class="p">,</span> <span class="n">MagicMock</span>
 
-<span class="kn">from</span> <span class="nn">hbutils.reflection</span> <span class="kn">import</span> <span class="n">quick_import_object</span>
+<span class="kn">from</span> <span class="nn">hbutils.reflection</span> <span class="kn">import</span> <span class="n">quick_import_object</span><span class="p">,</span> <span class="n">nested_with</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;isolated_entry_points&#39;</span><span class="p">,</span>
@@ -250,6 +250,8 @@
 <span class="sd">        Isolation for :func:`pkg_resources.iter_entry_points` function.</span>
 <span class="sd">        Can be used to fake the plugins, or just disable the installed plugins.</span>
 
+<span class="sd">        ``importlib.metadata`` and ``importlib_metadata`` are supported now.</span>
+
 <span class="sd">    :param group: Group name.</span>
 <span class="sd">    :param fakes: Fake entry points. Dict or list are accepted.</span>
 <span class="sd">    :param auto_import: Auto import the object from string. Default is ``True`` which means if \</span>
@@ -278,6 +280,14 @@
 <span class="sd">        ...     print({ep.name: ep.load() for ep in</span>
 <span class="sd">        ...            pkg_resources.iter_entry_points(&#39;my_plugin&#39;)})</span>
 <span class="sd">        {&#39;func_map&#39;: &lt;class &#39;map&#39;&gt;, &#39;func_binary&#39;: &lt;function is_binary_file at 0x7fb17f55eef0&gt;}</span>
+
+<span class="sd">        .. warning::</span>
+<span class="sd">            The ``pkg_resources`` package is no longer officially supported.</span>
+<span class="sd">            However, certain libraries that rely on hbutils are still in use,</span>
+<span class="sd">            hence temporary support will be provided. The official guidance must be followed to</span>
+<span class="sd">            migrate to ``importlib.metadata`` at the earliest opportunity.</span>
+<span class="sd">            In addition, support for the ``pkg_resources`` package in this function will be</span>
+<span class="sd">            discontinued in the next major version.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">fakes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">fakes</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Unknown entry point type - </span><span class="si">{</span><span class="n">fakes</span><span class="si">!r}</span><span class="s1">.&#39;</span><span class="p">)</span>
@@ -305,7 +315,76 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="k">yield from</span> <span class="n">_origin_iep</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
 
-    <span class="k">with</span> <span class="n">patch</span><span class="p">(</span><span class="s1">&#39;pkg_resources.iter_entry_points&#39;</span><span class="p">,</span> <span class="n">MagicMock</span><span class="p">(</span><span class="n">side_effect</span><span class="o">=</span><span class="n">_new_iter_func</span><span class="p">)):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">importlib_metadata</span> <span class="k">as</span> <span class="nn">_py37_metadata</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">ModuleNotFoundError</span><span class="p">,</span> <span class="ne">ImportError</span><span class="p">):</span>
+        <span class="n">_py37_metadata</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">_py37_origin_entry_points</span> <span class="o">=</span> <span class="n">_py37_metadata</span><span class="o">.</span><span class="n">entry_points</span>
+
+        <span class="nd">@wraps</span><span class="p">(</span><span class="n">_py37_origin_entry_points</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">_py37_entry_points</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">value</span><span class="p">}</span>
+            <span class="n">group_</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;group&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">_exist_names</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+            <span class="k">def</span> <span class="nf">_check_name</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">((</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">_py37_metadata</span><span class="o">.</span><span class="n">EntryPoint</span><span class="p">)</span> <span class="ow">and</span> <span class="n">x</span><span class="o">.</span><span class="n">matches</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">))</span> <span class="ow">or</span>
+                    <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">_py37_metadata</span><span class="o">.</span><span class="n">EntryPoint</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">x</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">name</span><span class="p">)))</span> <span class="ow">and</span> \
+                        <span class="n">x</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_exist_names</span><span class="p">:</span>
+                    <span class="n">_exist_names</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="n">group_</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">group_</span> <span class="o">==</span> <span class="n">group_name</span><span class="p">:</span>
+                <span class="n">mocked</span> <span class="o">=</span> <span class="n">_yield_fake_entries</span><span class="p">(</span><span class="n">fakes</span> <span class="ow">or</span> <span class="p">[],</span> <span class="n">auto_import</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">clear</span><span class="p">:</span>
+                    <span class="n">mocked</span> <span class="o">=</span> <span class="n">chain</span><span class="p">(</span><span class="n">mocked</span><span class="p">,</span> <span class="n">_py37_origin_entry_points</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+                <span class="k">yield from</span> <span class="nb">filter</span><span class="p">(</span><span class="n">_check_name</span><span class="p">,</span> <span class="n">mocked</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">yield from</span> <span class="n">_py37_origin_entry_points</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">importlib.metadata</span> <span class="k">as</span> <span class="nn">_py38_metadata</span>
+    <span class="k">except</span> <span class="p">(</span><span class="ne">ModuleNotFoundError</span><span class="p">,</span> <span class="ne">ImportError</span><span class="p">):</span>
+        <span class="n">_py38_metadata</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">_py38_origin_entry_points</span> <span class="o">=</span> <span class="n">_py38_metadata</span><span class="o">.</span><span class="n">entry_points</span>
+
+        <span class="nd">@wraps</span><span class="p">(</span><span class="n">_py38_origin_entry_points</span><span class="p">)</span>
+        <span class="k">def</span> <span class="nf">_py38_entry_points</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="n">value</span> <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">value</span><span class="p">}</span>
+            <span class="n">group_</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;group&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">_exist_names</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+            <span class="k">def</span> <span class="nf">_check_name</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+                <span class="k">if</span> <span class="p">((</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">_py38_metadata</span><span class="o">.</span><span class="n">EntryPoint</span><span class="p">)</span> <span class="ow">and</span> <span class="n">x</span><span class="o">.</span><span class="n">matches</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">))</span> <span class="ow">or</span>
+                    <span class="p">(</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">_py38_metadata</span><span class="o">.</span><span class="n">EntryPoint</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">x</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">name</span><span class="p">)))</span> <span class="ow">and</span> \
+                        <span class="n">x</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_exist_names</span><span class="p">:</span>
+                    <span class="n">_exist_names</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="kc">True</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+
+            <span class="k">if</span> <span class="n">group_</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">group_</span> <span class="o">==</span> <span class="n">group_name</span><span class="p">:</span>
+                <span class="n">mocked</span> <span class="o">=</span> <span class="n">_yield_fake_entries</span><span class="p">(</span><span class="n">fakes</span> <span class="ow">or</span> <span class="p">[],</span> <span class="n">auto_import</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">clear</span><span class="p">:</span>
+                    <span class="n">mocked</span> <span class="o">=</span> <span class="n">chain</span><span class="p">(</span><span class="n">mocked</span><span class="p">,</span> <span class="n">_py38_origin_entry_points</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+                <span class="k">yield from</span> <span class="nb">filter</span><span class="p">(</span><span class="n">_check_name</span><span class="p">,</span> <span class="n">mocked</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">yield from</span> <span class="n">_py38_origin_entry_points</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="n">mocks</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">mocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">patch</span><span class="p">(</span><span class="s1">&#39;pkg_resources.iter_entry_points&#39;</span><span class="p">,</span> <span class="n">MagicMock</span><span class="p">(</span><span class="n">side_effect</span><span class="o">=</span><span class="n">_new_iter_func</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="n">_py37_metadata</span><span class="p">:</span>
+        <span class="n">mocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">patch</span><span class="p">(</span><span class="s1">&#39;importlib_metadata.entry_points&#39;</span><span class="p">,</span> <span class="n">MagicMock</span><span class="p">(</span><span class="n">side_effect</span><span class="o">=</span><span class="n">_py37_entry_points</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="n">_py38_metadata</span><span class="p">:</span>
+        <span class="n">mocks</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">patch</span><span class="p">(</span><span class="s1">&#39;importlib.metadata.entry_points&#39;</span><span class="p">,</span> <span class="n">MagicMock</span><span class="p">(</span><span class="n">side_effect</span><span class="o">=</span><span class="n">_py38_entry_points</span><span class="p">)))</span>
+
+    <span class="k">with</span> <span class="n">nested_with</span><span class="p">(</span><span class="o">*</span><span class="n">mocks</span><span class="p">):</span>
         <span class="k">yield</span></div>
 </pre></div>
 
