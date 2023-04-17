@@ -33,3 +33,10 @@ nested_with
 
 
 
+conditional_with
+-----------------------
+
+.. autofunction:: conditional_with
+
+
+

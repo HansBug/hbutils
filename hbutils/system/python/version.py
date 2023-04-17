@@ -1,7 +1,6 @@
 import platform
 
 from packaging.version import Version
-from pkg_resources import parse_version
 
 __all__ = [
     'python_version',
@@ -21,4 +20,4 @@ def python_version() -> Version:
         >>> python_version()
         Version('3.8.1')  # for example
     """
-    return parse_version(platform.python_version())
+    return Version(platform.python_version())

@@ -1,8 +1,6 @@
 from operator import lt, le, gt, ge
 
-from pkg_resources import parse_version
-
-_Version = type(parse_version('0.0.1'))
+from packaging.version import Version
 
 
 class VersionInfo:
@@ -18,12 +16,12 @@ class VersionInfo:
     def __init__(self, v):
         if isinstance(v, VersionInfo):
             self._version, self._func = v._version, None
-        elif isinstance(v, _Version) or v is None:
+        elif isinstance(v, Version) or v is None:
             self._version, self._func = v, None
         elif callable(v):
             self._version, self._func = None, v
         elif isinstance(v, str):
-            VersionInfo.__init__(self, parse_version(v))
+            VersionInfo.__init__(self, Version(v))
         elif isinstance(v, tuple):
             VersionInfo.__init__(self, '.'.join(map(str, v)))
         elif isinstance(v, int):

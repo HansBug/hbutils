@@ -39,7 +39,7 @@ from typing import Tuple, TypeVar, Iterator, Mapping, Optional, ContextManager, 
 
 __all__ = [
     'context', 'cwrap',
-    'nested_with',
+    'nested_with', 'conditional_with',
 ]
 
 
@@ -337,3 +337,42 @@ def nested_with(*contexts) -> ContextManager[Tuple[Any, ...]]:
         False
     """
     yield from _yield_nested_for(contexts, 0, [])
+
+
+@contextmanager
+def conditional_with(ctx, cond):
+    """
+    Overview:
+        Conditional create context.
+
+    :param ctx: Context object.
+    :param cond: Condition for create or not.
+
+    Examples::
+        Here is an example of conditionally create a temporary directory.
+
+        >>> import os.path
+        >>>
+        >>> from hbutils.reflection import conditional_with
+        >>> from hbutils.system import TemporaryDirectory
+        >>>
+        >>> # create
+        >>> with conditional_with(TemporaryDirectory(), cond=True) as td:
+        ...     print('td:', td)
+        ...     print('exist:', os.path.exists(td))
+        ...     print('isdir:', os.path.isdir(td))
+        ...
+        td: /tmp/tmp07lpb9ah
+        exist: True
+        isdir: True
+        >>> # not create
+        >>> with conditional_with(TemporaryDirectory(), cond=False) as td:
+        ...     print('td:', td)
+        ...
+        td: None
+    """
+    if cond:
+        with ctx as f:
+            yield f
+    else:
+        yield None

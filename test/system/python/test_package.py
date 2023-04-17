@@ -1,28 +1,64 @@
+from contextlib import contextmanager
+from dataclasses import dataclass
 from unittest import mock, skipUnless
 
+try:
+    import importlib.metadata as importlib_metadata
+except (ModuleNotFoundError, ImportError):
+    import importlib_metadata
 import packaging
 import pip as _pip_pkg
 import pytest
-from pkg_resources import parse_version
+from packaging.version import Version
+from packaging.utils import canonicalize_name
 
 from hbutils.system import package_version, load_req_file, check_reqs, check_req_file, pip, pip_install, which, \
     pip_install_req_file
-from hbutils.testing import capture_output, vpip
-from .test_version import _Version
+from hbutils.testing import capture_output, vpip, OS, Impl
 from ...testings import get_testfile_path, normpath
+
+
+@dataclass
+class _VersionProxy:
+    version: str
+
+
+@contextmanager
+def _mock_for_package_version(versions, clear=False):
+    try:
+        from importlib.metadata import distribution as _origin_dist
+    except (ModuleNotFoundError, ImportError):
+        from importlib_metadata import distribution as _origin_dist
+    versions = {canonicalize_name(name): v for name, v in versions.items()}
+
+    def _callable(name):
+        name = canonicalize_name(name)
+        if name in versions:
+            if versions[name]:
+                return _VersionProxy(versions[name])
+            else:
+                raise importlib_metadata.PackageNotFoundError
+        else:
+            if clear:
+                raise importlib_metadata.PackageNotFoundError
+            else:
+                return _origin_dist(name)
+
+    with mock.patch('hbutils.system.python.package.importlib_metadata.distribution', _callable):
+        yield
 
 
 @pytest.mark.unittest
 class TestSystemPythonPackage:
     def test_package_version(self):
-        assert isinstance(package_version("chardet"), _Version)
-        assert package_version("chardet") >= parse_version("3.0.4")
-        assert package_version("chardet") < parse_version("5")
+        assert isinstance(package_version("chardet"), Version)
+        assert package_version("chardet") >= Version("3.0.4")
+        assert package_version("chardet") < Version("5")
         assert package_version("This_is_an_fxxking_name") is None
 
-        with mock.patch.dict('hbutils.system.python.package.PIP_PACKAGES', {'pip': '19.3.1'}):
-            assert package_version('pip') == parse_version('19.3.1')
-            assert package_version('PIP') == parse_version('19.3.1')
+        with _mock_for_package_version({'pip': '19.3.1'}):
+            assert package_version('pip') == Version('19.3.1')
+            assert package_version('PIP') == Version('19.3.1')
             assert package_version('pipxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx') is None
 
     def test_load_req_file(self):
@@ -34,6 +70,17 @@ class TestSystemPythonPackage:
     def test_check_reqs(self):
         assert check_reqs(['packaging>=21.3', 'setuptools>=50.0'])
         assert not check_reqs(['packaging>=21.3', 'setuptools<48.0'])
+
+        assert check_reqs(['pytest>=6'])
+        with _mock_for_package_version({'pytest': None}):
+            assert not check_reqs(['pytest>=6'])
+        assert check_reqs(['requests[socks]>=2.20'])
+        with _mock_for_package_version({'pysocks': None}):
+            assert not check_reqs(['requests[socks]>=2.20'])
+        with _mock_for_package_version({'requests': None}):
+            assert check_reqs(['pytest>=6'])
+            assert not check_reqs(['requests[socks]>=2.20'])
+            assert not check_reqs(['pytest[testing]>=6'])
 
     def test_check_req_file(self):
         assert check_req_file('requirements.txt')
@@ -53,7 +100,7 @@ class TestSystemPythonPackage:
             pip('freeze')
         assert f'packaging=={packaging.__version__}' in co.stdout
 
-    @skipUnless(not vpip('where'), 'No \'where\' package required.')
+    @skipUnless(not vpip('where') and not (OS.macos and Impl.pypy), 'No \'where\' package required.')
     def test_pip_install(self):
         try:
             pip_install(['where>=1.0.0'], silent=True)
@@ -68,7 +115,7 @@ class TestSystemPythonPackage:
             if check_reqs(['where']):
                 pip('uninstall', '-y', 'where', silent=True)
 
-    @skipUnless(not vpip('where'), 'No \'where\' package required.')
+    @skipUnless(not vpip('where') and not (OS.macos and Impl.pypy), 'No \'where\' package required.')
     def test_pip_install_from_file(self):
         try:
             pip_install_req_file(get_testfile_path('requirements-where.txt'), silent=True)

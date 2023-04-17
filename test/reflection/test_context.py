@@ -9,7 +9,8 @@ from threading import Thread
 import pytest
 
 from hbutils.reflection import context, cwrap
-from hbutils.reflection.context import ContextVars, nested_with
+from hbutils.reflection.context import ContextVars, nested_with, conditional_with
+from hbutils.system import TemporaryDirectory
 from hbutils.testing import OS, vpython
 
 
@@ -207,3 +208,12 @@ class TestReflectionContext:
 
         for d in ds:
             assert not os.path.exists(d)
+
+    @pytest.mark.parametrize(['cond'], [(True,), (False,)])
+    def test_conditional_with(self, cond):
+        with conditional_with(TemporaryDirectory(), cond) as td:
+            if cond:
+                assert os.path.exists(td)
+                assert os.path.isdir(td)
+            else:
+                assert td is None

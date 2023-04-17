@@ -1,7 +1,7 @@
 from functools import partial
 
 import pytest
-from pkg_resources import parse_version
+from packaging.version import Version
 
 from hbutils.testing.requires.version import VersionInfo
 
@@ -10,10 +10,10 @@ from hbutils.testing.requires.version import VersionInfo
 class TestTestingRequiresVersion:
     def test_init(self):
         assert VersionInfo(None)._version is None
-        assert VersionInfo('3.6.3') == parse_version('3.6.3')
-        assert VersionInfo((3, 6, 3)) == parse_version('3.6.3')
-        assert VersionInfo(VersionInfo('3.6.3')) == parse_version('3.6.3')
-        assert VersionInfo(7) == parse_version('7')
+        assert VersionInfo('3.6.3') == Version('3.6.3')
+        assert VersionInfo((3, 6, 3)) == Version('3.6.3')
+        assert VersionInfo(VersionInfo('3.6.3')) == Version('3.6.3')
+        assert VersionInfo(7) == Version('7')
         with pytest.raises(TypeError):
             _ = VersionInfo(233.238459)
 
