@@ -4,16 +4,15 @@ import os
 import pathlib
 import subprocess
 import sys
-from typing import List
-from typing import Optional
+from typing import List, Optional
 
 from packaging.requirements import Requirement
+from packaging.utils import canonicalize_name
 
 try:
     import importlib.metadata as importlib_metadata
 except (ModuleNotFoundError, ImportError):
     import importlib_metadata
-import pkg_resources
 from packaging.version import Version
 
 __all__ = [
@@ -43,7 +42,7 @@ def package_version(name: str) -> Optional[Version]:
         None
     """
     try:
-        return Version(importlib_metadata.distribution(name.lower()).version)
+        return Version(importlib_metadata.distribution(canonicalize_name(name)).version)
     except importlib_metadata.PackageNotFoundError:
         return None
 
@@ -169,6 +168,33 @@ def pip(*args, silent: bool = False):
     process.check_returncode()
 
 
+def _yield_reqs_to_install(req: Requirement):
+    try:
+        version = importlib_metadata.distribution(req.name).version
+    except importlib_metadata.PackageNotFoundError:  # req not installed
+        yield req
+    else:
+        if req.specifier.contains(version):
+            for child_req in (importlib_metadata.metadata(req.name).get_all('Requires-Dist') or []):
+                child_req_obj = Requirement(child_req)
+
+                need_check = False
+                for extra in req.extras:
+                    if child_req_obj.marker and child_req_obj.marker.evaluate({'extra': extra}):
+                        need_check = True
+                        break
+
+                if need_check:  # check for extra reqs
+                    yield from _yield_reqs_to_install(child_req_obj)
+
+        else:  # main version not match
+            yield req
+
+
+def _check_req(req: Requirement):
+    return not bool(list(itertools.islice(_yield_reqs_to_install(req), 1)))
+
+
 def check_reqs(reqs: List[str]) -> bool:
     """
     Overview:
@@ -186,12 +212,7 @@ def check_reqs(reqs: List[str]) -> bool:
         >>> check_reqs(['pip>=20.0', 'setuptools>=50.0'])
         True
     """
-    try:
-        pkg_resources.require(reqs)
-    except (pkg_resources.DistributionNotFound, pkg_resources.VersionConflict):
-        return False
-    else:
-        return True
+    return all(map(lambda x: _check_req(Requirement(x)), reqs))
 
 
 def check_req_file(requirements_file: str) -> bool:

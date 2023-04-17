@@ -3,6 +3,8 @@ from contextlib import contextmanager
 from dataclasses import dataclass
 from unittest import mock
 
+from packaging.utils import canonicalize_name
+
 try:
     import importlib.metadata as importlib_metadata
 except (ModuleNotFoundError, ImportError):
@@ -24,11 +26,15 @@ def _mock_for_package_version(versions, clear=False):
         from importlib.metadata import distribution as _origin_dist
     except (ModuleNotFoundError, ImportError):
         from importlib_metadata import distribution as _origin_dist
-    versions = {name.lower(): v for name, v in versions.items()}
+    versions = {canonicalize_name(name): v for name, v in versions.items()}
 
     def _callable(name):
+        name = canonicalize_name(name)
         if name in versions:
-            return _VersionProxy(versions[name])
+            if versions[name]:
+                return _VersionProxy(versions[name])
+            else:
+                raise importlib_metadata.PackageNotFoundError
         else:
             if clear:
                 raise importlib_metadata.PackageNotFoundError

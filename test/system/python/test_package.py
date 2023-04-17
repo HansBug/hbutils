@@ -10,6 +10,7 @@ import packaging
 import pip as _pip_pkg
 import pytest
 from packaging.version import Version
+from packaging.utils import canonicalize_name
 
 from hbutils.system import package_version, load_req_file, check_reqs, check_req_file, pip, pip_install, which, \
     pip_install_req_file
@@ -28,11 +29,15 @@ def _mock_for_package_version(versions, clear=False):
         from importlib.metadata import distribution as _origin_dist
     except (ModuleNotFoundError, ImportError):
         from importlib_metadata import distribution as _origin_dist
-    versions = {name.lower(): v for name, v in versions.items()}
+    versions = {canonicalize_name(name): v for name, v in versions.items()}
 
     def _callable(name):
+        name = canonicalize_name(name)
         if name in versions:
-            return _VersionProxy(versions[name])
+            if versions[name]:
+                return _VersionProxy(versions[name])
+            else:
+                raise importlib_metadata.PackageNotFoundError
         else:
             if clear:
                 raise importlib_metadata.PackageNotFoundError
@@ -65,6 +70,17 @@ class TestSystemPythonPackage:
     def test_check_reqs(self):
         assert check_reqs(['packaging>=21.3', 'setuptools>=50.0'])
         assert not check_reqs(['packaging>=21.3', 'setuptools<48.0'])
+
+        assert check_reqs(['pytest>=6'])
+        with _mock_for_package_version({'pytest': None}):
+            assert not check_reqs(['pytest>=6'])
+        assert check_reqs(['requests[socks]>=2.20'])
+        with _mock_for_package_version({'pysocks': None}):
+            assert not check_reqs(['requests[socks]>=2.20'])
+        with _mock_for_package_version({'requests': None}):
+            assert check_reqs(['pytest>=6'])
+            assert not check_reqs(['requests[socks]>=2.20'])
+            assert not check_reqs(['pytest[testing]>=6'])
 
     def test_check_req_file(self):
         assert check_req_file('requirements.txt')
