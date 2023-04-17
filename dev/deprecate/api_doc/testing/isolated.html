@@ -306,8 +306,22 @@ Can be used to fake the plugins, or just disable the installed plugins.</p>
 </dd>
 </dl>
 <dl>
-<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pkg_resources</span>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">importlib.metadata</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">importlib_metadata</span>  <span class="c1"># backport for py3.7</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pkg_resources</span>  <span class="c1"># deprecated</span>
+<span class="go">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">isolated_entry_points</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># nothing at the beginning</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">({</span><span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">ep</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span>
+<span class="gp">... </span>       <span class="n">pkg_resources</span><span class="o">.</span><span class="n">iter_entry_points</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">)})</span>
+<span class="go">{}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+<span class="go">None</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">importlib_metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">))</span>
+<span class="go">()</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># mock the plugins</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">isolated_entry_points</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">,</span> <span class="p">[</span>
 <span class="gp">... </span>    <span class="p">(</span>
 <span class="gp">... </span>            <span class="s1">&#39;quick_import_object&#39;</span><span class="p">,</span>  <span class="c1"># name import</span>
@@ -319,14 +333,34 @@ Can be used to fake the plugins, or just disable the installed plugins.</p>
 <span class="gp">... </span><span class="p">]):</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">({</span><span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">ep</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span>
 <span class="gp">... </span>           <span class="n">pkg_resources</span><span class="o">.</span><span class="n">iter_entry_points</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">)})</span>
-<span class="go">{&#39;quick_import_object&#39;: &lt;function quick_import_object at 0x7fb17f4e5170&gt;, &#39;func_filter&#39;: &lt;class &#39;filter&#39;&gt;, &#39;map&#39;: &lt;class &#39;map&#39;&gt;, &#39;is_binary_file&#39;: &lt;function is_binary_file at 0x7fb17f55eef0&gt;}</span>
-</pre></div>
-</div>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">isolated_entry_points</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">,</span> <span class="p">{</span>
-<span class="gp">... </span>    <span class="s1">&#39;func_map&#39;</span><span class="p">:</span> <span class="nb">map</span><span class="p">,</span> <span class="s1">&#39;func_binary&#39;</span><span class="p">:</span> <span class="s1">&#39;hbutils.system.is_binary_file&#39;</span><span class="p">}):</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">()[</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">])</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">importlib_metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="go">{&#39;quick_import_object&#39;: &lt;function quick_import_object at 0x7f6d0dd5ad40&gt;, &#39;func_filter&#39;: &lt;class &#39;filter&#39;&gt;, &#39;map&#39;: &lt;class &#39;map&#39;&gt;, &#39;is_binary_file&#39;: &lt;function is_binary_file at 0x7f6d0dcd8550&gt;}</span>
+<span class="go">[_FakeEntryPoint(name=&#39;quick_import_object&#39;, group=&#39;my_plugin&#39;, dist=&lt;function quick_import_object at 0x7f6d0dd5ad40&gt;), _FakeEntryPoint(name=&#39;func_filter&#39;, group=&#39;my_plugin&#39;, dist=&lt;class &#39;filter&#39;&gt;), _Fak</span>
+<span class="go">eEntryPoint(name=&#39;map&#39;, group=&#39;my_plugin&#39;, dist=&lt;class &#39;map&#39;&gt;), _FakeEntryPoint(name=&#39;is_binary_file&#39;, group=&#39;my_plugin&#39;, dist=&lt;function is_binary_file at 0x7f6d0dcd8550&gt;)]</span>
+<span class="go">[_FakeEntryPoint(name=&#39;quick_import_object&#39;, group=&#39;my_plugin&#39;, dist=&lt;function quick_import_object at 0x7f6d0dd5ad40&gt;), _FakeEntryPoint(name=&#39;func_filter&#39;, group=&#39;my_plugin&#39;, dist=&lt;class &#39;filter&#39;&gt;), _Fak</span>
+<span class="go">eEntryPoint(name=&#39;map&#39;, group=&#39;my_plugin&#39;, dist=&lt;class &#39;map&#39;&gt;), _FakeEntryPoint(name=&#39;is_binary_file&#39;, group=&#39;my_plugin&#39;, dist=&lt;function is_binary_file at 0x7f6d0dcd8550&gt;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">isolated_entry_points</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">,</span> <span class="p">{</span>
+<span class="gp">... </span>    <span class="s1">&#39;func_map&#39;</span><span class="p">:</span> <span class="nb">map</span><span class="p">,</span>
+<span class="gp">... </span>    <span class="s1">&#39;func_binary&#39;</span><span class="p">:</span> <span class="s1">&#39;hbutils.system.is_binary_file&#39;</span>
+<span class="gp">... </span><span class="p">}):</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">({</span><span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">ep</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span>
 <span class="gp">... </span>           <span class="n">pkg_resources</span><span class="o">.</span><span class="n">iter_entry_points</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">)})</span>
-<span class="go">{&#39;func_map&#39;: &lt;class &#39;map&#39;&gt;, &#39;func_binary&#39;: &lt;function is_binary_file at 0x7fb17f55eef0&gt;}</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">()[</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">])</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">importlib_metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">))</span>
+<span class="gp">...</span>
+<span class="go">{&#39;func_map&#39;: &lt;class &#39;map&#39;&gt;, &#39;func_binary&#39;: &lt;function is_binary_file at 0x7f6d0dcd8550&gt;}</span>
+<span class="go">[_FakeEntryPoint(name=&#39;func_map&#39;, group=&#39;my_plugin&#39;, dist=&lt;class &#39;map&#39;&gt;), _FakeEntryPoint(name=&#39;func_binary&#39;, group=&#39;my_plugin&#39;, dist=&lt;function is_binary_file at 0x7f6d0dcd8550&gt;)]</span>
+<span class="go">[_FakeEntryPoint(name=&#39;func_map&#39;, group=&#39;my_plugin&#39;, dist=&lt;class &#39;map&#39;&gt;), _FakeEntryPoint(name=&#39;func_binary&#39;, group=&#39;my_plugin&#39;, dist=&lt;function is_binary_file at 0x7f6d0dcd8550&gt;)]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># nothing at the ending</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">({</span><span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">ep</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span>
+<span class="gp">... </span>       <span class="n">pkg_resources</span><span class="o">.</span><span class="n">iter_entry_points</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">)})</span>
+<span class="go">{}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">))</span>
+<span class="go">None</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">importlib_metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">))</span>
+<span class="go">()</span>
 </pre></div>
 </div>
 <div class="admonition warning">
