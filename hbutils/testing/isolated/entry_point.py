@@ -4,7 +4,7 @@ from itertools import chain
 from typing import Iterator, Tuple, Any, Union, List, Dict
 from unittest.mock import patch, MagicMock
 
-from hbutils.reflection import quick_import_object
+from hbutils.reflection import quick_import_object, nested_with
 
 __all__ = [
     'isolated_entry_points',
@@ -77,6 +77,8 @@ def isolated_entry_points(group: str, fakes: Union[List, Dict[str, Any], None] =
         Isolation for :func:`pkg_resources.iter_entry_points` function.
         Can be used to fake the plugins, or just disable the installed plugins.
 
+        ``importlib.metadata`` and ``importlib_metadata`` are supported now.
+
     :param group: Group name.
     :param fakes: Fake entry points. Dict or list are accepted.
     :param auto_import: Auto import the object from string. Default is ``True`` which means if \
@@ -105,6 +107,14 @@ def isolated_entry_points(group: str, fakes: Union[List, Dict[str, Any], None] =
         ...     print({ep.name: ep.load() for ep in
         ...            pkg_resources.iter_entry_points('my_plugin')})
         {'func_map': <class 'map'>, 'func_binary': <function is_binary_file at 0x7fb17f55eef0>}
+
+        .. warning::
+            The ``pkg_resources`` package is no longer officially supported.
+            However, certain libraries that rely on hbutils are still in use,
+            hence temporary support will be provided. The official guidance must be followed to
+            migrate to ``importlib.metadata`` at the earliest opportunity.
+            In addition, support for the ``pkg_resources`` package in this function will be
+            discontinued in the next major version.
     """
     if fakes is not None and not isinstance(fakes, (list, tuple, dict)):
         raise TypeError(f'Unknown entry point type - {fakes!r}.')
@@ -132,5 +142,74 @@ def isolated_entry_points(group: str, fakes: Union[List, Dict[str, Any], None] =
         else:
             yield from _origin_iep(group, name)
 
-    with patch('pkg_resources.iter_entry_points', MagicMock(side_effect=_new_iter_func)):
+    try:
+        import importlib_metadata as _py37_metadata
+    except (ModuleNotFoundError, ImportError):
+        _py37_metadata = None
+    else:
+        _py37_origin_entry_points = _py37_metadata.entry_points
+
+        @wraps(_py37_origin_entry_points)
+        def _py37_entry_points(**kwargs):
+            kwargs = {key: value for key, value in kwargs.items() if value}
+            group_ = kwargs.get('group', None)
+            name = kwargs.get('name', None)
+            _exist_names = set()
+
+            def _check_name(x) -> bool:
+                if ((isinstance(x, _py37_metadata.EntryPoint) and x.matches(**kwargs)) or
+                    (not isinstance(x, _py37_metadata.EntryPoint) and (name is None or x.name == name))) and \
+                        x.name not in _exist_names:
+                    _exist_names.add(x.name)
+                    return True
+                else:
+                    return False
+
+            if group_ is None or group_ == group_name:
+                mocked = _yield_fake_entries(fakes or [], auto_import)
+                if not clear:
+                    mocked = chain(mocked, _py37_origin_entry_points(**kwargs))
+                yield from filter(_check_name, mocked)
+            else:
+                yield from _py37_origin_entry_points(**kwargs)
+
+    try:
+        import importlib.metadata as _py38_metadata
+    except (ModuleNotFoundError, ImportError):
+        _py38_metadata = None
+    else:
+        _py38_origin_entry_points = _py38_metadata.entry_points
+
+        @wraps(_py38_origin_entry_points)
+        def _py38_entry_points(**kwargs):
+            kwargs = {key: value for key, value in kwargs.items() if value}
+            group_ = kwargs.get('group', None)
+            name = kwargs.get('name', None)
+            _exist_names = set()
+
+            def _check_name(x) -> bool:
+                if ((isinstance(x, _py38_metadata.EntryPoint) and x.matches(**kwargs)) or
+                    (not isinstance(x, _py38_metadata.EntryPoint) and (name is None or x.name == name))) and \
+                        x.name not in _exist_names:
+                    _exist_names.add(x.name)
+                    return True
+                else:
+                    return False
+
+            if group_ is None or group_ == group_name:
+                mocked = _yield_fake_entries(fakes or [], auto_import)
+                if not clear:
+                    mocked = chain(mocked, _py38_origin_entry_points(**kwargs))
+                yield from filter(_check_name, mocked)
+            else:
+                yield from _py38_origin_entry_points(**kwargs)
+
+    mocks = []
+    mocks.append(patch('pkg_resources.iter_entry_points', MagicMock(side_effect=_new_iter_func)))
+    if _py37_metadata:
+        mocks.append(patch('importlib_metadata.entry_points', MagicMock(side_effect=_py37_entry_points)))
+    if _py38_metadata:
+        mocks.append(patch('importlib.metadata.entry_points', MagicMock(side_effect=_py38_entry_points)))
+
+    with nested_with(*mocks):
         yield

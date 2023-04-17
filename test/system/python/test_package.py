@@ -14,7 +14,7 @@ from packaging.utils import canonicalize_name
 
 from hbutils.system import package_version, load_req_file, check_reqs, check_req_file, pip, pip_install, which, \
     pip_install_req_file
-from hbutils.testing import capture_output, vpip
+from hbutils.testing import capture_output, vpip, OS, Impl
 from ...testings import get_testfile_path, normpath
 
 
@@ -100,7 +100,7 @@ class TestSystemPythonPackage:
             pip('freeze')
         assert f'packaging=={packaging.__version__}' in co.stdout
 
-    @skipUnless(not vpip('where'), 'No \'where\' package required.')
+    @skipUnless(not vpip('where') and not (OS.macos and Impl.pypy), 'No \'where\' package required.')
     def test_pip_install(self):
         try:
             pip_install(['where>=1.0.0'], silent=True)
@@ -115,7 +115,7 @@ class TestSystemPythonPackage:
             if check_reqs(['where']):
                 pip('uninstall', '-y', 'where', silent=True)
 
-    @skipUnless(not vpip('where'), 'No \'where\' package required.')
+    @skipUnless(not vpip('where') and not (OS.macos and Impl.pypy), 'No \'where\' package required.')
     def test_pip_install_from_file(self):
         try:
             pip_install_req_file(get_testfile_path('requirements-where.txt'), silent=True)
