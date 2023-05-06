@@ -1,0 +1,616 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hbutils.system.network &mdash; hbutils 0.9.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="hbutils.system.os" href="os.html" />
+    <link rel="prev" title="hbutils.system.filesystem" href="filesystem.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> hbutils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+</ul>
+<p><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">hbutils.algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../binary/index.html">hbutils.binary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../collection/index.html">hbutils.collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../color/index.html">hbutils.color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/index.html">hbutils.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/index.html">hbutils.design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../expression/index.html">hbutils.expression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file/index.html">hbutils.file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/index.html">hbutils.model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../random/index.html">hbutils.random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reflection/index.html">hbutils.reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scale/index.html">hbutils.scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../string/index.html">hbutils.string</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">hbutils.system</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="filesystem.html">hbutils.system.filesystem</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.system.network</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hostfile">hostfile</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-hosts">get_hosts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-localhost-ip">get_localhost_ip</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#is-free-port">is_free_port</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#get-free-port">get_free_port</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#telnet">telnet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#wait-for-port-online">wait_for_port_online</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#urlsplit">urlsplit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#spliturl">SplitURL</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="os.html">hbutils.system.os</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python.html">hbutils.system.python</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/index.html">hbutils.testing</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">hbutils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">hbutils.system</a> &raquo;</li>
+        
+      <li>hbutils.system.network</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_doc/system/network.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <section id="module-hbutils.system.network">
+<span id="hbutils-system-network"></span><h1>hbutils.system.network<a class="headerlink" href="#module-hbutils.system.network" title="Permalink to this headline">¶</a></h1>
+<dl class="simple">
+<dt>Overview:</dt><dd><p>Some useful tools for network.</p>
+</dd>
+</dl>
+<section id="hostfile">
+<h2>hostfile<a class="headerlink" href="#hostfile" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.network.hostfile">
+<code class="sig-prename descclassname">hbutils.system.network.</code><code class="sig-name descname">hostfile</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/system/network/hosts.html#hostfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.network.hostfile" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Get host file in this os.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Host file path in this os.</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This should be <code class="docutils literal notranslate"><span class="pre">/etc/hosts</span></code> on Linux and macOS, but <code class="docutils literal notranslate"><span class="pre">c:\windows\system32\drivers\etc\hosts</span></code> on Windows.</p>
+</aside>
+</dd></dl>
+
+</section>
+<section id="get-hosts">
+<h2>get_hosts<a class="headerlink" href="#get-hosts" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.network.get_hosts">
+<code class="sig-prename descclassname">hbutils.system.network.</code><code class="sig-name descname">get_hosts</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; Dict<span class="p">[</span>str<span class="p">, </span>str<span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/system/network/hosts.html#get_hosts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.network.get_hosts" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Get hosts content in form of dictionary.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A dictionary of the hosts file.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">get_hosts</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_hosts</span><span class="p">()</span>
+<span class="go">{&#39;hansbug-VirtualBox&#39;: &#39;127.0.0.1&#39;, &#39;localhost&#39;: &#39;127.0.0.1&#39;}</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="get-localhost-ip">
+<h2>get_localhost_ip<a class="headerlink" href="#get-localhost-ip" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.network.get_localhost_ip">
+<code class="sig-prename descclassname">hbutils.system.network.</code><code class="sig-name descname">get_localhost_ip</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/system/network/hosts.html#get_localhost_ip"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.network.get_localhost_ip" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Get ip address of localhost.
+It will be checked in hosts, and just return <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code> is not found.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>IP address of <code class="docutils literal notranslate"><span class="pre">localhost</span></code>.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">get_localhost_ip</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_localhost_ip</span><span class="p">()</span>
+<span class="go">&#39;127.0.0.1&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="is-free-port">
+<h2>is_free_port<a class="headerlink" href="#is-free-port" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.network.is_free_port">
+<code class="sig-prename descclassname">hbutils.system.network.</code><code class="sig-name descname">is_free_port</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">port</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../_modules/hbutils/system/network/port.html#is_free_port"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.network.is_free_port" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Check if given <code class="docutils literal notranslate"><span class="pre">port</span></code> is currently not in use and able to be allocated.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>port</strong> – Port to be checked.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>In use or not.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">is_free_port</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_free_port</span><span class="p">(</span><span class="mi">22</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_free_port</span><span class="p">(</span><span class="mi">80</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_free_port</span><span class="p">(</span><span class="mi">8080</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_free_port</span><span class="p">(</span><span class="mi">35022</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="get-free-port">
+<h2>get_free_port<a class="headerlink" href="#get-free-port" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.network.get_free_port">
+<code class="sig-prename descclassname">hbutils.system.network.</code><code class="sig-name descname">get_free_port</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ports</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>Iterable<span class="p">[</span>int<span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">strict</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../../_modules/hbutils/system/network/port.html#get_free_port"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.network.get_free_port" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Get allocatable port inside the given <code class="docutils literal notranslate"><span class="pre">port</span></code>.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ports</strong> – Range of ports to select.</p></li>
+<li><p><strong>strict</strong> – Strictly use the ports in <code class="docutils literal notranslate"><span class="pre">ports</span></code>. Default is <code class="docutils literal notranslate"><span class="pre">False</span></code>, otherwise the ports         not in <code class="docutils literal notranslate"><span class="pre">ports</span></code> will probably be used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Param<span class="colon">:</span></dt>
+<dd class="field-even"><p>A usable port.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>OSError</strong> – Raise <code class="docutils literal notranslate"><span class="pre">OSError</span></code> when no ports can be allocated.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">get_free_port</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_free_port</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="mi">1060</span><span class="p">))</span>
+<span class="go">1024</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_free_port</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">1080</span><span class="p">,</span> <span class="mi">2080</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>  <span class="c1"># assume that 1080 is in use</span>
+<span class="go">1090</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_free_port</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="mi">80</span><span class="p">))</span>
+<span class="go">OSError: No free port can be allocated with in range(22, 80).</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">get_free_port</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">22</span><span class="p">,</span> <span class="mi">80</span><span class="p">),</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">44317</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Due to the safety consideration of OS, only ports over 1024 will be used.</p>
+</aside>
+</dd></dl>
+
+</section>
+<section id="telnet">
+<h2>telnet<a class="headerlink" href="#telnet" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.network.telnet">
+<code class="sig-prename descclassname">hbutils.system.network.</code><code class="sig-name descname">telnet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">host</span></em>, <em class="sig-param"><span class="n">port</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">timeout</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">5.0</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../_modules/hbutils/system/network/telnet_.html#telnet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.network.telnet" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Perform a telnet operation on the given port and return <code class="docutils literal notranslate"><span class="pre">True</span></code> if a response is received
+within the timeout period, otherwise return <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> – Host, e.g. <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code>.</p></li>
+<li><p><strong>port</strong> – Port to test, e.g. <code class="docutils literal notranslate"><span class="pre">32768</span></code>.</p></li>
+<li><p><strong>timeout</strong> – Maximum timeout duration in seconds.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Port is on or not.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="wait-for-port-online">
+<h2>wait_for_port_online<a class="headerlink" href="#wait-for-port-online" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.network.wait_for_port_online">
+<code class="sig-prename descclassname">hbutils.system.network.</code><code class="sig-name descname">wait_for_port_online</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">host</span></em>, <em class="sig-param"><span class="n">port</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">timeout</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>float<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">5</span></em>, <em class="sig-param"><span class="n">interval</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.3</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/system/network/telnet_.html#wait_for_port_online"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.network.wait_for_port_online" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Wait for the given interface to be in an online state.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> – Host, e.g. <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code>.</p></li>
+<li><p><strong>port</strong> – Port to test, e.g. <code class="docutils literal notranslate"><span class="pre">32768</span></code>.</p></li>
+<li><p><strong>timeout</strong> – Maximum timeout duration in seconds. <code class="docutils literal notranslate"><span class="pre">None</span></code> means wait it forever.</p></li>
+<li><p><strong>interval</strong> – Timeout for every <a class="reference internal" href="#hbutils.system.network.telnet" title="hbutils.system.network.telnet"><code class="xref py py-func docutils literal notranslate"><span class="pre">telnet()</span></code></a> operation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TimeoutError</strong> – Raise this when timeout is reached and the port is still offline.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="urlsplit">
+<h2>urlsplit<a class="headerlink" href="#urlsplit" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.network.urlsplit">
+<code class="sig-prename descclassname">hbutils.system.network.</code><code class="sig-name descname">urlsplit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; hbutils.system.network.url.SplitURL<a class="reference internal" href="../../_modules/hbutils/system/network/url.html#urlsplit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.network.urlsplit" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Split url into 5 parts (scheme, host, path, query and fragment).</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>url</strong> – Original url string.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="#hbutils.system.network.SplitURL" title="hbutils.system.network.SplitURL"><code class="xref py py-class docutils literal notranslate"><span class="pre">SplitURL</span></code></a> object.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">urlsplit</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sp</span> <span class="o">=</span> <span class="n">urlsplit</span><span class="p">(</span><span class="s1">&#39;https://www.baidu.com/dslkjf/sdfhk/asdasd.png?q=1&amp;v=kdjf&amp;q=2#fff&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sp</span>
+<span class="go">SplitURL(scheme=&#39;https&#39;, host=&#39;www.baidu.com&#39;, path=&#39;/dslkjf/sdfhk/asdasd.png&#39;, query={&#39;q&#39;: [&#39;1&#39;, &#39;2&#39;], &#39;v&#39;: &#39;kdjf&#39;}, fragment=&#39;fff&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">repr</span><span class="p">(</span><span class="n">sp</span><span class="p">)</span>
+<span class="go">&quot;SplitURL(scheme=&#39;https&#39;, host=&#39;www.baidu.com&#39;, path=&#39;/dslkjf/sdfhk/asdasd.png&#39;, query={&#39;q&#39;: [&#39;1&#39;, &#39;2&#39;], &#39;v&#39;: &#39;kdjf&#39;}, fragment=&#39;fff&#39;)&quot;</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sp</span><span class="o">.</span><span class="n">scheme</span>
+<span class="go">&#39;https&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sp</span><span class="o">.</span><span class="n">host</span>
+<span class="go">&#39;www.baidu.com&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sp</span><span class="o">.</span><span class="n">path</span>
+<span class="go">&#39;/dslkjf/sdfhk/asdasd.png&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sp</span><span class="o">.</span><span class="n">query</span>
+<span class="go">&#39;q=1&amp;v=kdjf&amp;q=2&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sp</span><span class="o">.</span><span class="n">fragment</span>
+<span class="go">&#39;fff&#39;</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sp</span><span class="o">.</span><span class="n">query_dict</span>
+<span class="go">{&#39;q&#39;: [&#39;1&#39;, &#39;2&#39;], &#39;v&#39;: &#39;kdjf&#39;}</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sp</span><span class="o">.</span><span class="n">path_segments</span>
+<span class="go">[&#39;&#39;, &#39;dslkjf&#39;, &#39;sdfhk&#39;, &#39;asdasd.png&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sp</span><span class="o">.</span><span class="n">filename</span>
+<span class="go">&#39;asdasd.png&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="spliturl">
+<h2>SplitURL<a class="headerlink" href="#spliturl" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.system.network.SplitURL">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.system.network.</code><code class="sig-name descname">SplitURL</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">url</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">scheme</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">host</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">path</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">query</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">fragment</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/system/network/url.html#SplitURL"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.network.SplitURL" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Splitted url object.</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="hbutils.system.network.SplitURL.__repr__">
+<code class="sig-name descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/system/network/url.html#SplitURL.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.network.SplitURL.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Repr format of <a class="reference internal" href="#hbutils.system.network.SplitURL" title="hbutils.system.network.SplitURL"><code class="xref py py-class docutils literal notranslate"><span class="pre">SplitURL</span></code></a>.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.system.network.SplitURL.__str__">
+<code class="sig-name descname">__str__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/system/network/url.html#SplitURL.__str__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.network.SplitURL.__str__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Original url.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.system.network.SplitURL.filename">
+<em class="property">property </em><code class="sig-name descname">filename</code><a class="headerlink" href="#hbutils.system.network.SplitURL.filename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filename of current url, return <code class="docutils literal notranslate"><span class="pre">None</span></code> when path is empty.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.system.network.SplitURL.path_segments">
+<em class="property">property </em><code class="sig-name descname">path_segments</code><a class="headerlink" href="#hbutils.system.network.SplitURL.path_segments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Separated path segments.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="hbutils.system.network.SplitURL.query_dict">
+<em class="property">property </em><code class="sig-name descname">query_dict</code><a class="headerlink" href="#hbutils.system.network.SplitURL.query_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Query dict.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="os.html" class="btn btn-neutral float-right" title="hbutils.system.os" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="filesystem.html" class="btn btn-neutral float-left" title="hbutils.system.filesystem" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2023, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/deprecation
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../v0.0.1/index.html">v0.0.1</a></dd>
+                        <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
+                        <dd><a href="../../../../v0.1.1/index.html">v0.1.1</a></dd>
+                        <dd><a href="../../../../v0.2.0/index.html">v0.2.0</a></dd>
+                        <dd><a href="../../../../v0.3.0/index.html">v0.3.0</a></dd>
+                        <dd><a href="../../../../v0.3.1/index.html">v0.3.1</a></dd>
+                        <dd><a href="../../../../v0.3.2/index.html">v0.3.2</a></dd>
+                        <dd><a href="../../../../v0.3.3/index.html">v0.3.3</a></dd>
+                        <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
+                        <dd><a href="../../../../v0.4.1/index.html">v0.4.1</a></dd>
+                        <dd><a href="../../../../v0.4.2/index.html">v0.4.2</a></dd>
+                        <dd><a href="../../../../v0.4.3/index.html">v0.4.3</a></dd>
+                        <dd><a href="../../../../v0.4.4/index.html">v0.4.4</a></dd>
+                        <dd><a href="../../../../v0.4.5/index.html">v0.4.5</a></dd>
+                        <dd><a href="../../../../v0.4.6/index.html">v0.4.6</a></dd>
+                        <dd><a href="../../../../v0.4.7/index.html">v0.4.7</a></dd>
+                        <dd><a href="../../../../v0.5.0/index.html">v0.5.0</a></dd>
+                        <dd><a href="../../../../v0.5.1/index.html">v0.5.1</a></dd>
+                        <dd><a href="../../../../v0.5.2/index.html">v0.5.2</a></dd>
+                        <dd><a href="../../../../v0.6.0/index.html">v0.6.0</a></dd>
+                        <dd><a href="../../../../v0.6.1/index.html">v0.6.1</a></dd>
+                        <dd><a href="../../../../v0.6.10/index.html">v0.6.10</a></dd>
+                        <dd><a href="../../../../v0.6.11/index.html">v0.6.11</a></dd>
+                        <dd><a href="../../../../v0.6.12/index.html">v0.6.12</a></dd>
+                        <dd><a href="../../../../v0.6.13/index.html">v0.6.13</a></dd>
+                        <dd><a href="../../../../v0.6.14/index.html">v0.6.14</a></dd>
+                        <dd><a href="../../../../v0.6.2/index.html">v0.6.2</a></dd>
+                        <dd><a href="../../../../v0.6.3/index.html">v0.6.3</a></dd>
+                        <dd><a href="../../../../v0.6.4/index.html">v0.6.4</a></dd>
+                        <dd><a href="../../../../v0.6.5/index.html">v0.6.5</a></dd>
+                        <dd><a href="../../../../v0.6.6/index.html">v0.6.6</a></dd>
+                        <dd><a href="../../../../v0.6.7/index.html">v0.6.7</a></dd>
+                        <dd><a href="../../../../v0.6.8/index.html">v0.6.8</a></dd>
+                        <dd><a href="../../../../v0.6.9/index.html">v0.6.9</a></dd>
+                        <dd><a href="../../../../v0.7.0/api_doc/system/network.html">v0.7.0</a></dd>
+                        <dd><a href="../../../../v0.7.1/api_doc/system/network.html">v0.7.1</a></dd>
+                        <dd><a href="../../../../v0.7.2/api_doc/system/network.html">v0.7.2</a></dd>
+                        <dd><a href="../../../../v0.7.3/api_doc/system/network.html">v0.7.3</a></dd>
+                        <dd><a href="../../../../v0.7.4/api_doc/system/network.html">v0.7.4</a></dd>
+                        <dd><a href="../../../../v0.7.5/api_doc/system/network.html">v0.7.5</a></dd>
+                        <dd><a href="../../../../v0.7.6/api_doc/system/network.html">v0.7.6</a></dd>
+                        <dd><a href="../../../../v0.8.0/api_doc/system/network.html">v0.8.0</a></dd>
+                        <dd><a href="../../../../v0.8.1/api_doc/system/network.html">v0.8.1</a></dd>
+                        <dd><a href="../../../../v0.8.2/api_doc/system/network.html">v0.8.2</a></dd>
+                        <dd><a href="../../../../v0.8.3/api_doc/system/network.html">v0.8.3</a></dd>
+                        <dd><a href="../../../../v0.8.4/api_doc/system/network.html">v0.8.4</a></dd>
+                        <dd><a href="../../../../v0.8.5/api_doc/system/network.html">v0.8.5</a></dd>
+                        <dd><a href="../../../../v0.8.6/api_doc/system/network.html">v0.8.6</a></dd>
+                        <dd><a href="../../../../v0.9.0/api_doc/system/network.html">v0.9.0</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="network.html">dev/deprecation</a></dd>
+                        <dd><a href="../../../color/api_doc/system/network.html">dev/color</a></dd>
+                        <dd><a href="../../../dependency/index.html">dev/dependency</a></dd>
+                        <dd><a href="../../../pythonpath/api_doc/system/network.html">dev/pythonpath</a></dd>
+                        <dd><a href="../../../recover/api_doc/system/network.html">dev/recover</a></dd>
+                        <dd><a href="../../../../main/api_doc/system/network.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
