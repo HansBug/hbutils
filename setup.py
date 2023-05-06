@@ -42,7 +42,7 @@ setup(
     author=meta['__AUTHOR__'],
     author_email=meta['__AUTHOR_EMAIL__'],
     license='Apache License, Version 2.0',
-    keywords='Tree-structured Value Management',
+    keywords='python, generic, utilities',
     url='https://github.com/hansbug/hbutils',
 
     # environment
@@ -60,6 +60,7 @@ setup(
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
+        'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: Implementation :: PyPy'
     ],
 )
