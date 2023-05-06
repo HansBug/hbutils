@@ -41,6 +41,20 @@ get_free_port
 
 
 
+telnet
+--------------------------
+
+.. autofunction:: telnet
+
+
+
+wait_for_port_online
+--------------------------
+
+.. autofunction:: wait_for_port_online
+
+
+
 urlsplit
 --------------------------
 
