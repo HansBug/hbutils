@@ -115,6 +115,8 @@
 <li class="toctree-l3"><a class="reference internal" href="#get-localhost-ip">get_localhost_ip</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#is-free-port">is_free_port</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#get-free-port">get_free_port</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#telnet">telnet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#wait-for-port-online">wait_for_port_online</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#urlsplit">urlsplit</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#spliturl">SplitURL</a></li>
 </ul>
@@ -348,6 +350,56 @@ It will be checked in hosts, and just return <code class="docutils literal notra
 </dd></dl>
 
 </section>
+<section id="telnet">
+<h2>telnet<a class="headerlink" href="#telnet" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.network.telnet">
+<code class="sig-prename descclassname">hbutils.system.network.</code><code class="sig-name descname">telnet</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">host</span></em>, <em class="sig-param"><span class="n">port</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">timeout</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">5.0</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../_modules/hbutils/system/network/telnet_.html#telnet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.network.telnet" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Perform a telnet operation on the given port and return <code class="docutils literal notranslate"><span class="pre">True</span></code> if a response is received
+within the timeout period, otherwise return <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> – Host, e.g. <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code>.</p></li>
+<li><p><strong>port</strong> – Port to test, e.g. <code class="docutils literal notranslate"><span class="pre">32768</span></code>.</p></li>
+<li><p><strong>timeout</strong> – Maximum timeout duration in seconds.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Port is on or not.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="wait-for-port-online">
+<h2>wait_for_port_online<a class="headerlink" href="#wait-for-port-online" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.network.wait_for_port_online">
+<code class="sig-prename descclassname">hbutils.system.network.</code><code class="sig-name descname">wait_for_port_online</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">host</span></em>, <em class="sig-param"><span class="n">port</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">timeout</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>float<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">5</span></em>, <em class="sig-param"><span class="n">interval</span><span class="p">:</span> <span class="n">float</span> <span class="o">=</span> <span class="default_value">0.3</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/system/network/telnet_.html#wait_for_port_online"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.network.wait_for_port_online" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Wait for the given interface to be in an online state.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> – Host, e.g. <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code>.</p></li>
+<li><p><strong>port</strong> – Port to test, e.g. <code class="docutils literal notranslate"><span class="pre">32768</span></code>.</p></li>
+<li><p><strong>timeout</strong> – Maximum timeout duration in seconds. <code class="docutils literal notranslate"><span class="pre">None</span></code> means wait it forever.</p></li>
+<li><p><strong>interval</strong> – Timeout for every <a class="reference internal" href="#hbutils.system.network.telnet" title="hbutils.system.network.telnet"><code class="xref py py-func docutils literal notranslate"><span class="pre">telnet()</span></code></a> operation.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>TimeoutError</strong> – Raise this when timeout is reached and the port is still offline.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 <section id="urlsplit">
 <h2>urlsplit<a class="headerlink" href="#urlsplit" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
@@ -539,12 +591,11 @@ It will be checked in hosts, and just return <code class="docutils literal notra
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/telnet/api_doc/system/network.html">dev/telnet</a></dd>
+                        <dd><a href="network.html">main</a></dd>
                         <dd><a href="../../../dev/color/api_doc/system/network.html">dev/color</a></dd>
                         <dd><a href="../../../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="../../../dev/pythonpath/api_doc/system/network.html">dev/pythonpath</a></dd>
                         <dd><a href="../../../dev/recover/api_doc/system/network.html">dev/recover</a></dd>
-                        <dd><a href="network.html">main</a></dd>
                 </dl>
         </div>
     </div>
