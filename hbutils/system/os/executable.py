@@ -9,7 +9,10 @@ import itertools
 import os
 from typing import Iterable, Iterator, Optional, List
 
+from deprecation import deprecated
+
 from .type import is_windows
+from ...config.meta import __VERSION__
 
 __all__ = [
     'where', 'which',
@@ -37,6 +40,8 @@ def where(execfile: str) -> List[str]:
     return list(_iter_where(execfile))
 
 
+@deprecated(deprecated_in="0.9", removed_in="1.0", current_version=__VERSION__,
+            details="Use the native :func:`shutil.which` instead")
 def which(execfile: str) -> Optional[str]:
     """
     Overview:
