@@ -1,0 +1,430 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hbutils.binary.base &mdash; hbutils 0.9.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> hbutils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/installation/index.html">Installation</a></li>
+</ul>
+<p><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/algorithm/index.html">hbutils.algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/binary/index.html">hbutils.binary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/collection/index.html">hbutils.collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/color/index.html">hbutils.color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/config/index.html">hbutils.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/design/index.html">hbutils.design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/expression/index.html">hbutils.expression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/file/index.html">hbutils.file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/model/index.html">hbutils.model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/random/index.html">hbutils.random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/reflection/index.html">hbutils.reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/scale/index.html">hbutils.scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/string/index.html">hbutils.string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/system/index.html">hbutils.system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/testing/index.html">hbutils.testing</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">hbutils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>hbutils.binary.base</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <h1>Source code for hbutils.binary.base</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">struct</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">BinaryIO</span>
+
+
+<div class="viewcode-block" id="CIOType"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CIOType">[docs]</a><span class="k">class</span> <span class="nc">CIOType</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Basic IO type.</span>
+<span class="sd">        Used as base class of all the IO types.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="CIOType.read"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CIOType.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read from binary IO object.</span>
+
+<span class="sd">        :param file: Binary file, ``io.BytesIO`` is supported as well.</span>
+<span class="sd">        :return: Reading result.</span>
+
+<span class="sd">        .. warning::</span>
+<span class="sd">            Need to be implemented.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma: no cover</span></div>
+
+<div class="viewcode-block" id="CIOType.write"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CIOType.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Write object to binary IO object.</span>
+
+<span class="sd">        :param file: Binary file, ``io.BytesIO`` is supported as well.</span>
+<span class="sd">        :param val: Object to write.</span>
+
+<span class="sd">        .. warning::</span>
+<span class="sd">            Need to be implemented.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma: no cover</span></div></div>
+
+
+<div class="viewcode-block" id="CFixedType"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CFixedType">[docs]</a><span class="k">class</span> <span class="nc">CFixedType</span><span class="p">(</span><span class="n">CIOType</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Type with fixed size (such as ``int``, ``uint`` and ``float``).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="CFixedType.__init__"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CFixedType.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of :class:`CFixedType`.</span>
+
+<span class="sd">        :param size: Size of the type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__size</span> <span class="o">=</span> <span class="n">size</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Size of the given type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__size</span>
+
+<div class="viewcode-block" id="CFixedType.read"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CFixedType.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma: no cover</span></div>
+
+<div class="viewcode-block" id="CFixedType.write"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CFixedType.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma: no cover</span></div></div>
+
+
+<div class="viewcode-block" id="CRangedIntType"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CRangedIntType">[docs]</a><span class="k">class</span> <span class="nc">CRangedIntType</span><span class="p">(</span><span class="n">CFixedType</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Type with fixed size and range (such as ``int`` and ``uint``).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="CRangedIntType.__init__"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CRangedIntType.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">minimum</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">maximum</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of :class:`CRangedIntType`.</span>
+
+<span class="sd">        :param size: Size of the type.</span>
+<span class="sd">        :param minimum: Min value of the type.</span>
+<span class="sd">        :param maximum: Max value of the type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">CFixedType</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__size</span> <span class="o">=</span> <span class="n">size</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__minimum</span> <span class="o">=</span> <span class="n">minimum</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__maximum</span> <span class="o">=</span> <span class="n">maximum</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">minimum</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Min value of the type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__minimum</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">maximum</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Max value of the type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__maximum</span>
+
+<div class="viewcode-block" id="CRangedIntType.read"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CRangedIntType.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma: no cover</span></div>
+
+<div class="viewcode-block" id="CRangedIntType.write"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CRangedIntType.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>  <span class="c1"># pragma: no cover</span></div></div>
+
+
+<div class="viewcode-block" id="CMarkedType"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CMarkedType">[docs]</a><span class="k">class</span> <span class="nc">CMarkedType</span><span class="p">(</span><span class="n">CFixedType</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Type with struct mark, which can be directly read by ``struct`` module.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="CMarkedType.__init__"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CMarkedType.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mark</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of :class:`CMarkedType`.</span>
+
+<span class="sd">        :param mark: Mark of the type.</span>
+<span class="sd">        :param size: Size of the type.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">CFixedType</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__mark</span> <span class="o">=</span> <span class="n">mark</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">mark</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Mark of the type, will be used to read from binary data with ``struct`` module.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__mark</span>
+
+<div class="viewcode-block" id="CMarkedType.read"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CMarkedType.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read from binary with ``struct`` module.</span>
+
+<span class="sd">        :param file: Binary file, ``io.BytesIO`` is supported as well.</span>
+<span class="sd">        :return: Result value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">r</span><span class="p">,</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mark</span><span class="p">,</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">r</span></div>
+
+<div class="viewcode-block" id="CMarkedType.write"><a class="viewcode-back" href="../../../api_doc/binary/base.html#hbutils.binary.base.CMarkedType.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">:</span> <span class="n">BinaryIO</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Write value to binary IO with ``struct`` module.</span>
+
+<span class="sd">        :param file: Binary file, ``io.BytesIO`` is supported as well.</span>
+<span class="sd">        :param val: Writing value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">struct</span><span class="o">.</span><span class="n">pack</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mark</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="n">val</span><span class="p">)))</span></div></div>
+</pre></div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2023, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/telnet
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../../v0.0.1/index.html">v0.0.1</a></dd>
+                        <dd><a href="../../../../../v0.1.0/index.html">v0.1.0</a></dd>
+                        <dd><a href="../../../../../v0.1.1/index.html">v0.1.1</a></dd>
+                        <dd><a href="../../../../../v0.2.0/index.html">v0.2.0</a></dd>
+                        <dd><a href="../../../../../v0.3.0/index.html">v0.3.0</a></dd>
+                        <dd><a href="../../../../../v0.3.1/index.html">v0.3.1</a></dd>
+                        <dd><a href="../../../../../v0.3.2/index.html">v0.3.2</a></dd>
+                        <dd><a href="../../../../../v0.3.3/index.html">v0.3.3</a></dd>
+                        <dd><a href="../../../../../v0.4.0/index.html">v0.4.0</a></dd>
+                        <dd><a href="../../../../../v0.4.1/index.html">v0.4.1</a></dd>
+                        <dd><a href="../../../../../v0.4.2/index.html">v0.4.2</a></dd>
+                        <dd><a href="../../../../../v0.4.3/index.html">v0.4.3</a></dd>
+                        <dd><a href="../../../../../v0.4.4/index.html">v0.4.4</a></dd>
+                        <dd><a href="../../../../../v0.4.5/index.html">v0.4.5</a></dd>
+                        <dd><a href="../../../../../v0.4.6/index.html">v0.4.6</a></dd>
+                        <dd><a href="../../../../../v0.4.7/index.html">v0.4.7</a></dd>
+                        <dd><a href="../../../../../v0.5.0/index.html">v0.5.0</a></dd>
+                        <dd><a href="../../../../../v0.5.1/index.html">v0.5.1</a></dd>
+                        <dd><a href="../../../../../v0.5.2/index.html">v0.5.2</a></dd>
+                        <dd><a href="../../../../../v0.6.0/index.html">v0.6.0</a></dd>
+                        <dd><a href="../../../../../v0.6.1/index.html">v0.6.1</a></dd>
+                        <dd><a href="../../../../../v0.6.10/index.html">v0.6.10</a></dd>
+                        <dd><a href="../../../../../v0.6.11/index.html">v0.6.11</a></dd>
+                        <dd><a href="../../../../../v0.6.12/index.html">v0.6.12</a></dd>
+                        <dd><a href="../../../../../v0.6.13/index.html">v0.6.13</a></dd>
+                        <dd><a href="../../../../../v0.6.14/index.html">v0.6.14</a></dd>
+                        <dd><a href="../../../../../v0.6.2/index.html">v0.6.2</a></dd>
+                        <dd><a href="../../../../../v0.6.3/index.html">v0.6.3</a></dd>
+                        <dd><a href="../../../../../v0.6.4/index.html">v0.6.4</a></dd>
+                        <dd><a href="../../../../../v0.6.5/index.html">v0.6.5</a></dd>
+                        <dd><a href="../../../../../v0.6.6/index.html">v0.6.6</a></dd>
+                        <dd><a href="../../../../../v0.6.7/index.html">v0.6.7</a></dd>
+                        <dd><a href="../../../../../v0.6.8/index.html">v0.6.8</a></dd>
+                        <dd><a href="../../../../../v0.6.9/index.html">v0.6.9</a></dd>
+                        <dd><a href="../../../../../v0.7.0/index.html">v0.7.0</a></dd>
+                        <dd><a href="../../../../../v0.7.1/index.html">v0.7.1</a></dd>
+                        <dd><a href="../../../../../v0.7.2/index.html">v0.7.2</a></dd>
+                        <dd><a href="../../../../../v0.7.3/index.html">v0.7.3</a></dd>
+                        <dd><a href="../../../../../v0.7.4/index.html">v0.7.4</a></dd>
+                        <dd><a href="../../../../../v0.7.5/index.html">v0.7.5</a></dd>
+                        <dd><a href="../../../../../v0.7.6/index.html">v0.7.6</a></dd>
+                        <dd><a href="../../../../../v0.8.0/index.html">v0.8.0</a></dd>
+                        <dd><a href="../../../../../v0.8.1/index.html">v0.8.1</a></dd>
+                        <dd><a href="../../../../../v0.8.2/index.html">v0.8.2</a></dd>
+                        <dd><a href="../../../../../v0.8.3/index.html">v0.8.3</a></dd>
+                        <dd><a href="../../../../../v0.8.4/index.html">v0.8.4</a></dd>
+                        <dd><a href="../../../../../v0.8.5/index.html">v0.8.5</a></dd>
+                        <dd><a href="../../../../../v0.8.6/index.html">v0.8.6</a></dd>
+                        <dd><a href="../../../../../v0.9.0/index.html">v0.9.0</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="base.html">dev/telnet</a></dd>
+                        <dd><a href="../../../../color/index.html">dev/color</a></dd>
+                        <dd><a href="../../../../dependency/index.html">dev/dependency</a></dd>
+                        <dd><a href="../../../../pythonpath/index.html">dev/pythonpath</a></dd>
+                        <dd><a href="../../../../recover/index.html">dev/recover</a></dd>
+                        <dd><a href="../../../../../main/index.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

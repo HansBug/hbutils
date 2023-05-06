@@ -220,13 +220,13 @@
 </aside>
 <dl>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.expression</span> <span class="kn">import</span> <span class="n">keep</span><span class="p">,</span> <span class="n">efunc</span><span class="p">,</span> <span class="n">expr</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">e1</span> <span class="o">=</span> <span class="n">keep</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">efunc</span><span class="p">(</span><span class="n">e1</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)(</span><span class="mi">1</span><span class="p">)</span>
 <span class="go">True</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">efunc</span><span class="p">(</span><span class="n">e1</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)(</span><span class="mi">2</span><span class="p">)</span>
 <span class="go">False</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">e2</span> <span class="o">=</span> <span class="n">expr</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">2</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">efunc</span><span class="p">(</span><span class="n">e2</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 <span class="go">True</span>
@@ -362,12 +362,12 @@
 </dl>
 <dl>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.expression</span> <span class="kn">import</span> <span class="n">efunc</span><span class="p">,</span> <span class="n">Expression</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">MyExpression</span><span class="p">(</span><span class="n">Expression</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
 <span class="gp">... </span>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
 <span class="gp">...</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">e1</span> <span class="o">=</span> <span class="n">MyExpression</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">efunc</span><span class="p">(</span><span class="n">e1</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">))(</span><span class="mi">5</span><span class="p">)</span>  <span class="c1"># 5 + 1 = 6</span>
 <span class="go">6</span>
@@ -637,6 +637,7 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../telnet/api_doc/expression/native.html">dev/telnet</a></dd>
                         <dd><a href="../../../color/api_doc/expression/native.html">dev/color</a></dd>
                         <dd><a href="../../../dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="native.html">dev/pythonpath</a></dd>

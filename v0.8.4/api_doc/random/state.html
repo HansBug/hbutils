@@ -221,7 +221,7 @@
 <dl>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">random</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.random</span> <span class="kn">import</span> <span class="n">global_seed</span><span class="p">,</span> <span class="n">register_random_source</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rnd</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">()</span>  <span class="c1"># custom random object</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">global_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># try to use same seed</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rnd</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
@@ -229,7 +229,7 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">global_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rnd</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>  <span class="c1"># not same</span>
 <span class="go">0.06875325446897462</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">register_random_source</span><span class="p">(</span><span class="s1">&#39;custom_random&#39;</span><span class="p">,</span> <span class="n">rnd</span><span class="o">.</span><span class="n">seed</span><span class="p">,</span> <span class="n">rnd</span><span class="o">.</span><span class="n">getstate</span><span class="p">,</span> <span class="n">rnd</span><span class="o">.</span><span class="n">setstate</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">global_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># try again</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rnd</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
@@ -264,7 +264,7 @@
 <dl>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">random</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.random</span> <span class="kn">import</span> <span class="n">global_seed</span><span class="p">,</span> <span class="n">register_random_instance</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rnd</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">Random</span><span class="p">()</span>  <span class="c1"># custom random object</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">global_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># try to use same seed</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rnd</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
@@ -272,7 +272,7 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">global_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rnd</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>  <span class="c1"># not same</span>
 <span class="go">0.4113361070387721</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">register_random_instance</span><span class="p">(</span><span class="s1">&#39;custom_random&#39;</span><span class="p">,</span> <span class="n">rnd</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">global_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># try again</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">rnd</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
@@ -306,14 +306,14 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">faker</span> <span class="kn">import</span> <span class="n">Faker</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.random</span> <span class="kn">import</span> <span class="n">get_global_state</span><span class="p">,</span> <span class="n">set_global_state</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>  <span class="c1"># just do something</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">states</span> <span class="o">=</span> <span class="n">get_global_state</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>  <span class="c1"># first time&#39;s result</span>
 <span class="go">99</span>
@@ -327,7 +327,7 @@
 <span class="go">       [ 0.78748336, -0.01407442, -0.6607438 ]])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">Faker</span><span class="p">()</span><span class="o">.</span><span class="n">sentence</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
 <span class="go">&#39;New pass crime most.&#39;</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">set_global_state</span><span class="p">(</span><span class="n">states</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>  <span class="c1"># same as the first time</span>
 <span class="go">99</span>
@@ -379,7 +379,7 @@
 </dd>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.random</span> <span class="kn">import</span> <span class="n">global_seed</span><span class="p">,</span> <span class="n">keep_global_state</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">global_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># before value 1</span>
 <span class="go">tensor([[ 1.5410, -0.2934, -2.1788],</span>
@@ -387,7 +387,7 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># after value 1</span>
 <span class="go">tensor([[ 0.4033,  0.8380, -0.7193],</span>
 <span class="go">        [-0.4033, -0.5966,  0.1820]])</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">global_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># before value 2, same as 1</span>
 <span class="go">tensor([[ 1.5410, -0.2934, -2.1788],</span>
@@ -443,18 +443,18 @@
 <dl>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">torch</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.random</span> <span class="kn">import</span> <span class="n">seedable_func</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nd">@seedable_func</span>
 <span class="gp">... </span><span class="k">def</span> <span class="nf">get_random_value</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="n">std</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">randn</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span> <span class="o">*</span> <span class="n">std</span> <span class="o">+</span> <span class="n">mean</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">get_random_value</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="go">tensor([[-0.0844,  5.2530,  3.4248],</span>
 <span class="go">        [ 4.4923,  0.0492,  3.6731]])</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">get_random_value</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>  <span class="c1"># not the same</span>
 <span class="go">tensor([[2.7600, 2.5135, 0.6484],</span>
 <span class="go">        [1.2459, 0.1020, 2.5905]])</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">get_random_value</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">seed</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="go">tensor([[ 6.6230,  1.1197, -4.5364],</span>
 <span class="go">        [ 3.7053, -1.2536, -2.1958]])</span>
@@ -570,6 +570,7 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../dev/telnet/api_doc/random/state.html">dev/telnet</a></dd>
                         <dd><a href="../../../dev/color/index.html">dev/color</a></dd>
                         <dd><a href="../../../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="../../../dev/pythonpath/index.html">dev/pythonpath</a></dd>

@@ -226,17 +226,17 @@
 <span class="gp">... </span>    <span class="kn">from</span> <span class="nn">gf1</span> <span class="kn">import</span> <span class="n">FIXED</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;FIXED in igm:&#39;</span><span class="p">,</span> <span class="n">FIXED</span><span class="p">)</span>
 <span class="go">FIXED in igm: 1234567</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">mount_pythonpath</span><span class="p">(</span><span class="s1">&#39;test/testfile/dir1&#39;</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="kn">from</span> <span class="nn">gf1</span> <span class="kn">import</span> <span class="n">FIXED</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;FIXED in dir1:&#39;</span><span class="p">,</span> <span class="n">FIXED</span><span class="p">)</span>
 <span class="go">FIXED in dir1: 233</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">mount_pythonpath</span><span class="p">(</span><span class="s1">&#39;test/testfile/dir2&#39;</span><span class="p">):</span>
 <span class="gp">... </span>    <span class="kn">from</span> <span class="nn">gf1</span> <span class="kn">import</span> <span class="n">FIXED</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;FIXED in dir2:&#39;</span><span class="p">,</span> <span class="n">FIXED</span><span class="p">)</span>
 <span class="go">FIXED in dir2: 455</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">gf1</span> <span class="kn">import</span> <span class="n">FIXED</span>  <span class="c1"># cannot import outside</span>
 <span class="go">ModuleNotFoundError: No module named &#39;gf1&#39;</span>
 </pre></div>
@@ -396,6 +396,7 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../dev/telnet/api_doc/reflection/module.html">dev/telnet</a></dd>
                         <dd><a href="../../../dev/color/api_doc/reflection/module.html">dev/color</a></dd>
                         <dd><a href="../../../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="../../../dev/pythonpath/api_doc/reflection/module.html">dev/pythonpath</a></dd>

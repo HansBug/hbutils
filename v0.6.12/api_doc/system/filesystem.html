@@ -259,7 +259,7 @@ Just like the <code class="docutils literal notranslate"><span class="pre">touch
 </aside>
 <dl>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">glob</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*.md&#39;</span><span class="p">))</span>  <span class="c1"># simple filter</span>
 <span class="go">[&#39;CONTRIBUTING.md&#39;, &#39;README.md&#39;]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*.md&#39;</span><span class="p">,</span> <span class="s1">&#39;*.txt&#39;</span><span class="p">))</span>  <span class="c1"># multiple filter</span>
@@ -302,20 +302,20 @@ Otherwise, the first path will be copied to the last path (exactly 2 arguments a
 <dl>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">copy</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
 <span class="go">[&#39;test&#39;, &#39;README.md&#39;, &#39;cloc.sh&#39;, &#39;LICENSE&#39;, &#39;codecov.yml&#39;, &#39;pytest.ini&#39;, &#39;Makefile&#39;, &#39;setup.py&#39;, &#39;requirements-test.txt&#39;, &#39;requirements-doc.txt&#39;, &#39;requirements.txt&#39;]</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">copy</span><span class="p">(</span><span class="s1">&#39;cloc.sh&#39;</span><span class="p">,</span> <span class="s1">&#39;new_cloc.sh&#39;</span><span class="p">)</span>  <span class="c1"># copy file</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">copy</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="s1">&#39;new_test&#39;</span><span class="p">)</span>  <span class="c1"># copy directory</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
 <span class="go">[&#39;test&#39;, &#39;README.md&#39;, &#39;cloc.sh&#39;, &#39;LICENSE&#39;, &#39;codecov.yml&#39;, &#39;new_test&#39;, &#39;pytest.ini&#39;, &#39;Makefile&#39;, &#39;setup.py&#39;, &#39;requirements-test.txt&#39;, &#39;requirements-doc.txt&#39;, &#39;requirements.txt&#39;, &#39;new_cloc.sh&#39;]</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s1">&#39;new_path_1&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">copy</span><span class="p">(</span><span class="s1">&#39;*.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;new_path_1&#39;</span><span class="p">)</span>  <span class="c1"># copy to new path</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;new_path_1&#39;</span><span class="p">)</span>
 <span class="go">[&#39;requirements-test.txt&#39;, &#39;requirements-doc.txt&#39;, &#39;requirements.txt&#39;]</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s1">&#39;new_path_2&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">copy</span><span class="p">(</span><span class="s1">&#39;*.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;test/system/**/*.py&#39;</span><span class="p">,</span> <span class="s1">&#39;new_path_2&#39;</span><span class="p">)</span>  <span class="c1"># copy plenty of files to new path</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;new_path_2&#39;</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
@@ -358,21 +358,21 @@ Otherwise, the first path will be copied to the last path (exactly 2 arguments a
 <dl>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">remove</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
 <span class="go">[&#39;test&#39;, &#39;README.md&#39;, &#39;cloc.sh&#39;, &#39;codecov.yml&#39;, &#39;new_test&#39;, &#39;new_path_2&#39;, &#39;setup.py&#39;, &#39;requirements-test.txt&#39;, &#39;new_path_1&#39;, &#39;requirements-doc.txt&#39;, &#39;requirements.txt&#39;, &#39;new_cloc.sh&#39;]</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;codecov.yml&#39;</span><span class="p">)</span>  <span class="c1"># remove file</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;new_test&#39;</span><span class="p">)</span>  <span class="c1"># remove directory</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
 <span class="go">[&#39;test&#39;, &#39;README.md&#39;, &#39;cloc.sh&#39;, &#39;new_path_2&#39;, &#39;setup.py&#39;, &#39;requirements-test.txt&#39;, &#39;new_path_1&#39;, &#39;requirements-doc.txt&#39;, &#39;requirements.txt&#39;, &#39;new_cloc.sh&#39;]</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;new_path_1&#39;</span><span class="p">)</span>
 <span class="go">[&#39;requirements-test.txt&#39;, &#39;requirements-doc.txt&#39;, &#39;requirements.txt&#39;]</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;new_path_1/*.txt&#39;</span><span class="p">)</span>  <span class="c1"># remove files from directory</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;new_path_1&#39;</span><span class="p">)</span>
 <span class="go">[]</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;new_path_2&#39;</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 <span class="go">test_version.py</span>
 <span class="go">test_file.py</span>
@@ -419,7 +419,7 @@ Otherwise, the first path will be copied to the last path (exactly 2 arguments a
 </aside>
 <dl>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">getsize</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">getsize</span><span class="p">(</span><span class="s1">&#39;README.md&#39;</span><span class="p">)</span>  <span class="c1"># a file</span>
 <span class="go">5368</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">getsize</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>  <span class="c1"># a directory</span>
@@ -532,6 +532,7 @@ Otherwise, the first path will be copied to the last path (exactly 2 arguments a
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../dev/telnet/api_doc/system/filesystem.html">dev/telnet</a></dd>
                         <dd><a href="../../../dev/color/api_doc/system/filesystem.html">dev/color</a></dd>
                         <dd><a href="../../../dev/dependency/api_doc/system/filesystem.html">dev/dependency</a></dd>
                         <dd><a href="../../../dev/pythonpath/api_doc/system/filesystem.html">dev/pythonpath</a></dd>

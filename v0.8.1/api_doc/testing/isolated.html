@@ -218,7 +218,7 @@
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pathlib</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">isolated_directory</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">isolated_directory</span><span class="p">():</span>
 <span class="gp">... </span>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;file.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
 <span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Line 1&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">f</span><span class="p">)</span>
@@ -237,7 +237,7 @@
 </ul>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">isolated_directory</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">isolated_directory</span><span class="p">({</span>
 <span class="gp">... </span>    <span class="s1">&#39;ts&#39;</span><span class="p">:</span> <span class="s1">&#39;hbutils/testing&#39;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="s1">&#39;README.md&#39;</span><span class="p">:</span> <span class="s1">&#39;README.md&#39;</span><span class="p">,</span>
@@ -355,7 +355,7 @@ Can be used to fake the plugins, or just disable the installed plugins.</p>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">logging</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rich.logging</span> <span class="kn">import</span> <span class="n">RichHandler</span>  <span class="c1"># a 3rd-party logger</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">isolated_logger</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;this is error&#39;</span><span class="p">)</span>  <span class="c1"># normal log</span>
 <span class="go">ERROR:root:this is error</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;this is error&#39;</span><span class="p">)</span>
@@ -482,6 +482,7 @@ Can be used to fake the plugins, or just disable the installed plugins.</p>
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../dev/telnet/api_doc/testing/isolated.html">dev/telnet</a></dd>
                         <dd><a href="../../../dev/color/api_doc/testing/isolated.html">dev/color</a></dd>
                         <dd><a href="../../../dev/dependency/api_doc/testing/isolated.html">dev/dependency</a></dd>
                         <dd><a href="../../../dev/pythonpath/api_doc/testing/isolated.html">dev/pythonpath</a></dd>

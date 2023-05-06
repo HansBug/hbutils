@@ -221,10 +221,10 @@
 </dd>
 <dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">FinalClass</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">FinalMeta</span><span class="p">):</span>  <span class="c1"># this is a final class</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="k">pass</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">TryToExtendFinalClass</span><span class="p">(</span><span class="n">FinalMeta</span><span class="p">):</span>  <span class="c1"># TypeError will be raised in compile time</span>
 <span class="gp">&gt;&gt;&gt; </span>    <span class="k">pass</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 </pre></div>
 </div>
 </dd>
@@ -333,6 +333,7 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../telnet/api_doc/design/final.html">dev/telnet</a></dd>
                         <dd><a href="final.html">dev/color</a></dd>
                         <dd><a href="../../../dependency/api_doc/design/final.html">dev/dependency</a></dd>
                         <dd><a href="../../../pythonpath/api_doc/design/final.html">dev/pythonpath</a></dd>

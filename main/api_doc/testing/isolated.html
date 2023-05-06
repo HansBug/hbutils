@@ -218,7 +218,7 @@
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pathlib</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">isolated_directory</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">isolated_directory</span><span class="p">():</span>
 <span class="gp">... </span>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;file.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
 <span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Line 1&quot;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">f</span><span class="p">)</span>
@@ -237,7 +237,7 @@
 </ul>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">isolated_directory</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">isolated_directory</span><span class="p">({</span>
 <span class="gp">... </span>    <span class="s1">&#39;ts&#39;</span><span class="p">:</span> <span class="s1">&#39;hbutils/testing&#39;</span><span class="p">,</span>
 <span class="gp">... </span>    <span class="s1">&#39;README.md&#39;</span><span class="p">:</span> <span class="s1">&#39;README.md&#39;</span><span class="p">,</span>
@@ -309,9 +309,9 @@ Can be used to fake the plugins, or just disable the installed plugins.</p>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">importlib.metadata</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">importlib_metadata</span>  <span class="c1"># backport for py3.7</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pkg_resources</span>  <span class="c1"># deprecated</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">isolated_entry_points</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># nothing at the beginning</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">({</span><span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="p">:</span> <span class="n">ep</span><span class="o">.</span><span class="n">load</span><span class="p">()</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span>
 <span class="gp">... </span>       <span class="n">pkg_resources</span><span class="o">.</span><span class="n">iter_entry_points</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">)})</span>
@@ -320,7 +320,7 @@ Can be used to fake the plugins, or just disable the installed plugins.</p>
 <span class="go">None</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">importlib_metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">))</span>
 <span class="go">()</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># mock the plugins</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">isolated_entry_points</span><span class="p">(</span><span class="s1">&#39;my_plugin&#39;</span><span class="p">,</span> <span class="p">[</span>
 <span class="gp">... </span>    <span class="p">(</span>
@@ -399,7 +399,7 @@ discontinued in the next major version.</p>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">logging</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">rich.logging</span> <span class="kn">import</span> <span class="n">RichHandler</span>  <span class="c1"># a 3rd-party logger</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">isolated_logger</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;this is error&#39;</span><span class="p">)</span>  <span class="c1"># normal log</span>
 <span class="go">ERROR:root:this is error</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">logging</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s1">&#39;this is error&#39;</span><span class="p">)</span>
@@ -526,6 +526,7 @@ discontinued in the next major version.</p>
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../dev/telnet/api_doc/testing/isolated.html">dev/telnet</a></dd>
                         <dd><a href="../../../dev/color/api_doc/testing/isolated.html">dev/color</a></dd>
                         <dd><a href="../../../dev/dependency/api_doc/testing/isolated.html">dev/dependency</a></dd>
                         <dd><a href="../../../dev/pythonpath/api_doc/testing/isolated.html">dev/pythonpath</a></dd>

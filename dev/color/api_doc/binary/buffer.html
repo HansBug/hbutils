@@ -270,7 +270,7 @@ If the length is not enough, <code class="docutils literal notranslate"><span cl
 <dl>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">io</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.binary</span> <span class="kn">import</span> <span class="n">c_buffer</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xde\xad\xbe\xef\x00\x12\x34\x56\x78\x00</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_buffer</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">c_buffer</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
@@ -393,6 +393,7 @@ If the length is not enough, <code class="docutils literal notranslate"><span cl
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../telnet/api_doc/binary/buffer.html">dev/telnet</a></dd>
                         <dd><a href="buffer.html">dev/color</a></dd>
                         <dd><a href="../../../dependency/api_doc/binary/buffer.html">dev/dependency</a></dd>
                         <dd><a href="../../../pythonpath/api_doc/binary/buffer.html">dev/pythonpath</a></dd>

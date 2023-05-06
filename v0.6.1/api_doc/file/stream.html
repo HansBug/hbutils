@@ -207,7 +207,7 @@
 <dl>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">io</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.file</span> <span class="kn">import</span> <span class="n">keep_cursor</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xde\xad\xbe\xef</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
 <span class="gp">... </span>    <span class="k">with</span> <span class="n">keep_cursor</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
 <span class="gp">... </span>        <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
@@ -254,7 +254,7 @@
 <dl>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">io</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.file</span> <span class="kn">import</span> <span class="n">getsize</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xde\xad\xbe\xef</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">getsize</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
 <span class="go">4</span>
@@ -292,7 +292,7 @@
 <dl>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">io</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.file</span> <span class="kn">import</span> <span class="n">is_eof</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\xde\xad\xbe\xef</span><span class="s1">&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
 <span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">tell</span><span class="p">(),</span> <span class="n">is_eof</span><span class="p">(</span><span class="n">file</span><span class="p">))</span>
 <span class="gp">... </span>    <span class="n">_</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
@@ -421,6 +421,7 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../dev/telnet/api_doc/file/stream.html">dev/telnet</a></dd>
                         <dd><a href="../../../dev/color/api_doc/file/stream.html">dev/color</a></dd>
                         <dd><a href="../../../dev/dependency/api_doc/file/stream.html">dev/dependency</a></dd>
                         <dd><a href="../../../dev/pythonpath/api_doc/file/stream.html">dev/pythonpath</a></dd>

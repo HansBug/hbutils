@@ -285,7 +285,7 @@ Can be used on <code class="docutils literal notranslate"><span class="pre">unit
 </dd>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">unittest</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">OS</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">TestMyCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>  <span class="c1"># on Linux</span>
 <span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_1_anytime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="gp">... </span>        <span class="k">assert</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">3</span>
@@ -355,7 +355,7 @@ See <a class="reference external" href="https://docs.python.org/3/library/platfo
 </dl>
 </div></blockquote>
 <dl>
-<dt>from hbutils.testing import Impl</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="go">&gt;&gt;&gt;</span>
+<dt>from hbutils.testing import Impl</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="k">class</span> <span class="nc">TestMyCase</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>  <span class="c1"># on CPython</span>
 <span class="gp">... </span>    <span class="k">def</span> <span class="nf">test_1_anytime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="gp">... </span>        <span class="k">assert</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="mi">3</span>
@@ -431,7 +431,7 @@ See <a class="reference external" href="https://docs.python.org/3/library/platfo
 </dl>
 <dl>
 <dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.testing</span> <span class="kn">import</span> <span class="n">cmdv</span>
-<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cmdv</span><span class="p">(</span><span class="s1">&#39;apt-get&#39;</span><span class="p">)</span>  <span class="c1"># should exist on Ubuntu</span>
 <span class="go">True</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">cmdv</span><span class="p">(</span><span class="s1">&#39;bash&#39;</span><span class="p">)</span>  <span class="c1"># should exist on Linux</span>
@@ -544,6 +544,7 @@ See <a class="reference external" href="https://docs.python.org/3/library/platfo
                 </dl>
                 <dl>
                     <dt>Branches</dt>
+                        <dd><a href="../../../dev/telnet/api_doc/testing/requires.html">dev/telnet</a></dd>
                         <dd><a href="../../../dev/color/api_doc/testing/requires.html">dev/color</a></dd>
                         <dd><a href="../../../dev/dependency/index.html">dev/dependency</a></dd>
                         <dd><a href="../../../dev/pythonpath/api_doc/testing/requires.html">dev/pythonpath</a></dd>
