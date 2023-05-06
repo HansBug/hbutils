@@ -182,7 +182,10 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">List</span>
 
+<span class="kn">from</span> <span class="nn">deprecation</span> <span class="kn">import</span> <span class="n">deprecated</span>
+
 <span class="kn">from</span> <span class="nn">.type</span> <span class="kn">import</span> <span class="n">is_windows</span>
+<span class="kn">from</span> <span class="nn">...config.meta</span> <span class="kn">import</span> <span class="n">__VERSION__</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;where&#39;</span><span class="p">,</span> <span class="s1">&#39;which&#39;</span><span class="p">,</span>
@@ -210,7 +213,9 @@
     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">_iter_where</span><span class="p">(</span><span class="n">execfile</span><span class="p">))</span></div>
 
 
-<div class="viewcode-block" id="which"><a class="viewcode-back" href="../../../../api_doc/system/os.html#hbutils.system.os.which">[docs]</a><span class="k">def</span> <span class="nf">which</span><span class="p">(</span><span class="n">execfile</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<div class="viewcode-block" id="which"><a class="viewcode-back" href="../../../../api_doc/system/os.html#hbutils.system.os.which">[docs]</a><span class="nd">@deprecated</span><span class="p">(</span><span class="n">deprecated_in</span><span class="o">=</span><span class="s2">&quot;0.9&quot;</span><span class="p">,</span> <span class="n">removed_in</span><span class="o">=</span><span class="s2">&quot;1.0&quot;</span><span class="p">,</span> <span class="n">current_version</span><span class="o">=</span><span class="n">__VERSION__</span><span class="p">,</span>
+            <span class="n">details</span><span class="o">=</span><span class="s2">&quot;Use the native :func:`shutil.which` instead&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">which</span><span class="p">(</span><span class="n">execfile</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Overview:</span>
 <span class="sd">        Returns first matching file path, which is the one when we operate in terminal.</span>
@@ -368,12 +373,12 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../../dev/deprecation/index.html">dev/deprecation</a></dd>
+                        <dd><a href="executable.html">main</a></dd>
                         <dd><a href="../../../../../dev/color/index.html">dev/color</a></dd>
                         <dd><a href="../../../../../dev/dependency/index.html">dev/dependency</a></dd>
+                        <dd><a href="../../../../../dev/deprecation/index.html">dev/deprecation</a></dd>
                         <dd><a href="../../../../../dev/pythonpath/index.html">dev/pythonpath</a></dd>
                         <dd><a href="../../../../../dev/recover/index.html">dev/recover</a></dd>
-                        <dd><a href="executable.html">main</a></dd>
                 </dl>
         </div>
     </div>
