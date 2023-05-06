@@ -1,3 +1,4 @@
+import socket
 import time
 from telnetlib import Telnet
 
@@ -23,7 +24,9 @@ def telnet(host, port: int, timeout: float = 5.0) -> bool:
     try:
         with Telnet(host, port, timeout):
             return True
-    except ConnectionRefusedError:
+    except (ConnectionRefusedError, socket.timeout):
+        # ConnectionRefusedError is for Linux and macOS
+        # socket.timeout is for Windows
         return False
 
 
