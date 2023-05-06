@@ -11,7 +11,8 @@ from hbutils.testing import OS
 class TestSystemOSExecutable:
     @unittest.skipUnless(OS.linux or OS.macos, 'Linux and macOS only')
     def test_which_linux(self):
-        bash_path = which('bash')
+        with pytest.warns(DeprecationWarning):
+            bash_path = which('bash')
 
         assert os.path.exists(bash_path)
         assert os.path.isfile(bash_path)
@@ -20,11 +21,13 @@ class TestSystemOSExecutable:
         _, filename = os.path.split(bash_path)
         assert filename == 'bash'
 
-        assert which('not_exist') is None
+        with pytest.warns(DeprecationWarning):
+            assert which('not_exist') is None
 
     @unittest.skipUnless(OS.windows, 'Windows only')
     def test_which_windows(self):
-        cmd_path = which('cmd')
+        with pytest.warns(DeprecationWarning):
+            cmd_path = which('cmd')
         assert os.path.exists(cmd_path)
         assert os.path.isfile(cmd_path)
         assert os.access(cmd_path, os.R_OK)
@@ -32,7 +35,8 @@ class TestSystemOSExecutable:
         _, filename = os.path.split(cmd_path)
         assert filename == 'cmd.exe'
 
-        assert which('not_exist') is None
+        with pytest.warns(DeprecationWarning):
+            assert which('not_exist') is None
 
     @unittest.skipUnless(OS.linux or OS.macos, 'Linux and macOS only')
     def test_where_linux(self):
