@@ -6,9 +6,13 @@ import os
 import platform
 import shutil
 import tempfile
-import types
 import warnings
 import weakref
+
+try:
+    from types import GenericAlias
+except (ImportError, ModuleNotFoundError):
+    GenericAlias = None
 
 __all__ = [
     'TemporaryDirectory',
@@ -90,7 +94,8 @@ elif _python_version_tuple >= (3, 8):
             if self._finalizer.detach() or os.path.exists(self.name):
                 self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
 
-        __class_getitem__ = classmethod(types.GenericAlias)
+        if GenericAlias is not None:
+            __class_getitem__ = classmethod(GenericAlias)
 
 else:
     class TemporaryDirectory(object):
