@@ -91,3 +91,11 @@ class TestTestingCaptureOutput:
         assert r.stderr.strip().splitlines(keepends=False) == [
             'こんにちは、これは日本語の文です。'
         ]
+
+    def test_capture_output_with_utf8_tqdm(self):
+        with capture_output() as r:
+            for _ in tqdm(range(10), desc='中文TQDM'):
+                pass
+
+        assert not r.stdout.strip()
+        assert '中文TQDM' in r.stderr.strip()
