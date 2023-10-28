@@ -5,7 +5,6 @@ Overview:
 import io
 import os
 import pathlib
-import sys
 from contextlib import redirect_stdout, redirect_stderr, contextmanager
 from threading import Lock
 from typing import ContextManager, Optional
@@ -88,17 +87,15 @@ def _capture_via_tempfile() -> ContextManager[OutputCaptureResult]:
     with TemporaryDirectory() as tdir:
         stdout_file = os.path.join(tdir, 'stdout')
         stderr_file = os.path.join(tdir, 'stderr')
-        stdout_encoding = getattr(sys.stdout, 'encoding', None) or 'utf-8'
-        stderr_encoding = getattr(sys.stderr, 'encoding', None) or 'utf-8'
         try:
-            with open(stdout_file, 'w+', encoding=stdout_encoding) as f_stdout, \
-                    open(stderr_file, 'w+', encoding=stderr_encoding) as f_stderr:
+            with open(stdout_file, 'w+', encoding='utf-8') as f_stdout, \
+                    open(stderr_file, 'w+', encoding='utf-8') as f_stderr:
                 with redirect_stdout(f_stdout), redirect_stderr(f_stderr):
                     yield r
         finally:
             r.put_result(
-                pathlib.Path(stdout_file).read_text(encoding=stdout_encoding),
-                pathlib.Path(stderr_file).read_text(encoding=stderr_encoding),
+                pathlib.Path(stdout_file).read_text(encoding='utf-8'),
+                pathlib.Path(stderr_file).read_text(encoding='utf-8'),
             )
 
 
