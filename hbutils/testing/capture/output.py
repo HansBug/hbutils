@@ -88,13 +88,14 @@ def _capture_via_tempfile() -> ContextManager[OutputCaptureResult]:
         stdout_file = os.path.join(tdir, 'stdout')
         stderr_file = os.path.join(tdir, 'stderr')
         try:
-            with open(stdout_file, 'w+') as f_stdout, open(stderr_file, 'w+') as f_stderr:
+            with open(stdout_file, 'w+', encoding='utf-8') as f_stdout, \
+                    open(stderr_file, 'w+', encoding='utf-8') as f_stderr:
                 with redirect_stdout(f_stdout), redirect_stderr(f_stderr):
                     yield r
         finally:
             r.put_result(
-                pathlib.Path(stdout_file).read_text(),
-                pathlib.Path(stderr_file).read_text(),
+                pathlib.Path(stdout_file).read_text(encoding='utf-8'),
+                pathlib.Path(stderr_file).read_text(encoding='utf-8'),
             )
 
 
