@@ -77,3 +77,17 @@ class TestTestingCaptureOutput:
 
         assert not r.stdout.strip()
         assert not r.stderr.strip()
+
+    def test_capture_output_with_utf8_char(self):
+        with capture_output() as r:
+            print('你好，这个是中文')
+            print('こんにちは、これは日本語の文です。', file=sys.stderr)
+            print('안녕하세요, 이것은 한국어 문장입니다.')
+
+        assert r.stdout.strip().splitlines(keepends=False) == [
+            '你好，这个是中文',
+            '안녕하세요, 이것은 한국어 문장입니다.',
+        ]
+        assert r.stderr.strip().splitlines(keepends=False) == [
+            'こんにちは、これは日本語の文です。'
+        ]
