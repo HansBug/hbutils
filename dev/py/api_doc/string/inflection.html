@@ -1,0 +1,702 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hbutils.string.inflection &mdash; hbutils 0.9.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="hbutils.string.plural" href="plural.html" />
+    <link rel="prev" title="hbutils.string" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> hbutils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+</ul>
+<p><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">hbutils.algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../binary/index.html">hbutils.binary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../collection/index.html">hbutils.collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../color/index.html">hbutils.color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/index.html">hbutils.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/index.html">hbutils.design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../expression/index.html">hbutils.expression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file/index.html">hbutils.file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/index.html">hbutils.model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../random/index.html">hbutils.random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reflection/index.html">hbutils.reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scale/index.html">hbutils.scale</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">hbutils.string</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.string.inflection</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#camelize">camelize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#dasherize">dasherize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#humanize">humanize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ordinal">ordinal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ordinalize">ordinalize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#parameterize">parameterize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pluralize">pluralize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#singularize">singularize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tableize">tableize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#titleize">titleize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transliterate">transliterate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#underscore">underscore</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="plural.html">hbutils.string.plural</a></li>
+<li class="toctree-l2"><a class="reference internal" href="template.html">hbutils.string.template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tree.html">hbutils.string.tree</a></li>
+<li class="toctree-l2"><a class="reference internal" href="trunc.html">hbutils.string.trunc</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../system/index.html">hbutils.system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/index.html">hbutils.testing</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">hbutils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">hbutils.string</a> &raquo;</li>
+        
+      <li>hbutils.string.inflection</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_doc/string/inflection.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <section id="module-hbutils.string.inflection">
+<span id="hbutils-string-inflection"></span><h1>hbutils.string.inflection<a class="headerlink" href="#module-hbutils.string.inflection" title="Permalink to this headline">¶</a></h1>
+<dl>
+<dt>Overview:</dt><dd><p>Useful utilities for word inflections.</p>
+<p>Extended based on <a class="reference external" href="https://github.com/jpvanhal/inflection">jpvanhal/inflection</a>.</p>
+</dd>
+</dl>
+<section id="camelize">
+<h2>camelize<a class="headerlink" href="#camelize" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.string.inflection.camelize">
+<code class="sig-prename descclassname">hbutils.string.inflection.</code><code class="sig-name descname">camelize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">string</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">uppercase_first_letter</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/inflection.html#camelize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.inflection.camelize" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Convert strings to CamelCase.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>string</strong> – Original string.</p></li>
+<li><p><strong>uppercase_first_letter</strong> – if set to <cite>True</cite> <a class="reference internal" href="#hbutils.string.inflection.camelize" title="hbutils.string.inflection.camelize"><code class="xref py py-func docutils literal notranslate"><span class="pre">camelize()</span></code></a> converts         strings to UpperCamelCase. If set to <cite>False</cite> <a class="reference internal" href="#hbutils.string.inflection.camelize" title="hbutils.string.inflection.camelize"><code class="xref py py-func docutils literal notranslate"><span class="pre">camelize()</span></code></a> produces         lowerCamelCase. Defaults to <cite>True</cite>.</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">camelize</span><span class="p">(</span><span class="s2">&quot;device_type&quot;</span><span class="p">)</span>
+<span class="go">&#39;DeviceType&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">camelize</span><span class="p">(</span><span class="s2">&quot;device_type&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+<span class="go">&#39;deviceType&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference internal" href="#hbutils.string.inflection.camelize" title="hbutils.string.inflection.camelize"><code class="xref py py-func docutils literal notranslate"><span class="pre">camelize()</span></code></a> can be thought of as a inverse of <a class="reference internal" href="#hbutils.string.inflection.underscore" title="hbutils.string.inflection.underscore"><code class="xref py py-func docutils literal notranslate"><span class="pre">underscore()</span></code></a>,
+although there are some cases where that does not hold:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">camelize</span><span class="p">(</span><span class="n">underscore</span><span class="p">(</span><span class="s2">&quot;IOError&quot;</span><span class="p">))</span>
+<span class="go">&#39;IoError&#39;</span>
+</pre></div>
+</div>
+</aside>
+</dd></dl>
+
+</section>
+<section id="dasherize">
+<h2>dasherize<a class="headerlink" href="#dasherize" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.string.inflection.dasherize">
+<code class="sig-prename descclassname">hbutils.string.inflection.</code><code class="sig-name descname">dasherize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">word</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/inflection.html#dasherize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.inflection.dasherize" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Replace underscores with dashes in the string.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>word</strong> – Original word.</p>
+</dd>
+</dl>
+<dl>
+<dt>Example::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dasherize</span><span class="p">(</span><span class="s2">&quot;puni_puni&quot;</span><span class="p">)</span>
+<span class="go">&#39;puni-puni&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="humanize">
+<h2>humanize<a class="headerlink" href="#humanize" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.string.inflection.humanize">
+<code class="sig-prename descclassname">hbutils.string.inflection.</code><code class="sig-name descname">humanize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">word</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/inflection.html#humanize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.inflection.humanize" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Capitalize the first word and turn underscores into spaces and strip a
+trailing <code class="docutils literal notranslate"><span class="pre">&quot;_id&quot;</span></code>, if any. Like <a class="reference internal" href="#hbutils.string.inflection.titleize" title="hbutils.string.inflection.titleize"><code class="xref py py-func docutils literal notranslate"><span class="pre">titleize()</span></code></a>, this is meant for
+creating pretty output.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>word</strong> – Original word.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">humanize</span><span class="p">(</span><span class="s2">&quot;employee_salary&quot;</span><span class="p">)</span>
+<span class="go">&#39;Employee salary&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">humanize</span><span class="p">(</span><span class="s2">&quot;author_id&quot;</span><span class="p">)</span>
+<span class="go">&#39;Author&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="ordinal">
+<h2>ordinal<a class="headerlink" href="#ordinal" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.string.inflection.ordinal">
+<code class="sig-prename descclassname">hbutils.string.inflection.</code><code class="sig-name descname">ordinal</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">number</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/inflection.html#ordinal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.inflection.ordinal" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Return the suffix that should be added to a number to denote the position
+in an ordered sequence such as 1st, 2nd, 3rd, 4th.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>number</strong> – Int format number.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ordinal</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">&#39;st&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ordinal</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">&#39;nd&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ordinal</span><span class="p">(</span><span class="mi">1002</span><span class="p">)</span>
+<span class="go">&#39;nd&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ordinal</span><span class="p">(</span><span class="mi">1003</span><span class="p">)</span>
+<span class="go">&#39;rd&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ordinal</span><span class="p">(</span><span class="o">-</span><span class="mi">11</span><span class="p">)</span>
+<span class="go">&#39;th&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ordinal</span><span class="p">(</span><span class="o">-</span><span class="mi">1021</span><span class="p">)</span>
+<span class="go">&#39;st&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="ordinalize">
+<h2>ordinalize<a class="headerlink" href="#ordinalize" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.string.inflection.ordinalize">
+<code class="sig-prename descclassname">hbutils.string.inflection.</code><code class="sig-name descname">ordinalize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">number</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/inflection.html#ordinalize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.inflection.ordinalize" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Turn a number into an ordinal string used to denote the position in an
+ordered sequence such as 1st, 2nd, 3rd, 4th.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>number</strong> – Int format number.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ordinalize</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="go">&#39;1st&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ordinalize</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">&#39;2nd&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ordinalize</span><span class="p">(</span><span class="mi">1002</span><span class="p">)</span>
+<span class="go">&#39;1002nd&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ordinalize</span><span class="p">(</span><span class="mi">1003</span><span class="p">)</span>
+<span class="go">&#39;1003rd&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ordinalize</span><span class="p">(</span><span class="o">-</span><span class="mi">11</span><span class="p">)</span>
+<span class="go">&#39;-11th&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ordinalize</span><span class="p">(</span><span class="o">-</span><span class="mi">1021</span><span class="p">)</span>
+<span class="go">&#39;-1021st&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="parameterize">
+<h2>parameterize<a class="headerlink" href="#parameterize" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.string.inflection.parameterize">
+<code class="sig-prename descclassname">hbutils.string.inflection.</code><code class="sig-name descname">parameterize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">string</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">separator</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'-'</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/inflection.html#parameterize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.inflection.parameterize" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Replace special characters in a string so that it may be used as part of a
+‘pretty’ URL.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>string</strong> – Original string.</p></li>
+<li><p><strong>separator</strong> – Separator of parameter words.</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>Example::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">parameterize</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;Donald E. Knuth&quot;</span><span class="p">)</span>
+<span class="go">&#39;donald-e-knuth&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="pluralize">
+<h2>pluralize<a class="headerlink" href="#pluralize" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.string.inflection.pluralize">
+<code class="sig-prename descclassname">hbutils.string.inflection.</code><code class="sig-name descname">pluralize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">word</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/inflection.html#pluralize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.inflection.pluralize" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Return the plural form of a word.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>word</strong> – Original word.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pluralize</span><span class="p">(</span><span class="s2">&quot;posts&quot;</span><span class="p">)</span>
+<span class="go">&#39;posts&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pluralize</span><span class="p">(</span><span class="s2">&quot;octopus&quot;</span><span class="p">)</span>
+<span class="go">&#39;octopi&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pluralize</span><span class="p">(</span><span class="s2">&quot;sheep&quot;</span><span class="p">)</span>
+<span class="go">&#39;sheep&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pluralize</span><span class="p">(</span><span class="s2">&quot;CamelOctopus&quot;</span><span class="p">)</span>
+<span class="go">&#39;CamelOctopi&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="singularize">
+<h2>singularize<a class="headerlink" href="#singularize" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.string.inflection.singularize">
+<code class="sig-prename descclassname">hbutils.string.inflection.</code><code class="sig-name descname">singularize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">word</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/inflection.html#singularize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.inflection.singularize" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Return the singular form of a word, the reverse of <a class="reference internal" href="#hbutils.string.inflection.pluralize" title="hbutils.string.inflection.pluralize"><code class="xref py py-func docutils literal notranslate"><span class="pre">pluralize()</span></code></a>.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>word</strong> – Original word.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">singularize</span><span class="p">(</span><span class="s2">&quot;posts&quot;</span><span class="p">)</span>
+<span class="go">&#39;post&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">singularize</span><span class="p">(</span><span class="s2">&quot;octopi&quot;</span><span class="p">)</span>
+<span class="go">&#39;octopus&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">singularize</span><span class="p">(</span><span class="s2">&quot;sheep&quot;</span><span class="p">)</span>
+<span class="go">&#39;sheep&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">singularize</span><span class="p">(</span><span class="s2">&quot;word&quot;</span><span class="p">)</span>
+<span class="go">&#39;word&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">singularize</span><span class="p">(</span><span class="s2">&quot;CamelOctopi&quot;</span><span class="p">)</span>
+<span class="go">&#39;CamelOctopus&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="tableize">
+<h2>tableize<a class="headerlink" href="#tableize" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.string.inflection.tableize">
+<code class="sig-prename descclassname">hbutils.string.inflection.</code><code class="sig-name descname">tableize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">word</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/inflection.html#tableize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.inflection.tableize" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Create the name of a table like Rails does for models to table names. This
+method uses the <a class="reference internal" href="#hbutils.string.inflection.pluralize" title="hbutils.string.inflection.pluralize"><code class="xref py py-func docutils literal notranslate"><span class="pre">pluralize()</span></code></a> method on the last word in the string.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>word</strong> – Original word.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tableize</span><span class="p">(</span><span class="s1">&#39;RawScaledScorer&#39;</span><span class="p">)</span>
+<span class="go">&#39;raw_scaled_scorers&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tableize</span><span class="p">(</span><span class="s1">&#39;egg_and_ham&#39;</span><span class="p">)</span>
+<span class="go">&#39;egg_and_hams&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tableize</span><span class="p">(</span><span class="s1">&#39;fancyCategory&#39;</span><span class="p">)</span>
+<span class="go">&#39;fancy_categories&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="titleize">
+<h2>titleize<a class="headerlink" href="#titleize" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.string.inflection.titleize">
+<code class="sig-prename descclassname">hbutils.string.inflection.</code><code class="sig-name descname">titleize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">word</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/inflection.html#titleize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.inflection.titleize" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Capitalize all the words and replace some characters in the string to
+create a nicer looking title. <a class="reference internal" href="#hbutils.string.inflection.titleize" title="hbutils.string.inflection.titleize"><code class="xref py py-func docutils literal notranslate"><span class="pre">titleize()</span></code></a> is meant for creating pretty
+output.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>word</strong> – Original word.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">titleize</span><span class="p">(</span><span class="s2">&quot;man from the boondocks&quot;</span><span class="p">)</span>
+<span class="go">&#39;Man From The Boondocks&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">titleize</span><span class="p">(</span><span class="s2">&quot;x-men: the last stand&quot;</span><span class="p">)</span>
+<span class="go">&#39;X Men: The Last Stand&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">titleize</span><span class="p">(</span><span class="s2">&quot;TheManWithoutAPast&quot;</span><span class="p">)</span>
+<span class="go">&#39;The Man Without A Past&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">titleize</span><span class="p">(</span><span class="s2">&quot;raiders_of_the_lost_ark&quot;</span><span class="p">)</span>
+<span class="go">&#39;Raiders Of The Lost Ark&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="transliterate">
+<h2>transliterate<a class="headerlink" href="#transliterate" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.string.inflection.transliterate">
+<code class="sig-prename descclassname">hbutils.string.inflection.</code><code class="sig-name descname">transliterate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">string</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/inflection.html#transliterate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.inflection.transliterate" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Replace non-ASCII characters with an ASCII approximation. If no
+approximation exists, the non-ASCII character is ignored. The string must
+be <code class="docutils literal notranslate"><span class="pre">unicode</span></code>.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>string</strong> – Original string.</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">transliterate</span><span class="p">(</span><span class="s1">&#39;älämölö&#39;</span><span class="p">)</span>
+<span class="go">&#39;alamolo&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">transliterate</span><span class="p">(</span><span class="s1">&#39;Ærøskøbing&#39;</span><span class="p">)</span>
+<span class="go">&#39;rskbing&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="underscore">
+<h2>underscore<a class="headerlink" href="#underscore" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.string.inflection.underscore">
+<code class="sig-prename descclassname">hbutils.string.inflection.</code><code class="sig-name descname">underscore</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">word</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/inflection.html#underscore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.inflection.underscore" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Overview:</dt><dd><p>Make an underscored, lowercase form from the expression in the string.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>word</strong> – Original word.</p>
+</dd>
+</dl>
+<dl>
+<dt>Example::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">underscore</span><span class="p">(</span><span class="s2">&quot;DeviceType&quot;</span><span class="p">)</span>
+<span class="go">&#39;device_type&#39;</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>As a rule of thumb you can think of <a class="reference internal" href="#hbutils.string.inflection.underscore" title="hbutils.string.inflection.underscore"><code class="xref py py-func docutils literal notranslate"><span class="pre">underscore()</span></code></a> as the inverse of
+<a class="reference internal" href="#hbutils.string.inflection.camelize" title="hbutils.string.inflection.camelize"><code class="xref py py-func docutils literal notranslate"><span class="pre">camelize()</span></code></a>, though there are cases where that does not hold:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">camelize</span><span class="p">(</span><span class="n">underscore</span><span class="p">(</span><span class="s2">&quot;IOError&quot;</span><span class="p">))</span>
+<span class="go">&#39;IoError&#39;</span>
+</pre></div>
+</div>
+</aside>
+</dd></dl>
+
+</section>
+</section>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="plural.html" class="btn btn-neutral float-right" title="hbutils.string.plural" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="hbutils.string" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2023, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/py
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../v0.0.1/index.html">v0.0.1</a></dd>
+                        <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
+                        <dd><a href="../../../../v0.1.1/index.html">v0.1.1</a></dd>
+                        <dd><a href="../../../../v0.2.0/index.html">v0.2.0</a></dd>
+                        <dd><a href="../../../../v0.3.0/index.html">v0.3.0</a></dd>
+                        <dd><a href="../../../../v0.3.1/index.html">v0.3.1</a></dd>
+                        <dd><a href="../../../../v0.3.2/index.html">v0.3.2</a></dd>
+                        <dd><a href="../../../../v0.3.3/index.html">v0.3.3</a></dd>
+                        <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
+                        <dd><a href="../../../../v0.4.1/index.html">v0.4.1</a></dd>
+                        <dd><a href="../../../../v0.4.2/index.html">v0.4.2</a></dd>
+                        <dd><a href="../../../../v0.4.3/index.html">v0.4.3</a></dd>
+                        <dd><a href="../../../../v0.4.4/index.html">v0.4.4</a></dd>
+                        <dd><a href="../../../../v0.4.5/index.html">v0.4.5</a></dd>
+                        <dd><a href="../../../../v0.4.6/index.html">v0.4.6</a></dd>
+                        <dd><a href="../../../../v0.4.7/index.html">v0.4.7</a></dd>
+                        <dd><a href="../../../../v0.5.0/index.html">v0.5.0</a></dd>
+                        <dd><a href="../../../../v0.5.1/index.html">v0.5.1</a></dd>
+                        <dd><a href="../../../../v0.5.2/index.html">v0.5.2</a></dd>
+                        <dd><a href="../../../../v0.6.0/index.html">v0.6.0</a></dd>
+                        <dd><a href="../../../../v0.6.1/index.html">v0.6.1</a></dd>
+                        <dd><a href="../../../../v0.6.10/index.html">v0.6.10</a></dd>
+                        <dd><a href="../../../../v0.6.11/index.html">v0.6.11</a></dd>
+                        <dd><a href="../../../../v0.6.12/index.html">v0.6.12</a></dd>
+                        <dd><a href="../../../../v0.6.13/index.html">v0.6.13</a></dd>
+                        <dd><a href="../../../../v0.6.14/index.html">v0.6.14</a></dd>
+                        <dd><a href="../../../../v0.6.2/index.html">v0.6.2</a></dd>
+                        <dd><a href="../../../../v0.6.3/index.html">v0.6.3</a></dd>
+                        <dd><a href="../../../../v0.6.4/index.html">v0.6.4</a></dd>
+                        <dd><a href="../../../../v0.6.5/index.html">v0.6.5</a></dd>
+                        <dd><a href="../../../../v0.6.6/index.html">v0.6.6</a></dd>
+                        <dd><a href="../../../../v0.6.7/index.html">v0.6.7</a></dd>
+                        <dd><a href="../../../../v0.6.8/index.html">v0.6.8</a></dd>
+                        <dd><a href="../../../../v0.6.9/index.html">v0.6.9</a></dd>
+                        <dd><a href="../../../../v0.7.0/index.html">v0.7.0</a></dd>
+                        <dd><a href="../../../../v0.7.1/index.html">v0.7.1</a></dd>
+                        <dd><a href="../../../../v0.7.2/index.html">v0.7.2</a></dd>
+                        <dd><a href="../../../../v0.7.3/index.html">v0.7.3</a></dd>
+                        <dd><a href="../../../../v0.7.4/index.html">v0.7.4</a></dd>
+                        <dd><a href="../../../../v0.7.5/index.html">v0.7.5</a></dd>
+                        <dd><a href="../../../../v0.7.6/index.html">v0.7.6</a></dd>
+                        <dd><a href="../../../../v0.8.0/index.html">v0.8.0</a></dd>
+                        <dd><a href="../../../../v0.8.1/api_doc/string/inflection.html">v0.8.1</a></dd>
+                        <dd><a href="../../../../v0.8.2/api_doc/string/inflection.html">v0.8.2</a></dd>
+                        <dd><a href="../../../../v0.8.3/api_doc/string/inflection.html">v0.8.3</a></dd>
+                        <dd><a href="../../../../v0.8.4/api_doc/string/inflection.html">v0.8.4</a></dd>
+                        <dd><a href="../../../../v0.8.5/api_doc/string/inflection.html">v0.8.5</a></dd>
+                        <dd><a href="../../../../v0.8.6/api_doc/string/inflection.html">v0.8.6</a></dd>
+                        <dd><a href="../../../../v0.9.0/api_doc/string/inflection.html">v0.9.0</a></dd>
+                        <dd><a href="../../../../v0.9.1/api_doc/string/inflection.html">v0.9.1</a></dd>
+                        <dd><a href="../../../../v0.9.2/api_doc/string/inflection.html">v0.9.2</a></dd>
+                        <dd><a href="../../../../v0.9.3/api_doc/string/inflection.html">v0.9.3</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="inflection.html">dev/py</a></dd>
+                        <dd><a href="../../../color/index.html">dev/color</a></dd>
+                        <dd><a href="../../../dependency/index.html">dev/dependency</a></dd>
+                        <dd><a href="../../../../main/api_doc/string/inflection.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

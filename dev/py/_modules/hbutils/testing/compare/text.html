@@ -1,0 +1,603 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hbutils.testing.compare.text &mdash; hbutils 0.9.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> hbutils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.9.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials/installation/index.html">Installation</a></li>
+</ul>
+<p><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/algorithm/index.html">hbutils.algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/binary/index.html">hbutils.binary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/collection/index.html">hbutils.collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/color/index.html">hbutils.color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/config/index.html">hbutils.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/design/index.html">hbutils.design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/expression/index.html">hbutils.expression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/file/index.html">hbutils.file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/model/index.html">hbutils.model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/random/index.html">hbutils.random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/reflection/index.html">hbutils.reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/scale/index.html">hbutils.scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/string/index.html">hbutils.string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/system/index.html">hbutils.system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api_doc/testing/index.html">hbutils.testing</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">hbutils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>hbutils.testing.compare.text</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <h1>Source code for hbutils.testing.compare.text</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">textwrap</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;TextAligner&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="kn">from</span> <span class="nn">...design</span> <span class="kn">import</span> <span class="n">SingletonMark</span>
+
+<span class="kn">from</span> <span class="nn">...string</span> <span class="kn">import</span> <span class="n">plural_word</span>
+
+<span class="n">_NOT_GIVEN</span> <span class="o">=</span> <span class="n">SingletonMark</span><span class="p">(</span><span class="s1">&#39;_TextAligner_NOT_GIVEN&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="TextAligner"><a class="viewcode-back" href="../../../../api_doc/testing/compare.html#hbutils.testing.compare.TextAligner">[docs]</a><span class="k">class</span> <span class="nc">TextAligner</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Text aligner for comparing texts in unittest.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TextAligner.__init__"><a class="viewcode-back" href="../../../../api_doc/testing/compare.html#hbutils.testing.compare.TextAligner.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line_rstrip</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">keep_empty_tail</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="n">text_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">line_func</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ls_func</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Constructor of :class:`TextAligner`.</span>
+
+<span class="sd">        :param line_rstrip: Right strip each line, default is ``True``.</span>
+<span class="sd">        :param keep_empty_tail: Keep the empty tail of the text, default is ``False``, which means the \</span>
+<span class="sd">            empty tails will be ignored.</span>
+<span class="sd">        :param text_func: Function for preprocessing whole text.</span>
+<span class="sd">        :param line_func: Function for processing each line.</span>
+<span class="sd">        :param ls_func: Function for processing lines list.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__line_rstrip</span> <span class="o">=</span> <span class="n">line_rstrip</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__keep_empty_tail</span> <span class="o">=</span> <span class="n">keep_empty_tail</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__text_func</span> <span class="o">=</span> <span class="n">text_func</span> <span class="ow">or</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__line_func</span> <span class="o">=</span> <span class="n">line_func</span> <span class="ow">or</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__ls_func</span> <span class="o">=</span> <span class="n">ls_func</span> <span class="ow">or</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TextAligner.text_trans"><a class="viewcode-back" href="../../../../api_doc/testing/compare.html#hbutils.testing.compare.TextAligner.text_trans">[docs]</a>    <span class="k">def</span> <span class="nf">text_trans</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text_func</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transformation for the original text.</span>
+
+<span class="sd">        :param text_func: New text process function.</span>
+<span class="sd">        :return: A new :class:`TextAligner` object with ``text_func`` process.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__line_func</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__keep_empty_tail</span><span class="p">,</span>
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">text_func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__text_func</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__line_func</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__ls_func</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="TextAligner.line_map"><a class="viewcode-back" href="../../../../api_doc/testing/compare.html#hbutils.testing.compare.TextAligner.line_map">[docs]</a>    <span class="k">def</span> <span class="nf">line_map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">line_func</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Mapping for the text of each line.</span>
+
+<span class="sd">        :param line_func: New line process function.</span>
+<span class="sd">        :return: A new :class:`TextAligner` object with ``line_func`` process.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__line_func</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__keep_empty_tail</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__text_func</span><span class="p">,</span>
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">line_func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__line_func</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__ls_func</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="TextAligner.ls_trans"><a class="viewcode-back" href="../../../../api_doc/testing/compare.html#hbutils.testing.compare.TextAligner.ls_trans">[docs]</a>    <span class="k">def</span> <span class="nf">ls_trans</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ls_func</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transformation for the separated lines.</span>
+
+<span class="sd">        :param ls_func: New lines process function.</span>
+<span class="sd">        :return: A new :class:`TextAligner` object with ``ls_func`` process.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__line_func</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__keep_empty_tail</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__text_func</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__line_func</span><span class="p">,</span>
+            <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">ls_func</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ls_func</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="TextAligner.__getattr__"><a class="viewcode-back" href="../../../../api_doc/testing/compare.html#hbutils.testing.compare.TextAligner.__getattr__">[docs]</a>    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;_StrMethodProxy&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Append postprocess from :class:`str` of each line.</span>
+
+<span class="sd">        :param item: Method name.</span>
+
+<span class="sd">        Examples::</span>
+<span class="sd">            &gt;&gt;&gt; from hbutils.testing import TextAligner</span>
+<span class="sd">            &gt;&gt;&gt; text_align = TextAligner()</span>
+<span class="sd">            &gt;&gt;&gt; print(text_align.lower().multiple_lines()(&#39;&#39;&#39;</span>
+<span class="sd">            ... Python 3.6.5</span>
+<span class="sd">            ... Hello world!!</span>
+<span class="sd">            ...   Do not see me like this...</span>
+<span class="sd">            ... \\n\\n\\t\\n</span>
+<span class="sd">            ... &#39;&#39;&#39;))</span>
+<span class="sd">            python 3.6.5</span>
+<span class="sd">            hello world!!</span>
+<span class="sd">              do not see me like this...</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_StrMethodProxy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TextAligner.multiple_lines"><a class="viewcode-back" href="../../../../api_doc/testing/compare.html#hbutils.testing.compare.TextAligner.multiple_lines">[docs]</a>    <span class="k">def</span> <span class="nf">multiple_lines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lstrip</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">dedent</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Switch to multiple-line mode.</span>
+
+<span class="sd">        :param lstrip: Left strip the original text.</span>
+<span class="sd">        :param dedent: Dedent the text.</span>
+
+<span class="sd">        Examples::</span>
+<span class="sd">            &gt;&gt;&gt; from hbutils.testing import TextAligner</span>
+<span class="sd">            &gt;&gt;&gt; text_align = TextAligner()</span>
+<span class="sd">            &gt;&gt;&gt; print(text_align.multiple_lines()(&#39;&#39;&#39;</span>
+<span class="sd">            ... Python 3.6.5</span>
+<span class="sd">            ... Hello world!!</span>
+<span class="sd">            ...   Do not see me like this...</span>
+<span class="sd">            ... \\n\\n\\t\\n</span>
+<span class="sd">            ... &#39;&#39;&#39;))</span>
+<span class="sd">            Python 3.6.5</span>
+<span class="sd">            Hello world!!</span>
+<span class="sd">              Do not see me like this...</span>
+
+<span class="sd">        .. note::</span>
+<span class="sd">            With :meth:`multiple_lines`, the text&#39;s comparison will be compatible with text wrapper.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">align</span> <span class="o">=</span> <span class="bp">self</span>
+        <span class="k">if</span> <span class="n">dedent</span><span class="p">:</span>
+            <span class="n">align</span> <span class="o">=</span> <span class="n">align</span><span class="o">.</span><span class="n">text_trans</span><span class="p">(</span><span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">lstrip</span><span class="p">:</span>
+            <span class="n">align</span> <span class="o">=</span> <span class="n">align</span><span class="o">.</span><span class="n">text_trans</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">lstrip</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">align</span></div>
+
+    <span class="k">def</span> <span class="nf">_process</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">text</span><span class="p">))</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__keep_empty_tail</span><span class="p">:</span>
+                <span class="n">text</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__text_func</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">text</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="n">keepends</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__line_rstrip</span><span class="p">:</span>
+                <span class="n">lines</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">rstrip</span><span class="p">,</span> <span class="n">lines</span><span class="p">))</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__line_func</span><span class="p">,</span> <span class="n">lines</span><span class="p">))</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__ls_func</span><span class="p">(</span><span class="n">lines</span><span class="p">))</span>
+
+            <span class="k">return</span> <span class="n">lines</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Invalid content type - </span><span class="si">{</span><span class="n">text</span><span class="si">!r}</span><span class="s1">.&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TextAligner.splitlines"><a class="viewcode-back" href="../../../../api_doc/testing/compare.html#hbutils.testing.compare.TextAligner.splitlines">[docs]</a>    <span class="k">def</span> <span class="nf">splitlines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transform the original text or lines to list of aligned lines.</span>
+
+<span class="sd">        :param text: Original text or lines.</span>
+<span class="sd">        :return: List of split lines.</span>
+
+<span class="sd">        Examples::</span>
+<span class="sd">            &gt;&gt;&gt; from hbutils.testing import TextAligner</span>
+<span class="sd">            &gt;&gt;&gt; text_align = TextAligner()</span>
+<span class="sd">            &gt;&gt;&gt; print(text_align.splitlines(&#39;&#39;&#39;Python 3.6.5</span>
+<span class="sd">            ... Hello world!!</span>
+<span class="sd">            ...   Do not see me like this...</span>
+<span class="sd">            ... \\n\\n\\t\\n</span>
+<span class="sd">            ... &#39;&#39;&#39;))</span>
+<span class="sd">            [&#39;Python 3.6.5&#39;, &#39;Hello world!!&#39;, &#39;  Do not see me like this...&#39;]</span>
+
+<span class="sd">            &gt;&gt;&gt; print(text_align.lstrip().splitlines(&#39;&#39;&#39;Python 3.6.5</span>
+<span class="sd">            ... Hello world!!</span>
+<span class="sd">            ...   Do not see me like this...</span>
+<span class="sd">            ... \\n\\n\\t\\n</span>
+<span class="sd">            ... &#39;&#39;&#39;))</span>
+<span class="sd">            [&#39;Python 3.6.5&#39;, &#39;Hello world!!&#39;, &#39;Do not see me like this...&#39;]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TextAligner.__call__"><a class="viewcode-back" href="../../../../api_doc/testing/compare.html#hbutils.testing.compare.TextAligner.__call__">[docs]</a>    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Transform the original text or lines to aligned text.</span>
+
+<span class="sd">        :param text: Original text or lines.</span>
+<span class="sd">        :return: Aligned text.</span>
+
+<span class="sd">        Examples::</span>
+<span class="sd">            &gt;&gt;&gt; from hbutils.testing import TextAligner</span>
+<span class="sd">            &gt;&gt;&gt; text_align = TextAligner()</span>
+<span class="sd">            &gt;&gt;&gt; print(text_align(&#39;&#39;&#39;Python 3.6.5</span>
+<span class="sd">            ... Hello world!!</span>
+<span class="sd">            ...   Do not see me like this...</span>
+<span class="sd">            ... \\n\\n\\t\\n</span>
+<span class="sd">            ... &#39;&#39;&#39;))</span>
+<span class="sd">            Python 3.6.5</span>
+<span class="sd">            Hello world!!</span>
+<span class="sd">              Do not see me like this...</span>
+
+<span class="sd">            &gt;&gt;&gt; print(text_align.lstrip()(&#39;&#39;&#39;Python 3.6.5</span>
+<span class="sd">            ... Hello world!!</span>
+<span class="sd">            ...   Do not see me like this...</span>
+<span class="sd">            ... \\n\\n\\t\\n</span>
+<span class="sd">            ... &#39;&#39;&#39;))</span>
+<span class="sd">            Python 3.6.5</span>
+<span class="sd">            Hello world!!</span>
+<span class="sd">            Do not see me like this...</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_process</span><span class="p">(</span><span class="n">text</span><span class="p">))</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_eq_compare_message</span><span class="p">(</span><span class="n">expect</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">actual</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">max_diff</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">max_extra</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">expect</span> <span class="o">==</span> <span class="n">actual</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+            <span class="k">return</span> <span class="s1">&#39;No difference found.&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span> <span class="k">as</span> <span class="n">sf</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">expect</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">actual</span><span class="p">):</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">plural_word</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">expect</span><span class="p">),</span><span class="w"> </span><span class="s2">&quot;line&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1"> expected, &#39;</span>
+                          <span class="sa">f</span><span class="s1">&#39;but </span><span class="si">{</span><span class="n">plural_word</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">actual</span><span class="p">),</span><span class="w"> </span><span class="s2">&quot;line&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1"> found actually.&#39;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sf</span><span class="p">)</span>
+
+                <span class="n">diff_cnt</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">for</span> <span class="n">lineno</span><span class="p">,</span> <span class="p">(</span><span class="n">eline</span><span class="p">,</span> <span class="n">aline</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">expect</span><span class="p">,</span> <span class="n">actual</span><span class="p">),</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">eline</span> <span class="o">!=</span> <span class="n">aline</span><span class="p">:</span>
+                        <span class="n">diff_cnt</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="k">if</span> <span class="n">max_diff</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">diff_cnt</span> <span class="o">&lt;=</span> <span class="n">max_diff</span><span class="p">:</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Difference found in line </span><span class="si">{</span><span class="n">lineno</span><span class="si">}</span><span class="s1">:&#39;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sf</span><span class="p">)</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;    Expect: </span><span class="si">{</span><span class="n">eline</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sf</span><span class="p">)</span>
+                            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;    Actual: </span><span class="si">{</span><span class="n">aline</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sf</span><span class="p">)</span>
+                <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">max_diff</span> <span class="o">&lt;</span> <span class="n">diff_cnt</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;    ... (</span><span class="si">{</span><span class="n">plural_word</span><span class="p">(</span><span class="n">diff_cnt</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">max_diff</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;more different line&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">) ...&#39;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sf</span><span class="p">)</span>
+
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">expect</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">actual</span><span class="p">):</span>
+                    <span class="n">common_length</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">expect</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">actual</span><span class="p">))</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">expect</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">common_length</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Another </span><span class="si">{</span><span class="n">plural_word</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">expect</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">common_length</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;extra line&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1"> &#39;</span>
+                              <span class="sa">f</span><span class="s1">&#39;found in expected lines:&#39;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sf</span><span class="p">)</span>
+                        <span class="n">extra_lines</span> <span class="o">=</span> <span class="n">expect</span><span class="p">[</span><span class="n">common_length</span><span class="p">:]</span>
+                    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">actual</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">common_length</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Another </span><span class="si">{</span><span class="n">plural_word</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">actual</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">common_length</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;extra line&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1"> &#39;</span>
+                              <span class="sa">f</span><span class="s1">&#39;found in actual lines:&#39;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sf</span><span class="p">)</span>
+                        <span class="n">extra_lines</span> <span class="o">=</span> <span class="n">actual</span><span class="p">[</span><span class="n">common_length</span><span class="p">:]</span>
+
+                    <span class="k">if</span> <span class="n">max_extra</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">elines</span> <span class="o">=</span> <span class="n">extra_lines</span><span class="p">[:</span><span class="n">max_extra</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">elines</span> <span class="o">=</span> <span class="n">extra_lines</span>
+                    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">elines</span><span class="p">:</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;    | </span><span class="si">{</span><span class="n">line</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sf</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">elines</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">extra_lines</span><span class="p">):</span>
+                        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;    ... (</span><span class="si">{</span><span class="n">plural_word</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">extra_lines</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">len</span><span class="p">(</span><span class="n">elines</span><span class="p">),</span><span class="w"> </span><span class="s2">&quot;more line&quot;</span><span class="p">)</span><span class="si">}</span><span class="s1">) ...&#39;</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sf</span><span class="p">)</span>
+
+                <span class="k">return</span> <span class="n">sf</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
+
+<div class="viewcode-block" id="TextAligner.assert_equal"><a class="viewcode-back" href="../../../../api_doc/testing/compare.html#hbutils.testing.compare.TextAligner.assert_equal">[docs]</a>    <span class="k">def</span> <span class="nf">assert_equal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expect</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">actual</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span>
+                     <span class="n">max_diff</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">max_extra</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Assert two string is equal.</span>
+
+<span class="sd">        :param expect: Expected text or lines.</span>
+<span class="sd">        :param actual: Actual text or lines.</span>
+<span class="sd">        :param max_diff: Max different lines to show in assertion message, default is ``3``.</span>
+<span class="sd">        :param max_extra: Max extra lines to show in assertion message, default is ``5``.</span>
+
+<span class="sd">        Examples::</span>
+<span class="sd">            &gt;&gt;&gt; from hbutils.testing import TextAligner</span>
+<span class="sd">            &gt;&gt;&gt; text_align = TextAligner()</span>
+<span class="sd">            &gt;&gt;&gt; text_align.multiple_lines().assert_equal(&#39;&#39;&#39;Python 3.6.5</span>
+<span class="sd">            ... Hello world!!</span>
+<span class="sd">            ...   Do not see me like this...</span>
+<span class="sd">            ... \\n\\n\\t\\n</span>
+<span class="sd">            ... &#39;&#39;&#39;, &#39;&#39;&#39;</span>
+<span class="sd">            ...         Python 3.6.5</span>
+<span class="sd">            ...         Hello world!!</span>
+<span class="sd">            ...           Do not see me like this...</span>
+<span class="sd">            ... &#39;&#39;&#39;)  # this is okay</span>
+
+<span class="sd">            &gt;&gt;&gt; text_align.multiple_lines().assert_equal(&#39;&#39;&#39;Python 3.6.5</span>
+<span class="sd">            ... Hello world!!</span>
+<span class="sd">            ...   Do not see me like this...</span>
+<span class="sd">            ... \\n\\n\\t\\n</span>
+<span class="sd">            ... &#39;&#39;&#39;, &#39;&#39;&#39;</span>
+<span class="sd">            ...         Python 3.6.5</span>
+<span class="sd">            ...         Hello world!!</span>
+<span class="sd">            ...         Do not see me like this...</span>
+<span class="sd">            ... &#39;&#39;&#39;)</span>
+<span class="sd">            AssertionError: Difference found in line 3:</span>
+<span class="sd">                Expect:   Do not see me like this...</span>
+<span class="sd">                Actual: Do not see me like this...</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">expect</span><span class="p">,</span> <span class="n">actual</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process</span><span class="p">(</span><span class="n">expect</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process</span><span class="p">(</span><span class="n">actual</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">expect</span> <span class="o">==</span> <span class="n">actual</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_eq_compare_message</span><span class="p">(</span><span class="n">expect</span><span class="p">,</span> <span class="n">actual</span><span class="p">,</span> <span class="n">max_diff</span><span class="p">,</span> <span class="n">max_extra</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_ne_compare_message</span><span class="p">(</span><span class="n">expect</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">actual</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">expect</span> <span class="o">!=</span> <span class="n">actual</span><span class="p">:</span>  <span class="c1"># pragma: no cover</span>
+            <span class="k">return</span> <span class="s1">&#39;Difference found in actual text.&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;Actual text are completely the same as expected one!&#39;</span>
+
+<div class="viewcode-block" id="TextAligner.assert_not_equal"><a class="viewcode-back" href="../../../../api_doc/testing/compare.html#hbutils.testing.compare.TextAligner.assert_not_equal">[docs]</a>    <span class="k">def</span> <span class="nf">assert_not_equal</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">expect</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="n">actual</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Assert two string is not equal, which is similar to :meth:`assert_equal`.</span>
+
+<span class="sd">        :param expect: Expected text or lines.</span>
+<span class="sd">        :param actual: Actual text or lines.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">expect</span><span class="p">,</span> <span class="n">actual</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process</span><span class="p">(</span><span class="n">expect</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_process</span><span class="p">(</span><span class="n">actual</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="n">expect</span> <span class="o">!=</span> <span class="n">actual</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ne_compare_message</span><span class="p">(</span><span class="n">expect</span><span class="p">,</span> <span class="n">actual</span><span class="p">)</span></div></div>
+
+
+<span class="k">class</span> <span class="nc">_StrMethodProxy</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">align</span><span class="p">:</span> <span class="n">TextAligner</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__align</span> <span class="o">=</span> <span class="n">align</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">callable</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Attribute </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s1"> not found in str.&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;TextAligner&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__align</span><span class="o">.</span><span class="n">line_map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">__func</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">))</span>
+</pre></div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2023, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/py
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../../../v0.0.1/index.html">v0.0.1</a></dd>
+                        <dd><a href="../../../../../../v0.1.0/index.html">v0.1.0</a></dd>
+                        <dd><a href="../../../../../../v0.1.1/index.html">v0.1.1</a></dd>
+                        <dd><a href="../../../../../../v0.2.0/index.html">v0.2.0</a></dd>
+                        <dd><a href="../../../../../../v0.3.0/index.html">v0.3.0</a></dd>
+                        <dd><a href="../../../../../../v0.3.1/index.html">v0.3.1</a></dd>
+                        <dd><a href="../../../../../../v0.3.2/index.html">v0.3.2</a></dd>
+                        <dd><a href="../../../../../../v0.3.3/index.html">v0.3.3</a></dd>
+                        <dd><a href="../../../../../../v0.4.0/index.html">v0.4.0</a></dd>
+                        <dd><a href="../../../../../../v0.4.1/index.html">v0.4.1</a></dd>
+                        <dd><a href="../../../../../../v0.4.2/index.html">v0.4.2</a></dd>
+                        <dd><a href="../../../../../../v0.4.3/index.html">v0.4.3</a></dd>
+                        <dd><a href="../../../../../../v0.4.4/index.html">v0.4.4</a></dd>
+                        <dd><a href="../../../../../../v0.4.5/index.html">v0.4.5</a></dd>
+                        <dd><a href="../../../../../../v0.4.6/index.html">v0.4.6</a></dd>
+                        <dd><a href="../../../../../../v0.4.7/index.html">v0.4.7</a></dd>
+                        <dd><a href="../../../../../../v0.5.0/index.html">v0.5.0</a></dd>
+                        <dd><a href="../../../../../../v0.5.1/index.html">v0.5.1</a></dd>
+                        <dd><a href="../../../../../../v0.5.2/index.html">v0.5.2</a></dd>
+                        <dd><a href="../../../../../../v0.6.0/index.html">v0.6.0</a></dd>
+                        <dd><a href="../../../../../../v0.6.1/index.html">v0.6.1</a></dd>
+                        <dd><a href="../../../../../../v0.6.10/index.html">v0.6.10</a></dd>
+                        <dd><a href="../../../../../../v0.6.11/index.html">v0.6.11</a></dd>
+                        <dd><a href="../../../../../../v0.6.12/index.html">v0.6.12</a></dd>
+                        <dd><a href="../../../../../../v0.6.13/index.html">v0.6.13</a></dd>
+                        <dd><a href="../../../../../../v0.6.14/index.html">v0.6.14</a></dd>
+                        <dd><a href="../../../../../../v0.6.2/index.html">v0.6.2</a></dd>
+                        <dd><a href="../../../../../../v0.6.3/index.html">v0.6.3</a></dd>
+                        <dd><a href="../../../../../../v0.6.4/index.html">v0.6.4</a></dd>
+                        <dd><a href="../../../../../../v0.6.5/index.html">v0.6.5</a></dd>
+                        <dd><a href="../../../../../../v0.6.6/index.html">v0.6.6</a></dd>
+                        <dd><a href="../../../../../../v0.6.7/index.html">v0.6.7</a></dd>
+                        <dd><a href="../../../../../../v0.6.8/index.html">v0.6.8</a></dd>
+                        <dd><a href="../../../../../../v0.6.9/index.html">v0.6.9</a></dd>
+                        <dd><a href="../../../../../../v0.7.0/index.html">v0.7.0</a></dd>
+                        <dd><a href="../../../../../../v0.7.1/index.html">v0.7.1</a></dd>
+                        <dd><a href="../../../../../../v0.7.2/index.html">v0.7.2</a></dd>
+                        <dd><a href="../../../../../../v0.7.3/index.html">v0.7.3</a></dd>
+                        <dd><a href="../../../../../../v0.7.4/index.html">v0.7.4</a></dd>
+                        <dd><a href="../../../../../../v0.7.5/index.html">v0.7.5</a></dd>
+                        <dd><a href="../../../../../../v0.7.6/index.html">v0.7.6</a></dd>
+                        <dd><a href="../../../../../../v0.8.0/index.html">v0.8.0</a></dd>
+                        <dd><a href="../../../../../../v0.8.1/index.html">v0.8.1</a></dd>
+                        <dd><a href="../../../../../../v0.8.2/index.html">v0.8.2</a></dd>
+                        <dd><a href="../../../../../../v0.8.3/index.html">v0.8.3</a></dd>
+                        <dd><a href="../../../../../../v0.8.4/index.html">v0.8.4</a></dd>
+                        <dd><a href="../../../../../../v0.8.5/index.html">v0.8.5</a></dd>
+                        <dd><a href="../../../../../../v0.8.6/index.html">v0.8.6</a></dd>
+                        <dd><a href="../../../../../../v0.9.0/index.html">v0.9.0</a></dd>
+                        <dd><a href="../../../../../../v0.9.1/index.html">v0.9.1</a></dd>
+                        <dd><a href="../../../../../../v0.9.2/index.html">v0.9.2</a></dd>
+                        <dd><a href="../../../../../../v0.9.3/index.html">v0.9.3</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="text.html">dev/py</a></dd>
+                        <dd><a href="../../../../../color/index.html">dev/color</a></dd>
+                        <dd><a href="../../../../../dependency/index.html">dev/dependency</a></dd>
+                        <dd><a href="../../../../../../main/index.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
