@@ -212,7 +212,7 @@ jobs:
       - name: Before Run Unittest
         shell: bash
         run: |
-          chmod +x dist/*
+          sudo chmod +x dist/*
           ls -al dist
           python -c "import os, glob;print(glob.glob(os.path.join('dist', 'git_lfs*')))"
           python -c "import os, glob;print(glob.glob(os.path.join('dist', 'git_raw*')))"
