@@ -190,6 +190,11 @@ jobs:
         with:
           name: git-exec-${{ env.OS_NAME }}
           path: dist
+      - name: Give permission to dist on non-windows system
+        if: ${{ env.OS_NAME != 'Windows' }}
+        shell: bash
+        run: |
+          sudo chmod +x dist/*
       - name: Set up python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
@@ -212,10 +217,11 @@ jobs:
       - name: Before Run Unittest
         shell: bash
         run: |
-          sudo chmod +x dist/*
           ls -al dist
           python -c "import os, glob;print(glob.glob(os.path.join('dist', 'git_lfs*')))"
           python -c "import os, glob;print(glob.glob(os.path.join('dist', 'git_raw*')))"
+          python -c "import shutil;print(shutil.which('git_lfs', path='dist'))"
+          python -c "import shutil;print(shutil.which('git_raw', path='dist'))"
       - name: Run unittest
         env:
           CI: 'true'
