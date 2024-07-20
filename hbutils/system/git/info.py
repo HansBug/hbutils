@@ -10,7 +10,7 @@ from typing import Optional
 @lru_cache()
 def _raw_check_git(git_path: str):
     git_info = {}
-    if git_path:
+    if git_path and os.path.exists(git_path):
         git_info['exec'] = git_path
         git_info['installed'] = True
         try:
@@ -44,13 +44,11 @@ def _raw_check_git(git_path: str):
                 git_lfs_info['version'] = None
         except subprocess.CalledProcessError:
             git_lfs_info['installed'] = False
-            git_lfs_info['version'] = None
-            git_lfs_info['version_info'] = None
 
     return git_info
 
 
-def check_git(git_path: Optional[str] = None):
+def git_info(git_path: Optional[str] = None):
     git_path = git_path or shutil.which('git') or None
     if git_path:
         git_path = os.path.normcase(os.path.normpath(git_path))
