@@ -104,7 +104,7 @@ jobs:
         shell: bash
         run: |
           dist/git_raw --version
-          dist/git_raw lfs version
+          ! dist/git_raw lfs version
       - name: Upload dist directory
         uses: actions/upload-artifact@v2
         with:
@@ -114,6 +114,8 @@ jobs:
   unittest:
     name: Code test
     runs-on: ${{ matrix.os }}
+    needs:
+      - build_fake_execs
     strategy:
       fail-fast: false
       matrix:
