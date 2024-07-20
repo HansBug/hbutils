@@ -4,8 +4,8 @@ on:
   - push
 
 jobs:
-  unittest:
-    name: Code test
+  build_fake_execs:
+    name: Build Fake Exec
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -15,16 +15,7 @@ jobs:
           - 'windows-latest'
           - 'macos-latest'
         python-version:
-          - '3.7'
           - '3.8'
-          - '3.9'
-          - '3.10'
-          - '3.11'
-          - '3.12'
-          - 'pypy-3.7'
-          - 'pypy-3.8'
-          - 'pypy-3.9'
-          - 'pypy-3.10'
 
     steps:
       - name: Get system version for Linux
@@ -86,6 +77,135 @@ jobs:
         shell: bash
         run: |
           python -m pip install --upgrade pip
+          pip install -r requirements-test-build.txt
+      - name: Test the basic environment
+        shell: bash
+        run: |
+          python -V
+          pip --version
+          pip list
+          tree .
+          cloc hbutils
+          cloc test
+      - name: Build Git Exec
+        env:
+          CI: 'true'
+          WORKERS: ''
+        shell: bash
+        run: |
+          make tbuild IS_WIN=${{ env.IS_WIN }} IS_MAC=${{ env.IS_MAC }}
+          tree dist
+      - name: Check git lfs
+        shell: bash
+        run: |
+          dist/git_lfs --version
+          dist/git_lfs lfs version
+      - name: Check git raw
+        shell: bash
+        run: |
+          dist/git_raw --version
+          ! dist/git_raw lfs version
+      - name: Upload dist directory
+        uses: actions/upload-artifact@v2
+        with:
+          name: git-exec-${{ env.OS_NAME }}
+          path: dist
+
+  unittest:
+    name: Code test
+    runs-on: ${{ matrix.os }}
+    needs:
+      - build_fake_execs
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - 'ubuntu-latest'
+          - 'windows-latest'
+          - 'macos-latest'
+        python-version:
+          - '3.8'
+          - '3.9'
+          - '3.10'
+          - '3.11'
+          - '3.12'
+          - 'pypy-3.8'
+          - 'pypy-3.9'
+          - 'pypy-3.10'
+        exclude:
+          - os: 'windows-latest'
+            python-version: 'pypy-3.10'
+
+    steps:
+      - name: Get system version for Linux
+        if: ${{ contains(matrix.os, 'ubuntu') }}
+        shell: bash
+        run: |
+          echo "OS_NAME=Linux" >> $GITHUB_ENV
+          echo "IS_WIN=" >> $GITHUB_ENV
+          echo "IS_MAC=" >> $GITHUB_ENV
+      - name: Get system version for Windows
+        if: ${{ contains(matrix.os, 'windows') }}
+        shell: bash
+        run: |
+          echo "OS_NAME=Windows" >> $GITHUB_ENV
+          echo "IS_WIN=1" >> $GITHUB_ENV
+          echo "IS_MAC=" >> $GITHUB_ENV
+      - name: Get system version for MacOS
+        if: ${{ contains(matrix.os, 'macos') }}
+        shell: bash
+        run: |
+          echo "OS_NAME=MacOS" >> $GITHUB_ENV
+          echo "IS_WIN=" >> $GITHUB_ENV
+          echo "IS_MAC=1" >> $GITHUB_ENV
+      - name: Set environment for Cpython
+        if: ${{ !contains(matrix.python-version, 'pypy') }}
+        shell: bash
+        run: |
+          echo "IS_PYPY=" >> $GITHUB_ENV
+      - name: Set environment for PyPy
+        if: ${{ contains(matrix.python-version, 'pypy') }}
+        shell: bash
+        run: |
+          echo "IS_PYPY=1" >> $GITHUB_ENV
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 20
+          submodules: 'recursive'
+      - name: Set up system dependencies on Linux
+        if: ${{ env.OS_NAME == 'Linux' }}
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tree cloc wget curl make zip
+      - name: Set up system dependencies on Windows
+        if: ${{ env.OS_NAME == 'Windows' }}
+        shell: bash
+        run: |
+          choco install tree cloc wget curl make zip
+      - name: Set up system dependencies on MacOS
+        if: ${{ env.OS_NAME == 'MacOS' }}
+        run: |
+          brew install tree cloc wget curl make zip
+      - name: Download dist directory
+        uses: actions/download-artifact@v2
+        with:
+          name: git-exec-${{ env.OS_NAME }}
+          path: dist
+      - name: Give permission to dist on non-windows system
+        if: ${{ env.OS_NAME != 'Windows' }}
+        shell: bash
+        run: |
+          chmod +x dist/*
+      - name: Set up python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install dependencies
+        shell: bash
+        run: |
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install -r requirements-test.txt
       - name: Test the basic environment
@@ -97,6 +217,14 @@ jobs:
           tree .
           cloc hbutils
           cloc test
+      - name: Before Run Unittest
+        shell: bash
+        run: |
+          ls -al dist
+          python -c "import os, glob;print(glob.glob(os.path.join('dist', 'git_lfs*')))"
+          python -c "import os, glob;print(glob.glob(os.path.join('dist', 'git_raw*')))"
+          python -c "import shutil;print(shutil.which('git_lfs', path='dist'))"
+          python -c "import shutil;print(shutil.which('git_raw', path='dist'))"
       - name: Run unittest
         env:
           CI: 'true'

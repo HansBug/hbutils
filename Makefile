@@ -1,10 +1,12 @@
-.PHONY: docs test unittest
+.PHONY: docs test unittest tbuild
 
 PROJ_DIR := ${CURDIR}
 
-DOC_DIR  := ${PROJ_DIR}/docs
-TEST_DIR := ${PROJ_DIR}/test
-SRC_DIR  := ${PROJ_DIR}/hbutils
+DOC_DIR    := ${PROJ_DIR}/docs
+TEST_DIR   := ${PROJ_DIR}/test
+SRC_DIR    := ${PROJ_DIR}/hbutils
+DIST_DIR   := ${PROJ_DIR}/dist
+TBUILD_DIR := ${PROJ_DIR}/tbuild
 
 RANGE_DIR      ?= .
 RANGE_TEST_DIR := ${TEST_DIR}/${RANGE_DIR}
@@ -26,3 +28,9 @@ docs:
 	$(MAKE) -C "${DOC_DIR}" build
 pdocs:
 	$(MAKE) -C "${DOC_DIR}" prod
+
+tbuild:
+	pyinstaller -D -F -n git_raw -c ${TBUILD_DIR}/git_raw.py
+	pyinstaller -D -F -n git_lfs -c ${TBUILD_DIR}/git_lfs.py
+clean:
+	rm -rf ${DIST_DIR} *.egg-info hbutils.spec
