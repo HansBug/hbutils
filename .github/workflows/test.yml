@@ -209,6 +209,12 @@ jobs:
           tree .
           cloc hbutils
           cloc test
+      - name: Before Run Unittest
+        shell: bash
+        run: |
+          ls -al dist
+          python -c "import shutil;print(shutil.which('git_lfs', path='dist'))"
+          python -c "import shutil;print(shutil.which('git_raw', path='dist'))"
       - name: Run unittest
         env:
           CI: 'true'
