@@ -213,8 +213,8 @@ jobs:
         shell: bash
         run: |
           ls -al dist
-          python -c "import shutil;print(shutil.which('git_lfs', path='dist'))"
-          python -c "import shutil;print(shutil.which('git_raw', path='dist'))"
+          python -c "import os, glob;print(glob.glob(os.path.join('dist', 'git_lfs*')))"
+          python -c "import os, glob;print(glob.glob(os.path.join('dist', 'git_raw*')))"
       - name: Run unittest
         env:
           CI: 'true'

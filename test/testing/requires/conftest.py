@@ -1,5 +1,8 @@
+import glob
 import os.path
-import shutil
 
-_GIT_LFS = shutil.which('git_lfs', path=os.path.abspath('dist'))
-_GIT_RAW = shutil.which('git_raw', path=os.path.abspath('dist'))
+_GIT_LFSS = glob.glob(os.path.join('dist', 'git_lfs*'))
+_GIT_LFS = _GIT_LFSS[0] if _GIT_LFSS else None
+
+_GIT_RAWS = glob.glob(os.path.join('dist', 'git_raw*'))
+_GIT_RAW = _GIT_RAWS[0] if _GIT_RAWS else None
