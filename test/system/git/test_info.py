@@ -1,3 +1,4 @@
+import os.path
 import shutil
 from unittest import skipUnless
 
@@ -27,11 +28,11 @@ class TestSystemGitInfo:
 
 
 @pytest.mark.unittest
-@skipUnless(_GIT_LFS, 'Pre-compiled git_lfs required')
 class TestSystemGitInfoLFS:
+    @skipUnless(_GIT_LFS, 'Pre-compiled git_lfs required')
     def test_git_info(self):
         assert git_info(_GIT_LFS) == {
-            'exec': _GIT_LFS,
+            'exec': os.path.normcase(os.path.normpath(_GIT_LFS)),
             'installed': True,
             'lfs': {
                 'installed': True,
@@ -43,11 +44,11 @@ class TestSystemGitInfoLFS:
 
 
 @pytest.mark.unittest
-@skipUnless(_GIT_RAW, 'Pre-compiled git_lfs required')
 class TestSystemGitInfoLFS:
+    @skipUnless(_GIT_RAW, 'Pre-compiled git_lfs required')
     def test_git_info(self):
         assert git_info(_GIT_RAW) == {
-            'exec': _GIT_RAW,
+            'exec': os.path.normcase(os.path.normpath(_GIT_RAW)),
             'installed': True,
             'lfs': {'installed': False},
             'version': '2.28.0',
