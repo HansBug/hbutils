@@ -119,6 +119,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#os">OS</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#impl">Impl</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#cmdv">cmdv</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#is-git-installed">is_git_installed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#git-version">git_version</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#is-git-lfs-installed">is_git_lfs_installed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#git-lfs-version">git_lfs_version</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="simulate.html">hbutils.testing.simulate</a></li>
@@ -450,6 +454,134 @@ See <a class="reference external" href="https://docs.python.org/3/library/platfo
 </dd></dl>
 
 </section>
+<section id="is-git-installed">
+<h2>is_git_installed<a class="headerlink" href="#is-git-installed" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.testing.requires.is_git_installed">
+<code class="sig-prename descclassname">hbutils.testing.requires.</code><code class="sig-name descname">is_git_installed</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">git_path</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../_modules/hbutils/testing/requires/git.html#is_git_installed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.requires.is_git_installed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if Git is installed.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>git_path</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Optional path to the Git executable. If not provided, the function
+will attempt to find Git in the system PATH.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if Git is installed, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+<dt class="field-even">Usage<span class="colon">:</span></dt>
+<dd class="field-even"><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">is_git_installed</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_git_installed</span><span class="p">(</span><span class="s1">&#39;/custom/path/to/git&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="git-version">
+<h2>git_version<a class="headerlink" href="#git-version" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.testing.requires.git_version">
+<code class="sig-prename descclassname">hbutils.testing.requires.</code><code class="sig-name descname">git_version</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">git_path</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>hbutils.testing.requires.version.VersionInfo<span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/testing/requires/git.html#git_version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.requires.git_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the Git version.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>git_path</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Optional path to the Git executable. If not provided, the function
+will attempt to find Git in the system PATH.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A VersionInfo object representing the Git version, or None if Git is not installed
+or the version cannot be determined.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[VersionInfo]</p>
+</dd>
+<dt class="field-even">Note<span class="colon">:</span></dt>
+<dd class="field-even"><p>This function may return None even if Git is installed, in cases where the
+‘git –version’ output is unrecognizable.</p>
+</dd>
+<dt class="field-odd">Usage<span class="colon">:</span></dt>
+<dd class="field-odd"><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">version</span> <span class="o">=</span> <span class="n">git_version</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">version</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Git version: </span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Git version could not be determined&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="is-git-lfs-installed">
+<h2>is_git_lfs_installed<a class="headerlink" href="#is-git-lfs-installed" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.testing.requires.is_git_lfs_installed">
+<code class="sig-prename descclassname">hbutils.testing.requires.</code><code class="sig-name descname">is_git_lfs_installed</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">git_path</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../_modules/hbutils/testing/requires/git.html#is_git_lfs_installed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.requires.is_git_lfs_installed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if Git LFS is installed.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>git_path</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Optional path to the Git executable. If not provided, the function
+will attempt to find Git in the system PATH.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if both Git and Git LFS are installed, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+<dt class="field-even">Usage<span class="colon">:</span></dt>
+<dd class="field-even"><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">is_git_lfs_installed</span><span class="p">()</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_git_lfs_installed</span><span class="p">(</span><span class="s1">&#39;/custom/path/to/git&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="git-lfs-version">
+<h2>git_lfs_version<a class="headerlink" href="#git-lfs-version" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.testing.requires.git_lfs_version">
+<code class="sig-prename descclassname">hbutils.testing.requires.</code><code class="sig-name descname">git_lfs_version</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">git_path</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>str<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span> &#x2192; Optional<span class="p">[</span>hbutils.testing.requires.version.VersionInfo<span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/testing/requires/git.html#git_lfs_version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.testing.requires.git_lfs_version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the Git LFS version.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>git_path</strong> (<em>Optional</em><em>[</em><em>str</em><em>]</em>) – Optional path to the Git executable. If not provided, the function
+will attempt to find Git in the system PATH.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A VersionInfo object representing the Git LFS version, or None if Git LFS is not installed
+or the version cannot be determined.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Optional[VersionInfo]</p>
+</dd>
+<dt class="field-even">Note<span class="colon">:</span></dt>
+<dd class="field-even"><p>This function may return None even if Git LFS is installed, in cases where the
+‘git lfs version’ output is unrecognizable.</p>
+</dd>
+<dt class="field-odd">Usage<span class="colon">:</span></dt>
+<dd class="field-odd"><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">version</span> <span class="o">=</span> <span class="n">git_lfs_version</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">if</span> <span class="n">version</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Git LFS version: </span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="gp">... </span><span class="k">else</span><span class="p">:</span>
+<span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Git LFS version could not be determined&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -552,11 +684,11 @@ See <a class="reference external" href="https://docs.python.org/3/library/platfo
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../../main/api_doc/testing/requires.html">main</a></dd>
+                        <dd><a href="requires.html">dev/py</a></dd>
                         <dd><a href="../../../color/api_doc/testing/requires.html">dev/color</a></dd>
                         <dd><a href="../../../dependency/index.html">dev/dependency</a></dd>
-                        <dd><a href="requires.html">dev/py</a></dd>
                         <dd><a href="../../../x/api_doc/testing/requires.html">dev/x</a></dd>
+                        <dd><a href="../../../../main/api_doc/testing/requires.html">main</a></dd>
                 </dl>
         </div>
     </div>
