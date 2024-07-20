@@ -509,16 +509,8 @@ Otherwise, the first path will be copied to the last path (exactly 2 arguments a
 <h2>TemporaryDirectory<a class="headerlink" href="#temporarydirectory" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
 <dt id="hbutils.system.filesystem.TemporaryDirectory">
-<em class="property">class </em><code class="sig-prename descclassname">hbutils.system.filesystem.</code><code class="sig-name descname">TemporaryDirectory</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">suffix</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">prefix</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dir</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/system/filesystem/tempfile.html#TemporaryDirectory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.filesystem.TemporaryDirectory" title="Permalink to this definition">¶</a></dt>
-<dd><div class="admonition note">
-<p class="admonition-title">Note</p>
-<p><strong>This class is copied from python3.8’s tempfile library.</strong></p>
-<p>Because PermissionError will be raised when use native TemporaryDirectory on <strong>Windows python3.7</strong>.
-This class should be removed when python3.7 is no longer supported.</p>
-<p>See <a class="reference external" href="https://docs.python.org/3/library/tempfile.html#tempfile.TemporaryDirectory">tempfile.TemporaryDirectory</a>
-for more details.</p>
-</aside>
-<p>Create and return a temporary directory.  This has the same
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.system.filesystem.</code><code class="sig-name descname">TemporaryDirectory</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">suffix</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">prefix</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dir</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/tempfile.html#TemporaryDirectory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.filesystem.TemporaryDirectory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and return a temporary directory.  This has the same
 behavior as mkdtemp but can be used as a context manager.  For
 example:</p>
 <blockquote>
