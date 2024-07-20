@@ -39,3 +39,32 @@ cmdv
 .. autofunction:: cmdv
 
 
+
+is_git_installed
+-------------------------------
+
+.. autofunction:: is_git_installed
+
+
+
+git_version
+-------------------------------
+
+.. autofunction:: git_version
+
+
+
+is_git_lfs_installed
+-------------------------------
+
+.. autofunction:: is_git_lfs_installed
+
+
+
+git_lfs_version
+-------------------------------
+
+.. autofunction:: git_lfs_version
+
+
+
