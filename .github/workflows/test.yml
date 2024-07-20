@@ -194,7 +194,7 @@ jobs:
         if: ${{ env.OS_NAME != 'Windows' }}
         shell: bash
         run: |
-          sudo chmod +x dist/*
+          chmod +x dist/*
       - name: Set up python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
