@@ -6,9 +6,26 @@ import warnings
 from functools import lru_cache
 from typing import Optional
 
+__all__ = [
+    'git_info',
+]
+
 
 @lru_cache()
 def _raw_check_git(git_path: str):
+    """
+    Check Git installation and version information.
+
+    This function checks if Git is installed at the given path, retrieves its version information,
+    and also checks for Git LFS installation and version.
+
+    :param git_path: Path to the Git executable.
+    :type git_path: str
+
+    :return: A dictionary containing information about Git and Git LFS installations.
+    :rtype: dict
+
+    """
     git_info = {}
     if git_path and os.path.exists(git_path):
         git_info['exec'] = git_path
@@ -49,6 +66,47 @@ def _raw_check_git(git_path: str):
 
 
 def git_info(git_path: Optional[str] = None):
+    """
+    Get information about Git and Git LFS installations.
+
+    This function attempts to locate the Git executable and retrieve information about
+    the Git and Git LFS installations. It first tries to use the provided git_path,
+    then checks the system PATH, and finally falls back to None if Git is not found.
+
+    :param git_path: Optional path to the Git executable. If not provided, the function
+                     will attempt to find Git in the system PATH.
+    :type git_path: Optional[str]
+
+    :return: A dictionary containing information about Git and Git LFS installations.
+    :rtype: dict
+
+    :raises subprocess.CalledProcessError: If there's an error running Git commands.
+    :warns UserWarning: If Git version information cannot be parsed or if Git LFS version unrecognizable.
+
+    :usage:
+        >>> info = git_info()
+        >>> print(info['installed'])  # Check if Git is installed
+        >>> print(info['version'])    # Get Git version
+        >>> print(info['lfs']['installed'])  # Check if Git LFS is installed
+
+    The returned dictionary has the following structure:
+
+    .. code-block:: python
+        :linenos:
+
+        {
+            'exec': str,          # Path to Git executable
+            'installed': bool,    # Whether Git is installed
+            'version_info': str,  # Full version string from 'git --version'
+            'version': str,       # Parsed Git version
+            'lfs': {              # Information about Git LFS
+                'installed': bool,    # Whether Git LFS is installed
+                'version_info': str,  # Full version string from 'git lfs version'
+                'version': str        # Parsed Git LFS version
+            }
+        }
+
+    """
     git_path = git_path or shutil.which('git') or None
     if git_path:
         git_path = os.path.normcase(os.path.normpath(git_path))
