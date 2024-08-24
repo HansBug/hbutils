@@ -1,7 +1,11 @@
 """
-Overview:
-    Backport support of :class:`tempfile.TemporaryDirectory` in python3.7 on Windows.
+This module provides a backport of the `tempfile.TemporaryDirectory` class for Python 3.7 on Windows.
+It addresses a PermissionError issue that occurs when using the native TemporaryDirectory on Windows Python 3.7.
+The module includes a custom implementation of TemporaryDirectory that mimics the behavior of the Python 3.10 version.
+
+This backport should be used until Python 3.9 reaches end-of-life.
 """
+
 import os
 import platform
 import shutil
@@ -26,28 +30,40 @@ if _python_version_tuple >= (3, 10):
 else:
     class TemporaryDirectory:
         """
-        .. note::
-            **This class is copied from python3.10's tempfile library.**
+        Create and return a temporary directory that can be used as a context manager.
 
-            Because PermissionError will be raised when use native TemporaryDirectory on **Windows python3.7**.
-            This class should be removed when python3.9 is end of life.
+        This class is a backport of the Python 3.10 tempfile.TemporaryDirectory implementation,
+        addressing PermissionError issues on Windows Python 3.7.
 
-            See `tempfile.TemporaryDirectory <https://docs.python.org/3/library/tempfile.html#tempfile.TemporaryDirectory>`_
-            for more details.
+        Usage:
+            >>> with TemporaryDirectory() as tmpdir:
+            >>>     # Use tmpdir as a temporary directory
+            >>>     ...
 
-        Create and return a temporary directory.  This has the same
-        behavior as mkdtemp but can be used as a context manager.  For
-        example:
+        Upon exiting the context, the directory and its contents are removed.
 
-            with TemporaryDirectory() as tmpdir:
-                ...
+        :param suffix: Optional suffix for the directory name.
+        :type suffix: str or None
+        :param prefix: Optional prefix for the directory name.
+        :type prefix: str or None
+        :param dir: The parent directory to create the temporary directory in.
+        :type dir: str or None
+        :param ignore_cleanup_errors: If True, ignore errors during cleanup.
+        :type ignore_cleanup_errors: bool
 
-        Upon exiting the context, the directory and everything contained
-        in it are removed.
+        :raises OSError: If there is an error in creating or cleaning up the directory.
         """
 
         def __init__(self, suffix=None, prefix=None, dir=None,
                      ignore_cleanup_errors=False):
+            """
+            Initialize the TemporaryDirectory.
+
+            :param suffix: Optional suffix for the directory name.
+            :param prefix: Optional prefix for the directory name.
+            :param dir: The parent directory to create the temporary directory in.
+            :param ignore_cleanup_errors: If True, ignore errors during cleanup.
+            """
             self.name = tempfile.mkdtemp(suffix, prefix, dir)
             self._ignore_cleanup_errors = ignore_cleanup_errors
             self._finalizer = weakref.finalize(
@@ -57,6 +73,18 @@ else:
 
         @classmethod
         def _rmtree(cls, name, ignore_errors=False):
+            """
+            Recursively delete a directory tree.
+
+            This method handles permission errors by attempting to modify file permissions
+            before deletion.
+
+            :param name: The path of the directory to remove.
+            :type name: str
+            :param ignore_errors: If True, ignore errors during deletion.
+            :type ignore_errors: bool
+            """
+
             def onerror(func, path, exc_info):
                 if issubclass(exc_info[0], PermissionError):
                     def resetperms(path):
@@ -88,19 +116,54 @@ else:
 
         @classmethod
         def _cleanup(cls, name, warn_message, ignore_errors=False):
+            """
+            Clean up the temporary directory and issue a warning.
+
+            :param name: The path of the directory to clean up.
+            :type name: str
+            :param warn_message: The warning message to display.
+            :type warn_message: str
+            :param ignore_errors: If True, ignore errors during cleanup.
+            :type ignore_errors: bool
+            """
             cls._rmtree(name, ignore_errors=ignore_errors)
             warnings.warn(warn_message, ResourceWarning)
 
         def __repr__(self):
+            """
+            Return a string representation of the TemporaryDirectory instance.
+
+            :return: A string representation of the instance.
+            :rtype: str
+            """
             return "<{} {!r}>".format(self.__class__.__name__, self.name)
 
         def __enter__(self):
+            """
+            Enter the context manager.
+
+            :return: The path of the temporary directory.
+            :rtype: str
+            """
             return self.name
 
         def __exit__(self, exc, value, tb):
+            """
+            Exit the context manager and clean up the temporary directory.
+
+            :param exc: The exception type if an exception was raised.
+            :param value: The exception value if an exception was raised.
+            :param tb: The traceback if an exception was raised.
+            """
             self.cleanup()
 
         def cleanup(self):
+            """
+            Clean up the temporary directory.
+
+            This method is called automatically when exiting the context manager,
+            but can also be called manually if needed.
+            """
             if self._finalizer.detach() or os.path.exists(self.name):
                 self._rmtree(self.name, ignore_errors=self._ignore_cleanup_errors)
 

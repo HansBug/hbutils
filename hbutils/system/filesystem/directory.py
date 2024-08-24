@@ -1,7 +1,9 @@
 """
 Overview:
-    Functions for directory processing.
+    This module provides functions for directory processing, including copying files and directories,
+    removing files and directories, and getting the size of files and directories.
 """
+
 import errno
 import os
 import shutil
@@ -15,6 +17,15 @@ __all__ = [
 
 
 def _single_copy(src: str, dst: str):
+    """
+    Copy a single file or directory.
+
+    :param src: Source path.
+    :type src: str
+    :param dst: Destination path.
+    :type dst: str
+    :raises OSError: If there's an error during the copy operation.
+    """
     try:
         shutil.copytree(src, dst)  # copy directory
     except OSError as exc:
@@ -26,21 +37,26 @@ def _single_copy(src: str, dst: str):
 
 def copy(src1: str, src2: str, *srcn_dst: str):
     """
-    Overview:
-        Copy files or directories.
+    Copy files or directories.
 
-        No less than 2 arguments are accepted.
-        When the last path is an existing path, all the fore paths will be copied to this path.
-        Otherwise, the first path will be copied to the last path (exactly 2 arguments are accepted in this \
-            case, or ``NotADirectoryError`` will be raised).
+    This function provides a flexible way to copy multiple files or directories to a destination.
+    It can be used similarly to the 'cp -rf' command in Unix.
 
-        From `Stack Overflow - Copy file or directories recursively in Python \
-        <https://stackoverflow.com/a/1994840/6995899>`_.
+    :param src1: First source path.
+    :type src1: str
+    :param src2: Second source path or destination path.
+    :type src2: str
+    :param srcn_dst: Additional source paths and the destination path.
+    :type srcn_dst: str
 
-    .. note::
-        You can use this like ``cp -rf`` command on unix.
+    :raises NotADirectoryError: If the destination is not a directory when copying multiple sources.
 
-    Examples::
+    Usage:
+        1. To copy a single file or directory: copy('source', 'destination')
+        2. To copy multiple files/directories to an existing directory: copy('source1', 'source2', 'destination')
+        3. To copy files matching a pattern: copy('*.txt', 'destination')
+
+    Examples:
         >>> import os
         >>> from hbutils.system import copy
         >>>
@@ -59,7 +75,7 @@ def copy(src1: str, src2: str, *srcn_dst: str):
         >>>
         >>> os.makedirs('new_path_2')
         >>> copy('*.txt', 'test/system/**/*.py', 'new_path_2')  # copy plenty of files to new path
-        >>> print(*os.listdir('new_path_2'), sep=\'\\n\')
+        >>> print(*os.listdir('new_path_2'), sep='\\n')
         test_version.py
         test_file.py
         test_type.py
@@ -85,16 +101,20 @@ def copy(src1: str, src2: str, *srcn_dst: str):
 
 def remove(*files: str):
     """
-    Overview:
-        Remove a file or a directory at ``file``.
-        ``file`` can be a file or a directory, both are supported.
+    Remove files or directories.
+
+    This function can remove both files and directories. It supports glob patterns for batch removal.
+    It can be used similarly to the 'rm -rf' command in Unix.
 
     :param files: Files or directories to be removed.
+    :type files: str
 
-    .. note::
-        You can use this like ``rm -rf`` command on unix.
+    Usage:
+        1. To remove a single file or directory: remove('path/to/file_or_dir')
+        2. To remove multiple files or directories: remove('file1', 'dir1', 'file2')
+        3. To remove files matching a pattern: remove('*.txt', 'dir/**/*.py')
 
-    Examples::
+    Examples:
         >>> import os
         >>> from hbutils.system import remove
         >>>
@@ -112,7 +132,7 @@ def remove(*files: str):
         >>> os.listdir('new_path_1')
         []
         >>>
-        >>> print(*os.listdir('new_path_2'), sep=\'\\n\')
+        >>> print(*os.listdir('new_path_2'), sep='\\n')
         test_version.py
         test_file.py
         test_type.py
@@ -124,7 +144,7 @@ def remove(*files: str):
         requirements-doc.txt
         requirements.txt
         >>> remove('README.md', 'test/**/*.py', 'new_path_2/*.py')  # remove plenty of files
-        >>> print(*os.listdir('new_path_2'), sep=\'\\n\')
+        >>> print(*os.listdir('new_path_2'), sep='\\n')
         requirements-test.txt
         requirements-doc.txt
         requirements.txt
@@ -137,6 +157,14 @@ def remove(*files: str):
 
 
 def _single_getsize(file: str):
+    """
+    Get the size of a single file or directory.
+
+    :param file: Path to the file or directory.
+    :type file: str
+    :return: Size of the file or total size of the directory in bytes.
+    :rtype: int
+    """
     if os.path.isfile(file):
         return os.path.getsize(file)
     else:
@@ -152,16 +180,22 @@ def _single_getsize(file: str):
 
 def getsize(*files: str):
     """
-    Overview:
-        Get size of a file or a directory.
+    Get the size of files or directories.
 
-    :param files: File paths.
-    :return: Size of the file or the total size of the directory.
+    This function calculates the total size of all specified files and directories.
+    It supports glob patterns for batch size calculation.
 
-    .. note::
-        You can use this like ``du -sh`` command on unix.
+    :param files: Paths to files or directories.
+    :type files: str
+    :return: Total size in bytes.
+    :rtype: int
 
-    Examples::
+    Usage:
+        1. To get size of a single file or directory: getsize('path/to/file_or_dir')
+        2. To get total size of multiple files or directories: getsize('file1', 'dir1', 'file2')
+        3. To get total size of files matching a pattern: getsize('*.txt', 'dir/**/*.py')
+
+    Examples:
         >>> from hbutils.system import getsize
         >>>
         >>> getsize('README.md')  # a file
