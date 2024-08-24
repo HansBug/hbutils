@@ -1,0 +1,692 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hbutils.system.filesystem &mdash; hbutils 0.10.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="hbutils.system.git" href="git.html" />
+    <link rel="prev" title="hbutils.system" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> hbutils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.10.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorials/installation/index.html">Installation</a></li>
+</ul>
+<p><span class="caption-text">API Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../algorithm/index.html">hbutils.algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../binary/index.html">hbutils.binary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../collection/index.html">hbutils.collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../color/index.html">hbutils.color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config/index.html">hbutils.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../design/index.html">hbutils.design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../expression/index.html">hbutils.expression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../file/index.html">hbutils.file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model/index.html">hbutils.model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../random/index.html">hbutils.random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reflection/index.html">hbutils.reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../scale/index.html">hbutils.scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../string/index.html">hbutils.string</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">hbutils.system</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">hbutils.system.filesystem</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#touch">touch</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#glob">glob</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#copy">copy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#remove">remove</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#getsize">getsize</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#is-binary-file">is_binary_file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#is-text-file">is_text_file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#temporarydirectory">TemporaryDirectory</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="git.html">hbutils.system.git</a></li>
+<li class="toctree-l2"><a class="reference internal" href="network.html">hbutils.system.network</a></li>
+<li class="toctree-l2"><a class="reference internal" href="os.html">hbutils.system.os</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python.html">hbutils.system.python</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../testing/index.html">hbutils.testing</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">hbutils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">hbutils.system</a> &raquo;</li>
+        
+      <li>hbutils.system.filesystem</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/api_doc/system/filesystem.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <section id="module-hbutils.system.filesystem">
+<span id="hbutils-system-filesystem"></span><h1>hbutils.system.filesystem<a class="headerlink" href="#module-hbutils.system.filesystem" title="Permalink to this headline">¶</a></h1>
+<dl class="simple">
+<dt>Overview:</dt><dd><p>Utilities for filesystem.</p>
+</dd>
+</dl>
+<section id="touch">
+<h2>touch<a class="headerlink" href="#touch" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.filesystem.touch">
+<code class="sig-prename descclassname">hbutils.system.filesystem.</code><code class="sig-name descname">touch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">exist_ok</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em>, <em class="sig-param"><span class="n">makedirs</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/system/filesystem/file.html#touch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.filesystem.touch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a file at the specified path, similar to the Unix ‘touch’ command.</p>
+<p>This function creates an empty file at the given path. If the file already exists,
+it updates the file’s access and modification times. It can also create necessary
+parent directories if they don’t exist.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<em>str</em>) – Path of the file to be created or updated.</p></li>
+<li><p><strong>exist_ok</strong> (<em>bool</em>) – If True, don’t raise an error if the file already exists. Default is True.</p></li>
+<li><p><strong>makedirs</strong> (<em>bool</em>) – If True, create parent directories when necessary. Default is True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>FileExistsError</strong> – If the file already exists and exist_ok is False.</p></li>
+<li><p><strong>OSError</strong> – If there’s an error creating the file or directories.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function mimics the behavior of the ‘touch’ command in Unix systems.</p>
+</aside>
+<dl>
+<dt>Examples:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">touch</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">touch</span><span class="p">(</span><span class="s1">&#39;simple.txt&#39;</span><span class="p">)</span>  <span class="c1"># touch simple file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">touch</span><span class="p">(</span><span class="s1">&#39;1/2/3/simple.txt&#39;</span><span class="p">)</span>  <span class="c1"># touch file in nested directory (1/2/3 will be created)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="go">[&#39;1&#39;, &#39;simple.txt&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;1/2/3&#39;</span><span class="p">)</span>
+<span class="go">[&#39;simple.txt&#39;]</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="glob">
+<h2>glob<a class="headerlink" href="#glob" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.filesystem.glob">
+<code class="sig-prename descclassname">hbutils.system.filesystem.</code><code class="sig-name descname">glob</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">items</span></em><span class="sig-paren">)</span> &#x2192; Iterator<span class="p">[</span>str<span class="p">]</span><a class="reference internal" href="../../_modules/hbutils/system/filesystem/file.html#glob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.filesystem.glob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Perform glob operations on the given patterns and return an iterator of matching file paths.</p>
+<p>This function allows for flexible file matching using wildcard patterns. It can handle
+multiple patterns and performs recursive matching by default.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>items</strong> (<em>str</em>) – One or more glob patterns to match against file paths.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>An iterator yielding paths of files that match the given patterns.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Iterator[str]</p>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function differs from the native <cite>glob.glob</cite> in that it returns a generator
+instead of a list, which can be more memory-efficient for large directory structures.</p>
+</aside>
+<dl>
+<dt>Examples:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">glob</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*.md&#39;</span><span class="p">))</span>  <span class="c1"># simple filter</span>
+<span class="go">[&#39;CONTRIBUTING.md&#39;, &#39;README.md&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">list</span><span class="p">(</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;*.md&#39;</span><span class="p">,</span> <span class="s1">&#39;*.txt&#39;</span><span class="p">))</span>  <span class="c1"># multiple filter</span>
+<span class="go">[&#39;CONTRIBUTING.md&#39;, &#39;README.md&#39;, &#39;requirements-test.txt&#39;, &#39;requirements-doc.txt&#39;, &#39;requirements.txt&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">glob</span><span class="p">(</span><span class="s1">&#39;hbutils/system/**/*.py&#39;</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>  <span class="c1"># nested filter</span>
+<span class="go">hbutils/system/__init__.py</span>
+<span class="go">hbutils/system/filesystem/directory.py</span>
+<span class="go">hbutils/system/filesystem/file.py</span>
+<span class="go">hbutils/system/filesystem/__init__.py</span>
+<span class="go">hbutils/system/python/package.py</span>
+<span class="go">hbutils/system/python/implementation.py</span>
+<span class="go">hbutils/system/python/version.py</span>
+<span class="go">hbutils/system/python/__init__.py</span>
+<span class="go">hbutils/system/os/type.py</span>
+<span class="go">hbutils/system/os/__init__.py</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="copy">
+<h2>copy<a class="headerlink" href="#copy" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.filesystem.copy">
+<code class="sig-prename descclassname">hbutils.system.filesystem.</code><code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">src1</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">src2</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="o">*</span><span class="n">srcn_dst</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/system/filesystem/directory.html#copy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.filesystem.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy files or directories.</p>
+<p>This function provides a flexible way to copy multiple files or directories to a destination.
+It can be used similarly to the ‘cp -rf’ command in Unix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src1</strong> (<em>str</em>) – First source path.</p></li>
+<li><p><strong>src2</strong> (<em>str</em>) – Second source path or destination path.</p></li>
+<li><p><strong>srcn_dst</strong> (<em>str</em>) – Additional source paths and the destination path.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>NotADirectoryError</strong> – If the destination is not a directory when copying multiple sources.</p>
+</dd>
+</dl>
+<dl>
+<dt>Usage:</dt><dd><ol class="arabic simple">
+<li><p>To copy a single file or directory: copy(‘source’, ‘destination’)</p></li>
+<li><p>To copy multiple files/directories to an existing directory: copy(‘source1’, ‘source2’, ‘destination’)</p></li>
+<li><p>To copy files matching a pattern: copy(’<a href="#system-message-1"><span class="problematic" id="problematic-1">*</span></a>.txt’, ‘destination’)</p></li>
+</ol>
+</dd>
+<dt>Examples:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">copy</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="go">[&#39;test&#39;, &#39;README.md&#39;, &#39;cloc.sh&#39;, &#39;LICENSE&#39;, &#39;codecov.yml&#39;, &#39;pytest.ini&#39;, &#39;Makefile&#39;, &#39;setup.py&#39;, &#39;requirements-test.txt&#39;, &#39;requirements-doc.txt&#39;, &#39;requirements.txt&#39;]</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copy</span><span class="p">(</span><span class="s1">&#39;cloc.sh&#39;</span><span class="p">,</span> <span class="s1">&#39;new_cloc.sh&#39;</span><span class="p">)</span>  <span class="c1"># copy file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copy</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">,</span> <span class="s1">&#39;new_test&#39;</span><span class="p">)</span>  <span class="c1"># copy directory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="go">[&#39;test&#39;, &#39;README.md&#39;, &#39;cloc.sh&#39;, &#39;LICENSE&#39;, &#39;codecov.yml&#39;, &#39;new_test&#39;, &#39;pytest.ini&#39;, &#39;Makefile&#39;, &#39;setup.py&#39;, &#39;requirements-test.txt&#39;, &#39;requirements-doc.txt&#39;, &#39;requirements.txt&#39;, &#39;new_cloc.sh&#39;]</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s1">&#39;new_path_1&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copy</span><span class="p">(</span><span class="s1">&#39;*.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;new_path_1&#39;</span><span class="p">)</span>  <span class="c1"># copy to new path</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;new_path_1&#39;</span><span class="p">)</span>
+<span class="go">[&#39;requirements-test.txt&#39;, &#39;requirements-doc.txt&#39;, &#39;requirements.txt&#39;]</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="s1">&#39;new_path_2&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">copy</span><span class="p">(</span><span class="s1">&#39;*.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;test/system/**/*.py&#39;</span><span class="p">,</span> <span class="s1">&#39;new_path_2&#39;</span><span class="p">)</span>  <span class="c1"># copy plenty of files to new path</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;new_path_2&#39;</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="go">test_version.py</span>
+<span class="go">test_file.py</span>
+<span class="go">test_type.py</span>
+<span class="go">test_package.py</span>
+<span class="go">test_implementation.py</span>
+<span class="go">requirements-test.txt</span>
+<span class="go">__init__.py</span>
+<span class="go">test_directory.py</span>
+<span class="go">requirements-doc.txt</span>
+<span class="go">requirements.txt</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="remove">
+<h2>remove<a class="headerlink" href="#remove" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.filesystem.remove">
+<code class="sig-prename descclassname">hbutils.system.filesystem.</code><code class="sig-name descname">remove</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">files</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/system/filesystem/directory.html#remove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.filesystem.remove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove files or directories.</p>
+<p>This function can remove both files and directories. It supports glob patterns for batch removal.
+It can be used similarly to the ‘rm -rf’ command in Unix.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>files</strong> (<em>str</em>) – Files or directories to be removed.</p>
+</dd>
+</dl>
+<dl>
+<dt>Usage:</dt><dd><ol class="arabic simple">
+<li><p>To remove a single file or directory: remove(‘path/to/file_or_dir’)</p></li>
+<li><p>To remove multiple files or directories: remove(‘file1’, ‘dir1’, ‘file2’)</p></li>
+<li><p>To remove files matching a pattern: remove(’<em>.txt’, ‘dir/*</em>/<a href="#system-message-2"><span class="problematic" id="problematic-2">*</span></a>.py’)</p></li>
+</ol>
+</dd>
+<dt>Examples:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">os</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">remove</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="go">[&#39;test&#39;, &#39;README.md&#39;, &#39;cloc.sh&#39;, &#39;codecov.yml&#39;, &#39;new_test&#39;, &#39;new_path_2&#39;, &#39;setup.py&#39;, &#39;requirements-test.txt&#39;, &#39;new_path_1&#39;, &#39;requirements-doc.txt&#39;, &#39;requirements.txt&#39;, &#39;new_cloc.sh&#39;]</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;codecov.yml&#39;</span><span class="p">)</span>  <span class="c1"># remove file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;new_test&#39;</span><span class="p">)</span>  <span class="c1"># remove directory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)</span>
+<span class="go">[&#39;test&#39;, &#39;README.md&#39;, &#39;cloc.sh&#39;, &#39;new_path_2&#39;, &#39;setup.py&#39;, &#39;requirements-test.txt&#39;, &#39;new_path_1&#39;, &#39;requirements-doc.txt&#39;, &#39;requirements.txt&#39;, &#39;new_cloc.sh&#39;]</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;new_path_1&#39;</span><span class="p">)</span>
+<span class="go">[&#39;requirements-test.txt&#39;, &#39;requirements-doc.txt&#39;, &#39;requirements.txt&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;new_path_1/*.txt&#39;</span><span class="p">)</span>  <span class="c1"># remove files from directory</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;new_path_1&#39;</span><span class="p">)</span>
+<span class="go">[]</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;new_path_2&#39;</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="go">test_version.py</span>
+<span class="go">test_file.py</span>
+<span class="go">test_type.py</span>
+<span class="go">test_package.py</span>
+<span class="go">test_implementation.py</span>
+<span class="go">requirements-test.txt</span>
+<span class="go">__init__.py</span>
+<span class="go">test_directory.py</span>
+<span class="go">requirements-doc.txt</span>
+<span class="go">requirements.txt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">remove</span><span class="p">(</span><span class="s1">&#39;README.md&#39;</span><span class="p">,</span> <span class="s1">&#39;test/**/*.py&#39;</span><span class="p">,</span> <span class="s1">&#39;new_path_2/*.py&#39;</span><span class="p">)</span>  <span class="c1"># remove plenty of files</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="o">*</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s1">&#39;new_path_2&#39;</span><span class="p">),</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="go">requirements-test.txt</span>
+<span class="go">requirements-doc.txt</span>
+<span class="go">requirements.txt</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="getsize">
+<h2>getsize<a class="headerlink" href="#getsize" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.filesystem.getsize">
+<code class="sig-prename descclassname">hbutils.system.filesystem.</code><code class="sig-name descname">getsize</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">files</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/system/filesystem/directory.html#getsize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.filesystem.getsize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the size of files or directories.</p>
+<p>This function calculates the total size of all specified files and directories.
+It supports glob patterns for batch size calculation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>files</strong> (<em>str</em>) – Paths to files or directories.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Total size in bytes.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+<dl>
+<dt>Usage:</dt><dd><ol class="arabic simple">
+<li><p>To get size of a single file or directory: getsize(‘path/to/file_or_dir’)</p></li>
+<li><p>To get total size of multiple files or directories: getsize(‘file1’, ‘dir1’, ‘file2’)</p></li>
+<li><p>To get total size of files matching a pattern: getsize(’<em>.txt’, ‘dir/*</em>/<a href="#system-message-3"><span class="problematic" id="problematic-3">*</span></a>.py’)</p></li>
+</ol>
+</dd>
+<dt>Examples:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">getsize</span>
+<span class="gp">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">getsize</span><span class="p">(</span><span class="s1">&#39;README.md&#39;</span><span class="p">)</span>  <span class="c1"># a file</span>
+<span class="go">5368</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">getsize</span><span class="p">(</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>  <span class="c1"># a directory</span>
+<span class="go">1575574</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">getsize</span><span class="p">(</span><span class="s1">&#39;hbutils/**/*.py&#39;</span><span class="p">)</span>  <span class="c1"># glob filtered files</span>
+<span class="go">238080</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="is-binary-file">
+<h2>is_binary_file<a class="headerlink" href="#is-binary-file" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.filesystem.is_binary_file">
+<code class="sig-prename descclassname">hbutils.system.filesystem.</code><code class="sig-name descname">is_binary_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../_modules/hbutils/system/filesystem/binary.html#is_binary_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.filesystem.is_binary_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the given file is a binary file.</p>
+<p>This function reads a sample of the file and analyzes its content
+to determine if it contains non-text characters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – The name of the file to check.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the file is binary, False if it’s a text file.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">is_binary_file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_binary_file</span><span class="p">(</span><span class="s1">&#39;rar_template-simple.rar&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_binary_file</span><span class="p">(</span><span class="s1">&#39;README.md&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Empty files are considered text files.</p>
+</aside>
+</dd></dl>
+
+</section>
+<section id="is-text-file">
+<h2>is_text_file<a class="headerlink" href="#is-text-file" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="hbutils.system.filesystem.is_text_file">
+<code class="sig-prename descclassname">hbutils.system.filesystem.</code><code class="sig-name descname">is_text_file</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em><span class="sig-paren">)</span> &#x2192; bool<a class="reference internal" href="../../_modules/hbutils/system/filesystem/binary.html#is_text_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.filesystem.is_text_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the given file is a text file.</p>
+<p>This function is the inverse of <cite>is_binary_file</cite>. It reads a sample
+of the file and analyzes its content to determine if it contains
+only text characters.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>filename</strong> (<em>str</em>) – The name of the file to check.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the file is a text file, False if it’s binary.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+<dl>
+<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.system</span> <span class="kn">import</span> <span class="n">is_text_file</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_text_file</span><span class="p">(</span><span class="s1">&#39;rar_template-simple.rar&#39;</span><span class="p">)</span>
+<span class="go">False</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">is_text_file</span><span class="p">(</span><span class="s1">&#39;README.md&#39;</span><span class="p">)</span>
+<span class="go">True</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Empty files are considered text files.</p>
+</aside>
+</dd></dl>
+
+</section>
+<section id="temporarydirectory">
+<h2>TemporaryDirectory<a class="headerlink" href="#temporarydirectory" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="hbutils.system.filesystem.TemporaryDirectory">
+<em class="property">class </em><code class="sig-prename descclassname">hbutils.system.filesystem.</code><code class="sig-name descname">TemporaryDirectory</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">suffix</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">prefix</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">dir</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ignore_cleanup_errors</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/hbutils/system/filesystem/tempfile.html#TemporaryDirectory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.system.filesystem.TemporaryDirectory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and return a temporary directory that can be used as a context manager.</p>
+<p>This class is a backport of the Python 3.10 tempfile.TemporaryDirectory implementation,
+addressing PermissionError issues on Windows Python 3.7.</p>
+<dl>
+<dt>Usage:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">TemporaryDirectory</span><span class="p">()</span> <span class="k">as</span> <span class="n">tmpdir</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="c1"># Use tmpdir as a temporary directory</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="o">...</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>Upon exiting the context, the directory and its contents are removed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>suffix</strong> (<em>str</em><em> or </em><em>None</em>) – Optional suffix for the directory name.</p></li>
+<li><p><strong>prefix</strong> (<em>str</em><em> or </em><em>None</em>) – Optional prefix for the directory name.</p></li>
+<li><p><strong>dir</strong> (<em>str</em><em> or </em><em>None</em>) – The parent directory to create the temporary directory in.</p></li>
+<li><p><strong>ignore_cleanup_errors</strong> (<em>bool</em>) – If True, ignore errors during cleanup.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>OSError</strong> – If there is an error in creating or cleaning up the directory.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="git.html" class="btn btn-neutral float-right" title="hbutils.system.git" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="hbutils.system" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2024, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: dev/doc
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../v0.0.1/index.html">v0.0.1</a></dd>
+                        <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
+                        <dd><a href="../../../../v0.1.1/index.html">v0.1.1</a></dd>
+                        <dd><a href="../../../../v0.10.0/api_doc/system/filesystem.html">v0.10.0</a></dd>
+                        <dd><a href="../../../../v0.2.0/index.html">v0.2.0</a></dd>
+                        <dd><a href="../../../../v0.3.0/index.html">v0.3.0</a></dd>
+                        <dd><a href="../../../../v0.3.1/index.html">v0.3.1</a></dd>
+                        <dd><a href="../../../../v0.3.2/index.html">v0.3.2</a></dd>
+                        <dd><a href="../../../../v0.3.3/index.html">v0.3.3</a></dd>
+                        <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
+                        <dd><a href="../../../../v0.4.1/index.html">v0.4.1</a></dd>
+                        <dd><a href="../../../../v0.4.2/index.html">v0.4.2</a></dd>
+                        <dd><a href="../../../../v0.4.3/index.html">v0.4.3</a></dd>
+                        <dd><a href="../../../../v0.4.4/index.html">v0.4.4</a></dd>
+                        <dd><a href="../../../../v0.4.5/index.html">v0.4.5</a></dd>
+                        <dd><a href="../../../../v0.4.6/index.html">v0.4.6</a></dd>
+                        <dd><a href="../../../../v0.4.7/index.html">v0.4.7</a></dd>
+                        <dd><a href="../../../../v0.5.0/api_doc/system/filesystem.html">v0.5.0</a></dd>
+                        <dd><a href="../../../../v0.5.1/api_doc/system/filesystem.html">v0.5.1</a></dd>
+                        <dd><a href="../../../../v0.5.2/api_doc/system/filesystem.html">v0.5.2</a></dd>
+                        <dd><a href="../../../../v0.6.0/api_doc/system/filesystem.html">v0.6.0</a></dd>
+                        <dd><a href="../../../../v0.6.1/api_doc/system/filesystem.html">v0.6.1</a></dd>
+                        <dd><a href="../../../../v0.6.10/api_doc/system/filesystem.html">v0.6.10</a></dd>
+                        <dd><a href="../../../../v0.6.11/api_doc/system/filesystem.html">v0.6.11</a></dd>
+                        <dd><a href="../../../../v0.6.12/api_doc/system/filesystem.html">v0.6.12</a></dd>
+                        <dd><a href="../../../../v0.6.13/api_doc/system/filesystem.html">v0.6.13</a></dd>
+                        <dd><a href="../../../../v0.6.14/api_doc/system/filesystem.html">v0.6.14</a></dd>
+                        <dd><a href="../../../../v0.6.2/api_doc/system/filesystem.html">v0.6.2</a></dd>
+                        <dd><a href="../../../../v0.6.3/api_doc/system/filesystem.html">v0.6.3</a></dd>
+                        <dd><a href="../../../../v0.6.4/api_doc/system/filesystem.html">v0.6.4</a></dd>
+                        <dd><a href="../../../../v0.6.5/api_doc/system/filesystem.html">v0.6.5</a></dd>
+                        <dd><a href="../../../../v0.6.6/api_doc/system/filesystem.html">v0.6.6</a></dd>
+                        <dd><a href="../../../../v0.6.7/api_doc/system/filesystem.html">v0.6.7</a></dd>
+                        <dd><a href="../../../../v0.6.8/api_doc/system/filesystem.html">v0.6.8</a></dd>
+                        <dd><a href="../../../../v0.6.9/api_doc/system/filesystem.html">v0.6.9</a></dd>
+                        <dd><a href="../../../../v0.7.0/api_doc/system/filesystem.html">v0.7.0</a></dd>
+                        <dd><a href="../../../../v0.7.1/api_doc/system/filesystem.html">v0.7.1</a></dd>
+                        <dd><a href="../../../../v0.7.2/api_doc/system/filesystem.html">v0.7.2</a></dd>
+                        <dd><a href="../../../../v0.7.3/api_doc/system/filesystem.html">v0.7.3</a></dd>
+                        <dd><a href="../../../../v0.7.4/api_doc/system/filesystem.html">v0.7.4</a></dd>
+                        <dd><a href="../../../../v0.7.5/api_doc/system/filesystem.html">v0.7.5</a></dd>
+                        <dd><a href="../../../../v0.7.6/api_doc/system/filesystem.html">v0.7.6</a></dd>
+                        <dd><a href="../../../../v0.8.0/api_doc/system/filesystem.html">v0.8.0</a></dd>
+                        <dd><a href="../../../../v0.8.1/api_doc/system/filesystem.html">v0.8.1</a></dd>
+                        <dd><a href="../../../../v0.8.2/api_doc/system/filesystem.html">v0.8.2</a></dd>
+                        <dd><a href="../../../../v0.8.3/api_doc/system/filesystem.html">v0.8.3</a></dd>
+                        <dd><a href="../../../../v0.8.4/api_doc/system/filesystem.html">v0.8.4</a></dd>
+                        <dd><a href="../../../../v0.8.5/api_doc/system/filesystem.html">v0.8.5</a></dd>
+                        <dd><a href="../../../../v0.8.6/api_doc/system/filesystem.html">v0.8.6</a></dd>
+                        <dd><a href="../../../../v0.9.0/api_doc/system/filesystem.html">v0.9.0</a></dd>
+                        <dd><a href="../../../../v0.9.1/api_doc/system/filesystem.html">v0.9.1</a></dd>
+                        <dd><a href="../../../../v0.9.2/api_doc/system/filesystem.html">v0.9.2</a></dd>
+                        <dd><a href="../../../../v0.9.3/api_doc/system/filesystem.html">v0.9.3</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="filesystem.html">dev/doc</a></dd>
+                        <dd><a href="../../../color/api_doc/system/filesystem.html">dev/color</a></dd>
+                        <dd><a href="../../../dependency/api_doc/system/filesystem.html">dev/dependency</a></dd>
+                        <dd><a href="../../../x/api_doc/system/filesystem.html">dev/x</a></dd>
+                        <dd><a href="../../../../main/api_doc/system/filesystem.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
