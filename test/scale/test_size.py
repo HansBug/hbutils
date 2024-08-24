@@ -31,3 +31,36 @@ class TestScaleSize:
         assert size_to_bytes_str('3.54 GB', precision=3) == '3.297 GiB'
         assert size_to_bytes_str('3.54 GB', system='si') == '3.54 GB'
         assert size_to_bytes_str('3.54 GB', system='si', precision=3) == '3.540 GB'
+
+    def test_size_to_bytes_with_int(self):
+        assert size_to_bytes(1024) == 1024
+
+    def test_size_to_bytes_with_float(self):
+        assert size_to_bytes(1024.0) == 1024
+
+    def test_size_to_bytes_with_str(self):
+        assert size_to_bytes('1 KB') == 1000
+
+    def test_size_to_bytes_with_unsupported_type(self):
+        with pytest.raises(TypeError):
+            size_to_bytes([1024])
+
+    def test_size_to_bytes_str(self):
+        assert size_to_bytes_str(1024) == '1.0 KiB'
+
+    def test_size_to_bytes_str_with_precision(self):
+        assert size_to_bytes_str(1500, precision=2) == '1.46 KiB'
+
+    def test_size_to_bytes_str_with_sigfigs(self):
+        assert size_to_bytes_str(1500, sigfigs=3) == '1.46 KiB'
+
+    def test_size_to_bytes_str_with_system(self):
+        assert size_to_bytes_str(1000, system='si') == '1.0 kB'
+
+    def test_size_to_bytes_str_with_invalid_system(self):
+        with pytest.raises(ValueError):
+            size_to_bytes_str(1000, system='invalid')
+
+    def test_size_to_bytes_str_warning(self):
+        with pytest.warns(UserWarning):
+            size_to_bytes_str('3.54 GiB')
