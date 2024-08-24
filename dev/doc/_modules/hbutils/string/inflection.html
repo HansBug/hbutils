@@ -173,11 +173,30 @@
   <h1>Source code for hbutils.string.inflection</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Overview:</span>
-<span class="sd">    Useful utilities for word inflections.</span>
+<span class="sd">    This module provides useful utilities for word inflections, including functions for pluralization,</span>
+<span class="sd">    singularization, camelization, and other string transformations. It is extended based on the</span>
+<span class="sd">    `jpvanhal/inflection &lt;https://github.com/jpvanhal/inflection&gt;`_ library.</span>
 
-<span class="sd">    Extended based on `jpvanhal/inflection &lt;https://github.com/jpvanhal/inflection&gt;`_.</span>
+<span class="sd">Functions:</span>
+<span class="sd">    - camelize: Convert strings to CamelCase.</span>
+<span class="sd">    - dasherize: Replace underscores with dashes in the string.</span>
+<span class="sd">    - humanize: Capitalize the first word and turn underscores into spaces.</span>
+<span class="sd">    - ordinal: Return the suffix for ordinal numbers.</span>
+<span class="sd">    - ordinalize: Turn a number into an ordinal string.</span>
+<span class="sd">    - parameterize: Replace special characters in a string for URL-friendly format.</span>
+<span class="sd">    - pluralize: Return the plural form of a word.</span>
+<span class="sd">    - singularize: Return the singular form of a word.</span>
+<span class="sd">    - tableize: Create the name of a table from a model name.</span>
+<span class="sd">    - titleize: Capitalize all words and replace some characters for a nicer looking title.</span>
+<span class="sd">    - transliterate: Replace non-ASCII characters with ASCII approximations.</span>
+<span class="sd">    - underscore: Make an underscored, lowercase form from the expression in the string.</span>
+
+<span class="sd">.. note::</span>
+<span class="sd">    This module includes predefined rules for plural and singular forms, as well as a list of uncountable words.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">re</span>
+
 <span class="kn">import</span> <span class="nn">unicodedata</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
@@ -195,6 +214,7 @@
     <span class="s1">&#39;underscore&#39;</span><span class="p">,</span>
 <span class="p">]</span>
 
+<span class="c1"># ... (PLURALS, SINGULARS, and UNCOUNTABLES lists remain unchanged)</span>
 <span class="n">PLURALS</span> <span class="o">=</span> <span class="p">[</span>
     <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(quiz)$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1zes&#39;</span><span class="p">),</span>
     <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)^(oxen)$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1&#39;</span><span class="p">),</span>
@@ -272,11 +292,21 @@
 
 <span class="k">def</span> <span class="nf">_irregular</span><span class="p">(</span><span class="n">singular</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">plural</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">plurals</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    A convenience function to add appropriate rules to plurals and singular</span>
-<span class="sd">    for irregular words.</span>
+<span class="sd">    A convenience function to add appropriate rules to plurals and singular for irregular words.</span>
+
 <span class="sd">    :param singular: irregular word in singular form (such as `it`)</span>
+<span class="sd">    :type singular: str</span>
 <span class="sd">    :param plural: irregular word in plural form (such as `they`)</span>
+<span class="sd">    :type plural: str</span>
 <span class="sd">    :param plurals: extended words in plural form (such as `them`)</span>
+<span class="sd">    :type plurals: str</span>
+
+<span class="sd">    This function adds case-insensitive rules for irregular word forms to the PLURALS and SINGULARS lists.</span>
+<span class="sd">    It handles both capitalized and lowercase versions of the words.</span>
+
+<span class="sd">    Example usage:</span>
+<span class="sd">        _irregular(&#39;person&#39;, &#39;people&#39;)</span>
+<span class="sd">        _irregular(&#39;child&#39;, &#39;children&#39;)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">caseinsensitive</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -336,26 +366,29 @@
 
 <div class="viewcode-block" id="camelize"><a class="viewcode-back" href="../../../api_doc/string/inflection.html#hbutils.string.inflection.camelize">[docs]</a><span class="k">def</span> <span class="nf">camelize</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">uppercase_first_letter</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Overview:</span>
-<span class="sd">        Convert strings to CamelCase.</span>
+<span class="sd">    Convert strings to CamelCase.</span>
 
-<span class="sd">    :param string: Original string.</span>
-<span class="sd">    :param uppercase_first_letter: if set to `True` :func:`camelize` converts \</span>
-<span class="sd">        strings to UpperCamelCase. If set to `False` :func:`camelize` produces \</span>
-<span class="sd">        lowerCamelCase. Defaults to `True`.</span>
+<span class="sd">    :param string: Original string to be converted</span>
+<span class="sd">    :type string: str</span>
+<span class="sd">    :param uppercase_first_letter: If True, converts to UpperCamelCase; if False, to lowerCamelCase</span>
+<span class="sd">    :type uppercase_first_letter: bool</span>
+<span class="sd">    :return: The camelized string</span>
+<span class="sd">    :rtype: str</span>
 
-<span class="sd">    Examples::</span>
+<span class="sd">    This function converts strings to CamelCase. If `uppercase_first_letter` is True (default),</span>
+<span class="sd">    it produces UpperCamelCase. If False, it produces lowerCamelCase.</span>
+
+<span class="sd">    Examples:</span>
 <span class="sd">        &gt;&gt;&gt; camelize(&quot;device_type&quot;)</span>
 <span class="sd">        &#39;DeviceType&#39;</span>
 <span class="sd">        &gt;&gt;&gt; camelize(&quot;device_type&quot;, False)</span>
 <span class="sd">        &#39;deviceType&#39;</span>
 
-<span class="sd">    .. note::</span>
-<span class="sd">        :func:`camelize` can be thought of as a inverse of :func:`underscore`,</span>
-<span class="sd">        although there are some cases where that does not hold::</span>
-
-<span class="sd">            &gt;&gt;&gt; camelize(underscore(&quot;IOError&quot;))</span>
-<span class="sd">            &#39;IoError&#39;</span>
+<span class="sd">    Note:</span>
+<span class="sd">        camelize can be thought of as a inverse of underscore, although there are some cases</span>
+<span class="sd">        where that does not hold:</span>
+<span class="sd">        &gt;&gt;&gt; camelize(underscore(&quot;IOError&quot;))</span>
+<span class="sd">        &#39;IoError&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">uppercase_first_letter</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?:^|_)(.)&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">string</span><span class="p">)</span>
@@ -365,12 +398,16 @@
 
 <div class="viewcode-block" id="dasherize"><a class="viewcode-back" href="../../../api_doc/string/inflection.html#hbutils.string.inflection.dasherize">[docs]</a><span class="k">def</span> <span class="nf">dasherize</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Overview:</span>
-<span class="sd">        Replace underscores with dashes in the string.</span>
+<span class="sd">    Replace underscores with dashes in the string.</span>
 
-<span class="sd">    :param word: Original word.</span>
+<span class="sd">    :param word: Original word to be dasherized</span>
+<span class="sd">    :type word: str</span>
+<span class="sd">    :return: The dasherized string</span>
+<span class="sd">    :rtype: str</span>
 
-<span class="sd">    Example::</span>
+<span class="sd">    This function replaces all underscores in the input string with dashes.</span>
+
+<span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; dasherize(&quot;puni_puni&quot;)</span>
 <span class="sd">        &#39;puni-puni&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -379,14 +416,17 @@
 
 <div class="viewcode-block" id="humanize"><a class="viewcode-back" href="../../../api_doc/string/inflection.html#hbutils.string.inflection.humanize">[docs]</a><span class="k">def</span> <span class="nf">humanize</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Overview:</span>
-<span class="sd">        Capitalize the first word and turn underscores into spaces and strip a</span>
-<span class="sd">        trailing ``&quot;_id&quot;``, if any. Like :func:`titleize`, this is meant for</span>
-<span class="sd">        creating pretty output.</span>
+<span class="sd">    Capitalize the first word and turn underscores into spaces and strip a trailing &quot;_id&quot;, if any.</span>
 
-<span class="sd">    :param word: Original word.</span>
+<span class="sd">    :param word: Original word to be humanized</span>
+<span class="sd">    :type word: str</span>
+<span class="sd">    :return: The humanized string</span>
+<span class="sd">    :rtype: str</span>
 
-<span class="sd">    Examples::</span>
+<span class="sd">    This function is meant for creating pretty output. It capitalizes the first word,</span>
+<span class="sd">    replaces underscores with spaces, and removes a trailing &quot;_id&quot; if present.</span>
+
+<span class="sd">    Examples:</span>
 <span class="sd">        &gt;&gt;&gt; humanize(&quot;employee_salary&quot;)</span>
 <span class="sd">        &#39;Employee salary&#39;</span>
 <span class="sd">        &gt;&gt;&gt; humanize(&quot;author_id&quot;)</span>
@@ -401,13 +441,16 @@
 
 <div class="viewcode-block" id="ordinal"><a class="viewcode-back" href="../../../api_doc/string/inflection.html#hbutils.string.inflection.ordinal">[docs]</a><span class="k">def</span> <span class="nf">ordinal</span><span class="p">(</span><span class="n">number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Overview:</span>
-<span class="sd">        Return the suffix that should be added to a number to denote the position</span>
-<span class="sd">        in an ordered sequence such as 1st, 2nd, 3rd, 4th.</span>
+<span class="sd">    Return the suffix that should be added to a number to denote the position in an ordered sequence.</span>
 
-<span class="sd">    :param number: Int format number.</span>
+<span class="sd">    :param number: The number for which to generate the ordinal suffix</span>
+<span class="sd">    :type number: int</span>
+<span class="sd">    :return: The ordinal suffix (e.g., &#39;st&#39;, &#39;nd&#39;, &#39;rd&#39;, &#39;th&#39;)</span>
+<span class="sd">    :rtype: str</span>
 
-<span class="sd">    Examples::</span>
+<span class="sd">    This function returns the appropriate suffix for ordinal numbers (1st, 2nd, 3rd, 4th, etc.).</span>
+
+<span class="sd">    Examples:</span>
 <span class="sd">        &gt;&gt;&gt; ordinal(1)</span>
 <span class="sd">        &#39;st&#39;</span>
 <span class="sd">        &gt;&gt;&gt; ordinal(2)</span>
@@ -434,13 +477,16 @@
 
 <div class="viewcode-block" id="ordinalize"><a class="viewcode-back" href="../../../api_doc/string/inflection.html#hbutils.string.inflection.ordinalize">[docs]</a><span class="k">def</span> <span class="nf">ordinalize</span><span class="p">(</span><span class="n">number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Overview:</span>
-<span class="sd">        Turn a number into an ordinal string used to denote the position in an</span>
-<span class="sd">        ordered sequence such as 1st, 2nd, 3rd, 4th.</span>
+<span class="sd">    Turn a number into an ordinal string used to denote the position in an ordered sequence.</span>
 
-<span class="sd">    :param number: Int format number.</span>
+<span class="sd">    :param number: The number to be ordinalized</span>
+<span class="sd">    :type number: int</span>
+<span class="sd">    :return: The ordinalized number as a string</span>
+<span class="sd">    :rtype: str</span>
 
-<span class="sd">    Examples::</span>
+<span class="sd">    This function converts a number into its ordinal form (1st, 2nd, 3rd, 4th, etc.).</span>
+
+<span class="sd">    Examples:</span>
 <span class="sd">        &gt;&gt;&gt; ordinalize(1)</span>
 <span class="sd">        &#39;1st&#39;</span>
 <span class="sd">        &gt;&gt;&gt; ordinalize(2)</span>
@@ -459,14 +505,19 @@
 
 <div class="viewcode-block" id="parameterize"><a class="viewcode-back" href="../../../api_doc/string/inflection.html#hbutils.string.inflection.parameterize">[docs]</a><span class="k">def</span> <span class="nf">parameterize</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">separator</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Overview:</span>
-<span class="sd">        Replace special characters in a string so that it may be used as part of a</span>
-<span class="sd">        &#39;pretty&#39; URL.</span>
+<span class="sd">    Replace special characters in a string so that it may be used as part of a &#39;pretty&#39; URL.</span>
 
-<span class="sd">    :param string: Original string.</span>
-<span class="sd">    :param separator: Separator of parameter words.</span>
+<span class="sd">    :param string: Original string to be parameterized</span>
+<span class="sd">    :type string: str</span>
+<span class="sd">    :param separator: Separator to use between words (default is &#39;-&#39;)</span>
+<span class="sd">    :type separator: str</span>
+<span class="sd">    :return: The parameterized string</span>
+<span class="sd">    :rtype: str</span>
 
-<span class="sd">    Example::</span>
+<span class="sd">    This function replaces special characters and spaces with the specified separator,</span>
+<span class="sd">    making the string suitable for use in URLs.</span>
+
+<span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; parameterize(u&quot;Donald E. Knuth&quot;)</span>
 <span class="sd">        &#39;donald-e-knuth&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -485,12 +536,16 @@
 
 <div class="viewcode-block" id="pluralize"><a class="viewcode-back" href="../../../api_doc/string/inflection.html#hbutils.string.inflection.pluralize">[docs]</a><span class="k">def</span> <span class="nf">pluralize</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Overview:</span>
-<span class="sd">        Return the plural form of a word.</span>
+<span class="sd">    Return the plural form of a word.</span>
 
-<span class="sd">    :param word: Original word.</span>
+<span class="sd">    :param word: Original word to be pluralized</span>
+<span class="sd">    :type word: str</span>
+<span class="sd">    :return: The pluralized word</span>
+<span class="sd">    :rtype: str</span>
 
-<span class="sd">    Examples::</span>
+<span class="sd">    This function returns the plural form of the given word based on predefined rules.</span>
+
+<span class="sd">    Examples:</span>
 <span class="sd">        &gt;&gt;&gt; pluralize(&quot;posts&quot;)</span>
 <span class="sd">        &#39;posts&#39;</span>
 <span class="sd">        &gt;&gt;&gt; pluralize(&quot;octopus&quot;)</span>
@@ -511,12 +566,16 @@
 
 <div class="viewcode-block" id="singularize"><a class="viewcode-back" href="../../../api_doc/string/inflection.html#hbutils.string.inflection.singularize">[docs]</a><span class="k">def</span> <span class="nf">singularize</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Overview:</span>
-<span class="sd">        Return the singular form of a word, the reverse of :func:`pluralize`.</span>
+<span class="sd">    Return the singular form of a word, the reverse of pluralize.</span>
 
-<span class="sd">    :param word: Original word.</span>
+<span class="sd">    :param word: Original word to be singularized</span>
+<span class="sd">    :type word: str</span>
+<span class="sd">    :return: The singularized word</span>
+<span class="sd">    :rtype: str</span>
 
-<span class="sd">    Examples::</span>
+<span class="sd">    This function returns the singular form of the given word based on predefined rules.</span>
+
+<span class="sd">    Examples:</span>
 <span class="sd">        &gt;&gt;&gt; singularize(&quot;posts&quot;)</span>
 <span class="sd">        &#39;post&#39;</span>
 <span class="sd">        &gt;&gt;&gt; singularize(&quot;octopi&quot;)</span>
@@ -540,13 +599,16 @@
 
 <div class="viewcode-block" id="tableize"><a class="viewcode-back" href="../../../api_doc/string/inflection.html#hbutils.string.inflection.tableize">[docs]</a><span class="k">def</span> <span class="nf">tableize</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Overview:</span>
-<span class="sd">        Create the name of a table like Rails does for models to table names. This</span>
-<span class="sd">        method uses the :func:`pluralize` method on the last word in the string.</span>
+<span class="sd">    Create the name of a table like Rails does for models to table names.</span>
 
-<span class="sd">    :param word: Original word.</span>
+<span class="sd">    :param word: Original word to be tableized</span>
+<span class="sd">    :type word: str</span>
+<span class="sd">    :return: The tableized word</span>
+<span class="sd">    :rtype: str</span>
 
-<span class="sd">    Examples::</span>
+<span class="sd">    This method uses the pluralize method on the last word in the string after underscoring it.</span>
+
+<span class="sd">    Examples:</span>
 <span class="sd">        &gt;&gt;&gt; tableize(&#39;RawScaledScorer&#39;)</span>
 <span class="sd">        &#39;raw_scaled_scorers&#39;</span>
 <span class="sd">        &gt;&gt;&gt; tableize(&#39;egg_and_ham&#39;)</span>
@@ -559,14 +621,17 @@
 
 <div class="viewcode-block" id="titleize"><a class="viewcode-back" href="../../../api_doc/string/inflection.html#hbutils.string.inflection.titleize">[docs]</a><span class="k">def</span> <span class="nf">titleize</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Overview:</span>
-<span class="sd">        Capitalize all the words and replace some characters in the string to</span>
-<span class="sd">        create a nicer looking title. :func:`titleize` is meant for creating pretty</span>
-<span class="sd">        output.</span>
+<span class="sd">    Capitalize all the words and replace some characters in the string to create a nicer looking title.</span>
 
-<span class="sd">    :param word: Original word.</span>
+<span class="sd">    :param word: Original word to be titleized</span>
+<span class="sd">    :type word: str</span>
+<span class="sd">    :return: The titleized string</span>
+<span class="sd">    :rtype: str</span>
 
-<span class="sd">    Examples::</span>
+<span class="sd">    This function is meant for creating pretty output by capitalizing all words and</span>
+<span class="sd">    replacing certain characters for improved readability.</span>
+
+<span class="sd">    Examples:</span>
 <span class="sd">      &gt;&gt;&gt; titleize(&quot;man from the boondocks&quot;)</span>
 <span class="sd">      &#39;Man From The Boondocks&#39;</span>
 <span class="sd">      &gt;&gt;&gt; titleize(&quot;x-men: the last stand&quot;)</span>
@@ -585,14 +650,17 @@
 
 <div class="viewcode-block" id="transliterate"><a class="viewcode-back" href="../../../api_doc/string/inflection.html#hbutils.string.inflection.transliterate">[docs]</a><span class="k">def</span> <span class="nf">transliterate</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Overview:</span>
-<span class="sd">        Replace non-ASCII characters with an ASCII approximation. If no</span>
-<span class="sd">        approximation exists, the non-ASCII character is ignored. The string must</span>
-<span class="sd">        be ``unicode``.</span>
+<span class="sd">    Replace non-ASCII characters with an ASCII approximation.</span>
 
-<span class="sd">    :param string: Original string.</span>
+<span class="sd">    :param string: Original string to be transliterated</span>
+<span class="sd">    :type string: str</span>
+<span class="sd">    :return: The transliterated string</span>
+<span class="sd">    :rtype: str</span>
 
-<span class="sd">    Examples::</span>
+<span class="sd">    If no approximation exists, the non-ASCII character is ignored.</span>
+<span class="sd">    The input string must be unicode.</span>
+
+<span class="sd">    Examples:</span>
 <span class="sd">        &gt;&gt;&gt; transliterate(&#39;älämölö&#39;)</span>
 <span class="sd">        &#39;alamolo&#39;</span>
 <span class="sd">        &gt;&gt;&gt; transliterate(&#39;Ærøskøbing&#39;)</span>
@@ -604,19 +672,22 @@
 
 <div class="viewcode-block" id="underscore"><a class="viewcode-back" href="../../../api_doc/string/inflection.html#hbutils.string.inflection.underscore">[docs]</a><span class="k">def</span> <span class="nf">underscore</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Overview:</span>
-<span class="sd">        Make an underscored, lowercase form from the expression in the string.</span>
+<span class="sd">    Make an underscored, lowercase form from the expression in the string.</span>
 
-<span class="sd">    :param word: Original word.</span>
+<span class="sd">    :param word: Original word to be underscored</span>
+<span class="sd">    :type word: str</span>
+<span class="sd">    :return: The underscored string</span>
+<span class="sd">    :rtype: str</span>
 
-<span class="sd">    Example::</span>
+<span class="sd">    This function converts CamelCase or space-separated words to lowercase, underscore-separated words.</span>
+
+<span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; underscore(&quot;DeviceType&quot;)</span>
 <span class="sd">        &#39;device_type&#39;</span>
 
-<span class="sd">    .. note::</span>
-<span class="sd">        As a rule of thumb you can think of :func:`underscore` as the inverse of</span>
-<span class="sd">        :func:`camelize`, though there are cases where that does not hold::</span>
-
+<span class="sd">    Note:</span>
+<span class="sd">        As a rule of thumb, you can think of underscore as the inverse of camelize,</span>
+<span class="sd">        though there are cases where that does not hold:</span>
 <span class="sd">            &gt;&gt;&gt; camelize(underscore(&quot;IOError&quot;))</span>
 <span class="sd">            &#39;IoError&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -626,6 +697,7 @@
     <span class="k">return</span> <span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
 
 
+<span class="c1"># Irregular word definitions</span>
 <span class="n">_irregular</span><span class="p">(</span><span class="s1">&#39;person&#39;</span><span class="p">,</span> <span class="s1">&#39;people&#39;</span><span class="p">)</span>
 <span class="n">_irregular</span><span class="p">(</span><span class="s1">&#39;man&#39;</span><span class="p">,</span> <span class="s1">&#39;men&#39;</span><span class="p">)</span>
 <span class="n">_irregular</span><span class="p">(</span><span class="s1">&#39;human&#39;</span><span class="p">,</span> <span class="s1">&#39;humans&#39;</span><span class="p">)</span>
@@ -635,7 +707,7 @@
 <span class="n">_irregular</span><span class="p">(</span><span class="s1">&#39;cow&#39;</span><span class="p">,</span> <span class="s1">&#39;kine&#39;</span><span class="p">)</span>
 <span class="n">_irregular</span><span class="p">(</span><span class="s1">&#39;zombie&#39;</span><span class="p">,</span> <span class="s1">&#39;zombies&#39;</span><span class="p">)</span>
 
-<span class="c1"># self added patterns</span>
+<span class="c1"># Self added patterns</span>
 <span class="n">_irregular</span><span class="p">(</span><span class="s1">&#39;it&#39;</span><span class="p">,</span> <span class="s1">&#39;they&#39;</span><span class="p">,</span> <span class="s1">&#39;them&#39;</span><span class="p">)</span>
 <span class="n">_irregular</span><span class="p">(</span><span class="s1">&#39;this&#39;</span><span class="p">,</span> <span class="s1">&#39;these&#39;</span><span class="p">)</span>
 <span class="n">_irregular</span><span class="p">(</span><span class="s1">&#39;that&#39;</span><span class="p">,</span> <span class="s1">&#39;those&#39;</span><span class="p">)</span>

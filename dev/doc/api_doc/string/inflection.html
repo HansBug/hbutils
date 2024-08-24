@@ -200,46 +200,67 @@
     
   <section id="module-hbutils.string.inflection">
 <span id="hbutils-string-inflection"></span><h1>hbutils.string.inflection<a class="headerlink" href="#module-hbutils.string.inflection" title="Permalink to this headline">¶</a></h1>
-<dl>
-<dt>Overview:</dt><dd><p>Useful utilities for word inflections.</p>
-<p>Extended based on <a class="reference external" href="https://github.com/jpvanhal/inflection">jpvanhal/inflection</a>.</p>
+<dl class="simple">
+<dt>Overview:</dt><dd><p>This module provides useful utilities for word inflections, including functions for pluralization,
+singularization, camelization, and other string transformations. It is extended based on the
+<a class="reference external" href="https://github.com/jpvanhal/inflection">jpvanhal/inflection</a> library.</p>
+</dd>
+<dt>Functions:</dt><dd><ul class="simple">
+<li><p>camelize: Convert strings to CamelCase.</p></li>
+<li><p>dasherize: Replace underscores with dashes in the string.</p></li>
+<li><p>humanize: Capitalize the first word and turn underscores into spaces.</p></li>
+<li><p>ordinal: Return the suffix for ordinal numbers.</p></li>
+<li><p>ordinalize: Turn a number into an ordinal string.</p></li>
+<li><p>parameterize: Replace special characters in a string for URL-friendly format.</p></li>
+<li><p>pluralize: Return the plural form of a word.</p></li>
+<li><p>singularize: Return the singular form of a word.</p></li>
+<li><p>tableize: Create the name of a table from a model name.</p></li>
+<li><p>titleize: Capitalize all words and replace some characters for a nicer looking title.</p></li>
+<li><p>transliterate: Replace non-ASCII characters with ASCII approximations.</p></li>
+<li><p>underscore: Make an underscored, lowercase form from the expression in the string.</p></li>
+</ul>
 </dd>
 </dl>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This module includes predefined rules for plural and singular forms, as well as a list of uncountable words.</p>
+</aside>
 <section id="camelize">
 <h2>camelize<a class="headerlink" href="#camelize" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="hbutils.string.inflection.camelize">
 <code class="sig-prename descclassname">hbutils.string.inflection.</code><code class="sig-name descname">camelize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">string</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">uppercase_first_letter</span><span class="p">:</span> <span class="n">bool</span> <span class="o">=</span> <span class="default_value">True</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/inflection.html#camelize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.inflection.camelize" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Overview:</dt><dd><p>Convert strings to CamelCase.</p>
-</dd>
-</dl>
+<dd><p>Convert strings to CamelCase.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>string</strong> – Original string.</p></li>
-<li><p><strong>uppercase_first_letter</strong> – if set to <cite>True</cite> <a class="reference internal" href="#hbutils.string.inflection.camelize" title="hbutils.string.inflection.camelize"><code class="xref py py-func docutils literal notranslate"><span class="pre">camelize()</span></code></a> converts         strings to UpperCamelCase. If set to <cite>False</cite> <a class="reference internal" href="#hbutils.string.inflection.camelize" title="hbutils.string.inflection.camelize"><code class="xref py py-func docutils literal notranslate"><span class="pre">camelize()</span></code></a> produces         lowerCamelCase. Defaults to <cite>True</cite>.</p></li>
+<li><p><strong>string</strong> (<em>str</em>) – Original string to be converted</p></li>
+<li><p><strong>uppercase_first_letter</strong> (<em>bool</em>) – If True, converts to UpperCamelCase; if False, to lowerCamelCase</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The camelized string</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
 </dl>
+<p>This function converts strings to CamelCase. If <cite>uppercase_first_letter</cite> is True (default),
+it produces UpperCamelCase. If False, it produces lowerCamelCase.</p>
 <dl>
-<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">camelize</span><span class="p">(</span><span class="s2">&quot;device_type&quot;</span><span class="p">)</span>
+<dt>Examples:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">camelize</span><span class="p">(</span><span class="s2">&quot;device_type&quot;</span><span class="p">)</span>
 <span class="go">&#39;DeviceType&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">camelize</span><span class="p">(</span><span class="s2">&quot;device_type&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 <span class="go">&#39;deviceType&#39;</span>
 </pre></div>
 </div>
 </dd>
+<dt>Note:</dt><dd><p>camelize can be thought of as a inverse of underscore, although there are some cases
+where that does not hold:
+&gt;&gt;&gt; camelize(underscore(“IOError”))
+‘IoError’</p>
+</dd>
 </dl>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p><a class="reference internal" href="#hbutils.string.inflection.camelize" title="hbutils.string.inflection.camelize"><code class="xref py py-func docutils literal notranslate"><span class="pre">camelize()</span></code></a> can be thought of as a inverse of <a class="reference internal" href="#hbutils.string.inflection.underscore" title="hbutils.string.inflection.underscore"><code class="xref py py-func docutils literal notranslate"><span class="pre">underscore()</span></code></a>,
-although there are some cases where that does not hold:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">camelize</span><span class="p">(</span><span class="n">underscore</span><span class="p">(</span><span class="s2">&quot;IOError&quot;</span><span class="p">))</span>
-<span class="go">&#39;IoError&#39;</span>
-</pre></div>
-</div>
-</aside>
 </dd></dl>
 
 </section>
@@ -248,17 +269,21 @@ although there are some cases where that does not hold:</p>
 <dl class="py function">
 <dt id="hbutils.string.inflection.dasherize">
 <code class="sig-prename descclassname">hbutils.string.inflection.</code><code class="sig-name descname">dasherize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">word</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/inflection.html#dasherize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.inflection.dasherize" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Overview:</dt><dd><p>Replace underscores with dashes in the string.</p>
-</dd>
-</dl>
+<dd><p>Replace underscores with dashes in the string.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>word</strong> – Original word.</p>
+<dd class="field-odd"><p><strong>word</strong> (<em>str</em>) – Original word to be dasherized</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The dasherized string</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
+<p>This function replaces all underscores in the input string with dashes.</p>
 <dl>
-<dt>Example::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dasherize</span><span class="p">(</span><span class="s2">&quot;puni_puni&quot;</span><span class="p">)</span>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">dasherize</span><span class="p">(</span><span class="s2">&quot;puni_puni&quot;</span><span class="p">)</span>
 <span class="go">&#39;puni-puni&#39;</span>
 </pre></div>
 </div>
@@ -272,19 +297,22 @@ although there are some cases where that does not hold:</p>
 <dl class="py function">
 <dt id="hbutils.string.inflection.humanize">
 <code class="sig-prename descclassname">hbutils.string.inflection.</code><code class="sig-name descname">humanize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">word</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/inflection.html#humanize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.inflection.humanize" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Overview:</dt><dd><p>Capitalize the first word and turn underscores into spaces and strip a
-trailing <code class="docutils literal notranslate"><span class="pre">&quot;_id&quot;</span></code>, if any. Like <a class="reference internal" href="#hbutils.string.inflection.titleize" title="hbutils.string.inflection.titleize"><code class="xref py py-func docutils literal notranslate"><span class="pre">titleize()</span></code></a>, this is meant for
-creating pretty output.</p>
-</dd>
-</dl>
+<dd><p>Capitalize the first word and turn underscores into spaces and strip a trailing “_id”, if any.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>word</strong> – Original word.</p>
+<dd class="field-odd"><p><strong>word</strong> (<em>str</em>) – Original word to be humanized</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The humanized string</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
+<p>This function is meant for creating pretty output. It capitalizes the first word,
+replaces underscores with spaces, and removes a trailing “_id” if present.</p>
 <dl>
-<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">humanize</span><span class="p">(</span><span class="s2">&quot;employee_salary&quot;</span><span class="p">)</span>
+<dt>Examples:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">humanize</span><span class="p">(</span><span class="s2">&quot;employee_salary&quot;</span><span class="p">)</span>
 <span class="go">&#39;Employee salary&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">humanize</span><span class="p">(</span><span class="s2">&quot;author_id&quot;</span><span class="p">)</span>
 <span class="go">&#39;Author&#39;</span>
@@ -300,18 +328,21 @@ creating pretty output.</p>
 <dl class="py function">
 <dt id="hbutils.string.inflection.ordinal">
 <code class="sig-prename descclassname">hbutils.string.inflection.</code><code class="sig-name descname">ordinal</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">number</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/inflection.html#ordinal"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.inflection.ordinal" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Overview:</dt><dd><p>Return the suffix that should be added to a number to denote the position
-in an ordered sequence such as 1st, 2nd, 3rd, 4th.</p>
-</dd>
-</dl>
+<dd><p>Return the suffix that should be added to a number to denote the position in an ordered sequence.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>number</strong> – Int format number.</p>
+<dd class="field-odd"><p><strong>number</strong> (<em>int</em>) – The number for which to generate the ordinal suffix</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The ordinal suffix (e.g., ‘st’, ‘nd’, ‘rd’, ‘th’)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
+<p>This function returns the appropriate suffix for ordinal numbers (1st, 2nd, 3rd, 4th, etc.).</p>
 <dl>
-<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ordinal</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<dt>Examples:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ordinal</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="go">&#39;st&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ordinal</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="go">&#39;nd&#39;</span>
@@ -335,18 +366,21 @@ in an ordered sequence such as 1st, 2nd, 3rd, 4th.</p>
 <dl class="py function">
 <dt id="hbutils.string.inflection.ordinalize">
 <code class="sig-prename descclassname">hbutils.string.inflection.</code><code class="sig-name descname">ordinalize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">number</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/inflection.html#ordinalize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.inflection.ordinalize" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Overview:</dt><dd><p>Turn a number into an ordinal string used to denote the position in an
-ordered sequence such as 1st, 2nd, 3rd, 4th.</p>
-</dd>
-</dl>
+<dd><p>Turn a number into an ordinal string used to denote the position in an ordered sequence.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>number</strong> – Int format number.</p>
+<dd class="field-odd"><p><strong>number</strong> (<em>int</em>) – The number to be ordinalized</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The ordinalized number as a string</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
+<p>This function converts a number into its ordinal form (1st, 2nd, 3rd, 4th, etc.).</p>
 <dl>
-<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ordinalize</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<dt>Examples:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ordinalize</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 <span class="go">&#39;1st&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">ordinalize</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="go">&#39;2nd&#39;</span>
@@ -370,21 +404,25 @@ ordered sequence such as 1st, 2nd, 3rd, 4th.</p>
 <dl class="py function">
 <dt id="hbutils.string.inflection.parameterize">
 <code class="sig-prename descclassname">hbutils.string.inflection.</code><code class="sig-name descname">parameterize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">string</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">separator</span><span class="p">:</span> <span class="n">str</span> <span class="o">=</span> <span class="default_value">'-'</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/inflection.html#parameterize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.inflection.parameterize" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Overview:</dt><dd><p>Replace special characters in a string so that it may be used as part of a
-‘pretty’ URL.</p>
-</dd>
-</dl>
+<dd><p>Replace special characters in a string so that it may be used as part of a ‘pretty’ URL.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>string</strong> – Original string.</p></li>
-<li><p><strong>separator</strong> – Separator of parameter words.</p></li>
+<li><p><strong>string</strong> (<em>str</em>) – Original string to be parameterized</p></li>
+<li><p><strong>separator</strong> (<em>str</em>) – Separator to use between words (default is ‘-‘)</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The parameterized string</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
 </dl>
+<p>This function replaces special characters and spaces with the specified separator,
+making the string suitable for use in URLs.</p>
 <dl>
-<dt>Example::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">parameterize</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;Donald E. Knuth&quot;</span><span class="p">)</span>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">parameterize</span><span class="p">(</span><span class="sa">u</span><span class="s2">&quot;Donald E. Knuth&quot;</span><span class="p">)</span>
 <span class="go">&#39;donald-e-knuth&#39;</span>
 </pre></div>
 </div>
@@ -398,17 +436,21 @@ ordered sequence such as 1st, 2nd, 3rd, 4th.</p>
 <dl class="py function">
 <dt id="hbutils.string.inflection.pluralize">
 <code class="sig-prename descclassname">hbutils.string.inflection.</code><code class="sig-name descname">pluralize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">word</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/inflection.html#pluralize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.inflection.pluralize" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Overview:</dt><dd><p>Return the plural form of a word.</p>
-</dd>
-</dl>
+<dd><p>Return the plural form of a word.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>word</strong> – Original word.</p>
+<dd class="field-odd"><p><strong>word</strong> (<em>str</em>) – Original word to be pluralized</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The pluralized word</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
+<p>This function returns the plural form of the given word based on predefined rules.</p>
 <dl>
-<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pluralize</span><span class="p">(</span><span class="s2">&quot;posts&quot;</span><span class="p">)</span>
+<dt>Examples:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">pluralize</span><span class="p">(</span><span class="s2">&quot;posts&quot;</span><span class="p">)</span>
 <span class="go">&#39;posts&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">pluralize</span><span class="p">(</span><span class="s2">&quot;octopus&quot;</span><span class="p">)</span>
 <span class="go">&#39;octopi&#39;</span>
@@ -428,17 +470,21 @@ ordered sequence such as 1st, 2nd, 3rd, 4th.</p>
 <dl class="py function">
 <dt id="hbutils.string.inflection.singularize">
 <code class="sig-prename descclassname">hbutils.string.inflection.</code><code class="sig-name descname">singularize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">word</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/inflection.html#singularize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.inflection.singularize" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Overview:</dt><dd><p>Return the singular form of a word, the reverse of <a class="reference internal" href="#hbutils.string.inflection.pluralize" title="hbutils.string.inflection.pluralize"><code class="xref py py-func docutils literal notranslate"><span class="pre">pluralize()</span></code></a>.</p>
-</dd>
-</dl>
+<dd><p>Return the singular form of a word, the reverse of pluralize.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>word</strong> – Original word.</p>
+<dd class="field-odd"><p><strong>word</strong> (<em>str</em>) – Original word to be singularized</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The singularized word</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
+<p>This function returns the singular form of the given word based on predefined rules.</p>
 <dl>
-<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">singularize</span><span class="p">(</span><span class="s2">&quot;posts&quot;</span><span class="p">)</span>
+<dt>Examples:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">singularize</span><span class="p">(</span><span class="s2">&quot;posts&quot;</span><span class="p">)</span>
 <span class="go">&#39;post&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">singularize</span><span class="p">(</span><span class="s2">&quot;octopi&quot;</span><span class="p">)</span>
 <span class="go">&#39;octopus&#39;</span>
@@ -460,18 +506,21 @@ ordered sequence such as 1st, 2nd, 3rd, 4th.</p>
 <dl class="py function">
 <dt id="hbutils.string.inflection.tableize">
 <code class="sig-prename descclassname">hbutils.string.inflection.</code><code class="sig-name descname">tableize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">word</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/inflection.html#tableize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.inflection.tableize" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Overview:</dt><dd><p>Create the name of a table like Rails does for models to table names. This
-method uses the <a class="reference internal" href="#hbutils.string.inflection.pluralize" title="hbutils.string.inflection.pluralize"><code class="xref py py-func docutils literal notranslate"><span class="pre">pluralize()</span></code></a> method on the last word in the string.</p>
-</dd>
-</dl>
+<dd><p>Create the name of a table like Rails does for models to table names.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>word</strong> – Original word.</p>
+<dd class="field-odd"><p><strong>word</strong> (<em>str</em>) – Original word to be tableized</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The tableized word</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
+<p>This method uses the pluralize method on the last word in the string after underscoring it.</p>
 <dl>
-<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tableize</span><span class="p">(</span><span class="s1">&#39;RawScaledScorer&#39;</span><span class="p">)</span>
+<dt>Examples:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tableize</span><span class="p">(</span><span class="s1">&#39;RawScaledScorer&#39;</span><span class="p">)</span>
 <span class="go">&#39;raw_scaled_scorers&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">tableize</span><span class="p">(</span><span class="s1">&#39;egg_and_ham&#39;</span><span class="p">)</span>
 <span class="go">&#39;egg_and_hams&#39;</span>
@@ -489,19 +538,22 @@ method uses the <a class="reference internal" href="#hbutils.string.inflection.p
 <dl class="py function">
 <dt id="hbutils.string.inflection.titleize">
 <code class="sig-prename descclassname">hbutils.string.inflection.</code><code class="sig-name descname">titleize</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">word</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/inflection.html#titleize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.inflection.titleize" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Overview:</dt><dd><p>Capitalize all the words and replace some characters in the string to
-create a nicer looking title. <a class="reference internal" href="#hbutils.string.inflection.titleize" title="hbutils.string.inflection.titleize"><code class="xref py py-func docutils literal notranslate"><span class="pre">titleize()</span></code></a> is meant for creating pretty
-output.</p>
-</dd>
-</dl>
+<dd><p>Capitalize all the words and replace some characters in the string to create a nicer looking title.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>word</strong> – Original word.</p>
+<dd class="field-odd"><p><strong>word</strong> (<em>str</em>) – Original word to be titleized</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The titleized string</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
+<p>This function is meant for creating pretty output by capitalizing all words and
+replacing certain characters for improved readability.</p>
 <dl>
-<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">titleize</span><span class="p">(</span><span class="s2">&quot;man from the boondocks&quot;</span><span class="p">)</span>
+<dt>Examples:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">titleize</span><span class="p">(</span><span class="s2">&quot;man from the boondocks&quot;</span><span class="p">)</span>
 <span class="go">&#39;Man From The Boondocks&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">titleize</span><span class="p">(</span><span class="s2">&quot;x-men: the last stand&quot;</span><span class="p">)</span>
 <span class="go">&#39;X Men: The Last Stand&#39;</span>
@@ -521,19 +573,22 @@ output.</p>
 <dl class="py function">
 <dt id="hbutils.string.inflection.transliterate">
 <code class="sig-prename descclassname">hbutils.string.inflection.</code><code class="sig-name descname">transliterate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">string</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/inflection.html#transliterate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.inflection.transliterate" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Overview:</dt><dd><p>Replace non-ASCII characters with an ASCII approximation. If no
-approximation exists, the non-ASCII character is ignored. The string must
-be <code class="docutils literal notranslate"><span class="pre">unicode</span></code>.</p>
-</dd>
-</dl>
+<dd><p>Replace non-ASCII characters with an ASCII approximation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>string</strong> – Original string.</p>
+<dd class="field-odd"><p><strong>string</strong> (<em>str</em>) – Original string to be transliterated</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The transliterated string</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
+<p>If no approximation exists, the non-ASCII character is ignored.
+The input string must be unicode.</p>
 <dl>
-<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">transliterate</span><span class="p">(</span><span class="s1">&#39;älämölö&#39;</span><span class="p">)</span>
+<dt>Examples:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">transliterate</span><span class="p">(</span><span class="s1">&#39;älämölö&#39;</span><span class="p">)</span>
 <span class="go">&#39;alamolo&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">transliterate</span><span class="p">(</span><span class="s1">&#39;Ærøskøbing&#39;</span><span class="p">)</span>
 <span class="go">&#39;rskbing&#39;</span>
@@ -549,31 +604,33 @@ be <code class="docutils literal notranslate"><span class="pre">unicode</span></
 <dl class="py function">
 <dt id="hbutils.string.inflection.underscore">
 <code class="sig-prename descclassname">hbutils.string.inflection.</code><code class="sig-name descname">underscore</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">word</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/string/inflection.html#underscore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.string.inflection.underscore" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Overview:</dt><dd><p>Make an underscored, lowercase form from the expression in the string.</p>
-</dd>
-</dl>
+<dd><p>Make an underscored, lowercase form from the expression in the string.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>word</strong> – Original word.</p>
+<dd class="field-odd"><p><strong>word</strong> (<em>str</em>) – Original word to be underscored</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The underscored string</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
+<p>This function converts CamelCase or space-separated words to lowercase, underscore-separated words.</p>
 <dl>
-<dt>Example::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">underscore</span><span class="p">(</span><span class="s2">&quot;DeviceType&quot;</span><span class="p">)</span>
+<dt>Example:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">underscore</span><span class="p">(</span><span class="s2">&quot;DeviceType&quot;</span><span class="p">)</span>
 <span class="go">&#39;device_type&#39;</span>
 </pre></div>
 </div>
 </dd>
-</dl>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>As a rule of thumb you can think of <a class="reference internal" href="#hbutils.string.inflection.underscore" title="hbutils.string.inflection.underscore"><code class="xref py py-func docutils literal notranslate"><span class="pre">underscore()</span></code></a> as the inverse of
-<a class="reference internal" href="#hbutils.string.inflection.camelize" title="hbutils.string.inflection.camelize"><code class="xref py py-func docutils literal notranslate"><span class="pre">camelize()</span></code></a>, though there are cases where that does not hold:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">camelize</span><span class="p">(</span><span class="n">underscore</span><span class="p">(</span><span class="s2">&quot;IOError&quot;</span><span class="p">))</span>
+<dt>Note:</dt><dd><p>As a rule of thumb, you can think of underscore as the inverse of camelize,
+though there are cases where that does not hold:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">camelize</span><span class="p">(</span><span class="n">underscore</span><span class="p">(</span><span class="s2">&quot;IOError&quot;</span><span class="p">))</span>
 <span class="go">&#39;IoError&#39;</span>
 </pre></div>
 </div>
-</aside>
+</dd>
+</dl>
 </dd></dl>
 
 </section>
