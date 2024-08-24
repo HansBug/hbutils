@@ -1,0 +1,757 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>hbutils.string.inflection &mdash; hbutils 0.10.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/graphviz.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> hbutils
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.10.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../tutorials/installation/index.html">Installation</a></li>
+</ul>
+<p><span class="caption-text">API Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/algorithm/index.html">hbutils.algorithm</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/binary/index.html">hbutils.binary</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/collection/index.html">hbutils.collection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/color/index.html">hbutils.color</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/config/index.html">hbutils.config</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/design/index.html">hbutils.design</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/encoding/index.html">hbutils.encoding</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/expression/index.html">hbutils.expression</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/file/index.html">hbutils.file</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/model/index.html">hbutils.model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/random/index.html">hbutils.random</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/reflection/index.html">hbutils.reflection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/scale/index.html">hbutils.scale</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/string/index.html">hbutils.string</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/system/index.html">hbutils.system</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api_doc/testing/index.html">hbutils.testing</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">hbutils</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>hbutils.string.inflection</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+    
+    
+  <h1>Source code for hbutils.string.inflection</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Overview:</span>
+<span class="sd">    Useful utilities for word inflections.</span>
+
+<span class="sd">    Extended based on `jpvanhal/inflection &lt;https://github.com/jpvanhal/inflection&gt;`_.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">unicodedata</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;camelize&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;dasherize&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;humanize&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ordinal&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ordinalize&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;parameterize&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;pluralize&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;singularize&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;tableize&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;titleize&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;transliterate&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;underscore&#39;</span><span class="p">,</span>
+<span class="p">]</span>
+
+<span class="n">PLURALS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(quiz)$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1zes&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)^(oxen)$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)^(ox)$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1en&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(m|l)ice$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1ice&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(m|l)ouse$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1ice&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(passer)s?by$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1sby&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(matr|vert|ind)(?:ix|ex)$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1ices&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(x|ch|ss|sh)$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1es&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)([^aeiouy]|qu)y$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1ies&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(hive)$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1s&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)([lr])f$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1ves&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)([^f])fe$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1ves&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)sis$&quot;</span><span class="p">,</span> <span class="s1">&#39;ses&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)([ti])a$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1a&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)([ti])um$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1a&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(buffal|potat|tomat)o$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1oes&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(bu)s$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1ses&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(alias|status)$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1es&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(octop|vir)i$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1i&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(octop|vir)us$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1i&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)^(ax|test)is$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1es&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)s$&quot;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$&quot;</span><span class="p">,</span> <span class="s1">&#39;s&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="n">SINGULARS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(database)s$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(quiz)zes$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(matr)ices$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1ix&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(vert|ind)ices$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1ex&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(passer)sby$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1by&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)^(ox)en&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(alias|status)(es)?$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(octop|vir)(us|i)$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1us&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)^(a)x[ie]s$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1xis&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(cris|test)(is|es)$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1is&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(shoe)s$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(o)es$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(bus)(es)?$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(m|l)ice$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1ouse&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(x|ch|ss|sh)es$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(m)ovies$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1ovie&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(s)eries$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1eries&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)([^aeiouy]|qu)ies$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1y&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)([lr])ves$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1f&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(tive)s$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(hive)s$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)([^f])ves$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1fe&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(t)he(sis|ses)$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;\1hesis&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(s)ynop(sis|ses)$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;\1ynopsis&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(p)rogno(sis|ses)$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;\1rognosis&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(p)arenthe(sis|ses)$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;\1arenthesis&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(d)iagno(sis|ses)$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;\1iagnosis&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(b)a(sis|ses)$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;\1asis&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(a)naly(sis|ses)$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s2">&quot;\1nalysis&quot;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)([ti])a$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1um&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(n)ews$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1ews&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)(ss)$&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1&#39;</span><span class="p">),</span>
+    <span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)s$&quot;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+<span class="p">]</span>
+
+<span class="n">UNCOUNTABLES</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;equipment&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;fish&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;information&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;jeans&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;money&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;rice&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;series&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;sheep&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;species&#39;</span>
+<span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_irregular</span><span class="p">(</span><span class="n">singular</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">plural</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">*</span><span class="n">plurals</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A convenience function to add appropriate rules to plurals and singular</span>
+<span class="sd">    for irregular words.</span>
+<span class="sd">    :param singular: irregular word in singular form (such as `it`)</span>
+<span class="sd">    :param plural: irregular word in plural form (such as `they`)</span>
+<span class="sd">    :param plurals: extended words in plural form (such as `them`)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">caseinsensitive</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;[&#39;</span> <span class="o">+</span> <span class="n">char</span> <span class="o">+</span> <span class="n">char</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="s1">&#39;]&#39;</span> <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">string</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_register_singular</span><span class="p">(</span><span class="n">singular_</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">plural_</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">singular_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="n">plural_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">():</span>
+            <span class="n">SINGULARS</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span>
+                <span class="sa">r</span><span class="s2">&quot;(?i)(</span><span class="si">{}</span><span class="s2">)</span><span class="si">{}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">plural_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">plural_</span><span class="p">[</span><span class="mi">1</span><span class="p">:]),</span>
+                <span class="sa">r</span><span class="s1">&#39;\1&#39;</span> <span class="o">+</span> <span class="n">singular_</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">SINGULARS</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span>
+                <span class="sa">r</span><span class="s2">&quot;</span><span class="si">{}{}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">plural_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">caseinsensitive</span><span class="p">(</span><span class="n">plural_</span><span class="p">[</span><span class="mi">1</span><span class="p">:])),</span>
+                <span class="n">singular_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="n">singular_</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="p">))</span>
+            <span class="n">SINGULARS</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span>
+                <span class="sa">r</span><span class="s2">&quot;</span><span class="si">{}{}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">plural_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">caseinsensitive</span><span class="p">(</span><span class="n">plural_</span><span class="p">[</span><span class="mi">1</span><span class="p">:])),</span>
+                <span class="n">singular_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="n">singular_</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_register_plural</span><span class="p">(</span><span class="n">singular_</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">plural_</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">singular_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="n">plural_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">():</span>
+            <span class="n">PLURALS</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span>
+                <span class="sa">r</span><span class="s2">&quot;(?i)(</span><span class="si">{}</span><span class="s2">)</span><span class="si">{}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">singular_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">singular_</span><span class="p">[</span><span class="mi">1</span><span class="p">:]),</span>
+                <span class="sa">r</span><span class="s1">&#39;\1&#39;</span> <span class="o">+</span> <span class="n">plural_</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="p">))</span>
+            <span class="n">PLURALS</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span>
+                <span class="sa">r</span><span class="s2">&quot;(?i)(</span><span class="si">{}</span><span class="s2">)</span><span class="si">{}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">plural_</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">plural_</span><span class="p">[</span><span class="mi">1</span><span class="p">:]),</span>
+                <span class="sa">r</span><span class="s1">&#39;\1&#39;</span> <span class="o">+</span> <span class="n">plural_</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">PLURALS</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span>
+                <span class="sa">r</span><span class="s2">&quot;</span><span class="si">{}{}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">singular_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span>
+                                <span class="n">caseinsensitive</span><span class="p">(</span><span class="n">singular_</span><span class="p">[</span><span class="mi">1</span><span class="p">:])),</span>
+                <span class="n">plural_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="n">plural_</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="p">))</span>
+            <span class="n">PLURALS</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span>
+                <span class="sa">r</span><span class="s2">&quot;</span><span class="si">{}{}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">singular_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
+                                <span class="n">caseinsensitive</span><span class="p">(</span><span class="n">singular_</span><span class="p">[</span><span class="mi">1</span><span class="p">:])),</span>
+                <span class="n">plural_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="n">plural_</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="p">))</span>
+            <span class="n">PLURALS</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span>
+                <span class="sa">r</span><span class="s2">&quot;</span><span class="si">{}{}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">plural_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">caseinsensitive</span><span class="p">(</span><span class="n">plural_</span><span class="p">[</span><span class="mi">1</span><span class="p">:])),</span>
+                <span class="n">plural_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">+</span> <span class="n">plural_</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="p">))</span>
+            <span class="n">PLURALS</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">(</span>
+                <span class="sa">r</span><span class="s2">&quot;</span><span class="si">{}{}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">plural_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">caseinsensitive</span><span class="p">(</span><span class="n">plural_</span><span class="p">[</span><span class="mi">1</span><span class="p">:])),</span>
+                <span class="n">plural_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="n">plural_</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+            <span class="p">))</span>
+        <span class="k">pass</span>
+
+    <span class="n">_register_plural</span><span class="p">(</span><span class="n">singular</span><span class="p">,</span> <span class="n">plural</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="p">[</span><span class="n">plural</span><span class="p">,</span> <span class="o">*</span><span class="n">plurals</span><span class="p">]:</span>
+        <span class="n">_register_singular</span><span class="p">(</span><span class="n">singular</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="camelize"><a class="viewcode-back" href="../../../api_doc/string/inflection.html#hbutils.string.inflection.camelize">[docs]</a><span class="k">def</span> <span class="nf">camelize</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">uppercase_first_letter</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Convert strings to CamelCase.</span>
+
+<span class="sd">    :param string: Original string.</span>
+<span class="sd">    :param uppercase_first_letter: if set to `True` :func:`camelize` converts \</span>
+<span class="sd">        strings to UpperCamelCase. If set to `False` :func:`camelize` produces \</span>
+<span class="sd">        lowerCamelCase. Defaults to `True`.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; camelize(&quot;device_type&quot;)</span>
+<span class="sd">        &#39;DeviceType&#39;</span>
+<span class="sd">        &gt;&gt;&gt; camelize(&quot;device_type&quot;, False)</span>
+<span class="sd">        &#39;deviceType&#39;</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        :func:`camelize` can be thought of as a inverse of :func:`underscore`,</span>
+<span class="sd">        although there are some cases where that does not hold::</span>
+
+<span class="sd">            &gt;&gt;&gt; camelize(underscore(&quot;IOError&quot;))</span>
+<span class="sd">            &#39;IoError&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">uppercase_first_letter</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?:^|_)(.)&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">string</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">string</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="n">camelize</span><span class="p">(</span><span class="n">string</span><span class="p">)[</span><span class="mi">1</span><span class="p">:]</span></div>
+
+
+<div class="viewcode-block" id="dasherize"><a class="viewcode-back" href="../../../api_doc/string/inflection.html#hbutils.string.inflection.dasherize">[docs]</a><span class="k">def</span> <span class="nf">dasherize</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Replace underscores with dashes in the string.</span>
+
+<span class="sd">    :param word: Original word.</span>
+
+<span class="sd">    Example::</span>
+<span class="sd">        &gt;&gt;&gt; dasherize(&quot;puni_puni&quot;)</span>
+<span class="sd">        &#39;puni-puni&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">word</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="humanize"><a class="viewcode-back" href="../../../api_doc/string/inflection.html#hbutils.string.inflection.humanize">[docs]</a><span class="k">def</span> <span class="nf">humanize</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Capitalize the first word and turn underscores into spaces and strip a</span>
+<span class="sd">        trailing ``&quot;_id&quot;``, if any. Like :func:`titleize`, this is meant for</span>
+<span class="sd">        creating pretty output.</span>
+
+<span class="sd">    :param word: Original word.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; humanize(&quot;employee_salary&quot;)</span>
+<span class="sd">        &#39;Employee salary&#39;</span>
+<span class="sd">        &gt;&gt;&gt; humanize(&quot;author_id&quot;)</span>
+<span class="sd">        &#39;Author&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">word</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;_id$&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">word</span><span class="p">)</span>
+    <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+    <span class="n">word</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)([a-z\d]*)&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">word</span><span class="p">)</span>
+    <span class="n">word</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;^\w&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">m</span><span class="p">:</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">word</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">word</span></div>
+
+
+<div class="viewcode-block" id="ordinal"><a class="viewcode-back" href="../../../api_doc/string/inflection.html#hbutils.string.inflection.ordinal">[docs]</a><span class="k">def</span> <span class="nf">ordinal</span><span class="p">(</span><span class="n">number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Return the suffix that should be added to a number to denote the position</span>
+<span class="sd">        in an ordered sequence such as 1st, 2nd, 3rd, 4th.</span>
+
+<span class="sd">    :param number: Int format number.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; ordinal(1)</span>
+<span class="sd">        &#39;st&#39;</span>
+<span class="sd">        &gt;&gt;&gt; ordinal(2)</span>
+<span class="sd">        &#39;nd&#39;</span>
+<span class="sd">        &gt;&gt;&gt; ordinal(1002)</span>
+<span class="sd">        &#39;nd&#39;</span>
+<span class="sd">        &gt;&gt;&gt; ordinal(1003)</span>
+<span class="sd">        &#39;rd&#39;</span>
+<span class="sd">        &gt;&gt;&gt; ordinal(-11)</span>
+<span class="sd">        &#39;th&#39;</span>
+<span class="sd">        &gt;&gt;&gt; ordinal(-1021)</span>
+<span class="sd">        &#39;st&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">number</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">number</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">number</span> <span class="o">%</span> <span class="mi">100</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;th&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="mi">1</span><span class="p">:</span> <span class="s2">&quot;st&quot;</span><span class="p">,</span>
+            <span class="mi">2</span><span class="p">:</span> <span class="s2">&quot;nd&quot;</span><span class="p">,</span>
+            <span class="mi">3</span><span class="p">:</span> <span class="s2">&quot;rd&quot;</span><span class="p">,</span>
+        <span class="p">}</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">number</span> <span class="o">%</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;th&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ordinalize"><a class="viewcode-back" href="../../../api_doc/string/inflection.html#hbutils.string.inflection.ordinalize">[docs]</a><span class="k">def</span> <span class="nf">ordinalize</span><span class="p">(</span><span class="n">number</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Turn a number into an ordinal string used to denote the position in an</span>
+<span class="sd">        ordered sequence such as 1st, 2nd, 3rd, 4th.</span>
+
+<span class="sd">    :param number: Int format number.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; ordinalize(1)</span>
+<span class="sd">        &#39;1st&#39;</span>
+<span class="sd">        &gt;&gt;&gt; ordinalize(2)</span>
+<span class="sd">        &#39;2nd&#39;</span>
+<span class="sd">        &gt;&gt;&gt; ordinalize(1002)</span>
+<span class="sd">        &#39;1002nd&#39;</span>
+<span class="sd">        &gt;&gt;&gt; ordinalize(1003)</span>
+<span class="sd">        &#39;1003rd&#39;</span>
+<span class="sd">        &gt;&gt;&gt; ordinalize(-11)</span>
+<span class="sd">        &#39;-11th&#39;</span>
+<span class="sd">        &gt;&gt;&gt; ordinalize(-1021)</span>
+<span class="sd">        &#39;-1021st&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="si">{}{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">number</span><span class="p">,</span> <span class="n">ordinal</span><span class="p">(</span><span class="n">number</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="parameterize"><a class="viewcode-back" href="../../../api_doc/string/inflection.html#hbutils.string.inflection.parameterize">[docs]</a><span class="k">def</span> <span class="nf">parameterize</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">separator</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Replace special characters in a string so that it may be used as part of a</span>
+<span class="sd">        &#39;pretty&#39; URL.</span>
+
+<span class="sd">    :param string: Original string.</span>
+<span class="sd">    :param separator: Separator of parameter words.</span>
+
+<span class="sd">    Example::</span>
+<span class="sd">        &gt;&gt;&gt; parameterize(u&quot;Donald E. Knuth&quot;)</span>
+<span class="sd">        &#39;donald-e-knuth&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">string</span> <span class="o">=</span> <span class="n">transliterate</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+    <span class="c1"># Turn unwanted chars into the separator</span>
+    <span class="n">string</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)[^a-z0-9\-_]+&quot;</span><span class="p">,</span> <span class="n">separator</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">separator</span><span class="p">:</span>
+        <span class="n">re_sep</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="n">separator</span><span class="p">)</span>
+        <span class="c1"># No more than one of the separator in a row.</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1">{2,}&#39;</span> <span class="o">%</span> <span class="n">re_sep</span><span class="p">,</span> <span class="n">separator</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+        <span class="c1"># Remove leading/trailing separator.</span>
+        <span class="n">string</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;(?i)^</span><span class="si">{sep}</span><span class="s2">|</span><span class="si">{sep}</span><span class="s2">$&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">sep</span><span class="o">=</span><span class="n">re_sep</span><span class="p">),</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">string</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="pluralize"><a class="viewcode-back" href="../../../api_doc/string/inflection.html#hbutils.string.inflection.pluralize">[docs]</a><span class="k">def</span> <span class="nf">pluralize</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Return the plural form of a word.</span>
+
+<span class="sd">    :param word: Original word.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; pluralize(&quot;posts&quot;)</span>
+<span class="sd">        &#39;posts&#39;</span>
+<span class="sd">        &gt;&gt;&gt; pluralize(&quot;octopus&quot;)</span>
+<span class="sd">        &#39;octopi&#39;</span>
+<span class="sd">        &gt;&gt;&gt; pluralize(&quot;sheep&quot;)</span>
+<span class="sd">        &#39;sheep&#39;</span>
+<span class="sd">        &gt;&gt;&gt; pluralize(&quot;CamelOctopus&quot;)</span>
+<span class="sd">        &#39;CamelOctopi&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">word</span> <span class="ow">or</span> <span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">UNCOUNTABLES</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">word</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">rule</span><span class="p">,</span> <span class="n">replacement</span> <span class="ow">in</span> <span class="n">PLURALS</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="n">word</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="n">replacement</span><span class="p">,</span> <span class="n">word</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">word</span></div>
+
+
+<div class="viewcode-block" id="singularize"><a class="viewcode-back" href="../../../api_doc/string/inflection.html#hbutils.string.inflection.singularize">[docs]</a><span class="k">def</span> <span class="nf">singularize</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Return the singular form of a word, the reverse of :func:`pluralize`.</span>
+
+<span class="sd">    :param word: Original word.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; singularize(&quot;posts&quot;)</span>
+<span class="sd">        &#39;post&#39;</span>
+<span class="sd">        &gt;&gt;&gt; singularize(&quot;octopi&quot;)</span>
+<span class="sd">        &#39;octopus&#39;</span>
+<span class="sd">        &gt;&gt;&gt; singularize(&quot;sheep&quot;)</span>
+<span class="sd">        &#39;sheep&#39;</span>
+<span class="sd">        &gt;&gt;&gt; singularize(&quot;word&quot;)</span>
+<span class="sd">        &#39;word&#39;</span>
+<span class="sd">        &gt;&gt;&gt; singularize(&quot;CamelOctopi&quot;)</span>
+<span class="sd">        &#39;CamelOctopus&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">inflection</span> <span class="ow">in</span> <span class="n">UNCOUNTABLES</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(?i)\b(</span><span class="si">%s</span><span class="s1">)\Z&#39;</span> <span class="o">%</span> <span class="n">inflection</span><span class="p">,</span> <span class="n">word</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">word</span>
+
+    <span class="k">for</span> <span class="n">rule</span><span class="p">,</span> <span class="n">replacement</span> <span class="ow">in</span> <span class="n">SINGULARS</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="n">word</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="n">replacement</span><span class="p">,</span> <span class="n">word</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">word</span></div>
+
+
+<div class="viewcode-block" id="tableize"><a class="viewcode-back" href="../../../api_doc/string/inflection.html#hbutils.string.inflection.tableize">[docs]</a><span class="k">def</span> <span class="nf">tableize</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Create the name of a table like Rails does for models to table names. This</span>
+<span class="sd">        method uses the :func:`pluralize` method on the last word in the string.</span>
+
+<span class="sd">    :param word: Original word.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; tableize(&#39;RawScaledScorer&#39;)</span>
+<span class="sd">        &#39;raw_scaled_scorers&#39;</span>
+<span class="sd">        &gt;&gt;&gt; tableize(&#39;egg_and_ham&#39;)</span>
+<span class="sd">        &#39;egg_and_hams&#39;</span>
+<span class="sd">        &gt;&gt;&gt; tableize(&#39;fancyCategory&#39;)</span>
+<span class="sd">        &#39;fancy_categories&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">pluralize</span><span class="p">(</span><span class="n">underscore</span><span class="p">(</span><span class="n">word</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="titleize"><a class="viewcode-back" href="../../../api_doc/string/inflection.html#hbutils.string.inflection.titleize">[docs]</a><span class="k">def</span> <span class="nf">titleize</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Capitalize all the words and replace some characters in the string to</span>
+<span class="sd">        create a nicer looking title. :func:`titleize` is meant for creating pretty</span>
+<span class="sd">        output.</span>
+
+<span class="sd">    :param word: Original word.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">      &gt;&gt;&gt; titleize(&quot;man from the boondocks&quot;)</span>
+<span class="sd">      &#39;Man From The Boondocks&#39;</span>
+<span class="sd">      &gt;&gt;&gt; titleize(&quot;x-men: the last stand&quot;)</span>
+<span class="sd">      &#39;X Men: The Last Stand&#39;</span>
+<span class="sd">      &gt;&gt;&gt; titleize(&quot;TheManWithoutAPast&quot;)</span>
+<span class="sd">      &#39;The Man Without A Past&#39;</span>
+<span class="sd">      &gt;&gt;&gt; titleize(&quot;raiders_of_the_lost_ark&quot;)</span>
+<span class="sd">      &#39;Raiders Of The Lost Ark&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span>
+        <span class="sa">r</span><span class="s2">&quot;\b(&#39;?\w)&quot;</span><span class="p">,</span>
+        <span class="k">lambda</span> <span class="n">match</span><span class="p">:</span> <span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">capitalize</span><span class="p">(),</span>
+        <span class="n">humanize</span><span class="p">(</span><span class="n">underscore</span><span class="p">(</span><span class="n">word</span><span class="p">))</span><span class="o">.</span><span class="n">title</span><span class="p">()</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="transliterate"><a class="viewcode-back" href="../../../api_doc/string/inflection.html#hbutils.string.inflection.transliterate">[docs]</a><span class="k">def</span> <span class="nf">transliterate</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Replace non-ASCII characters with an ASCII approximation. If no</span>
+<span class="sd">        approximation exists, the non-ASCII character is ignored. The string must</span>
+<span class="sd">        be ``unicode``.</span>
+
+<span class="sd">    :param string: Original string.</span>
+
+<span class="sd">    Examples::</span>
+<span class="sd">        &gt;&gt;&gt; transliterate(&#39;älämölö&#39;)</span>
+<span class="sd">        &#39;alamolo&#39;</span>
+<span class="sd">        &gt;&gt;&gt; transliterate(&#39;Ærøskøbing&#39;)</span>
+<span class="sd">        &#39;rskbing&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">normalized</span> <span class="o">=</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s1">&#39;NFKD&#39;</span><span class="p">,</span> <span class="n">string</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">normalized</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">,</span> <span class="s1">&#39;ignore&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;ascii&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="underscore"><a class="viewcode-back" href="../../../api_doc/string/inflection.html#hbutils.string.inflection.underscore">[docs]</a><span class="k">def</span> <span class="nf">underscore</span><span class="p">(</span><span class="n">word</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Overview:</span>
+<span class="sd">        Make an underscored, lowercase form from the expression in the string.</span>
+
+<span class="sd">    :param word: Original word.</span>
+
+<span class="sd">    Example::</span>
+<span class="sd">        &gt;&gt;&gt; underscore(&quot;DeviceType&quot;)</span>
+<span class="sd">        &#39;device_type&#39;</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">        As a rule of thumb you can think of :func:`underscore` as the inverse of</span>
+<span class="sd">        :func:`camelize`, though there are cases where that does not hold::</span>
+
+<span class="sd">            &gt;&gt;&gt; camelize(underscore(&quot;IOError&quot;))</span>
+<span class="sd">            &#39;IoError&#39;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">word</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;([A-Z]+)([A-Z][a-z])&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1_\2&#39;</span><span class="p">,</span> <span class="n">word</span><span class="p">)</span>
+    <span class="n">word</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;([a-z\d])([A-Z])&quot;</span><span class="p">,</span> <span class="sa">r</span><span class="s1">&#39;\1_\2&#39;</span><span class="p">,</span> <span class="n">word</span><span class="p">)</span>
+    <span class="n">word</span> <span class="o">=</span> <span class="n">word</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;_&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">word</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
+
+
+<span class="n">_irregular</span><span class="p">(</span><span class="s1">&#39;person&#39;</span><span class="p">,</span> <span class="s1">&#39;people&#39;</span><span class="p">)</span>
+<span class="n">_irregular</span><span class="p">(</span><span class="s1">&#39;man&#39;</span><span class="p">,</span> <span class="s1">&#39;men&#39;</span><span class="p">)</span>
+<span class="n">_irregular</span><span class="p">(</span><span class="s1">&#39;human&#39;</span><span class="p">,</span> <span class="s1">&#39;humans&#39;</span><span class="p">)</span>
+<span class="n">_irregular</span><span class="p">(</span><span class="s1">&#39;child&#39;</span><span class="p">,</span> <span class="s1">&#39;children&#39;</span><span class="p">)</span>
+<span class="n">_irregular</span><span class="p">(</span><span class="s1">&#39;sex&#39;</span><span class="p">,</span> <span class="s1">&#39;sexes&#39;</span><span class="p">)</span>
+<span class="n">_irregular</span><span class="p">(</span><span class="s1">&#39;move&#39;</span><span class="p">,</span> <span class="s1">&#39;moves&#39;</span><span class="p">)</span>
+<span class="n">_irregular</span><span class="p">(</span><span class="s1">&#39;cow&#39;</span><span class="p">,</span> <span class="s1">&#39;kine&#39;</span><span class="p">)</span>
+<span class="n">_irregular</span><span class="p">(</span><span class="s1">&#39;zombie&#39;</span><span class="p">,</span> <span class="s1">&#39;zombies&#39;</span><span class="p">)</span>
+
+<span class="c1"># self added patterns</span>
+<span class="n">_irregular</span><span class="p">(</span><span class="s1">&#39;it&#39;</span><span class="p">,</span> <span class="s1">&#39;they&#39;</span><span class="p">,</span> <span class="s1">&#39;them&#39;</span><span class="p">)</span>
+<span class="n">_irregular</span><span class="p">(</span><span class="s1">&#39;this&#39;</span><span class="p">,</span> <span class="s1">&#39;these&#39;</span><span class="p">)</span>
+<span class="n">_irregular</span><span class="p">(</span><span class="s1">&#39;that&#39;</span><span class="p">,</span> <span class="s1">&#39;those&#39;</span><span class="p">)</span>
+</pre></div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2024, HansBug
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+    <div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    <span class="fa fa-book"> Other Versions</span>
+    v: v0.10.1
+    <span class="fa fa-caret-down"></span>
+  </span>
+        <div class="rst-other-versions">
+                <dl>
+                    <dt>Tags</dt>
+                        <dd><a href="../../../../v0.0.1/index.html">v0.0.1</a></dd>
+                        <dd><a href="../../../../v0.1.0/index.html">v0.1.0</a></dd>
+                        <dd><a href="../../../../v0.1.1/index.html">v0.1.1</a></dd>
+                        <dd><a href="../../../../v0.10.0/index.html">v0.10.0</a></dd>
+                        <dd><a href="inflection.html">v0.10.1</a></dd>
+                        <dd><a href="../../../../v0.2.0/index.html">v0.2.0</a></dd>
+                        <dd><a href="../../../../v0.3.0/index.html">v0.3.0</a></dd>
+                        <dd><a href="../../../../v0.3.1/index.html">v0.3.1</a></dd>
+                        <dd><a href="../../../../v0.3.2/index.html">v0.3.2</a></dd>
+                        <dd><a href="../../../../v0.3.3/index.html">v0.3.3</a></dd>
+                        <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
+                        <dd><a href="../../../../v0.4.1/index.html">v0.4.1</a></dd>
+                        <dd><a href="../../../../v0.4.2/index.html">v0.4.2</a></dd>
+                        <dd><a href="../../../../v0.4.3/index.html">v0.4.3</a></dd>
+                        <dd><a href="../../../../v0.4.4/index.html">v0.4.4</a></dd>
+                        <dd><a href="../../../../v0.4.5/index.html">v0.4.5</a></dd>
+                        <dd><a href="../../../../v0.4.6/index.html">v0.4.6</a></dd>
+                        <dd><a href="../../../../v0.4.7/index.html">v0.4.7</a></dd>
+                        <dd><a href="../../../../v0.5.0/index.html">v0.5.0</a></dd>
+                        <dd><a href="../../../../v0.5.1/index.html">v0.5.1</a></dd>
+                        <dd><a href="../../../../v0.5.2/index.html">v0.5.2</a></dd>
+                        <dd><a href="../../../../v0.6.0/index.html">v0.6.0</a></dd>
+                        <dd><a href="../../../../v0.6.1/index.html">v0.6.1</a></dd>
+                        <dd><a href="../../../../v0.6.10/index.html">v0.6.10</a></dd>
+                        <dd><a href="../../../../v0.6.11/index.html">v0.6.11</a></dd>
+                        <dd><a href="../../../../v0.6.12/index.html">v0.6.12</a></dd>
+                        <dd><a href="../../../../v0.6.13/index.html">v0.6.13</a></dd>
+                        <dd><a href="../../../../v0.6.14/index.html">v0.6.14</a></dd>
+                        <dd><a href="../../../../v0.6.2/index.html">v0.6.2</a></dd>
+                        <dd><a href="../../../../v0.6.3/index.html">v0.6.3</a></dd>
+                        <dd><a href="../../../../v0.6.4/index.html">v0.6.4</a></dd>
+                        <dd><a href="../../../../v0.6.5/index.html">v0.6.5</a></dd>
+                        <dd><a href="../../../../v0.6.6/index.html">v0.6.6</a></dd>
+                        <dd><a href="../../../../v0.6.7/index.html">v0.6.7</a></dd>
+                        <dd><a href="../../../../v0.6.8/index.html">v0.6.8</a></dd>
+                        <dd><a href="../../../../v0.6.9/index.html">v0.6.9</a></dd>
+                        <dd><a href="../../../../v0.7.0/index.html">v0.7.0</a></dd>
+                        <dd><a href="../../../../v0.7.1/index.html">v0.7.1</a></dd>
+                        <dd><a href="../../../../v0.7.2/index.html">v0.7.2</a></dd>
+                        <dd><a href="../../../../v0.7.3/index.html">v0.7.3</a></dd>
+                        <dd><a href="../../../../v0.7.4/index.html">v0.7.4</a></dd>
+                        <dd><a href="../../../../v0.7.5/index.html">v0.7.5</a></dd>
+                        <dd><a href="../../../../v0.7.6/index.html">v0.7.6</a></dd>
+                        <dd><a href="../../../../v0.8.0/index.html">v0.8.0</a></dd>
+                        <dd><a href="../../../../v0.8.1/index.html">v0.8.1</a></dd>
+                        <dd><a href="../../../../v0.8.2/index.html">v0.8.2</a></dd>
+                        <dd><a href="../../../../v0.8.3/index.html">v0.8.3</a></dd>
+                        <dd><a href="../../../../v0.8.4/index.html">v0.8.4</a></dd>
+                        <dd><a href="../../../../v0.8.5/index.html">v0.8.5</a></dd>
+                        <dd><a href="../../../../v0.8.6/index.html">v0.8.6</a></dd>
+                        <dd><a href="../../../../v0.9.0/index.html">v0.9.0</a></dd>
+                        <dd><a href="../../../../v0.9.1/index.html">v0.9.1</a></dd>
+                        <dd><a href="../../../../v0.9.2/index.html">v0.9.2</a></dd>
+                        <dd><a href="../../../../v0.9.3/index.html">v0.9.3</a></dd>
+                </dl>
+                <dl>
+                    <dt>Branches</dt>
+                        <dd><a href="../../../../dev/color/index.html">dev/color</a></dd>
+                        <dd><a href="../../../../dev/dependency/index.html">dev/dependency</a></dd>
+                        <dd><a href="../../../../dev/doc/index.html">dev/doc</a></dd>
+                        <dd><a href="../../../../dev/x/index.html">dev/x</a></dd>
+                        <dd><a href="../../../../main/index.html">main</a></dd>
+                </dl>
+        </div>
+    </div>
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
