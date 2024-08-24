@@ -188,7 +188,9 @@
   <section id="module-hbutils.scale.size">
 <span id="hbutils-scale-size"></span><h1>hbutils.scale.size<a class="headerlink" href="#module-hbutils.scale.size" title="Permalink to this headline">¶</a></h1>
 <dl class="simple">
-<dt>Overview:</dt><dd><p>Useful utilities for memory size units, such as MB/KB/B.</p>
+<dt>Overview:</dt><dd><p>This module provides useful utilities for handling memory size units, such as MB/KB/B.
+It includes functions for converting various size representations to bytes and formatting
+size values as human-readable strings.</p>
 </dd>
 </dl>
 <section id="size-to-bytes">
@@ -196,18 +198,26 @@
 <dl class="py function">
 <dt id="hbutils.scale.size.size_to_bytes">
 <code class="sig-prename descclassname">hbutils.scale.size.</code><code class="sig-name descname">size_to_bytes</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>int<span class="p">, </span>float<span class="p">, </span>str<span class="p">, </span>bitmath.Byte<span class="p">]</span></span></em><span class="sig-paren">)</span> &#x2192; int<a class="reference internal" href="../../_modules/hbutils/scale/size.html#size_to_bytes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.scale.size.size_to_bytes" title="Permalink to this definition">¶</a></dt>
-<dd><dl>
-<dt>Overview:</dt><dd><p>Turn any types of memory size to integer value in bytes.</p>
+<dd><p>Convert any type of memory size representation to an integer value in bytes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>size</strong> (<em>Union</em><em>[</em><em>int</em><em>, </em><em>float</em><em>, </em><em>str</em><em>, </em><em>Byte</em><em>]</em>) – Any type of size information.</p>
 </dd>
-<dt>Arguments:</dt><dd><ul class="simple">
-<li><p>size (<code class="xref py py-obj docutils literal notranslate"><span class="pre">Union[int,</span> <span class="pre">float,</span> <span class="pre">str,</span> <span class="pre">Byte]</span></code>): Any types of size information.</p></li>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Size in bytes as an integer.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+<dl>
+<dt>This function can handle various input types:</dt><dd><ul class="simple">
+<li><p>Integers and floats are treated as byte values.</p></li>
+<li><p>Strings are parsed as size representations (e.g., “23356 KB”).</p></li>
+<li><p>Byte objects from the bitmath library are converted to their byte value.</p></li>
 </ul>
 </dd>
-<dt>Returns:</dt><dd><ul class="simple">
-<li><p>bytes (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>): Int formatted size in bytes.</p></li>
-</ul>
-</dd>
-<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.scale</span> <span class="kn">import</span> <span class="n">size_to_bytes</span>
+<dt>Examples:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.scale</span> <span class="kn">import</span> <span class="n">size_to_bytes</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">size_to_bytes</span><span class="p">(</span><span class="mi">23344</span><span class="p">)</span>
 <span class="go">23344</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">size_to_bytes</span><span class="p">(</span><span class="s1">&#39;23356 KB&#39;</span><span class="p">)</span>
@@ -228,25 +238,29 @@
 <h2>size_to_bytes_str<a class="headerlink" href="#size-to-bytes-str" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
 <dt id="hbutils.scale.size.size_to_bytes_str">
-<code class="sig-prename descclassname">hbutils.scale.size.</code><code class="sig-name descname">size_to_bytes_str</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>int<span class="p">, </span>float<span class="p">, </span>str<span class="p">, </span>bitmath.Byte<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">precision</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">system</span><span class="o">=</span><span class="default_value">'nist'</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/scale/size.html#size_to_bytes_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.scale.size.size_to_bytes_str" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Overview:</dt><dd><p>Turn any types of memory size to string value in the best unit.</p>
-</dd>
-</dl>
+<code class="sig-prename descclassname">hbutils.scale.size.</code><code class="sig-name descname">size_to_bytes_str</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">size</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>int<span class="p">, </span>float<span class="p">, </span>str<span class="p">, </span>bitmath.Byte<span class="p">]</span></span></em>, <em class="sig-param"><span class="n">precision</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">sigfigs</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>int<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">system</span><span class="p">:</span> <span class="n">Literal<span class="p">[</span>nist<span class="p">, </span>si<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">'nist'</span></em><span class="sig-paren">)</span> &#x2192; str<a class="reference internal" href="../../_modules/hbutils/scale/size.html#size_to_bytes_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#hbutils.scale.size.size_to_bytes_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert any type of memory size to a string value in the most appropriate unit.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>size</strong> – Any types of size information.</p></li>
-<li><p><strong>precision</strong> – Precsion for float values. Default is <code class="docutils literal notranslate"><span class="pre">None</span></code> which means just show the original float number.</p></li>
+<li><p><strong>size</strong> (<em>Union</em><em>[</em><em>int</em><em>, </em><em>float</em><em>, </em><em>str</em><em>, </em><em>Byte</em><em>]</em>) – Any type of size information.</p></li>
+<li><p><strong>precision</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – Precision for float values. Default is None, which shows the original float number.</p></li>
+<li><p><strong>sigfigs</strong> (<em>Optional</em><em>[</em><em>int</em><em>]</em>) – Number of significant figures to use. If specified, overrides precision.</p></li>
+<li><p><strong>system</strong> (<em>Literal</em><em>[</em><em>'nist'</em><em>, </em><em>'si'</em><em>]</em>) – The unit system to use, either <code class="docutils literal notranslate"><span class="pre">nist</span></code> (binary) or <code class="docutils literal notranslate"><span class="pre">si</span></code> (decimal). Default is <code class="docutils literal notranslate"><span class="pre">nist</span></code>.</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>String formatted size value in the best unit.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
+<p>This function provides a human-readable representation of size values. It automatically
+chooses the most appropriate unit (B, KB/KiB, MB/MiB, etc.) based on the size.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">system</span></code> parameter allows choosing between NIST (binary, e.g., KiB) and SI (decimal, e.g., KB) units.</p>
 <dl>
-<dt>Returns:</dt><dd><ul class="simple">
-<li><p>bytes (<code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code>): String formatted size value in the best unit.</p></li>
-</ul>
-</dd>
-<dt>Examples::</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.scale</span> <span class="kn">import</span> <span class="n">size_to_bytes_str</span>
+<dt>Examples:</dt><dd><div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">hbutils.scale</span> <span class="kn">import</span> <span class="n">size_to_bytes_str</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">size_to_bytes_str</span><span class="p">(</span><span class="mi">23344</span><span class="p">)</span>
 <span class="go">&#39;22.796875 KiB&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">size_to_bytes_str</span><span class="p">(</span><span class="s1">&#39;23356 KB&#39;</span><span class="p">)</span>
@@ -374,11 +388,10 @@
                 </dl>
                 <dl>
                     <dt>Branches</dt>
-                        <dd><a href="../../../dev/size/api_doc/scale/size.html">dev/size</a></dd>
+                        <dd><a href="size.html">main</a></dd>
                         <dd><a href="../../../dev/color/api_doc/scale/size.html">dev/color</a></dd>
                         <dd><a href="../../../dev/dependency/api_doc/scale/size.html">dev/dependency</a></dd>
                         <dd><a href="../../../dev/x/api_doc/scale/size.html">dev/x</a></dd>
-                        <dd><a href="size.html">main</a></dd>
                 </dl>
         </div>
     </div>
