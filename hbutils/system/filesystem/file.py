@@ -1,7 +1,8 @@
 """
 Overview:
-    Functions for file processing.
+    This module provides functions for file processing, including creating files and performing glob operations.
 """
+
 import glob as gb
 import os
 import pathlib
@@ -14,18 +15,26 @@ __all__ = [
 
 def touch(file: str, exist_ok: bool = True, makedirs: bool = True):
     """
-    Overview:
-        Touch the file at given path.
-        Just like the ``touch`` command in unix system.
+    Create a file at the specified path, similar to the Unix 'touch' command.
 
-    :param file: Path of the file.
-    :param exist_ok: Exist is okay or not.
-    :param makedirs: Create directories when necessary.
+    This function creates an empty file at the given path. If the file already exists,
+    it updates the file's access and modification times. It can also create necessary
+    parent directories if they don't exist.
+
+    :param file: Path of the file to be created or updated.
+    :type file: str
+    :param exist_ok: If True, don't raise an error if the file already exists. Default is True.
+    :type exist_ok: bool
+    :param makedirs: If True, create parent directories when necessary. Default is True.
+    :type makedirs: bool
+
+    :raises FileExistsError: If the file already exists and exist_ok is False.
+    :raises OSError: If there's an error creating the file or directories.
 
     .. note::
-        You can use this like ``touch`` command on unix.
+        This function mimics the behavior of the 'touch' command in Unix systems.
 
-    Examples::
+    Examples:
         >>> import os
         >>> from hbutils.system import touch
         >>> os.listdir('.')
@@ -46,23 +55,29 @@ def touch(file: str, exist_ok: bool = True, makedirs: bool = True):
 
 def glob(*items) -> Iterator[str]:
     """
-    Overview:
-        Glob filter by the given ``items``.
+    Perform glob operations on the given patterns and return an iterator of matching file paths.
 
-    :param items: Filter items.
-    :return: Filtered existing paths.
+    This function allows for flexible file matching using wildcard patterns. It can handle
+    multiple patterns and performs recursive matching by default.
+
+    :param items: One or more glob patterns to match against file paths.
+    :type items: str
+
+    :return: An iterator yielding paths of files that match the given patterns.
+    :rtype: Iterator[str]
 
     .. note::
-        :func:`glob` is different from native ``glob.glob``, for its return value is a generator instead of list.
+        This function differs from the native `glob.glob` in that it returns a generator
+        instead of a list, which can be more memory-efficient for large directory structures.
 
-    Examples::
+    Examples:
         >>> from hbutils.system import glob
         >>>
         >>> list(glob('*.md'))  # simple filter
         ['CONTRIBUTING.md', 'README.md']
         >>> list(glob('*.md', '*.txt'))  # multiple filter
         ['CONTRIBUTING.md', 'README.md', 'requirements-test.txt', 'requirements-doc.txt', 'requirements.txt']
-        >>> print(*glob('hbutils/system/**/*.py'), sep=\'\\n\')  # nested filter
+        >>> print(*glob('hbutils/system/**/*.py'), sep='\\n')  # nested filter
         hbutils/system/__init__.py
         hbutils/system/filesystem/directory.py
         hbutils/system/filesystem/file.py
