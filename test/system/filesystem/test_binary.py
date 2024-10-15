@@ -14,6 +14,11 @@ class TestSystemFilesystemBinary:
             ('igm/xztar_template-simple.tar.xz', True),
             ('igm/LICENSE', False),
             ('igm/README.md', False),
+            ('chinese.txt', False),
+            ('english.txt', False),
+            ('japanese.txt', False),
+            ('korean.txt', False),
+            ('russian.txt', False),
             ('empty', False),
         ]
     )
@@ -28,6 +33,11 @@ class TestSystemFilesystemBinary:
             ('igm/xztar_template-simple.tar.xz', False),
             ('igm/LICENSE', True),
             ('igm/README.md', True),
+            ('chinese.txt', True),
+            ('english.txt', True),
+            ('japanese.txt', True),
+            ('korean.txt', True),
+            ('russian.txt', True),
             ('empty', True),
         ]
     )

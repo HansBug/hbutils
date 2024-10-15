@@ -106,7 +106,7 @@ jobs:
           dist/git_raw --version
           ! dist/git_raw lfs version
       - name: Upload dist directory
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: git-exec-${{ env.OS_NAME }}
           path: dist
@@ -189,7 +189,7 @@ jobs:
         run: |
           brew install tree cloc wget curl make zip
       - name: Download dist directory
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: git-exec-${{ env.OS_NAME }}
           path: dist
