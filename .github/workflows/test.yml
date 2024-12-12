@@ -132,6 +132,9 @@ jobs:
           - 'pypy-3.8'
           - 'pypy-3.9'
           - 'pypy-3.10'
+        exclude:
+          - os: 'windows-latest'
+            python-version: 'pypy-3.9'
 
     steps:
       - name: Get system version for Linux
