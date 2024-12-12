@@ -129,12 +129,14 @@ jobs:
           - '3.10'
           - '3.11'
           - '3.12'
+          - '3.13'
           - 'pypy-3.8'
           - 'pypy-3.9'
           - 'pypy-3.10'
-        exclude:
-          - os: 'windows-latest'
-            python-version: 'pypy-3.10'
+          - 'pypy-3.11'
+#        exclude:
+#          - os: 'windows-latest'
+#            python-version: 'pypy-3.10'
 
     steps:
       - name: Get system version for Linux
