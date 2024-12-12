@@ -24,15 +24,14 @@ def telnet(host, port: int, timeout: float = 5.0) -> bool:
         sock = None
         try:
             sock = socket.create_connection((host, port), timeout)
+            return True
         finally:
-            if sock is not None:
+            if sock:
                 sock.close()
     except (ConnectionRefusedError, socket.timeout):
         # ConnectionRefusedError is for Linux and macOS
         # socket.timeout is for Windows
         return False
-    else:
-        return True
 
 
 def wait_for_port_online(host, port: int, timeout: Optional[float] = 5, interval: float = 0.3):
