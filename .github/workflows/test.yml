@@ -90,7 +90,6 @@ jobs:
       - name: Build Git Exec
         env:
           CI: 'true'
-          WORKERS: ''
         shell: bash
         run: |
           make tbuild IS_WIN=${{ env.IS_WIN }} IS_MAC=${{ env.IS_MAC }}
@@ -226,7 +225,6 @@ jobs:
       - name: Run unittest
         env:
           CI: 'true'
-          WORKERS: ''
         shell: bash
         run: |
           make unittest IS_WIN=${{ env.IS_WIN }} IS_MAC=${{ env.IS_MAC }}
