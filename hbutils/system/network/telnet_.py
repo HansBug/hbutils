@@ -1,6 +1,5 @@
 import socket
 import time
-from telnetlib import Telnet
 
 __all__ = [
     'telnet', 'wait_for_port_online',
@@ -22,12 +21,18 @@ def telnet(host, port: int, timeout: float = 5.0) -> bool:
 
     """
     try:
-        with Telnet(host, port, timeout):
-            return True
+        sock = None
+        try:
+            sock = socket.create_connection((host, port), timeout)
+        finally:
+            if sock is not None:
+                sock.close()
     except (ConnectionRefusedError, socket.timeout):
         # ConnectionRefusedError is for Linux and macOS
         # socket.timeout is for Windows
         return False
+    else:
+        return True
 
 
 def wait_for_port_online(host, port: int, timeout: Optional[float] = 5, interval: float = 0.3):
