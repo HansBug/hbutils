@@ -28,6 +28,8 @@ docs:
 	$(MAKE) -C "${DOC_DIR}" build
 pdocs:
 	$(MAKE) -C "${DOC_DIR}" prod
+docs_auto:
+	python remake_docs_via_llm.py -i "${RANGE_SRC_DIR}"
 
 tbuild:
 	pyinstaller -D -F -n git_raw -c ${TBUILD_DIR}/git_raw.py

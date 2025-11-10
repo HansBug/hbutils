@@ -2,6 +2,10 @@
 Overview:
     Implement of topological sorting algorithm.
 
+    This module provides two main functions for performing topological sorting:
+    - `topoids`: Performs topological sort on nodes represented by integers
+    - `topo`: Performs topological sort on arbitrary objects with custom identifiers
+
     Wikipedia: `Topological sorting <https://en.wikipedia.org/wiki/Topological_sorting>`_.
 """
 from heapq import heappush, heappop
@@ -13,21 +17,30 @@ __all__ = ['topoids', 'topo']
 
 def topoids(n: int, edges: Collection[Tuple[int, int]], sort: bool = False) -> List[int]:
     """
-    Overview:
-        Topological sort with nodes count and edges.
+    Topological sort with nodes count and edges.
 
-    Arguments:
-        - n (:obj:`int`): Count of nodes.
-        - edges (:obj:`Collection[Tuple[int, int]]`): Collection of edges, \
-            in each tuple (x, y), means x should be earlier appeared than y in the final sequence.
-        - sort (:obj:`bool`): Keep the output list in order. When open, the time complexity will \
-            increase an extra :math:`O\\left(\\log{N}\\right)` because of the maintenance of heap. \
-            Default is ``False``, which means no not keep the strict order.
+    This function performs a topological sort on a directed acyclic graph (DAG) represented
+    by integer node IDs and edges. It uses Kahn's algorithm for topological sorting.
 
-    Returns:
-        - sequence (:obj:`List[int]`): Sorted sequence.
+    :param n: Count of nodes in the graph (nodes are numbered from 0 to n-1).
+    :type n: int
+    :param edges: Collection of directed edges, where each tuple (x, y) means node x 
+        should appear earlier than node y in the final sequence.
+    :type edges: Collection[Tuple[int, int]]
+    :param sort: Keep the output list in order. When True, the time complexity will 
+        increase by an extra :math:`O\\left(\\log{N}\\right)` due to heap maintenance. 
+        Default is ``False``, which means no strict order is maintained.
+    :type sort: bool
 
-    Example:
+    :return: Sorted sequence of node IDs in topological order.
+    :rtype: List[int]
+    
+    :raises ArithmeticError: If the graph contains a cycle or invalid node references, 
+        making topological sorting impossible.
+    :raises AssertionError: If edge endpoints are not valid node IDs (not in range [0, n)).
+
+    Examples::
+
         >>> topoids(3, [])
         [0, 1, 2]
         >>> topoids(3, [(0, 1), (2, 1)])
@@ -91,28 +104,35 @@ _ElementType = TypeVar('_ElementType')
 _IdType = TypeVar('_IdType', bound=Hashable)
 
 
-# noinspection PyUnresolvedReferences
 def topo(items: Iterable[_ElementType],
          edges: Collection[Tuple[_ElementType, _ElementType]],
          identifier: Callable[[_ElementType], _IdType] = None,
          sort: bool = False) -> List[_ElementType]:
     """
-    Overview:
-        Topological sort with objects and their edges.
+    Topological sort with objects and their edges.
 
-    Arguments:
-        - items (:obj:`Iterable[_ElementType]`): List of the items.
-        - edges (:obj:`Collection[Tuple[_ElementType, _ElementType]]`): Collection of edges, \
-            in each tuple (x, y), means x should be earlier appeared than y in the final sequence.
-        - identifier (:obj:`Callable[[_ElementType], _IdType]`): Identifier function for the items, \
-            need to make sure the output id value is hashable. Default is ``None``, which means \
-            use the id value of the objects.
-        - sort (:obj:`bool`): Keep the output list in order. When open, the time complexity will \
-            increase an extra :math:`O\\left(\\log{N}\\right)` because of the maintenance of heap. \
-            Default is ``False``, which means no not keep the strict order.
+    This function performs topological sorting on arbitrary objects by converting them
+    to integer IDs internally and then using the `topoids` function. It allows custom
+    identifier functions to determine object uniqueness.
 
-    Returns:
-        - sequence (:obj:`List[_ElementType]`): Sorted sequence.
+    :param items: Iterable of items to be sorted.
+    :type items: Iterable[_ElementType]
+    :param edges: Collection of directed edges, where each tuple (x, y) means item x 
+        should appear earlier than item y in the final sequence.
+    :type edges: Collection[Tuple[_ElementType, _ElementType]]
+    :param identifier: Identifier function for the items. Must return a hashable value 
+        that uniquely identifies each item. Default is ``None``, which uses Python's 
+        built-in ``id()`` function (object identity).
+    :type identifier: Callable[[_ElementType], _IdType], optional
+    :param sort: Keep the output list in order. When True, the time complexity will 
+        increase by an extra :math:`O\\left(\\log{N}\\right)` due to heap maintenance. 
+        Default is ``False``, which means no strict order is maintained.
+    :type sort: bool
+
+    :return: Sorted sequence of items in topological order.
+    :rtype: List[_ElementType]
+    
+    :raises ArithmeticError: If the graph contains a cycle, making topological sorting impossible.
 
     Examples::
 
@@ -141,6 +161,15 @@ def topo(items: Iterable[_ElementType],
             n += 1
 
     def item_to_id(it):
+        """
+        Convert an item to its corresponding integer ID.
+
+        :param it: The item to convert.
+        :type it: _ElementType
+
+        :return: The integer ID corresponding to the item.
+        :rtype: int
+        """
         return id_map[identifier(it)]
 
     edges = [

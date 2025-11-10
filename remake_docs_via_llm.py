@@ -18,8 +18,12 @@ import glob
 import os
 import pathlib
 from functools import lru_cache
+from operator import itemgetter
+from typing import Optional, Tuple, List
 
 from openai import OpenAI
+
+from hbutils.string import format_tree
 
 
 @lru_cache()
@@ -28,7 +32,8 @@ def get_client() -> OpenAI:
     Create and return an OpenAI client instance.
 
     This function initializes an OpenAI client using environment variables
-    for API key and base URL configuration.
+    for API key and base URL configuration. The result is cached to avoid
+    creating multiple client instances.
 
     :return: Configured OpenAI client instance.
     :rtype: OpenAI
@@ -41,6 +46,91 @@ def get_client() -> OpenAI:
     return OpenAI(
         api_key=os.environ['OPENAI_API_KEY'],
         base_url=os.environ['OPENAI_SITE'],
+    )
+
+
+def build_file_tree(root_path: str) -> Tuple[str, List]:
+    """
+    Build a tree structure of all .py files under the given path.
+
+    This function recursively scans the directory structure starting from
+    root_path and creates a nested tree representation of all Python files
+    and directories containing Python files.
+
+    :param root_path: Root directory path to scan.
+    :type root_path: str
+
+    :return: A tuple containing the root path name and its children tree structure.
+    :rtype: Tuple[str, List]
+
+    Example::
+        >>> tree = build_file_tree('./my_project')
+        >>> # Returns ('my_project', [('module.py', []), ('subdir', [...])])
+    """
+    root_path = pathlib.Path(root_path)
+
+    def build_node(path):
+        """
+        Recursively build tree nodes.
+
+        :param path: Current path to process.
+        :type path: pathlib.Path
+
+        :return: Tuple of (name, children) or None if not a Python file/directory.
+        :rtype: Optional[Tuple[str, List]]
+        """
+        if path.is_file() and path.suffix == '.py':
+            return path.name, []
+        elif path.is_dir():
+            children = []
+            try:
+                # Get all items in the directory
+                for item in sorted(path.iterdir()):
+                    if item.is_file() and item.suffix == '.py':
+                        children.append((item.name, []))
+                    elif item.is_dir():
+                        # Recursively check if subdirectory contains .py files
+                        sub_node = build_node(item)
+                        if sub_node[1]:  # If subdirectory has content
+                            children.append(sub_node)
+                return path.name, children
+            except PermissionError:
+                return f"{path.name} (Permission Denied)", []
+        return None
+
+    nx = build_node(root_path)
+    return str(root_path), nx[1]
+
+
+def dir_tree_text(root_path: str, encoding: Optional[str] = None) -> str:
+    """
+    Display the tree structure of all .py files under the given path as text.
+
+    This function generates a formatted text representation of the directory
+    tree containing Python files, suitable for display or logging.
+
+    :param root_path: Root directory path to scan.
+    :type root_path: str
+    :param encoding: Encoding format, defaults to None (uses system default encoding).
+    :type encoding: Optional[str]
+
+    :return: Formatted tree structure as a string.
+    :rtype: str
+
+    Example::
+        >>> tree_text = dir_tree_text('./my_project')
+        >>> print(tree_text)
+        my_project
+        ├── __init__.py
+        ├── module.py
+        └── subdir
+            └── another.py
+    """
+    return format_tree(
+        node=build_file_tree(root_path),
+        format_node=itemgetter(0),
+        get_children=itemgetter(1),
+        encoding=encoding
     )
 
 
@@ -89,7 +179,8 @@ def _unwrap_python_code(code_output: str) -> str:
     Remove markdown code block wrappers from the output.
 
     This function strips markdown code fence markers (```) from the beginning
-    and end of the code output if they exist.
+    and end of the code output if they exist. It handles both generic and
+    language-specific code fences.
 
     :param code_output: The code string potentially wrapped in markdown code blocks.
     :type code_output: str
@@ -100,6 +191,8 @@ def _unwrap_python_code(code_output: str) -> str:
     Example::
         >>> _unwrap_python_code('```python\\nprint("hello")\\n```')
         'print("hello")'
+        >>> _unwrap_python_code('print("hello")')
+        'print("hello")'
     """
     code_output = code_output.strip()
     lines = code_output.splitlines(keepends=False)
@@ -108,15 +201,19 @@ def _unwrap_python_code(code_output: str) -> str:
     return os.linesep.join(lines)
 
 
-def get_docs(code_text: str) -> str:
+def get_docs(code_text: str, directory_tree: Optional[str] = None) -> str:
     """
     Generate documentation for the provided Python code using OpenAI API.
 
     This function sends the provided Python code to OpenAI's language model
     and receives back the same code enhanced with comprehensive documentation.
+    Optionally includes directory tree context to help the model understand
+    the project structure.
 
     :param code_text: The Python source code to document.
     :type code_text: str
+    :param directory_tree: Optional directory tree structure for context.
+    :type directory_tree: Optional[str]
 
     :return: The Python code with added documentation.
     :rtype: str
@@ -128,6 +225,10 @@ def get_docs(code_text: str) -> str:
         >>> # documented_code now contains the function with docstrings
     """
     client = get_client()
+    if directory_tree:
+        code_text = (f'{code_text}\n\n'
+                     f'And this is the directory tree related to this file, you can use it as reference:\n{directory_tree}')
+
     response = client.chat.completions.create(
         model=os.environ.get('OPENAI_MODEL_NAME', "claude-sonnet-4-5"),
         messages=[
@@ -140,25 +241,37 @@ def get_docs(code_text: str) -> str:
     return _unwrap_python_code(response.choices[0].message.content)
 
 
-def make_doc_for_file(file: str) -> None:
+def make_doc_for_file(file: str, include_directory_tree: Optional[bool] = None) -> None:
     """
     Generate and write documentation for a single Python file.
 
     This function reads a Python file, generates documentation for it using
     the OpenAI API, and overwrites the original file with the documented version.
+    For __init__.py files, the directory tree is automatically included as context
+    unless explicitly disabled.
 
     :param file: Path to the Python file to document.
     :type file: str
+    :param include_directory_tree: Whether to include directory tree as context.
+                                   Defaults to True for __init__.py, False otherwise.
+    :type include_directory_tree: Optional[bool]
 
     :raises FileNotFoundError: If the specified file does not exist.
     :raises PermissionError: If the file cannot be written to.
 
     Example::
         >>> make_doc_for_file('my_script.py')
+        Make docs for 'my_script.py' ...
         >>> # my_script.py now contains enhanced documentation
     """
+    if include_directory_tree is None:
+        include_directory_tree = os.path.basename(file) == '__init__.py'
+
     print(f'Make docs for {file!r} ...')
-    new_docs = get_docs(pathlib.Path(file).read_text())
+    new_docs = get_docs(
+        code_text=pathlib.Path(file).read_text(),
+        directory_tree=dir_tree_text(os.path.dirname(file)) if include_directory_tree else None,
+    )
     with open(file, 'w') as f:
         print(new_docs, file=f)
 
@@ -169,6 +282,8 @@ def make_doc_file_directory(directory: str) -> None:
 
     This function walks through the specified directory and all its subdirectories,
     finding all Python (.py) files and generating documentation for each one.
+    The process is performed recursively, documenting all Python files in the
+    entire directory tree.
 
     :param directory: Path to the directory containing Python files.
     :type directory: str
@@ -178,6 +293,8 @@ def make_doc_file_directory(directory: str) -> None:
 
     Example::
         >>> make_doc_file_directory('./my_project')
+        Make docs for './my_project/module.py' ...
+        Make docs for './my_project/subdir/another.py' ...
         >>> # All .py files in my_project and subdirectories are now documented
     """
     for file in glob.glob(os.path.join(directory, '**', '*.py'), recursive=True):
