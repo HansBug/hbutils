@@ -99,7 +99,7 @@ def build_file_tree(root_path: str) -> Tuple[str, List]:
         return None
 
     nx = build_node(root_path)
-    return str(root_path), nx[1]
+    return os.path.relpath(os.path.normpath(str(root_path)), os.path.abspath('.')), nx[1]
 
 
 def dir_tree_text(root_path: str, encoding: Optional[str] = None) -> str:

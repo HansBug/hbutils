@@ -1,3 +1,13 @@
+"""
+Collection utility module providing functions for sequence manipulation and grouping operations.
+
+This module offers utilities for working with collections, including:
+- Removing duplicates while preserving order
+- Grouping elements by custom criteria with optional post-processing
+
+The functions are designed to be type-safe and work with various sequence types.
+"""
+
 from typing import Union, TypeVar, Sequence, Callable, Optional, Dict, List, Iterable
 
 __all__ = [
@@ -10,11 +20,12 @@ _ElementType = TypeVar('_ElementType')
 
 def unique(s: Union[Sequence[_ElementType]]) -> Sequence[_ElementType]:
     """
-    Overview:
-        Unique all the values in the given ``s``, preserving its original order.
+    Unique all the values in the given ``s``, preserving its original order.
 
     :param s: Original sequence.
+    :type s: Union[Sequence[_ElementType]]
     :return: Unique sequence, with the original type.
+    :rtype: Sequence[_ElementType]
 
     Examples::
         >>> from hbutils.collection import unique
@@ -43,14 +54,17 @@ def group_by(s: Iterable[_ElementType],
              key: Callable[[_ElementType], _GroupType],
              gfunc: Optional[Callable[[List[_ElementType]], _ResultType]] = None) -> Dict[_GroupType, _ResultType]:
     """
-    Overview:
-        Divide the elements into groups.
+    Divide the elements into groups.
 
-    :param s: Elements.
-    :param key: Group key, should be a callable object.
+    :param s: Elements to be grouped.
+    :type s: Iterable[_ElementType]
+    :param key: Group key, should be a callable object that extracts the grouping key from each element.
+    :type key: Callable[[_ElementType], _GroupType]
     :param gfunc: Post-process function for groups, should be a callable object. Default is ``None`` which means \
-        no post-processing will be performed.
-    :return: Grouping result.
+        no post-processing will be performed and raw lists will be returned.
+    :type gfunc: Optional[Callable[[List[_ElementType]], _ResultType]]
+    :return: Grouping result as a dictionary mapping group keys to processed group values.
+    :rtype: Dict[_GroupType, _ResultType]
 
     Examples::
         >>> from hbutils.collection import group_by
