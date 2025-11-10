@@ -88,6 +88,7 @@ else:
             :param ignore_errors: If True, errors during removal will be ignored.
             :type ignore_errors: bool
             """
+
             def onerror(func, path, exc_info):
                 """
                 Error handler for shutil.rmtree.

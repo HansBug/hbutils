@@ -105,6 +105,7 @@ def _get_default_external_preprocess(enum_class: Type[_EnumType]) -> Callable:
     :return: A function that raises TypeError for any input.
     :rtype: Callable
     """
+
     def _default_external_preprocess(data):
         """
         Raise a TypeError for data that cannot be processed.

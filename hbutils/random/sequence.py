@@ -12,7 +12,8 @@ _random_inst = getattr(random_module, '_inst')
 _ElementType = TypeVar('_ElementType')
 
 
-def shuffle(seq: Collection[_ElementType], *, random: Optional[random_module.Random] = None) -> Collection[_ElementType]:
+def shuffle(seq: Collection[_ElementType], *, random: Optional[random_module.Random] = None) -> Collection[
+    _ElementType]:
     """
     Shuffle the given collection and return a new shuffled collection of the same type.
 

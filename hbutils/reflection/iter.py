@@ -90,6 +90,7 @@ def _yield_progressive_for(iterable: Iterable[_ItemType], n: int, offset: int) -
     :return: Iterator yielding tuples of progressively selected items.
     :rtype: Iterator[Tuple[_ItemType, ...]]
     """
+
     def _recursion(deep, iters, selections: list):
         """
         Recursively generate progressive combinations.

@@ -30,8 +30,8 @@ class TextAligner:
     """
 
     def __init__(self, line_rstrip: bool = True, keep_empty_tail: bool = False,
-                 text_func: Optional[Callable[[str], str]] = None, 
-                 line_func: Optional[Callable[[str], str]] = None, 
+                 text_func: Optional[Callable[[str], str]] = None,
+                 line_func: Optional[Callable[[str], str]] = None,
                  ls_func: Optional[Callable[[List[str]], List[str]]] = None):
         """
         Constructor of :class:`TextAligner`.

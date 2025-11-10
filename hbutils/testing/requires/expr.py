@@ -60,7 +60,7 @@ class PipVersionInfo(VersionInfo):
     This class extends VersionInfo to provide both pip version checking and
     the ability to check versions of arbitrary installed packages.
     """
-    
+
     def __call__(self, name: str) -> VersionInfo:
         """
         Get version information for a specific package.

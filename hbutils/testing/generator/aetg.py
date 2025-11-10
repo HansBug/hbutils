@@ -33,7 +33,7 @@ class _NameValueTuple(IComparable):
     This class is used to store and compare parameter name-value pairs
     during test case generation.
     """
-    
+
     def __init__(self, name, value):
         """
         Initialize a name-value tuple.
@@ -67,7 +67,7 @@ class _AETGValuePair(IComparable):
     This class is used to represent and compare combinations of parameter values
     that need to be covered in test cases.
     """
-    
+
     def __init__(self, *pairs):
         """
         Initialize an AETG value pair.

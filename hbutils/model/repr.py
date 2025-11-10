@@ -12,7 +12,8 @@ __all__ = [
 ]
 
 
-def get_repr_info(cls: type, args: List[Tuple[str, Union[Callable[[], Any], Tuple[Callable[[], Any], Callable[[], bool]]], Callable[[], bool]]]) -> str:
+def get_repr_info(cls: type, args: List[
+    Tuple[str, Union[Callable[[], Any], Tuple[Callable[[], Any], Callable[[], bool]]], Callable[[], bool]]]) -> str:
     """
     Get representation information for object.
     

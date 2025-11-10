@@ -159,9 +159,9 @@ class MatrixGenerator(BaseGenerator):
 
             return False
 
-        def _matrix_recursion(depth: int, dict_value: Mapping[str, Any], 
-                            values: Mapping[str, Any], 
-                            excludes: List[Mapping[str, Any]]) -> Iterator[Mapping[str, Any]]:
+        def _matrix_recursion(depth: int, dict_value: Mapping[str, Any],
+                              values: Mapping[str, Any],
+                              excludes: List[Mapping[str, Any]]) -> Iterator[Mapping[str, Any]]:
             """
             Recursively generate matrix combinations.
             

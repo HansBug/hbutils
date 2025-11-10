@@ -47,7 +47,8 @@ def _round_mapper(min_: float, max_: float) -> Callable[[float], float]:
     return _func
 
 
-def _range_mapper(min_: Optional[float], max_: Optional[float], warning: Optional[Callable] = None) -> Callable[[float], float]:
+def _range_mapper(min_: Optional[float], max_: Optional[float], warning: Optional[Callable] = None) -> Callable[
+    [float], float]:
     """
     Create a mapper function that clamps values to a specified range with optional warning.
 

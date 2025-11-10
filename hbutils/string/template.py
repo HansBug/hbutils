@@ -60,7 +60,7 @@ def env_template(template: str, environ: Optional[Mapping[str, Any]] = None,
         This class extends dict to provide default value functionality when a key
         is not found, similar to collections.defaultdict but with a fixed default value.
         """
-        
+
         def __getitem__(self, item):
             """
             Get an item from the dictionary, returning the default value if not found.
