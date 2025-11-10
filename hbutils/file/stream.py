@@ -1,6 +1,9 @@
 """
 Overview:
-    Utilities for processing streams.
+    Utilities for processing streams. This module provides helper functions for managing
+    file stream operations, including cursor position management, file size retrieval,
+    and end-of-file detection. All functions work with both text and binary file streams
+    that are seekable.
 """
 import io
 import os
@@ -15,10 +18,19 @@ __all__ = [
 @contextmanager
 def keep_cursor(file: Union[TextIO, BinaryIO]) -> ContextManager:
     """
-    Overview:
-        Keep the cursor of the given file within a with-block.
+    Keep the cursor of the given file within a with-block.
+    
+    This context manager saves the current cursor position of a file stream before
+    entering the context and restores it when exiting, regardless of any operations
+    performed within the context.
 
     :param file: File which cursor need to be kept.
+    :type file: Union[TextIO, BinaryIO]
+    
+    :return: A context manager that preserves the file cursor position.
+    :rtype: ContextManager
+    
+    :raises OSError: If the given file is not seekable.
 
     Examples::
         >>> import io
@@ -56,11 +68,19 @@ def keep_cursor(file: Union[TextIO, BinaryIO]) -> ContextManager:
 
 def getsize(file: Union[TextIO, BinaryIO]) -> int:
     """
-    Overview:
-        Get the size of the given ``file`` stream.
+    Get the size of the given file stream.
+    
+    This function attempts to retrieve the file size by first trying to use os.stat()
+    on the file descriptor. If that fails (e.g., for in-memory streams), it seeks to
+    the end of the file to determine the size, then restores the original cursor position.
 
     :param file: File which size need to access.
-    :return: File's size.
+    :type file: Union[TextIO, BinaryIO]
+    
+    :return: File's size in bytes (for binary files) or characters (for text files).
+    :rtype: int
+    
+    :raises OSError: If the given file is not seekable.
 
     Examples::
         >>> import io
@@ -89,11 +109,19 @@ def getsize(file: Union[TextIO, BinaryIO]) -> int:
 
 def is_eof(file: Union[TextIO, BinaryIO]) -> bool:
     """
-    Overview:
-        Check if the file meets its end.
+    Check if the file cursor is at the end of the file.
+    
+    This function determines whether the current cursor position is at the end of the
+    file by comparing the current position (from tell()) with the total file size
+    (from getsize()).
 
     :param file: File to be checked.
-    :return: Is EOF(end of file) or not.
+    :type file: Union[TextIO, BinaryIO]
+    
+    :return: True if the cursor is at the end of file, False otherwise.
+    :rtype: bool
+    
+    :raises OSError: If the given file is not seekable.
 
     Examples::
         >>> import io

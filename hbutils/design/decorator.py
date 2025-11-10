@@ -13,14 +13,29 @@ from .singleton import SingletonMark
 _NO_FUNC = SingletonMark('NO_FUNC_FOR_DECORATOR')
 
 
-def decolize(deco: Callable[..., Callable]):
+def decolize(deco: Callable[..., Callable]) -> Callable:
     """
-    Overview:
-        Decorator for decorator, make a decorator function with keyword-arguments \
-        usable as the real python decorator.
+    Decorator for decorator, make a decorator function with keyword-arguments \
+    usable as the real python decorator.
 
-    Arguments:
-        - deco (:obj:`Callable[..., Callable]`): Decorator function to be decorated.
+    This utility allows decorators with parameters to be used both as simple decorators
+    (without parentheses) and as parameterized decorators (with parentheses and arguments).
+
+    :param deco: Decorator function to be decorated. The first parameter should be the
+                 function to be decorated, followed by optional keyword arguments.
+    :type deco: Callable[..., Callable]
+    
+    :return: A new decorator that can be used with or without parameters.
+    :rtype: Callable
+
+    .. tip::
+        This decorator can be useful when building a decorator with parameters.
+
+    .. note::
+        In the decorated decorator, **only keyword arguments are supported**. \
+        So make sure the original decorator function's parameters (except ``func``) are \
+        all keyword supported, and do not try to use positional arguments when using it to \
+        decorate another function.
 
     Examples::
 
@@ -45,22 +60,22 @@ def decolize(deco: Callable[..., Callable]):
         17  # ((1 + 2 * 2) * 3) * 1 + 2 == 17
         >>> _func_2(1, 2, 3)
         32  # ((1 + 2 * 2) * 3) * 2 + 2 == 32
-
-    .. tip::
-
-        This decorator can be useful when build a decorator with parameters.
-
-    .. note::
-
-        In the decorated decorator, **only keyword arguments are supported**. \
-        So make sure the original decorator function's parameter (except ``func``) are \
-        all keyword supported, and do not try to use positional arguments when use it to \
-        decorator another function.
-
     """
 
     @wraps(deco)
-    def _new_deco(func: Optional[Callable] = _NO_FUNC, **kwargs):
+    def _new_deco(func: Optional[Callable] = _NO_FUNC, **kwargs) -> Callable:
+        """
+        Internal wrapper function that handles both parameterized and non-parameterized usage.
+
+        :param func: The function to be decorated. If not provided (_NO_FUNC), returns a
+                     partial function for parameterized decoration.
+        :type func: Optional[Callable]
+        :param kwargs: Keyword arguments to pass to the original decorator.
+        :type kwargs: dict
+        
+        :return: Either a partial function (for parameterized use) or the decorated function.
+        :rtype: Callable
+        """
         if func is _NO_FUNC:  # used as parameterized decorator
             return partial(deco, **kwargs)
         else:  # functional use

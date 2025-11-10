@@ -1,6 +1,17 @@
 """
 Overview:
     Useful functions for processing python functions.
+    
+    This module provides a collection of utility functions and decorators for manipulating,
+    inspecting, and transforming Python functions. It includes tools for:
+    
+    - Function attribute manipulation (fassign, frename, fcopy)
+    - Argument processing and iteration (args_iter, sigsupply)
+    - Dynamic and static function calling (dynamic_call, static_call)
+    - Function pre/post processing (pre_process, post_process)
+    - Exception and warning handling (raising, warning_)
+    - Function reduction (freduce)
+    - Type hint extraction (get_callable_hint)
 """
 import warnings
 from functools import wraps
@@ -23,19 +34,24 @@ __all__ = [
 
 def fassign(**assigns):
     """
-    Overview:
-        Do assignments to function.
+    Do assignments to function attributes.
+    
+    This decorator allows you to assign arbitrary attributes to a function object.
+    It's useful for adding metadata or custom properties to functions.
 
-    Arguments:
-        - assigns: Assignment values.
-
-    Returns:
-        - decorator: A decorator for assigning.
-
+    :param assigns: Keyword arguments representing attribute names and their values to assign.
+    :type assigns: Any
+    
+    :return: A decorator function that assigns the specified attributes to the target function.
+    :rtype: Callable
+    
     Examples::
+    
         >>> @fassign(__name__='fff')
         >>> def func(a, b):
         >>>     return a + b
+        >>> func.__name__
+        'fff'
     """
 
     def _decorator(func):
@@ -49,40 +65,50 @@ def fassign(**assigns):
 
 def frename(new_name: str):
     """
-    Overview:
-        Rename the given function.
+    Rename the given function.
+    
+    This decorator changes the ``__name__`` attribute of a function to the specified new name.
 
-    Arguments:
-        - new_name (:obj:`str`): New name of function.
-
-    Returns:
-        - decorator: Decorator to rename the function.
-
+    :param new_name: New name of function.
+    :type new_name: str
+    
+    :return: Decorator to rename the function.
+    :rtype: Callable
+    
     Examples::
+    
         >>> @frename('fff')
         >>> def func(a, b):
         >>>     return a + b
+        >>> func.__name__
+        'fff'
     """
     return fassign(__name__=new_name)
 
 
 def fcopy(func):
     """
-    Overview:
-        Make a copy of given function.
+    Make a copy of given function.
+    
+    Creates a new function that wraps the original function, effectively creating a copy
+    with the same behavior but a different identity. The wrapper preserves the original
+    function's metadata using ``functools.wraps``.
 
-    Arguments:
-        - func: Function to be copied.
-
-    Returns:
-        - new_func: Copied function.
-
+    :param func: Function to be copied.
+    :type func: Callable
+    
+    :return: Copied function.
+    :rtype: Callable
+    
     Examples::
+    
         >>> def func(a, b):
         ...     return a + b
         >>> nfunc = fcopy(func)
         >>> nfunc(1, 2)
         3
+        >>> nfunc is func
+        False
     """
 
     @wraps(func)
@@ -94,29 +120,32 @@ def fcopy(func):
 
 def args_iter(*args, **kwargs):
     """
-    Overview:
-        Iterate all the arguments with index and value.
-        If argument is in `args`, the index should be integer increasing from 0.
-        If argument is in `kwargs`, the index should be string which meaning the argument's name.
-        The numeric indices will appear before the string indices,
-        and **the order of the string indices are not approved**.
+    Iterate all the arguments with index and value.
+    
+    This generator function yields (index, value) pairs for all arguments.
+    For positional arguments, indices are integers starting from 0.
+    For keyword arguments, indices are strings representing the argument names.
+    Numeric indices appear before string indices, and the order of string indices
+    follows dictionary ordering (insertion order in Python 3.7+).
 
-    Arguments:
-        - args (:obj:`Tuple[Any]`): Argument list
-        - kwargs (:obj:`Dict[str, Any]`): Argument mapping
-
-    Example:
-        >>> for index, value in args_iter(1, 2, 3, a=1, b=2, c=3)):
-        >>>     print(index, value)
-
-        The output should be
-
-        >>> 0 1
-        >>> 1 2
-        >>> 2 3
-        >>> a 1
-        >>> b 2
-        >>> c 3
+    :param args: Positional arguments to iterate over.
+    :type args: Tuple[Any]
+    :param kwargs: Keyword arguments to iterate over.
+    :type kwargs: Dict[str, Any]
+    
+    :yield: Tuples of (index, value) where index is int for positional args and str for keyword args.
+    :rtype: Generator[Tuple[Union[int, str], Any], None, None]
+    
+    Examples::
+    
+        >>> for index, value in args_iter(1, 2, 3, a=1, b=2, c=3):
+        ...     print(index, value)
+        0 1
+        1 2
+        2 3
+        a 1
+        b 2
+        c 3
     """
     for _index, _item in chain(enumerate(args), sorted(kwargs.items())):
         yield _index, _item
@@ -128,20 +157,24 @@ _DYNAMIC_WRAPPED = '__dynamic_wrapped__'
 
 def sigsupply(func, sfunc):
     """
-    Overview:
-        A solution for :func:`dynamic_call`. When ``func`` is a builtin function or method \
-        (which means its signature can not be captured by ``inspect.signature``), the signature of \
-        ``sfunc`` will take the place, and the builtin function will be able to processed properly by \
-        function :func:`dynamic_call`.
+    Supply a signature for builtin functions or methods.
+    
+    This function provides a workaround for builtin functions that don't have inspectable
+    signatures. It attaches a supplemental function's signature to the builtin function,
+    allowing it to be processed by :func:`dynamic_call` and other signature-dependent operations.
 
-    Arguments:
-        - func: Original function, can be a native function or builtin function.
-        - sfunc: Supplemental function, must be a native python function which has signature. \
-            Its inner logic has no importance, just provide a lambda with arguments format and \
-            ``None`` return.
-
+    :param func: Original function, can be a native function or builtin function.
+    :type func: Callable
+    :param sfunc: Supplemental function with a valid signature. Its implementation doesn't matter,
+                  only its signature is used.
+    :type sfunc: Callable
+    
+    :return: The original function if it already has a signature, or a wrapped version with
+             the supplemental signature attached.
+    :rtype: Callable
+    
     Examples::
-
+    
         >>> dynamic_call(max)([1, 2, 3])  # no sigsupply
         ValueError: no signature found for builtin <built-in function max>
         >>> dynamic_call(sigsupply(max, lambda x: None))([1, 2, 3])  # use it as func(x) when builtin
@@ -164,6 +197,18 @@ def sigsupply(func, sfunc):
 
 
 def _getsignature(func):
+    """
+    Get the signature of a function, considering supplemental signatures.
+    
+    This internal helper retrieves the signature from either the function itself
+    or from a supplemental function attached via :func:`sigsupply`.
+
+    :param func: Function to get signature from.
+    :type func: Callable
+    
+    :return: The function's signature.
+    :rtype: inspect.Signature
+    """
     sfunc = getattr(func, _SIG_WRAPPED, func)
     return signature(sfunc, follow_wrapped=False)
 
@@ -171,28 +216,37 @@ def _getsignature(func):
 @decolize
 def dynamic_call(func: Callable):
     """
-    Overview:
-        Decorate function to dynamic-call-supported function.
+    Decorate function to support dynamic calling with flexible arguments.
+    
+    This decorator makes a function accept any number of arguments, automatically
+    filtering them based on the function's signature. Extra positional arguments
+    are ignored unless the function has *args, and extra keyword arguments are
+    ignored unless the function has **kwargs.
 
-    Arguments:
-        - func (:obj:`Callable`): Original function to be decorated.
-
-    Returns:
-        - new_func (:obj:`Callable`): Decorated function.
-
-    Example:
+    :param func: Original function to be decorated.
+    :type func: Callable
+    
+    :return: Decorated function that supports dynamic calling.
+    :rtype: Callable
+    
+    Examples::
+    
         >>> dynamic_call(lambda x, y: x ** y)(2, 3)  # 8
+        8
         >>> dynamic_call(lambda x, y: x ** y)(2, 3, 4)  # 8, 3rd is ignored
+        8
         >>> dynamic_call(lambda x, y, t, *args: (args, (t, x, y)))(1, 2, 3, 4, 5)  # ((4, 5), (3, 1, 2))
-        >>> dynamic_call(lambda x, y: (x, y))(y=2, x=1)  # (1, 2), key word supported
+        ((4, 5), (3, 1, 2))
+        >>> dynamic_call(lambda x, y: (x, y))(y=2, x=1)  # (1, 2), keyword supported
+        (1, 2)
         >>> dynamic_call(lambda x, y, **kwargs: (kwargs, x, y))(1, k=2, y=3)  # ({'k': 2}, 1, 3)
+        ({'k': 2}, 1, 3)
 
     .. note::
-
-        Simple :func:`dynamic_call` **can not support builtin functions because they do not have \
-        python signature**. If you need to deal with builtin functions, you can use :func:`sigsupply` \
+    
+        Simple :func:`dynamic_call` **cannot support builtin functions because they do not have
+        python signatures**. If you need to deal with builtin functions, you can use :func:`sigsupply`
         to add a signature onto the function when necessary.
-
     """
     if _is_dynamic_call(func):
         return func
@@ -225,21 +279,35 @@ def dynamic_call(func: Callable):
 
 
 def _is_dynamic_call(func: Callable):
+    """
+    Check if a function has been wrapped by dynamic_call.
+    
+    :param func: Function to check.
+    :type func: Callable
+    
+    :return: True if the function is wrapped by dynamic_call, False otherwise.
+    :rtype: bool
+    """
     return not not getattr(func, _DYNAMIC_WRAPPED, None)
 
 
 @decolize
 def static_call(func: Callable, static_ok: bool = True):
     """
-    Overview:
-        Static call, anti-calculation of dynamic call.
+    Convert a dynamic-call function back to its original static form.
+    
+    This function unwraps a function that has been decorated with :func:`dynamic_call`,
+    returning the original function. It's the inverse operation of :func:`dynamic_call`.
 
-    Arguments:
-        - func (:obj:`Callable`): Given dynamic function.
-        - static_ok (:obj:`bool`): Allow given function to be static, default is ``True``.
-
-    Returns:
-        - static (:obj:`Callable`): Static function.
+    :param func: Given dynamic function to convert.
+    :type func: Callable
+    :param static_ok: Allow given function to be already static, default is ``True``.
+    :type static_ok: bool
+    
+    :return: Original static function.
+    :rtype: Callable
+    
+    :raises TypeError: If ``static_ok`` is False and the function is already static.
     """
     if not static_ok and not _is_dynamic_call(func):
         raise TypeError("Given callable is already static.")
@@ -249,21 +317,33 @@ def static_call(func: Callable, static_ok: bool = True):
 
 def pre_process(processor: Callable):
     """
-    Overview:
-        Pre processor for function.
+    Create a decorator that pre-processes function arguments.
+    
+    This decorator applies a processor function to the arguments before passing them
+    to the original function. The processor can transform both positional and keyword
+    arguments.
 
-    Arguments:
-        - processor (:obj:`Callable`): Pre processor.
-
-    Returns:
-        - decorator (:obj:`Callable`): Function decorator
-
-    Example:
+    :param processor: Pre-processor function that transforms arguments.
+    :type processor: Callable
+    
+    :return: Function decorator that applies pre-processing.
+    :rtype: Callable
+    
+    Examples::
+    
         >>> @pre_process(lambda x, y: (-x, (x + 2) * y))
         >>> def plus(a, b):
         >>>     return a + b
         >>>
         >>> plus(1, 2)  # 5, 5 = -1 + (1 + 2) * 2
+        5
+    
+    .. note::
+        The processor can return:
+        - A tuple of (args_list, kwargs_dict) for both positional and keyword arguments
+        - A tuple/list for positional arguments only
+        - A dict for keyword arguments only
+        - A single value which will be passed as the first positional argument
     """
     _processor = dynamic_call(processor)
 
@@ -292,21 +372,25 @@ def pre_process(processor: Callable):
 
 def post_process(processor: Callable):
     """
-    Overview:
-        Post processor for function.
+    Create a decorator that post-processes function return values.
+    
+    This decorator applies a processor function to the return value of the original
+    function before returning it to the caller.
 
-    Arguments:
-        - processor (:obj:`Callable`): Post processor.
-
-    Returns:
-        - decorator (:obj:`Callable`): Function decorator
-
-    Example:
+    :param processor: Post-processor function that transforms the return value.
+    :type processor: Callable
+    
+    :return: Function decorator that applies post-processing.
+    :rtype: Callable
+    
+    Examples::
+    
         >>> @post_process(lambda x: -x)
         >>> def plus(a, b):
         >>>     return a + b
         >>>
         >>> plus(1, 2)  # -3
+        -3
     """
     processor = dynamic_call(processor)
 
@@ -322,10 +406,30 @@ def post_process(processor: Callable):
 
 
 def _is_throwable(err):
+    """
+    Check if an object is a throwable exception.
+    
+    :param err: Object to check.
+    :type err: Any
+    
+    :return: True if the object is an exception instance or exception class.
+    :rtype: bool
+    """
     return isinstance(err, BaseException) or (isinstance(err, type) and issubclass(err, BaseException))
 
 
 def _post_for_raising(ret):
+    """
+    Post-processor helper that raises exceptions if the return value is throwable.
+    
+    :param ret: Return value to check and potentially raise.
+    :type ret: Any
+    
+    :return: The original return value if it's not an exception.
+    :rtype: Any
+    
+    :raises BaseException: If ret is a throwable exception.
+    """
     if _is_throwable(ret):
         raise ret
     else:
@@ -334,18 +438,24 @@ def _post_for_raising(ret):
 
 def raising(func: Union[Callable, BaseException, Type[BaseException]]):
     """
-    Overview:
-        Decorate function with exception object return value to a raisisng function.
+    Decorate function to raise exceptions instead of returning them.
+    
+    This decorator transforms functions that return exception objects into functions
+    that raise those exceptions. It can also be used directly with exception classes
+    or instances to create raising callables.
 
-    Arguments:
-        - func (:obj:`Union[Callable, BaseException, Type[BaseException]]`): Not decorated function or class
-
-    Returns:
-        - decorated (:obj:`Callable`): Decorated new function
-
-    Examples:
-        >>> raising(RuntimeError)()  # RuntimeError
-        >>> raising(lambda x: ValueError('value error - %s' % (repr(x), )))(1)  # ValueError, value error - 1
+    :param func: Function that returns exceptions, or an exception class/instance.
+    :type func: Union[Callable, BaseException, Type[BaseException]]
+    
+    :return: Decorated function that raises exceptions.
+    :rtype: Callable
+    
+    Examples::
+    
+        >>> raising(RuntimeError)()  # Raises RuntimeError
+        RuntimeError
+        >>> raising(lambda x: ValueError('value error - %s' % (repr(x), )))(1)  # Raises ValueError
+        ValueError: value error - 1
     """
     if _is_throwable(func):
         return raising(dynamic_call(lambda: func))
@@ -354,14 +464,41 @@ def raising(func: Union[Callable, BaseException, Type[BaseException]]):
 
 
 def _is_warning(w):
+    """
+    Check if an object is a warning.
+    
+    :param w: Object to check.
+    :type w: Any
+    
+    :return: True if the object is a warning instance, warning class, or warning string.
+    :rtype: bool
+    """
     return isinstance(w, (Warning, str)) or (isinstance(w, type) and issubclass(w, Warning))
 
 
 def _warn(w):
+    """
+    Convert a warning class to a warning instance.
+    
+    :param w: Warning class, instance, or string.
+    :type w: Union[Warning, Type[Warning], str]
+    
+    :return: Warning instance or string.
+    :rtype: Union[Warning, str]
+    """
     return w() if _is_warning(w) and isinstance(w, type) and issubclass(w, Warning) else w
 
 
 def _post_for_warning(ret):
+    """
+    Post-processor helper that issues warnings if the return value is a warning.
+    
+    :param ret: Return value to check and potentially warn about.
+    :type ret: Any
+    
+    :return: None if a warning was issued, otherwise the original return value.
+    :rtype: Any
+    """
     _matched = False
     if _is_warning(ret):
         _matched, _w, args_, kwargs_ = True, ret, (), {}
@@ -385,18 +522,22 @@ def _post_for_warning(ret):
 
 def warning_(func: Union[Callable, Warning, Type[Warning], str]):
     """
-    Overview:
-        Decorate function with exception object return value to a ``warning_`` function.
+    Decorate function to issue warnings instead of returning them.
+    
+    This decorator transforms functions that return warning objects into functions
+    that issue those warnings using the warnings module. It can also be used directly
+    with warning classes, instances, or strings to create warning callables.
 
-    Arguments:
-        - func (:obj:`Union[Callable, Warning, Type[Warning], str]`): Not decorated function or class
-
-    Returns:
-        - decorated (:obj:`Callable`): Decorated new function
-
-    Examples:
-        >>> warning_(RuntimeWarning)()  # RuntimeWarning
-        >>> raising(lambda x: Warning('value warning - %s' % (repr(x), )))(1)  # Warning, value warning - 1
+    :param func: Function that returns warnings, or a warning class/instance/string.
+    :type func: Union[Callable, Warning, Type[Warning], str]
+    
+    :return: Decorated function that issues warnings.
+    :rtype: Callable
+    
+    Examples::
+    
+        >>> warning_(RuntimeWarning)()  # Issues RuntimeWarning
+        >>> warning_(lambda x: Warning('value warning - %s' % (repr(x), )))(1)  # Issues Warning
     """
     if _is_warning(func):
         return warning_(dynamic_call(lambda: func))
@@ -411,28 +552,37 @@ _ElementType = TypeVar("_ElementType")
 
 def freduce(init=NO_INITIAL, pass_kwargs: bool = True):
     """
-    Overview:
-        Make binary function be reducible.
+    Make a binary function reducible over multiple arguments.
+    
+    This decorator transforms a binary function into a variadic function that applies
+    the binary operation repeatedly (reduction). Similar to functools.reduce but as
+    a decorator with more flexibility.
 
-    Arguments:
-        - init (:obj:`Any`): Initial data generator or \
-            initial data, default is `NO_INITIAL` which means no initial data. \
-            Missing of positional arguments is forbidden.
-        - pass_kwargs (:obj:`bool`): Pass kwargs into initial function and wrapped function or not, \
-            default is `True` which means pass the arguments in.
-
-    Returns:
-        - decorator (:obj:`Callable`): Decorator for the original function.
-
-    Example:
+    :param init: Initial value or generator function. If ``NO_INITIAL``, the first argument
+                 is used as the initial value. Can be a value or a callable that returns a value.
+    :type init: Any
+    :param pass_kwargs: Whether to pass keyword arguments to the initial function and wrapped function.
+    :type pass_kwargs: bool
+    
+    :return: Decorator for the original binary function.
+    :rtype: Callable
+    
+    :raises SyntaxError: If no initial value is provided and no arguments are passed to the function.
+    
+    Examples::
+    
         >>> @freduce(init=0)
         >>> def plus(a, b):
         >>>     return a + b
         >>>
         >>> plus()            # 0
+        0
         >>> plus(1)           # 1
+        1
         >>> plus(1, 2)        # 3
+        3
         >>> plus(1, 2, 3, 4)  # 10
+        10
     """
     if init is NO_INITIAL:
         init_func = None
@@ -471,23 +621,30 @@ def freduce(init=NO_INITIAL, pass_kwargs: bool = True):
 
 def get_callable_hint(f: Callable):
     """
-    Overview:
-        Get type hint of callable.
+    Get the type hint of a callable as a Callable type annotation.
+    
+    This function extracts type hints from a callable and returns a Callable type
+    annotation that represents the function's signature. If the function has only
+    positional parameters, it returns a specific Callable type; otherwise, it returns
+    Callable[..., Any].
 
-    Arguments:
-        - f (:obj:`Callable`): Callable object.
-
-    Returns:
-        - hint: Hint of the callable.
-
-    Example:
+    :param f: Callable object to extract type hints from.
+    :type f: Callable
+    
+    :return: Type hint representing the callable's signature.
+    :rtype: type
+    
+    Examples::
+    
         >>> def f1(x: float, y: str) -> int:
-        >>>     pass
+        ...     pass
         >>> get_callable_hint(f1)  # Callable[[float, str], int]
+        typing.Callable[[float, str], int]
         >>>
         >>> def f2(x: float, y: str, *, z: int):
-        >>>     pass
+        ...     pass
         >>> get_callable_hint(f2)  # Callable[..., Any]
+        typing.Callable[..., typing.Any]
     """
     count, ponly = 0, True
     for key, value in signature(f).parameters.items():

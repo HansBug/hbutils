@@ -3,6 +3,10 @@ Overview:
     Useful utilities for word inflections.
 
     Extended based on `jpvanhal/inflection <https://github.com/jpvanhal/inflection>`_.
+    
+    This module provides a comprehensive set of functions for manipulating English words,
+    including pluralization, singularization, case conversion, and string formatting utilities.
+    It handles various irregular forms and special cases in English grammar.
 """
 import re
 import unicodedata
@@ -101,15 +105,47 @@ def _irregular(singular: str, plural: str, *plurals: str) -> None:
     """
     A convenience function to add appropriate rules to plurals and singular
     for irregular words.
-    :param singular: irregular word in singular form (such as `it`)
-    :param plural: irregular word in plural form (such as `they`)
-    :param plurals: extended words in plural form (such as `them`)
+    
+    This function registers both pluralization and singularization rules for
+    irregular words that don't follow standard English grammar patterns. It
+    handles case-insensitive matching and preserves the original case.
+    
+    :param singular: Irregular word in singular form (such as ``it``).
+    :type singular: str
+    :param plural: Irregular word in plural form (such as ``they``).
+    :type plural: str
+    :param plurals: Extended words in plural form (such as ``them``).
+    :type plurals: str
+    
+    Example::
+        >>> _irregular('person', 'people')
+        >>> pluralize('person')
+        'people'
+        >>> singularize('people')
+        'person'
     """
 
     def caseinsensitive(string: str) -> str:
+        """
+        Create a case-insensitive regex pattern for a string.
+        
+        :param string: The string to convert.
+        :type string: str
+        
+        :return: A regex pattern that matches the string case-insensitively.
+        :rtype: str
+        """
         return ''.join('[' + char + char.upper() + ']' for char in string)
 
     def _register_singular(singular_: str, plural_: str) -> None:
+        """
+        Register a singularization rule.
+        
+        :param singular_: The singular form.
+        :type singular_: str
+        :param plural_: The plural form.
+        :type plural_: str
+        """
         if singular_[0].upper() == plural_[0].upper():
             SINGULARS.insert(0, (
                 r"(?i)({}){}$".format(plural_[0], plural_[1:]),
@@ -126,6 +162,14 @@ def _irregular(singular: str, plural: str, *plurals: str) -> None:
             ))
 
     def _register_plural(singular_: str, plural_: str) -> None:
+        """
+        Register a pluralization rule.
+        
+        :param singular_: The singular form.
+        :type singular_: str
+        :param plural_: The plural form.
+        :type plural_: str
+        """
         if singular_[0].upper() == plural_[0].upper():
             PLURALS.insert(0, (
                 r"(?i)({}){}$".format(singular_[0], singular_[1:]),
@@ -154,7 +198,6 @@ def _irregular(singular: str, plural: str, *plurals: str) -> None:
                 r"{}{}$".format(plural_[0].lower(), caseinsensitive(plural_[1:])),
                 plural_[0].lower() + plural_[1:]
             ))
-        pass
 
     _register_plural(singular, plural)
     for p in [plural, *plurals]:
@@ -163,13 +206,21 @@ def _irregular(singular: str, plural: str, *plurals: str) -> None:
 
 def camelize(string: str, uppercase_first_letter: bool = True) -> str:
     """
-    Overview:
-        Convert strings to CamelCase.
+    Convert strings to CamelCase.
+    
+    This function converts underscore-separated strings to CamelCase format.
+    It can produce either UpperCamelCase or lowerCamelCase depending on the
+    ``uppercase_first_letter`` parameter.
 
-    :param string: Original string.
-    :param uppercase_first_letter: if set to `True` :func:`camelize` converts \
-        strings to UpperCamelCase. If set to `False` :func:`camelize` produces \
-        lowerCamelCase. Defaults to `True`.
+    :param string: Original string to convert.
+    :type string: str
+    :param uppercase_first_letter: If set to ``True``, :func:`camelize` converts \
+        strings to UpperCamelCase. If set to ``False``, :func:`camelize` produces \
+        lowerCamelCase. Defaults to ``True``.
+    :type uppercase_first_letter: bool
+    
+    :return: The camelized string.
+    :rtype: str
 
     Examples::
         >>> camelize("device_type")
@@ -192,10 +243,16 @@ def camelize(string: str, uppercase_first_letter: bool = True) -> str:
 
 def dasherize(word: str) -> str:
     """
-    Overview:
-        Replace underscores with dashes in the string.
+    Replace underscores with dashes in the string.
+    
+    This function converts underscore-separated strings to dash-separated strings,
+    commonly used in URL slugs and CSS class names.
 
-    :param word: Original word.
+    :param word: Original word to dasherize.
+    :type word: str
+    
+    :return: The dasherized string.
+    :rtype: str
 
     Example::
         >>> dasherize("puni_puni")
@@ -206,12 +263,18 @@ def dasherize(word: str) -> str:
 
 def humanize(word: str) -> str:
     """
-    Overview:
-        Capitalize the first word and turn underscores into spaces and strip a
-        trailing ``"_id"``, if any. Like :func:`titleize`, this is meant for
-        creating pretty output.
+    Capitalize the first word and turn underscores into spaces and strip a
+    trailing ``"_id"``, if any.
+    
+    Like :func:`titleize`, this is meant for creating pretty output. This function
+    is useful for converting database column names or variable names into
+    human-readable strings.
 
-    :param word: Original word.
+    :param word: Original word to humanize.
+    :type word: str
+    
+    :return: The humanized string.
+    :rtype: str
 
     Examples::
         >>> humanize("employee_salary")
@@ -228,11 +291,17 @@ def humanize(word: str) -> str:
 
 def ordinal(number: int) -> str:
     """
-    Overview:
-        Return the suffix that should be added to a number to denote the position
-        in an ordered sequence such as 1st, 2nd, 3rd, 4th.
+    Return the suffix that should be added to a number to denote the position
+    in an ordered sequence such as 1st, 2nd, 3rd, 4th.
+    
+    This function returns only the suffix (st, nd, rd, th), not the complete
+    ordinal number. Use :func:`ordinalize` for the complete ordinal string.
 
     :param number: Int format number.
+    :type number: int
+    
+    :return: The ordinal suffix for the number.
+    :rtype: str
 
     Examples::
         >>> ordinal(1)
@@ -261,11 +330,17 @@ def ordinal(number: int) -> str:
 
 def ordinalize(number: int) -> str:
     """
-    Overview:
-        Turn a number into an ordinal string used to denote the position in an
-        ordered sequence such as 1st, 2nd, 3rd, 4th.
+    Turn a number into an ordinal string used to denote the position in an
+    ordered sequence such as 1st, 2nd, 3rd, 4th.
+    
+    This function combines the number with its ordinal suffix to create
+    a complete ordinal string.
 
     :param number: Int format number.
+    :type number: int
+    
+    :return: The complete ordinal string.
+    :rtype: str
 
     Examples::
         >>> ordinalize(1)
@@ -286,12 +361,20 @@ def ordinalize(number: int) -> str:
 
 def parameterize(string: str, separator: str = '-') -> str:
     """
-    Overview:
-        Replace special characters in a string so that it may be used as part of a
-        'pretty' URL.
+    Replace special characters in a string so that it may be used as part of a
+    'pretty' URL.
+    
+    This function converts a string into a URL-friendly format by removing or
+    replacing special characters, converting to lowercase, and using a separator
+    for spaces. It's commonly used for creating URL slugs.
 
-    :param string: Original string.
-    :param separator: Separator of parameter words.
+    :param string: Original string to parameterize.
+    :type string: str
+    :param separator: Separator of parameter words. Defaults to ``'-'``.
+    :type separator: str
+    
+    :return: The parameterized string.
+    :rtype: str
 
     Example::
         >>> parameterize(u"Donald E. Knuth")
@@ -312,10 +395,17 @@ def parameterize(string: str, separator: str = '-') -> str:
 
 def pluralize(word: str) -> str:
     """
-    Overview:
-        Return the plural form of a word.
+    Return the plural form of a word.
+    
+    This function converts singular English words to their plural forms,
+    handling both regular and irregular pluralization rules. It preserves
+    the case of the original word and handles uncountable nouns.
 
-    :param word: Original word.
+    :param word: Original word to pluralize.
+    :type word: str
+    
+    :return: The plural form of the word.
+    :rtype: str
 
     Examples::
         >>> pluralize("posts")
@@ -338,10 +428,17 @@ def pluralize(word: str) -> str:
 
 def singularize(word: str) -> str:
     """
-    Overview:
-        Return the singular form of a word, the reverse of :func:`pluralize`.
+    Return the singular form of a word, the reverse of :func:`pluralize`.
+    
+    This function converts plural English words to their singular forms,
+    handling both regular and irregular singularization rules. It preserves
+    the case of the original word and handles uncountable nouns.
 
-    :param word: Original word.
+    :param word: Original word to singularize.
+    :type word: str
+    
+    :return: The singular form of the word.
+    :rtype: str
 
     Examples::
         >>> singularize("posts")
@@ -367,11 +464,17 @@ def singularize(word: str) -> str:
 
 def tableize(word: str) -> str:
     """
-    Overview:
-        Create the name of a table like Rails does for models to table names. This
-        method uses the :func:`pluralize` method on the last word in the string.
+    Create the name of a table like Rails does for models to table names.
+    
+    This method uses the :func:`pluralize` method on the last word in the string
+    after converting it to underscore format. It's commonly used in ORM frameworks
+    to generate database table names from model class names.
 
-    :param word: Original word.
+    :param word: Original word to tableize.
+    :type word: str
+    
+    :return: The tableized string.
+    :rtype: str
 
     Examples::
         >>> tableize('RawScaledScorer')
@@ -386,22 +489,28 @@ def tableize(word: str) -> str:
 
 def titleize(word: str) -> str:
     """
-    Overview:
-        Capitalize all the words and replace some characters in the string to
-        create a nicer looking title. :func:`titleize` is meant for creating pretty
-        output.
+    Capitalize all the words and replace some characters in the string to
+    create a nicer looking title.
+    
+    :func:`titleize` is meant for creating pretty output. It converts strings
+    to title case, capitalizing the first letter of each word and replacing
+    underscores and hyphens with spaces.
 
-    :param word: Original word.
+    :param word: Original word to titleize.
+    :type word: str
+    
+    :return: The titleized string.
+    :rtype: str
 
     Examples::
-      >>> titleize("man from the boondocks")
-      'Man From The Boondocks'
-      >>> titleize("x-men: the last stand")
-      'X Men: The Last Stand'
-      >>> titleize("TheManWithoutAPast")
-      'The Man Without A Past'
-      >>> titleize("raiders_of_the_lost_ark")
-      'Raiders Of The Lost Ark'
+        >>> titleize("man from the boondocks")
+        'Man From The Boondocks'
+        >>> titleize("x-men: the last stand")
+        'X Men: The Last Stand'
+        >>> titleize("TheManWithoutAPast")
+        'The Man Without A Past'
+        >>> titleize("raiders_of_the_lost_ark")
+        'Raiders Of The Lost Ark'
     """
     return re.sub(
         r"\b('?\w)",
@@ -412,12 +521,17 @@ def titleize(word: str) -> str:
 
 def transliterate(string: str) -> str:
     """
-    Overview:
-        Replace non-ASCII characters with an ASCII approximation. If no
-        approximation exists, the non-ASCII character is ignored. The string must
-        be ``unicode``.
+    Replace non-ASCII characters with an ASCII approximation.
+    
+    If no approximation exists, the non-ASCII character is ignored. The string must
+    be ``unicode``. This is useful for creating URL-safe strings from text containing
+    accented characters or other non-ASCII symbols.
 
-    :param string: Original string.
+    :param string: Original string to transliterate.
+    :type string: str
+    
+    :return: The transliterated ASCII string.
+    :rtype: str
 
     Examples::
         >>> transliterate('älämölö')
@@ -431,10 +545,17 @@ def transliterate(string: str) -> str:
 
 def underscore(word: str) -> str:
     """
-    Overview:
-        Make an underscored, lowercase form from the expression in the string.
+    Make an underscored, lowercase form from the expression in the string.
+    
+    This function converts CamelCase strings to underscore_separated strings.
+    It's commonly used for converting class names to file names or database
+    column names.
 
-    :param word: Original word.
+    :param word: Original word to underscore.
+    :type word: str
+    
+    :return: The underscored string.
+    :rtype: str
 
     Example::
         >>> underscore("DeviceType")

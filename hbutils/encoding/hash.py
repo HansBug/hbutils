@@ -1,4 +1,22 @@
+"""
+This module provides convenient wrapper functions for various cryptographic hash algorithms.
+
+It offers easy-to-use interfaces for MD5, SHA1, SHA2 family (SHA224, SHA256, SHA384, SHA512),
+and SHA3 hash functions. All functions take binary data as input and return hexadecimal digest strings.
+
+The module simplifies the usage of Python's hashlib by providing a consistent interface across
+different hash algorithms.
+
+Examples::
+    >>> from hbutils.encoding import md5, sha256
+    >>> md5(b'hello world')
+    '5eb63bbbe01eeed093cb22bb8f5acdc3'
+    >>> sha256(b'hello world')
+    'b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9'
+"""
+
 import hashlib
+from typing import Callable
 
 __all__ = [
     'md5', 'sha1',
@@ -7,23 +25,30 @@ __all__ = [
 ]
 
 
-def _hash_algorithm(algo, binary: bytes):
+def _hash_algorithm(algo: Callable, binary: bytes) -> str:
+    """
+    Internal helper function to compute hash digest using the specified algorithm.
+
+    :param algo: Hash algorithm constructor from hashlib module.
+    :type algo: Callable
+    :param binary: Binary data to be hashed.
+    :type binary: bytes
+    :return: Hexadecimal digest string of the hashed data.
+    :rtype: str
+    """
     p = algo()
     p.update(binary)
     return p.hexdigest()
-    pass
 
 
 def md5(binary: bytes) -> str:
     """
-    Overview:
-        MD5 hash.
+    Compute MD5 hash of binary data.
 
-    Arguments:
-        - binary (:obj:`bytes`): Binary data to be hashed.
-
-    Returns:
-        - digest (:obj:`str`): MD5 digest string.
+    :param binary: Binary data to be hashed.
+    :type binary: bytes
+    :return: MD5 digest string in hexadecimal format.
+    :rtype: str
 
     Examples::
         >>> from hbutils.encoding import md5
@@ -37,14 +62,12 @@ def md5(binary: bytes) -> str:
 
 def sha1(binary: bytes) -> str:
     """
-    Overview:
-        SHA1 hash.
+    Compute SHA1 hash of binary data.
 
-    Arguments:
-        - binary (:obj:`bytes`): Binary data to be hashed.
-
-    Returns:
-        - digest (:obj:`str`): SHA1 digest string.
+    :param binary: Binary data to be hashed.
+    :type binary: bytes
+    :return: SHA1 digest string in hexadecimal format.
+    :rtype: str
 
     Examples::
         >>> from hbutils.encoding import sha1
@@ -58,14 +81,12 @@ def sha1(binary: bytes) -> str:
 
 def sha224(binary: bytes) -> str:
     """
-    Overview:
-        SHA224 hash.
+    Compute SHA224 hash of binary data.
 
-    Arguments:
-        - binary (:obj:`bytes`): Binary data to be hashed.
-
-    Returns:
-        - digest (:obj:`str`): SHA224 digest string.
+    :param binary: Binary data to be hashed.
+    :type binary: bytes
+    :return: SHA224 digest string in hexadecimal format.
+    :rtype: str
 
     Examples::
         >>> from hbutils.encoding import sha224
@@ -79,14 +100,12 @@ def sha224(binary: bytes) -> str:
 
 def sha256(binary: bytes) -> str:
     """
-    Overview:
-        SHA256 hash.
+    Compute SHA256 hash of binary data.
 
-    Arguments:
-        - binary (:obj:`bytes`): Binary data to be hashed.
-
-    Returns:
-        - digest (:obj:`str`): SHA256 digest string.
+    :param binary: Binary data to be hashed.
+    :type binary: bytes
+    :return: SHA256 digest string in hexadecimal format.
+    :rtype: str
 
     Examples::
         >>> from hbutils.encoding import sha256
@@ -100,14 +119,12 @@ def sha256(binary: bytes) -> str:
 
 def sha384(binary: bytes) -> str:
     """
-    Overview:
-        SHA384 hash.
+    Compute SHA384 hash of binary data.
 
-    Arguments:
-        - binary (:obj:`bytes`): Binary data to be hashed.
-
-    Returns:
-        - digest (:obj:`str`): SHA384 digest string.
+    :param binary: Binary data to be hashed.
+    :type binary: bytes
+    :return: SHA384 digest string in hexadecimal format.
+    :rtype: str
 
     Examples::
         >>> from hbutils.encoding import sha384
@@ -121,14 +138,12 @@ def sha384(binary: bytes) -> str:
 
 def sha512(binary: bytes) -> str:
     """
-    Overview:
-        SHA512 hash.
+    Compute SHA512 hash of binary data.
 
-    Arguments:
-        - binary (:obj:`bytes`): Binary data to be hashed.
-
-    Returns:
-        - digest (:obj:`str`): SHA512 digest string.
+    :param binary: Binary data to be hashed.
+    :type binary: bytes
+    :return: SHA512 digest string in hexadecimal format.
+    :rtype: str
 
     Examples::
         >>> from hbutils.encoding import sha512
@@ -142,15 +157,14 @@ def sha512(binary: bytes) -> str:
 
 def sha3(binary: bytes, n: int = 256) -> str:
     """
-    Overview:
-        SHA3 hash.
+    Compute SHA3 hash of binary data with configurable bit length.
 
-    Arguments:
-        - binary (:obj:`bytes`): Binary data to be hashed.
-
-    Returns:
-        - digest (:obj:`str`): SHA3 digest string.
-        - n (:obj:`int`): Length of SHA3, default is 256.
+    :param binary: Binary data to be hashed.
+    :type binary: bytes
+    :param n: Bit length of SHA3 hash. Valid values are 224, 256, 384, or 512. Default is 256.
+    :type n: int
+    :return: SHA3 digest string in hexadecimal format.
+    :rtype: str
 
     Examples::
         >>> from hbutils.encoding import sha3

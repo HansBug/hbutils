@@ -1,6 +1,13 @@
 """
 Overview:
-    Implement of singleton design pattern.
+    Implementation of singleton design pattern.
+    
+    This module provides metaclasses and utilities for implementing singleton patterns in Python.
+    It includes:
+    
+    - :class:`SingletonMeta`: A metaclass for creating traditional singleton classes
+    - :class:`ValueBasedSingletonMeta`: A metaclass for creating value-based singleton classes
+    - :class:`SingletonMark`: A utility class for creating unique singleton marker objects
 """
 __all__ = [
     'SingletonMeta',
@@ -11,10 +18,13 @@ __all__ = [
 
 class SingletonMeta(type):
     """
-    Overview:
-        Meta class for singleton mode.
+    Meta class for singleton mode.
 
-    Example:
+    This metaclass ensures that only one instance of a class is created throughout
+    the application's lifetime. Subsequent calls to the class constructor will
+    return the same instance.
+
+    Example::
         >>> class MyService(metaclass=SingletonMeta):
         >>>     def get_value(self):
         >>>         return 233
@@ -35,6 +45,12 @@ class SingletonMeta(type):
     _instances = {}
 
     def __call__(cls):
+        """
+        Override the call method to control instance creation.
+
+        :return: The singleton instance of the class.
+        :rtype: object
+        """
         if cls not in cls._instances:
             cls._instances[cls] = super(SingletonMeta, cls).__call__()
         return cls._instances[cls]
@@ -42,10 +58,13 @@ class SingletonMeta(type):
 
 class ValueBasedSingletonMeta(type):
     """
-    Overview:
-        Meta class for value based singleton mode.
+    Meta class for value based singleton mode.
 
-    Example:
+    This metaclass creates singleton instances based on a value parameter. 
+    Multiple calls with the same value will return the same instance, while
+    different values will create different instances.
+
+    Example::
         >>> class MyData(metaclass=ValueBasedSingletonMeta):
         >>>     def __init__(self, value):
         >>>         self.__value = value
@@ -70,6 +89,14 @@ class ValueBasedSingletonMeta(type):
     _instances = {}
 
     def __call__(cls, value):
+        """
+        Override the call method to control instance creation based on value.
+
+        :param value: The value used as key for singleton instance lookup.
+        :type value: Any hashable type
+        :return: The singleton instance associated with the given value.
+        :rtype: object
+        """
         key = (cls, value)
         if key not in cls._instances:
             cls._instances[key] = super(ValueBasedSingletonMeta, cls).__call__(value)
@@ -78,11 +105,13 @@ class ValueBasedSingletonMeta(type):
 
 class SingletonMark(metaclass=ValueBasedSingletonMeta):
     """
-    Overview:
-        Singleton mark for some situation.
-        Can be used when some default value is needed, especially when `None` has meaning which is not default.
+    Singleton mark for some situation.
+    
+    Can be used when some default value is needed, especially when `None` has 
+    meaning which is not default. This class creates unique marker objects that
+    can be used as sentinel values.
 
-    Example:
+    Example::
         >>> NO_VALUE = SingletonMark("no_value")
         >>> NO_VALUE is SingletonMark("no_value")  # True
 
@@ -92,36 +121,47 @@ class SingletonMark(metaclass=ValueBasedSingletonMeta):
         value, especially in the cases which ``None`` is not suitable for the default value.
     """
 
-    def __init__(self, mark):
+    def __init__(self, mark: str):
         """
-        Overview:
-            Constructor of :class:`SingletonMark`, can create a singleton mark object.
+        Constructor of :class:`SingletonMark`, can create a singleton mark object.
+
+        :param mark: The string identifier for this mark.
+        :type mark: str
         """
         self.__mark = mark
 
     @property
-    def mark(self):
+    def mark(self) -> str:
         """
-        Overview:
-            Get mark string of this mark object.
+        Get mark string of this mark object.
 
-        Returns:
-            - mark (:obj:`str`): Mark string
+        :return: Mark string identifier.
+        :rtype: str
         """
         return self.__mark
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         """
-        Overview:
-            :class:`SingletonMark` objects are hash supported. can be directly used \
-            in :class:`dict` and :class:`set`.
+        Compute hash value for the singleton mark.
+
+        :class:`SingletonMark` objects are hash supported and can be directly used \
+        in :class:`dict` and :class:`set`.
+
+        :return: Hash value of the mark.
+        :rtype: int
         """
         return hash(self.__mark)
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         """
-        Overview:
-            :class:`SingletonMark` objects can be directly compared with ``==``.
+        Compare equality between singleton marks.
+
+        :class:`SingletonMark` objects can be directly compared with ``==``.
+
+        :param other: The object to compare with.
+        :type other: Any
+        :return: True if marks are equal, False otherwise.
+        :rtype: bool
 
         Examples::
             >>> mark1 = SingletonMark('mark1')
@@ -141,16 +181,20 @@ class SingletonMark(metaclass=ValueBasedSingletonMeta):
         else:
             return False
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
-        Overview:
-            When you try to print a :class:`SingletonMark` object, its mark content will be \
-            displayed.
+        Return string representation of the singleton mark.
+
+        When you try to print a :class:`SingletonMark` object, its mark content will be \
+        displayed.
+
+        :return: String representation of the mark.
+        :rtype: str
 
         Examples::
             >>> mark1 = SingletonMark('mark1')
             >>> print(mark1)
-            <SingletonMark mark1>
+            <SingletonMark 'mark1'>
         """
         return "<{cls} {mark}>".format(
             cls=self.__class__.__name__,

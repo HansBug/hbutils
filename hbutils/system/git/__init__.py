@@ -9,6 +9,8 @@ It includes functions to:
 
 The module uses subprocess to run Git commands and parse their output, providing detailed information about
 the Git and Git LFS installations on the system.
+
+This is the main entry point for the git system utilities, which re-exports all functionality from the info module.
 """
 
 from .info import *

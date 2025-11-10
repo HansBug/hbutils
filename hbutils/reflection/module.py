@@ -1,3 +1,14 @@
+"""
+This module provides utilities for temporarily modifying Python's import path (PYTHONPATH) and module cache.
+
+It allows you to mount additional paths to sys.path and manage sys.modules within a context manager,
+ensuring that changes are properly isolated and can be reverted when exiting the context.
+
+The main components are:
+- :func:`mount_pythonpath`: Context manager to temporarily add paths to PYTHONPATH
+- :class:`PythonPathEnv`: Class representing a Python environment with specific paths and modules
+"""
+
 import sys
 import types
 from contextlib import contextmanager
@@ -10,10 +21,28 @@ __all__ = [
 
 
 def _copy_list(origin: list, target: list):
+    """
+    Copy the contents of target list into origin list in-place.
+    
+    :param origin: The list to be modified.
+    :type origin: list
+    :param target: The list to copy from.
+    :type target: list
+    """
     origin[:] = target
 
 
 def _copy_dict(origin: dict, target: dict):
+    """
+    Synchronize origin dict with target dict in-place.
+    
+    Removes keys from origin that are not in target, and updates/adds keys from target.
+    
+    :param origin: The dictionary to be modified.
+    :type origin: dict
+    :param target: The dictionary to copy from.
+    :type target: dict
+    """
     for key in set(origin.keys()) | set(target.keys()):
         if key not in target:
             del origin[key]
@@ -23,6 +52,26 @@ def _copy_dict(origin: dict, target: dict):
 
 @contextmanager
 def _native_mount_pythonpath(paths: List[str], modules: Dict[str, types.ModuleType]) -> ContextManager:
+    """
+    Internal context manager to temporarily replace sys.path and sys.modules.
+    
+    This function saves the current state of sys.path and sys.modules, replaces them with
+    the provided values, and restores the original state upon exit.
+    
+    :param paths: List of paths to set as sys.path.
+    :type paths: List[str]
+    :param modules: Dictionary of modules to set as sys.modules.
+    :type modules: Dict[str, types.ModuleType]
+    :return: Context manager that handles the mounting and unmounting.
+    :rtype: ContextManager
+    
+    Example::
+        >>> with _native_mount_pythonpath(['/custom/path'], {}):
+        ...     # sys.path is now ['/custom/path']
+        ...     # sys.modules is now {}
+        ...     pass
+        >>> # sys.path and sys.modules are restored
+    """
     from ..collection import get_recovery_func
     path_rec = get_recovery_func(sys.path, recursive=False)
     modules_rec = get_recovery_func(sys.modules, recursive=False)
@@ -37,16 +86,21 @@ def _native_mount_pythonpath(paths: List[str], modules: Dict[str, types.ModuleTy
 
 class PythonPathEnv:
     """
-    Overview:
-        Python environment object.
+    Python environment object that encapsulates a specific PYTHONPATH and module set.
+    
+    This class represents a snapshot of Python's import environment, including the
+    sys.path entries and loaded modules. It can be mounted to temporarily activate
+    this environment.
     """
 
     def __init__(self, pythonpath: List[str], modules: Mapping[str, types.ModuleType]):
         """
         Constructor of :class:`PythonPathEnv`.
 
-        :param pythonpath: Python path list.
-        :param modules: Modules loaded.
+        :param pythonpath: Python path list to be used in this environment.
+        :type pythonpath: List[str]
+        :param modules: Dictionary of modules loaded in this environment.
+        :type modules: Mapping[str, types.ModuleType]
         """
         self.pythonpath: List[str] = list(pythonpath)
         self.modules: Dict[str, types.ModuleType] = dict(modules)
@@ -56,8 +110,16 @@ class PythonPathEnv:
         """
         Mount the ``PYTHONPATH`` and modules of this environment.
 
-        :param keep: Keep the changes inside. Default is ``True`` which means the new imports and modules \
-            will be kept inside and will be usable when next time the :meth:`mount` is called.
+        This method activates the environment by setting sys.path and sys.modules to the
+        values stored in this PythonPathEnv instance. When the context exits, the original
+        environment is restored.
+
+        :param keep: If ``True``, changes made during the context (new imports, module modifications)
+            will be kept in this PythonPathEnv instance for future mounts. If ``False``, changes
+            are discarded. Default is ``True``.
+        :type keep: bool
+        :return: Context manager that yields this PythonPathEnv instance.
+        :rtype: ContextManager[PythonPathEnv]
 
         Examples::
             >>> from hbutils.reflection import mount_pythonpath
@@ -82,14 +144,19 @@ class PythonPathEnv:
 @contextmanager
 def mount_pythonpath(*path) -> ContextManager[PythonPathEnv]:
     """
-    Overview:
-        Append ``PYTHONPATH`` in context, the packages in given paths will be able to be imported.
-        ``sys.modules`` will also be recovered when quit.
+    Append paths to ``PYTHONPATH`` within a context manager.
+    
+    This function allows you to temporarily add directories to Python's import path,
+    making packages in those directories importable. When the context exits, both
+    sys.path and sys.modules are restored to their original state, ensuring isolation.
 
-    :param path: Appended python path.
+    :param path: One or more directory paths to prepend to sys.path.
+    :type path: str
+    :return: Context manager that yields a PythonPathEnv instance representing the mounted environment.
+    :rtype: ContextManager[PythonPathEnv]
     
     Examples::
-        Here is the testfile directory
+        Here is the testfile directory structure:
 
         >>> import os
         >>> os.system('tree test/testfile')
@@ -101,7 +168,7 @@ def mount_pythonpath(*path) -> ContextManager[PythonPathEnv]:
         └── igm
             └── gf1.py
 
-        We can import the values from the other directories, like this
+        We can import values from different directories:
 
         >>> from hbutils.reflection import mount_pythonpath
         >>> with mount_pythonpath('test/testfile/igm'):
@@ -119,7 +186,7 @@ def mount_pythonpath(*path) -> ContextManager[PythonPathEnv]:
         ...     print('FIXED in dir2:', FIXED)
         FIXED in dir2: 455
         >>>
-        >>> from gf1 import FIXED  # cannot import outside
+        >>> from gf1 import FIXED  # cannot import outside the context
         ModuleNotFoundError: No module named 'gf1'
 
     """

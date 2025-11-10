@@ -1,6 +1,9 @@
 """
 Overview:
-    Modeling module, include some useful utilities for build data model.
+    Modeling module, includes useful utilities for building data models.
+    This module provides various utilities for creating and managing data models,
+    including class utilities, comparison operations, enum handling, raw data processing,
+    and representation utilities.
 """
 from .clazz import *
 from .compare import *

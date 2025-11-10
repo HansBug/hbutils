@@ -1,3 +1,20 @@
+"""
+This module provides utilities for generating random strings in various formats.
+
+It includes functions for creating random digits in different bases (binary, decimal, hexadecimal),
+random hash strings (MD5, SHA1), random base64 strings, and timestamp-prefixed hash strings.
+All functions support custom random number generators for reproducibility.
+
+The module exports the following functions:
+    - random_digits: Generate random digits in any base from 2 to 36
+    - random_bin_digits: Generate random binary digits
+    - random_hex_digits: Generate random hexadecimal digits
+    - random_md5: Generate random MD5 hash string
+    - random_sha1: Generate random SHA1 hash string
+    - random_base64: Generate random base64 encoded string
+    - random_md5_with_timestamp: Generate random MD5 hash with timestamp prefix
+    - random_sha1_with_timestamp: Generate random SHA1 hash with timestamp prefix
+"""
 import io
 import random
 from datetime import datetime
@@ -16,6 +33,14 @@ __all__ = [
 
 
 def _check_base(base: int):
+    """
+    Validate that the base is a valid integer between 2 and 36 inclusive.
+
+    :param base: The base to validate.
+    :type base: int
+    :raises ValueError: If base is less than 2 or greater than 36.
+    :raises TypeError: If base is not an integer.
+    """
     if base < 2:
         raise ValueError(f'Base should be an integer no less than 2, but {repr(base)} found.')
     elif base > 36:
@@ -30,6 +55,18 @@ _UPPER_A_ASCII = ord('A')
 
 
 def _random_dchar(base: int, upper: bool, rnd: random.Random):
+    """
+    Generate a single random digit character in the specified base.
+
+    :param base: The base for the digit (2-36).
+    :type base: int
+    :param upper: Whether to use uppercase letters for bases > 10.
+    :type upper: bool
+    :param rnd: Random number generator instance.
+    :type rnd: random.Random
+    :return: A single character representing a digit in the specified base.
+    :rtype: str
+    """
     _val = rnd.randint(0, base - 1)
     if _val < 10:
         _base = _0_ASCII
@@ -43,18 +80,18 @@ def _random_dchar(base: int, upper: bool, rnd: random.Random):
 
 def random_digits(length: int = 32, base: int = 10, upper: bool = False, rnd: Optional[random.Random] = None) -> str:
     """
-    Overview:
-        Create random digits.
+    Create random digits in the specified base.
 
-    Arguments:
-        - length (:obj:`int`): Length of the digits, default is 32.
-        - base (:obj:`int`): Base of the digits, should be in [2, 36], default is 10.
-        - upper (:obj:`bool`): Upper the hex chars, default is ``False``.
-        - rnd (:obj:`Optional[random.Random]`): Random object you used, \
-            default is ``None`` which means just use the default one provided by system.
-
-    Returns:
-        - string (:obj:`str`): Random digital string.
+    :param length: Length of the digits, default is 32.
+    :type length: int
+    :param base: Base of the digits, should be in [2, 36], default is 10.
+    :type base: int
+    :param upper: Upper the hex chars, default is ``False``.
+    :type upper: bool
+    :param rnd: Random object you used, default is ``None`` which means just use the default one provided by system.
+    :type rnd: Optional[random.Random]
+    :return: Random digital string.
+    :rtype: str
 
     Examples::
         >>> from hbutils.random import random_digits
@@ -77,16 +114,14 @@ def random_digits(length: int = 32, base: int = 10, upper: bool = False, rnd: Op
 
 def random_bin_digits(length: int = 32, rnd: Optional[random.Random] = None) -> str:
     """
-    Overview:
-        Create random binary digits.
+    Create random binary digits.
 
-    Arguments:
-        - length (:obj:`int`): Length of the digits, default is 32.
-        - rnd (:obj:`Optional[random.Random]`): Random object you used, \
-            default is ``None`` which means just use the default one provided by system.
-
-    Returns:
-        - string (:obj:`str`): Random binary digital string.
+    :param length: Length of the digits, default is 32.
+    :type length: int
+    :param rnd: Random object you used, default is ``None`` which means just use the default one provided by system.
+    :type rnd: Optional[random.Random]
+    :return: Random binary digital string.
+    :rtype: str
 
     Examples::
         >>> from hbutils.random import random_bin_digits
@@ -100,16 +135,16 @@ def random_bin_digits(length: int = 32, rnd: Optional[random.Random] = None) -> 
 
 def random_hex_digits(length: int = 32, upper: bool = False, rnd: Optional[random.Random] = None) -> str:
     """
-    Overview:
-        Create random hexidecimal digits.
+    Create random hexadecimal digits.
 
-    Arguments:
-        - length (:obj:`int`): Length of the digits, default is 32.
-        - rnd (:obj:`Optional[random.Random]`): Random object you used, \
-            default is ``None`` which means just use the default one provided by system.
-
-    Returns:
-        - string (:obj:`str`): Random hexidecimal digital string.
+    :param length: Length of the digits, default is 32.
+    :type length: int
+    :param upper: Whether to use uppercase letters, default is ``False``.
+    :type upper: bool
+    :param rnd: Random object you used, default is ``None`` which means just use the default one provided by system.
+    :type rnd: Optional[random.Random]
+    :return: Random hexadecimal digital string.
+    :rtype: str
 
     Examples::
         >>> from hbutils.random import random_hex_digits
@@ -127,20 +162,29 @@ _RANDOM_BYTES_LENGTH = 64
 
 
 def _random_hash(hash_func, length: int = _RANDOM_BYTES_LENGTH, rnd: Optional[random.Random] = None):
+    """
+    Generate a random hash string using the specified hash function.
+
+    :param hash_func: The hash function to apply to random bytes.
+    :type hash_func: callable
+    :param length: Length of random bytes to generate, default is 64.
+    :type length: int
+    :param rnd: Random object you used, default is ``None`` which means just use the default one provided by system.
+    :type rnd: Optional[random.Random]
+    :return: Hash string generated from random bytes.
+    :rtype: str
+    """
     return hash_func(random_bytes(length, allow_zero=False, rnd=rnd))
 
 
 def random_md5(rnd: Optional[random.Random] = None) -> str:
     """
-    Overview:
-        Create random md5 string.
+    Create random md5 string.
 
-    Arguments:
-        - rnd (:obj:`Optional[random.Random]`): Random object you used, \
-            default is ``None`` which means just use the default one provided by system.
-
-    Returns:
-        - string (:obj:`str`): Random md5 string.
+    :param rnd: Random object you used, default is ``None`` which means just use the default one provided by system.
+    :type rnd: Optional[random.Random]
+    :return: Random md5 string.
+    :rtype: str
 
     Examples::
         >>> from hbutils.random import random_md5
@@ -152,15 +196,12 @@ def random_md5(rnd: Optional[random.Random] = None) -> str:
 
 def random_sha1(rnd: Optional[random.Random] = None) -> str:
     """
-    Overview:
-        Create random sha1 string.
+    Create random sha1 string.
 
-    Arguments:
-        - rnd (:obj:`Optional[random.Random]`): Random object you used, \
-            default is ``None`` which means just use the default one provided by system.
-
-    Returns:
-        - string (:obj:`str`): Random sha1 string.
+    :param rnd: Random object you used, default is ``None`` which means just use the default one provided by system.
+    :type rnd: Optional[random.Random]
+    :return: Random sha1 string.
+    :rtype: str
 
     Examples::
         >>> from hbutils.random import random_sha1
@@ -172,16 +213,14 @@ def random_sha1(rnd: Optional[random.Random] = None) -> str:
 
 def random_base64(length: int = _RANDOM_BYTES_LENGTH, rnd: Optional[random.Random] = None) -> str:
     """
-    Overview:
-        Create random base64, may be useful when matrix verification code.
+    Create random base64 string, may be useful when matrix verification code.
 
-    Arguments:
-        - length (:obj:`int`): Length of the original binary data, default is 64.
-        - rnd (:obj:`Optional[random.Random]`): Random object you used, \
-            default is ``None`` which means just use the default one provided by system.
-
-    Returns:
-        - string (:obj:`str`): Random base64 string.
+    :param length: Length of the original binary data, default is 64.
+    :type length: int
+    :param rnd: Random object you used, default is ``None`` which means just use the default one provided by system.
+    :type rnd: Optional[random.Random]
+    :return: Random base64 string.
+    :rtype: str
 
     Examples::
         >>> from hbutils.random import random_base64
@@ -194,20 +233,25 @@ def random_base64(length: int = _RANDOM_BYTES_LENGTH, rnd: Optional[random.Rando
 
 
 def _timestamp():
+    """
+    Get current timestamp in the format 'YYYYMMDDHHMMSSffffff'.
+
+    :return: Formatted timestamp string.
+    :rtype: str
+    """
     return datetime.now().strftime("%Y%m%d%H%M%S%f")
 
 
 def random_md5_with_timestamp(rnd: Optional[random.Random] = None) -> str:
     """
-    Overview:
-        Create random md5 string with timestamp.
+    Create random md5 string with timestamp prefix.
 
-    Arguments:
-        - rnd (:obj:`Optional[random.Random]`): Random object you used, \
-            default is ``None`` which means just use the default one provided by system.
+    The format is '{timestamp}_{md5}' where timestamp is in 'YYYYMMDDHHMMSSffffff' format.
 
-    Returns:
-        - string (:obj:`str`): Random md5 string with timestamp.
+    :param rnd: Random object you used, default is ``None`` which means just use the default one provided by system.
+    :type rnd: Optional[random.Random]
+    :return: Random md5 string with timestamp prefix.
+    :rtype: str
 
     Examples::
         >>> from hbutils.random import random_md5_with_timestamp
@@ -219,15 +263,14 @@ def random_md5_with_timestamp(rnd: Optional[random.Random] = None) -> str:
 
 def random_sha1_with_timestamp(rnd: Optional[random.Random] = None) -> str:
     """
-    Overview:
-        Create random sha1 string with timestamp.
+    Create random sha1 string with timestamp prefix.
 
-    Arguments:
-        - rnd (:obj:`Optional[random.Random]`): Random object you used, \
-            default is ``None`` which means just use the default one provided by system.
+    The format is '{timestamp}_{sha1}' where timestamp is in 'YYYYMMDDHHMMSSffffff' format.
 
-    Returns:
-        - string (:obj:`str`): Random sha1 string with timestamp.
+    :param rnd: Random object you used, default is ``None`` which means just use the default one provided by system.
+    :type rnd: Optional[random.Random]
+    :return: Random sha1 string with timestamp prefix.
+    :rtype: str
 
     Examples::
         >>> from hbutils.random import random_sha1_with_timestamp

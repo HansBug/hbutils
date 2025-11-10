@@ -1,9 +1,10 @@
 """
 Overview:
-    Random function about the sequences.
+    Random function utilities for sequences, providing shuffle and multiple choice operations
+    with support for custom random instances and various collection types.
 """
 import random as random_module
-from typing import Collection, TypeVar
+from typing import Collection, TypeVar, Optional
 
 __all__ = ['shuffle', 'multiple_choice']
 
@@ -11,19 +12,21 @@ _random_inst = getattr(random_module, '_inst')
 _ElementType = TypeVar('_ElementType')
 
 
-def shuffle(seq: Collection[_ElementType], *, random=None):
+def shuffle(seq: Collection[_ElementType], *, random: Optional[random_module.Random] = None) -> Collection[_ElementType]:
     """
-    Overview:
-        Shuffle the given collection.
+    Shuffle the given collection and return a new shuffled collection of the same type.
 
-    Arguments:
-        - seq (:obj:`Collection[_ElementType]`): Original sequence to be shuffled.
-        - random: Random instance, default is ``None`` which means use the native instance \
-            from ``random`` module.
+    :param seq: Original sequence to be shuffled.
+    :type seq: Collection[_ElementType]
+    :param random: Random instance for shuffling. If None, uses the native instance from ``random`` module.
+    :type random: Optional[random_module.Random]
+
+    :return: A new shuffled collection of the same type as input.
+    :rtype: Collection[_ElementType]
 
     Examples::
         >>> shuffle([1, 2, 3])
-        [3, 1, 2]  # just one of the possiblities
+        [3, 1, 2]  # just one of the possibilities
         >>> shuffle(('a', 1, 'b', 2))
         ('b', 1, 2, 'a')  # the tuple type will be kept
     """
@@ -37,19 +40,23 @@ def shuffle(seq: Collection[_ElementType], *, random=None):
 
 
 def multiple_choice(seq: Collection[_ElementType], count: int, *,
-                    put_back: bool = False, random=None):
-    r"""
-    Overview:
-        Choose multiple items from the given sequence ``seq``.
+                    put_back: bool = False, random: Optional[random_module.Random] = None) -> Collection[_ElementType]:
+    """
+    Choose multiple items from the given sequence with or without replacement.
 
-    Arguments:
-        - seq (:obj:`Collection[_ElementType]`): Original sequence to be chosen.
-        - count (:obj:`int`): Choose count. Should be no more than length of ``seq`` \
-            when put back is disabled.
-        - put\_back (:obj:`bool`): Put back the chosen items or not, default is ``False`` \
-            which means do not put back, the chosen items will be unique.
-        - random: Random instance, default is ``None`` which means use the native instance \
-            from ``random`` module.
+    :param seq: Original sequence to choose items from.
+    :type seq: Collection[_ElementType]
+    :param count: Number of items to choose. Should be no more than length of ``seq`` when put_back is False.
+    :type count: int
+    :param put_back: Whether to put back the chosen items (sampling with replacement). 
+        If False, chosen items will be unique. Default is False.
+    :type put_back: bool
+    :param random: Random instance for selection. If None, uses the native instance from ``random`` module.
+    :type random: Optional[random_module.Random]
+
+    :return: A new collection of the same type as input containing the chosen items.
+    :rtype: Collection[_ElementType]
+    :raises ValueError: If put_back is False and count exceeds the length of seq.
 
     Examples::
         >>> multiple_choice([1, 2, 3], 2)

@@ -1,27 +1,33 @@
 """
 Overview:
     Useful utilities for truncate (shorten) your string.
+    
+This module provides functionality to truncate long strings into shorter forms
+with customizable options for width, tail display, and length indication.
 """
 from textwrap import shorten as _shorten
 
 __all__ = ['truncate']
 
 
-def truncate(text: str, width: int = 70, tail_length: int = 0, show_length: bool = False):
+def truncate(text: str, width: int = 70, tail_length: int = 0, show_length: bool = False) -> str:
     """
-    Overview:
-        Truncate string into short form.
+    Truncate string into short form.
+    
+    This function shortens a given text to a specified width, optionally showing
+    the tail portion of the original text and/or the total character count.
 
-    Arguments:
-        - text (:obj:`str`): Original text to be truncated.
-        - width (:obj:`int`): Final width of the new string, default is ``70``.
-        - tail_length (:obj:`int`): Tail's length of the new string, \
-            default is ``0`` which means no tail.
-        - show_length (:obj:`bool`): Show length in middle part or not, \
-            default is ``False`` which means do not show this.
-
-    Returns:
-        - shortened (:obj:`str`) Short-formed string.
+    :param text: Original text to be truncated.
+    :type text: str
+    :param width: Final width of the new string, default is ``70``.
+    :type width: int
+    :param tail_length: Tail's length of the new string, default is ``0`` which means no tail.
+    :type tail_length: int
+    :param show_length: Show length in middle part or not, default is ``False`` which means do not show this.
+    :type show_length: bool
+    
+    :return: Short-formed string.
+    :rtype: str
 
     Examples::
         >>> from hbutils.string import truncate

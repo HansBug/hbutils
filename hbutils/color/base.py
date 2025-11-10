@@ -1,3 +1,14 @@
+"""
+This module provides utilities for converting between CSS3 color names and their hexadecimal representations.
+
+The module contains:
+- A comprehensive mapping of CSS3 color names to hex values
+- A reverse mapping from hex values to color names
+- Functions to convert color names to hex format
+
+The CSS3 color set includes 147 named colors that can be used in web development and styling.
+"""
+
 _CSS3_COLOR_MAPS = {
     "aliceblue": "#f0f8ff",
     "antiquewhite": "#faebd7",
@@ -156,14 +167,27 @@ _CSS3_NAME_MAPS = {
 
 def _name_to_hex(name: str) -> str:
     """
-    Overview:
-        Turn color name to hex color.
-        Based on `webcolors.name_to_hex
-        <https://github.com/ubernostrum/webcolors/blob/17fa5173787677c26952c8468a50ef5773641968/src/webcolors.py#L355>`_.
-        The CSS3 color set is used.
+    Turn color name to hex color.
+    
+    Based on `webcolors.name_to_hex
+    <https://github.com/ubernostrum/webcolors/blob/17fa5173787677c26952c8468a50ef5773641968/src/webcolors.py#L355>`_.
+    The CSS3 color set is used.
 
     :param name: Name of the color, case is not sensitive.
-    :return hex: Hex formatted color of the given name.
+    :type name: str
+    
+    :return: Hex formatted color of the given name (e.g., "#ff0000" for red).
+    :rtype: str
+    
+    :raises ValueError: If the color name is not defined in the CSS3 color set.
+    
+    Example::
+        >>> _name_to_hex('red')  # Convert red to hex
+        '#ff0000'
+        >>> _name_to_hex('AliceBlue')  # Case insensitive
+        '#f0f8ff'
+        >>> _name_to_hex('invalid_color')  # Invalid color name
+        ValueError: 'invalid_color' is not defined as a named color.
     """
     try:
         return _CSS3_COLOR_MAPS[name.lower()]

@@ -31,14 +31,18 @@ __all__ = [
 
 def register_random_source(name: str, seed: _SEED_FUNC, getstate: _GETSTATE_FUNC, setstate: _SETSTATE_FUNC):
     """
-    Overview:
-        Register random source, providing name, random seed function, state getting function \
-        and state setting function.
+    Register random source, providing name, random seed function, state getting function \
+    and state setting function.
 
     :param name: Name of random source.
+    :type name: str
     :param seed: Seed function, format: ``seed(x)``.
+    :type seed: _SEED_FUNC
     :param getstate: State getting function, format: ``getstate()``.
+    :type getstate: _GETSTATE_FUNC
     :param setstate: State setting function, format: ``setstate(state)``.
+    :type setstate: _SETSTATE_FUNC
+    :raises NameError: If the name already exists in registered random sources.
 
     Examples::
         >>> import random
@@ -68,11 +72,12 @@ def register_random_source(name: str, seed: _SEED_FUNC, getstate: _GETSTATE_FUNC
 
 def register_random_instance(name: str, rnd: random.Random):
     """
-    Overview:
-        Register custom random instance.
+    Register custom random instance.
 
     :param name: Name of random source.
+    :type name: str
     :param rnd: Custom random instance, should be an instance of :class:`random.Random`.
+    :type rnd: random.Random
 
     Examples::
         >>> import random
@@ -99,10 +104,10 @@ def register_random_instance(name: str, rnd: random.Random):
 
 def get_global_state() -> Dict[str, T]:
     """
-    Overview:
-        Get states of registered random sources.
+    Get states of all registered random sources.
 
-    :returns: Global states.
+    :return: A dictionary mapping random source names to their current states.
+    :rtype: Dict[str, T]
 
     Examples::
         >>> import random
@@ -150,10 +155,14 @@ def get_global_state() -> Dict[str, T]:
 
 def set_global_state(states: Mapping[str, T]):
     """
-    Overview:
-        Set states of registered random sources.
+    Set states of registered random sources.
 
-    :param states: States to be set.
+    :param states: A mapping of random source names to their states to be restored.
+    :type states: Mapping[str, T]
+
+    .. note::
+        If a state is provided for a non-existent random source, a warning will be issued.
+        If a registered random source is not provided in the states, a warning will be issued.
 
     Examples::
         See :func:`get_global_state`.
@@ -180,8 +189,13 @@ def set_global_state(states: Mapping[str, T]):
 @contextmanager
 def keep_global_state():
     """
-    Overview:
-        Keep all the states during this period.
+    Context manager to preserve all random states during execution.
+
+    This context manager saves the current state of all registered random sources,
+    executes the code block, and then restores the saved states regardless of
+    whether the code block completes successfully or raises an exception.
+
+    :yields: None
 
     Examples::
         >>> import torch
@@ -215,10 +229,13 @@ def keep_global_state():
 
 def global_seed(seed: int):
     """
-    Overview:
-        Set seed for all registered random source.
+    Set seed for all registered random sources.
 
-    :param seed: Random seed.
+    This function applies the same seed value to all registered random sources,
+    ensuring reproducible random number generation across different libraries.
+
+    :param seed: Random seed value to be applied to all random sources.
+    :type seed: int
 
     Examples::
         See :func:`keep_global_state` and :func:`register_random_instance`.
@@ -228,12 +245,18 @@ def global_seed(seed: int):
         fseed(seed)
 
 
-def seedable_func(func):
+def seedable_func(func: Callable) -> Callable:
     """
-    Overview:
-        Wrap function to support seed.
+    Decorator to add seed support to a function.
 
-    :param func: Function to be decorated, a new ``seed`` argument will be added.
+    This decorator wraps a function to add an optional ``seed`` keyword argument.
+    When provided, the seed is applied to all registered random sources before
+    executing the function, enabling reproducible results.
+
+    :param func: Function to be decorated.
+    :type func: Callable
+    :return: Wrapped function with an additional ``seed`` keyword argument.
+    :rtype: Callable
 
     Examples::
         >>> import torch
@@ -271,8 +294,10 @@ def seedable_func(func):
     return _new_func
 
 
+# Register native Python random module
 register_random_source('native_random', random.seed, random.getstate, random.setstate)
 
+# Register numpy random source if available
 try:
     import numpy as np
 except ImportError:
@@ -280,6 +305,7 @@ except ImportError:
 else:
     register_random_source('numpy', np.random.seed, np.random.get_state, np.random.set_state)
 
+# Register PyTorch random source if available
 try:
     import torch
 except ImportError:
@@ -287,6 +313,7 @@ except ImportError:
 else:
     register_random_source('torch', torch.manual_seed, torch.get_rng_state, torch.set_rng_state)
 
+# Register Faker default random instance if available
 try:
     from faker import Faker
 except ImportError:

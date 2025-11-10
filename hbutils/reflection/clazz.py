@@ -1,6 +1,9 @@
 """
 Overview:
     Useful functions for processing python classes and types.
+    
+This module provides utility functions for working with Python classes and types,
+including class wrapping decorators and common base class detection.
 """
 from functools import WRAPPER_ASSIGNMENTS as CLASS_WRAPPER_ASSIGNMENTS
 from functools import update_wrapper, partial
@@ -17,23 +20,43 @@ CLASS_WRAPPER_UPDATES = ()
 def class_wraps(wrapped: type,
                 assigned: Tuple[str] = CLASS_WRAPPER_ASSIGNMENTS,
                 updated: Tuple[str] = CLASS_WRAPPER_UPDATES):
-    r"""
-    Overview:
-        Wrapper decorator for class.
+    """
+    Wrapper decorator for class.
+    
+    This function creates a decorator that can be used to wrap a class while preserving
+    its metadata (similar to functools.wraps but for classes). It updates the wrapper
+    class with attributes from the wrapped class.
 
-    Arguments:
-        - wrapped (:obj:`type`): Wrapped class.
-        - assigned (:obj:`Tuple[str]`): Wrapper assignments, equal to :func:`functools.wraps`'s \
-            ``WRAPPER_ASSIGNMENTS``.
-        - updated (:obj:`Tuple[str]`): Wrapper updates, default is ``()``, no update will be done.
-
-    Examples:
+    :param wrapped: The class to be wrapped.
+    :type wrapped: type
+    :param assigned: Tuple of attribute names to be assigned from wrapped to wrapper.
+                     Defaults to CLASS_WRAPPER_ASSIGNMENTS (same as functools.WRAPPER_ASSIGNMENTS).
+    :type assigned: Tuple[str]
+    :param updated: Tuple of attribute names to be updated from wrapped to wrapper.
+                    Defaults to CLASS_WRAPPER_UPDATES (empty tuple).
+    :type updated: Tuple[str]
+    
+    :return: A partial function that can be used as a decorator.
+    :rtype: functools.partial
+    
+    Examples::
         >>> def cls_dec(clazz):
-        >>>     @class_wraps(clazz)
-        >>>     class _NewClazz(clazz):
-        >>>         pass
-        >>>
-        >>>     return _NewClazz
+        ...     @class_wraps(clazz)
+        ...     class _NewClazz(clazz):
+        ...         pass
+        ...
+        ...     return _NewClazz
+        >>> 
+        >>> class Original:
+        ...     '''Original class docstring'''
+        ...     pass
+        >>> 
+        >>> @cls_dec
+        ... class Wrapped(Original):
+        ...     pass
+        >>> 
+        >>> Wrapped.__doc__
+        'Original class docstring'
     """
     return partial(update_wrapper, wrapped=wrapped,
                    assigned=assigned, updated=updated)
@@ -41,17 +64,20 @@ def class_wraps(wrapped: type,
 
 def common_base(cls: type, *clss: type) -> type:
     """
-    Overview:
-        Get common base class of the given classes.
-        Only ``__base__`` is considered.
+    Get common base class of the given classes.
+    
+    This function finds the most specific common base class shared by all provided classes.
+    Only the ``__base__`` attribute is considered during the search, which means it follows
+    the direct inheritance chain rather than the full MRO (Method Resolution Order).
 
-    Arguments:
-        - cls (:obj:`type`): First class.
-        - clss (:obj:`type`): Other classes.
-
-    Returns:
-        - base (:obj:`type`): Common base class.
-
+    :param cls: The first class to find common base for.
+    :type cls: type
+    :param clss: Additional classes to find common base for.
+    :type clss: type
+    
+    :return: The most specific common base class shared by all input classes.
+    :rtype: type
+    
     Examples::
         >>> from hbutils.reflection import common_base
         >>> common_base(object)
@@ -60,6 +86,14 @@ def common_base(cls: type, *clss: type) -> type:
         <class 'object'>
         >>> common_base(RuntimeError, ValueError, KeyError)
         <class 'Exception'>
+        >>> common_base(int, float)
+        <class 'object'>
+        >>> 
+        >>> class A: pass
+        >>> class B(A): pass
+        >>> class C(A): pass
+        >>> common_base(B, C)
+        <class '__main__.A'>
     """
     current_cls = cls
     for new_cls in clss:

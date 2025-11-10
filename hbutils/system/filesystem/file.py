@@ -1,6 +1,10 @@
 """
 Overview:
     Functions for file processing.
+    
+    This module provides utility functions for common file system operations including:
+    - Creating files and directories (touch)
+    - Pattern-based file searching (glob)
 """
 import glob as gb
 import os
@@ -14,13 +18,15 @@ __all__ = [
 
 def touch(file: str, exist_ok: bool = True, makedirs: bool = True):
     """
-    Overview:
-        Touch the file at given path.
-        Just like the ``touch`` command in unix system.
+    Touch the file at given path.
+    Just like the ``touch`` command in unix system.
 
-    :param file: Path of the file.
-    :param exist_ok: Exist is okay or not.
-    :param makedirs: Create directories when necessary.
+    :param file: Path of the file to create or update.
+    :type file: str
+    :param exist_ok: If True, do not raise an error if the file already exists. Defaults to True.
+    :type exist_ok: bool
+    :param makedirs: If True, create parent directories as needed. Defaults to True.
+    :type makedirs: bool
 
     .. note::
         You can use this like ``touch`` command on unix.
@@ -46,11 +52,16 @@ def touch(file: str, exist_ok: bool = True, makedirs: bool = True):
 
 def glob(*items) -> Iterator[str]:
     """
-    Overview:
-        Glob filter by the given ``items``.
+    Glob filter by the given ``items``.
 
-    :param items: Filter items.
-    :return: Filtered existing paths.
+    This function performs pattern matching on file paths using glob patterns.
+    Unlike the native ``glob.glob``, this function returns a generator that yields
+    matching paths, making it more memory-efficient for large result sets.
+
+    :param items: One or more glob patterns to match against file paths.
+    :type items: str
+    :return: Generator yielding paths that match any of the provided patterns.
+    :rtype: Iterator[str]
 
     .. note::
         :func:`glob` is different from native ``glob.glob``, for its return value is a generator instead of list.
@@ -62,7 +73,7 @@ def glob(*items) -> Iterator[str]:
         ['CONTRIBUTING.md', 'README.md']
         >>> list(glob('*.md', '*.txt'))  # multiple filter
         ['CONTRIBUTING.md', 'README.md', 'requirements-test.txt', 'requirements-doc.txt', 'requirements.txt']
-        >>> print(*glob('hbutils/system/**/*.py'), sep=\'\\n\')  # nested filter
+        >>> print(*glob('hbutils/system/**/*.py'), sep='\\n')  # nested filter
         hbutils/system/__init__.py
         hbutils/system/filesystem/directory.py
         hbutils/system/filesystem/file.py

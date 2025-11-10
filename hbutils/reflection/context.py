@@ -2,9 +2,20 @@
 Overview:
     Utilities for building context variables on thread level.
 
-    This is useful when implementing a with-block-based syntax.
-    For example:
+    This module provides a thread-safe context variable management system that allows
+    developers to create with-block-based syntax for managing state across function calls.
+    It's particularly useful for implementing context-dependent behavior without explicitly
+    passing parameters through the call stack.
 
+    The main features include:
+    
+    - Thread-level context variable storage
+    - Context inheritance and variable scoping
+    - Context wrapping for functions (useful in threading)
+    - Nested context management
+    - Conditional context creation
+
+    Example::
         >>> from contextlib import contextmanager
         >>> from hbutils.reflection import context
         >>>
@@ -44,14 +55,32 @@ __all__ = [
 
 
 def _get_pid() -> int:
+    """
+    Get the current process ID.
+
+    :return: The process ID of the current process.
+    :rtype: int
+    """
     return current_process().pid
 
 
 def _get_tid() -> int:
+    """
+    Get the current thread ID.
+
+    :return: The thread identifier of the current thread.
+    :rtype: int
+    """
     return current_thread().ident
 
 
 def _get_context_id() -> Tuple[int, int]:
+    """
+    Get the unique context identifier for the current thread.
+
+    :return: A tuple containing (process_id, thread_id).
+    :rtype: Tuple[int, int]
+    """
     return _get_pid(), _get_tid()
 
 
@@ -63,8 +92,11 @@ _ValueType = TypeVar('_ValueType')
 
 class ContextVars(collections.abc.Mapping):
     """
-    Overview:
-        Context variable management.
+    Context variable management class.
+
+    This class provides a thread-safe way to manage context variables that can be
+    temporarily modified within a with-block scope. It inherits from :class:`collections.abc.Mapping`
+    and supports standard mapping operations.
 
     .. note::
         This class is inherited from :class:`collections.abc.Mapping`.
@@ -74,19 +106,29 @@ class ContextVars(collections.abc.Mapping):
 
     .. warning::
         This object should be singleton on thread level.
-        It is not recommended constructing manually.
+        It is not recommended constructing manually. Use :func:`context` instead.
     """
 
     def __init__(self, **kwargs):
         """
-        Constructor of :class:`ContextVars`.
+        Initialize a ContextVars instance.
 
-        :param kwargs: Initial context values.
+        :param kwargs: Initial context variable key-value pairs.
+        :type kwargs: Any
         """
         self._vars = dict(kwargs)
 
     @contextmanager
     def _with_vars(self, params: Mapping[_KeyType, _ValueType], clear: bool = False):
+        """
+        Internal context manager for temporarily modifying context variables.
+
+        :param params: Dictionary of variables to set in the context.
+        :type params: Mapping[_KeyType, _ValueType]
+        :param clear: If True, remove all variables not present in params. Default is False.
+        :type clear: bool
+        :yield: None
+        """
         # initialize new values
         _origin = dict(self._vars)
         self._vars.update(params)
@@ -108,9 +150,14 @@ class ContextVars(collections.abc.Mapping):
     @contextmanager
     def vars(self, **kwargs):
         """
-        Adding variables into context of ``with`` block.
+        Add or modify variables in the context within a with-block.
 
-        :param kwargs: Additional context variables.
+        This method temporarily adds or updates context variables for the duration
+        of the with-block. Original values are restored when exiting the block.
+
+        :param kwargs: Context variables to add or modify.
+        :type kwargs: Any
+        :yield: None
 
         Examples::
             >>> from hbutils.reflection import context
@@ -131,7 +178,6 @@ class ContextVars(collections.abc.Mapping):
 
         .. note::
             See :func:`context`.
-
         """
         with self._with_vars(kwargs, clear=False):
             yield
@@ -139,9 +185,14 @@ class ContextVars(collections.abc.Mapping):
     @contextmanager
     def inherit(self, context_: 'ContextVars'):
         """
-        Inherit variables from the given context.
+        Inherit variables from another context.
 
-        :param context_: :class:`ContextVars` object to inherit from.
+        This method replaces the current context variables with those from the given
+        context. Variables not present in the given context will be removed.
+
+        :param context_: ContextVars object to inherit from.
+        :type context_: ContextVars
+        :yield: None
 
         .. note::
             After :meth:`inherit` is used, **the original variables which not present in the given ``context_`` \
@@ -151,24 +202,49 @@ class ContextVars(collections.abc.Mapping):
             yield
 
     def __getitem__(self, key: _KeyType):
+        """
+        Get a context variable by key.
+
+        :param key: The key of the variable to retrieve.
+        :type key: _KeyType
+        :return: The value associated with the key.
+        :rtype: _ValueType
+        :raises KeyError: If the key is not found in the context.
+        """
         return self._vars[key]
 
     def __len__(self) -> int:
+        """
+        Get the number of variables in the context.
+
+        :return: The number of context variables.
+        :rtype: int
+        """
         return len(self._vars)
 
     def __iter__(self) -> Iterator[_KeyType]:
+        """
+        Iterate over the keys of context variables.
+
+        :return: An iterator over the context variable keys.
+        :rtype: Iterator[_KeyType]
+        """
         return self._vars.__iter__()
 
 
 def context() -> ContextVars:
     """
-    Overview:
-        Get context object in this thread.
+    Get the context object for the current thread.
 
-    :return: Context object in this thread.
+    This function returns a thread-local singleton ContextVars instance. Each thread
+    has its own independent context that persists across function calls within that thread.
+
+    :return: The ContextVars object for the current thread.
+    :rtype: ContextVars
 
     .. note::
-        This result is unique on one thread.
+        This result is unique on one thread. Multiple calls within the same thread
+        will return the same ContextVars instance.
     """
     _context_id = _get_context_id()
     if _context_id not in _global_contexts:
@@ -180,44 +256,51 @@ def context() -> ContextVars:
 
 def cwrap(func, *, context_: Optional[ContextVars] = None, **vars_):
     """
-    Overview:
-        Context wrap for functions.
+    Wrap a function to inherit and extend context variables.
 
-    :param func: Original function to wrap.
-    :param context_: Context for inheriting. Default is ``None`` which means :func:`context`'s result will be used.
-    :param vars_: External variables after inherit context.
+    This decorator is essential for passing context variables into new threads,
+    as thread-local storage is not automatically inherited by child threads.
+
+    :param func: The function to wrap.
+    :type func: callable
+    :param context_: Context to inherit. If None, uses the current thread's context.
+    :type context_: Optional[ContextVars]
+    :param vars_: Additional variables to add after inheriting the context.
+    :type vars_: Any
+    :return: A wrapped function that executes with the inherited context.
+    :rtype: callable
+
+    Examples::
+        >>> from threading import Thread
+        >>> from hbutils.reflection import context, cwrap
+        >>>
+        >>> def var_detect():
+        ...     if context().get('var', None):
+        ...         print(f'Var detected, its value is {context()["var"]}.')
+        ...     else:
+        ...         print('Var not detected.')
+        >>>
+        >>> with context().vars(var=1):  # no inherit, vars will be lost in thread
+        ...     t = Thread(target=var_detect)
+        ...     t.start()
+        ...     t.join()
+        Var not detected.
+        >>> with context().vars(var=1):  # with inherit, vars will be kept in thread
+        ...     t = Thread(target=cwrap(var_detect))
+        ...     t.start()
+        ...     t.join()
+        Var detected, its value is 1.
 
     .. note::
         :func:`cwrap` is important when you need to pass the current context into thread.
-        And **it is compitable on all platforms**.
-
-        For example:
-
-            >>> from threading import Thread
-            >>> from hbutils.reflection import context, cwrap
-            >>>
-            >>> def var_detect():
-            ...     if context().get('var', None):
-            ...         print(f'Var detected, its value is {context()["var"]}.')
-            ...     else:
-            ...         print('Var not detected.')
-            >>>
-            >>> with context().vars(var=1):  # no inherit, vars will be lost in thread
-            ...     t = Thread(target=var_detect)
-            ...     t.start()
-            ...     t.join()
-            Var not detected.
-            >>> with context().vars(var=1):  # with inherit, vars will be kept in thread
-            ...     t = Thread(target=cwrap(var_detect))
-            ...     t.start()
-            ...     t.join()
-            Var detected, its value is 1.
+        And **it is compatible on all platforms**.
 
     .. warning::
-        :func:`cwrap` **is not compitable on Windows or Python3.8+ on macOS** when creating **new process**.
+        :func:`cwrap` **is not compatible on Windows or Python3.8+ on macOS** when creating **new process**.
         Please pass in direct arguments by ``args`` argument of :class:`Process`.
         If you insist on using :func:`context` feature, you need to pass the context object into the sub process.
-        For example:
+        
+        For example::
 
             >>> from contextlib import contextmanager
             >>> from multiprocessing import Process
@@ -250,7 +333,6 @@ def cwrap(func, *, context_: Optional[ContextVars] = None, **vars_):
             8
             15
             8
-
     """
     context_ = context_ or context()
 
@@ -264,6 +346,18 @@ def cwrap(func, *, context_: Optional[ContextVars] = None, **vars_):
 
 
 def _yield_nested_for(contexts, depth, items):
+    """
+    Internal recursive generator for nested context management.
+
+    :param contexts: List of context managers to nest.
+    :type contexts: list
+    :param depth: Current recursion depth.
+    :type depth: int
+    :param items: Accumulated items from entered contexts.
+    :type items: list
+    :yield: Tuple of items from all entered contexts.
+    :rtype: tuple
+    """
     if depth >= len(contexts):
         yield tuple(items)
     else:
@@ -275,10 +369,15 @@ def _yield_nested_for(contexts, depth, items):
 @contextmanager
 def nested_with(*contexts) -> ContextManager[Tuple[Any, ...]]:
     """
-    Overview:
-        Nested with, enter and exit multiple contexts.
+    Enter and exit multiple context managers in a nested fashion.
 
-    :param contexts: Contexts to manage.
+    This function allows you to manage multiple context managers simultaneously,
+    entering them in order and exiting them in reverse order (LIFO).
+
+    :param contexts: Variable number of context managers to nest.
+    :type contexts: ContextManager
+    :return: A context manager that yields a tuple of values from all nested contexts.
+    :rtype: ContextManager[Tuple[Any, ...]]
 
     Examples::
         >>> import os.path
@@ -342,14 +441,21 @@ def nested_with(*contexts) -> ContextManager[Tuple[Any, ...]]:
 @contextmanager
 def conditional_with(ctx, cond):
     """
-    Overview:
-        Conditional create context.
+    Conditionally create and enter a context manager.
 
-    :param ctx: Context object.
-    :param cond: Condition for create or not.
+    This function provides a way to conditionally use a context manager based on
+    a boolean condition. If the condition is False, the context is not entered
+    and None is yielded instead.
+
+    :param ctx: The context manager to conditionally enter.
+    :type ctx: ContextManager
+    :param cond: Boolean condition determining whether to enter the context.
+    :type cond: bool
+    :yield: The value from the context manager if cond is True, otherwise None.
+    :rtype: Any or None
 
     Examples::
-        Here is an example of conditionally create a temporary directory.
+        Here is an example of conditionally creating a temporary directory.
 
         >>> import os.path
         >>>

@@ -7,7 +7,7 @@ Overview:
 import colorsys
 import math
 import re
-from typing import Optional, Union, Tuple
+from typing import Optional, Union, Tuple, Callable
 
 from .base import _name_to_hex, _CSS3_NAME_MAPS
 from ..reflection.func import post_process, raising, freduce, dynamic_call, warning_
@@ -15,7 +15,24 @@ from ..reflection.func import post_process, raising, freduce, dynamic_call, warn
 __all__ = ['Color']
 
 
-def _round_mapper(min_: float, max_: float):
+def _round_mapper(min_: float, max_: float) -> Callable[[float], float]:
+    """
+    Create a mapper function that rounds values to a specified range.
+
+    :param min_: Minimum value of the range.
+    :type min_: float
+    :param max_: Maximum value of the range.
+    :type max_: float
+    :return: A function that maps input values to the specified range.
+    :rtype: Callable[[float], float]
+    
+    Example::
+        >>> mapper = _round_mapper(0.0, 1.0)
+        >>> mapper(1.5)  # Value greater than max
+        0.5
+        >>> mapper(-0.5)  # Value less than min
+        0.5
+    """
     min_, max_ = min(min_, max_), max(min_, max_)
     round_ = max_ - min_
 
@@ -30,7 +47,26 @@ def _round_mapper(min_: float, max_: float):
     return _func
 
 
-def _range_mapper(min_: Optional[float], max_: Optional[float], warning=None):
+def _range_mapper(min_: Optional[float], max_: Optional[float], warning: Optional[Callable] = None) -> Callable[[float], float]:
+    """
+    Create a mapper function that clamps values to a specified range with optional warning.
+
+    :param min_: Minimum value of the range, or None for no minimum limit.
+    :type min_: Optional[float]
+    :param max_: Maximum value of the range, or None for no maximum limit.
+    :type max_: Optional[float]
+    :param warning: Optional warning function to call when value is out of range.
+    :type warning: Optional[Callable]
+    :return: A function that clamps input values to the specified range.
+    :rtype: Callable[[float], float]
+    
+    Example::
+        >>> mapper = _range_mapper(0.0, 1.0)
+        >>> mapper(1.5)  # Value greater than max
+        1.0
+        >>> mapper(-0.5)  # Value less than min
+        0.0
+    """
     if min_ is not None and max_ is not None:
         min_, max_ = min(min_, max_), max(min_, max_)
     warning = dynamic_call(warning_(warning if warning is not None else lambda: None))
@@ -49,14 +85,38 @@ def _range_mapper(min_: Optional[float], max_: Optional[float], warning=None):
 
 
 class GetSetProxy:
-    def __init__(self, getter, setter=None):
+    """
+    Overview:
+        A proxy class that provides getter and setter functionality.
+    """
+
+    def __init__(self, getter: Callable, setter: Optional[Callable] = None):
+        """
+        Initialize the GetSetProxy.
+
+        :param getter: Function to get the value.
+        :type getter: Callable
+        :param setter: Optional function to set the value. If None, setter will raise NotImplementedError.
+        :type setter: Optional[Callable]
+        """
         self.__getter = getter
         self.__setter = setter or raising(lambda x: NotImplementedError)
 
     def set(self, value):
+        """
+        Set the value using the setter function.
+
+        :param value: Value to set.
+        :return: Result of the setter function.
+        """
         return self.__setter(value)
 
     def get(self):
+        """
+        Get the value using the getter function.
+
+        :return: The retrieved value.
+        """
         return self.__getter()
 
 
@@ -81,9 +141,13 @@ class RGBColorProxy:
         Constructor of :class:`RGBColorProxy`.
 
         :param this: Original color object.
+        :type this: Color
         :param r: Get-set proxy for red.
+        :type r: GetSetProxy
         :param g: Get-set proxy for green.
+        :type g: GetSetProxy
         :param b: Get-set proxy for blue.
+        :type b: GetSetProxy
         """
         self.__this = this
         self.__rp = r
@@ -97,11 +161,20 @@ class RGBColorProxy:
 
         .. note::
             Setter is available, the change will affect the :class:`Color` object.
+        
+        :return: Red component value.
+        :rtype: float
         """
         return self.__rp.get()
 
     @red.setter
     def red(self, new: float):
+        """
+        Set the red value.
+
+        :param new: New red value.
+        :type new: float
+        """
         self.__rp.set(new)
 
     @property
@@ -111,11 +184,20 @@ class RGBColorProxy:
 
         .. note::
             Setter is available, the change will affect the :class:`Color` object.
+        
+        :return: Green component value.
+        :rtype: float
         """
         return self.__gp.get()
 
     @green.setter
     def green(self, new: float):
+        """
+        Set the green value.
+
+        :param new: New green value.
+        :type new: float
+        """
         self.__gp.set(new)
 
     @property
@@ -125,16 +207,28 @@ class RGBColorProxy:
 
         .. note::
             Setter is available, the change will affect the :class:`Color` object.
+        
+        :return: Blue component value.
+        :rtype: float
         """
         return self.__bp.get()
 
     @blue.setter
     def blue(self, new: float):
+        """
+        Set the blue value.
+
+        :param new: New blue value.
+        :type new: float
+        """
         self.__bp.set(new)
 
     def __iter__(self):
         """
         Iterator for this proxy.
+
+        :return: Iterator yielding red, green, and blue values.
+        :rtype: Iterator[float]
 
         Examples::
             >>> from hbutils.color import Color
@@ -151,6 +245,9 @@ class RGBColorProxy:
     def __repr__(self):
         """
         Representation format.
+
+        :return: String representation of the RGB color proxy.
+        :rtype: str
 
         Examples::
             >>> from hbutils.color import Color
@@ -185,11 +282,15 @@ class HSVColorProxy:
         Constructor of :class:`HSVColorProxy`.
 
         :param this: Original color object.
+        :type this: Color
         :param h: Get-set proxy for hue.
+        :type h: GetSetProxy
         :param s: Get-set proxy for saturation.
+        :type s: GetSetProxy
         :param v: Get-set proxy for value.
+        :type v: GetSetProxy
         """
-        this.__this = this
+        self.__this = this
         self.__hp = h
         self.__sp = s
         self.__vp = v
@@ -201,11 +302,20 @@ class HSVColorProxy:
 
         .. note::
             Setter is available, the change will affect the :class:`Color` object.
+        
+        :return: Hue component value.
+        :rtype: float
         """
         return self.__hp.get()
 
     @hue.setter
     def hue(self, new: float):
+        """
+        Set the hue value.
+
+        :param new: New hue value.
+        :type new: float
+        """
         self.__hp.set(new)
 
     @property
@@ -215,11 +325,20 @@ class HSVColorProxy:
 
         .. note::
             Setter is available, the change will affect the :class:`Color` object.
+        
+        :return: Saturation component value.
+        :rtype: float
         """
         return self.__sp.get()
 
     @saturation.setter
     def saturation(self, new: float):
+        """
+        Set the saturation value.
+
+        :param new: New saturation value.
+        :type new: float
+        """
         self.__sp.set(new)
 
     @property
@@ -229,27 +348,48 @@ class HSVColorProxy:
 
         .. note::
             Setter is available, the change will affect the :class:`Color` object.
+        
+        :return: Value (brightness) component value.
+        :rtype: float
         """
         return self.__vp.get()
 
     @value.setter
     def value(self, new: float):
+        """
+        Set the value.
+
+        :param new: New value.
+        :type new: float
+        """
         self.__vp.set(new)
 
     @property
     def brightness(self) -> float:
         """
         Alias for ``value``.
+        
+        :return: Brightness (value) component value.
+        :rtype: float
         """
         return self.value
 
     @brightness.setter
     def brightness(self, new: float):
+        """
+        Set the brightness value.
+
+        :param new: New brightness value.
+        :type new: float
+        """
         self.value = new
 
     def __iter__(self):
         """
         Iterator for this proxy.
+
+        :return: Iterator yielding hue, saturation, and value.
+        :rtype: Iterator[float]
 
         Examples::
             >>> from hbutils.color import Color
@@ -266,6 +406,9 @@ class HSVColorProxy:
     def __repr__(self):
         """
         Representation format.
+
+        :return: String representation of the HSV color proxy.
+        :rtype: str
 
         Examples::
             >>> from hbutils.color import Color
@@ -300,11 +443,15 @@ class HLSColorProxy:
         Constructor of :class:`HLSColorProxy`.
 
         :param this: Original color object.
+        :type this: Color
         :param h: Get-set proxy for hue.
+        :type h: GetSetProxy
         :param l: Get-set proxy for lightness.
+        :type l: GetSetProxy
         :param s: Get-set proxy for saturation.
+        :type s: GetSetProxy
         """
-        this.__this = this
+        self.__this = this
         self.__hp = h
         self.__lp = l
         self.__sp = s
@@ -316,11 +463,20 @@ class HLSColorProxy:
 
         .. note::
             Setter is available, the change will affect the :class:`Color` object.
+        
+        :return: Hue component value.
+        :rtype: float
         """
         return self.__hp.get()
 
     @hue.setter
     def hue(self, new: float):
+        """
+        Set the hue value.
+
+        :param new: New hue value.
+        :type new: float
+        """
         self.__hp.set(new)
 
     @property
@@ -330,11 +486,20 @@ class HLSColorProxy:
 
         .. note::
             Setter is available, the change will affect the :class:`Color` object.
+        
+        :return: Lightness component value.
+        :rtype: float
         """
         return self.__lp.get()
 
     @lightness.setter
     def lightness(self, new: float):
+        """
+        Set the lightness value.
+
+        :param new: New lightness value.
+        :type new: float
+        """
         self.__lp.set(new)
 
     @property
@@ -344,16 +509,28 @@ class HLSColorProxy:
 
         .. note::
             Setter is available, the change will affect the :class:`Color` object.
+        
+        :return: Saturation component value.
+        :rtype: float
         """
         return self.__sp.get()
 
     @saturation.setter
     def saturation(self, new: float):
+        """
+        Set the saturation value.
+
+        :param new: New saturation value.
+        :type new: float
+        """
         self.__sp.set(new)
 
     def __iter__(self):
         """
         Iterator for this proxy.
+
+        :return: Iterator yielding hue, lightness, and saturation.
+        :rtype: Iterator[float]
 
         Examples::
             >>> from hbutils.color import Color
@@ -370,6 +547,9 @@ class HLSColorProxy:
     def __repr__(self):
         """
         Representation format.
+
+        :return: String representation of the HLS color proxy.
+        :rtype: str
 
         Examples::
             >>> from hbutils.color import Color
@@ -396,6 +576,13 @@ _RGB_COLOR_PATTERN = re.compile(r'^#?([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2
 
 @freduce(init=None)
 def _ratio_or(a, b):
+    """
+    Return b if a is None, otherwise return a.
+
+    :param a: First value.
+    :param b: Second value.
+    :return: a if a is not None, otherwise b.
+    """
     return b if a is None else a
 
 
@@ -444,14 +631,14 @@ class Color:
 
     def __init__(self, c: Union[str, Tuple[float, float, float], 'Color'], alpha: Optional[float] = None):
         """
-        Overview:
-            Constructor of ``Color``.
+        Constructor of ``Color``.
 
-        Arguments:
-            - c (:obj:`Union[str, Tuple[float, float, float]]`): Color value, can be hex string value \
-                or tuple rgb value.
-            - alpha: (:obj:`Optional[float]`): Alpha value of color, \
-                default is `None` which means no alpha value.
+        :param c: Color value, can be hex string value, tuple rgb value, or another Color object.
+        :type c: Union[str, Tuple[float, float, float], Color]
+        :param alpha: Alpha value of color, default is None which means no alpha value.
+        :type alpha: Optional[float]
+        :raises TypeError: If c is not a valid color type.
+        :raises ValueError: If c is an invalid string color format.
         """
         if isinstance(c, tuple):
             self.__r, self.__g, self.__b = _r_mapper(c[0]), _g_mapper(c[1]), _b_mapper(c[2])
@@ -488,32 +675,56 @@ class Color:
         """
         Alpha value, which means the transparent ratio (within :math:`\\left[0.0, 1.0\\right]`).
 
-        :: note::
+        .. note::
             Setter is available.
+        
+        :return: Alpha value, or None if no alpha is set.
+        :rtype: Optional[float]
         """
         return self.__alpha
 
     @alpha.setter
     def alpha(self, new: Optional[float]):
+        """
+        Set the alpha value.
+
+        :param new: New alpha value.
+        :type new: Optional[float]
+        """
         if new is not None:
             new = _a_mapper(new)
         self.__alpha = new
 
-    def __get_rgb(self):
+    def __get_rgb(self) -> Tuple[float, float, float]:
+        """
+        Get RGB values.
+
+        :return: Tuple of (red, green, blue) values.
+        :rtype: Tuple[float, float, float]
+        """
         return self.__r, self.__g, self.__b
 
-    def __set_rgb(self, r=None, g=None, b=None):
+    def __set_rgb(self, r: Optional[float] = None, g: Optional[float] = None, b: Optional[float] = None):
+        """
+        Set RGB values.
+
+        :param r: Red value, or None to keep current value.
+        :type r: Optional[float]
+        :param g: Green value, or None to keep current value.
+        :type g: Optional[float]
+        :param b: Blue value, or None to keep current value.
+        :type b: Optional[float]
+        """
         self.__r, self.__g, self.__b = map(lambda args: _ratio_or(*args), zip((r, g, b), self.__get_rgb()))
 
     @property
     def rgb(self) -> RGBColorProxy:
         """
-        Overview:
-            Get rgb color system based color proxy.
-            See :class:`RGBColorProxy`.
+        Get rgb color system based color proxy.
+        See :class:`RGBColorProxy`.
 
-        Returns:
-            - proxy (:obj:`RGBColorProxy`): Rgb color proxy.
+        :return: Rgb color proxy.
+        :rtype: RGBColorProxy
         """
         return RGBColorProxy(
             self,
@@ -531,22 +742,37 @@ class Color:
             ),
         )
 
-    def __get_hsv(self):
+    def __get_hsv(self) -> Tuple[float, float, float]:
+        """
+        Get HSV values.
+
+        :return: Tuple of (hue, saturation, value) values.
+        :rtype: Tuple[float, float, float]
+        """
         return colorsys.rgb_to_hsv(self.__r, self.__g, self.__b)
 
-    def __set_hsv(self, h=None, s=None, v=None):
+    def __set_hsv(self, h: Optional[float] = None, s: Optional[float] = None, v: Optional[float] = None):
+        """
+        Set HSV values.
+
+        :param h: Hue value, or None to keep current value.
+        :type h: Optional[float]
+        :param s: Saturation value, or None to keep current value.
+        :type s: Optional[float]
+        :param v: Value (brightness) value, or None to keep current value.
+        :type v: Optional[float]
+        """
         h, s, v = map(lambda args: _ratio_or(*args), zip((h, s, v), self.__get_hsv()))
         self.__r, self.__g, self.__b = colorsys.hsv_to_rgb(h, s, v)
 
     @property
     def hsv(self) -> HSVColorProxy:
         """
-        Overview:
-            Get hsv color system based color proxy.
-            See :class:`HSVColorProxy`.
+        Get hsv color system based color proxy.
+        See :class:`HSVColorProxy`.
 
-        Returns:
-            - proxy (:obj:`HSVColorProxy`): Hsv color proxy.
+        :return: Hsv color proxy.
+        :rtype: HSVColorProxy
         """
         return HSVColorProxy(
             self,
@@ -564,22 +790,37 @@ class Color:
             ),
         )
 
-    def __get_hls(self):
+    def __get_hls(self) -> Tuple[float, float, float]:
+        """
+        Get HLS values.
+
+        :return: Tuple of (hue, lightness, saturation) values.
+        :rtype: Tuple[float, float, float]
+        """
         return colorsys.rgb_to_hls(self.__r, self.__g, self.__b)
 
-    def __set_hls(self, h=None, l_=None, s=None):
+    def __set_hls(self, h: Optional[float] = None, l_: Optional[float] = None, s: Optional[float] = None):
+        """
+        Set HLS values.
+
+        :param h: Hue value, or None to keep current value.
+        :type h: Optional[float]
+        :param l_: Lightness value, or None to keep current value.
+        :type l_: Optional[float]
+        :param s: Saturation value, or None to keep current value.
+        :type s: Optional[float]
+        """
         h, l, s = map(lambda args: _ratio_or(*args), zip((h, l_, s), self.__get_hls()))
         self.__r, self.__g, self.__b = colorsys.hls_to_rgb(h, l, s)
 
     @property
     def hls(self) -> HLSColorProxy:
         """
-        Overview:
-            Get hls color system based color proxy.
-            See :class:`HLSColorProxy`.
+        Get hls color system based color proxy.
+        See :class:`HLSColorProxy`.
 
-        Returns:
-            - proxy (:obj:`HLSColorProxy`): Hls color proxy.
+        :return: Hls color proxy.
+        :rtype: HLSColorProxy
         """
         return HLSColorProxy(
             self,
@@ -597,17 +838,37 @@ class Color:
             ),
         )
 
-    def __get_hex(self, include_alpha: bool):
+    def __get_hex(self, include_alpha: bool) -> str:
+        """
+        Get hexadecimal representation of the color.
+
+        :param include_alpha: Whether to include alpha channel in the hex string.
+        :type include_alpha: bool
+        :return: Hexadecimal color string.
+        :rtype: str
+        """
         rs, gs, bs = _ratio_to_hex(self.__r), _ratio_to_hex(self.__g), _ratio_to_hex(self.__b)
         as_ = _ratio_to_hex(self.__alpha) if self.__alpha is not None and include_alpha else ''
 
         return '#' + rs + gs + bs + as_
 
-    def __get_name(self):
+    def __get_name(self) -> str:
+        """
+        Get the CSS3 color name if available, otherwise return hex string.
+
+        :return: Color name or hex string.
+        :rtype: str
+        """
         _hex = self.__get_hex(False).lower()
         return _CSS3_NAME_MAPS.get(_hex, _hex)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
+        """
+        Get the string representation of the Color object.
+
+        :return: String representation.
+        :rtype: str
+        """
         if self.__alpha is not None:
             return '<{cls} {hex}, alpha: {alpha}>'.format(
                 cls=self.__class__.__name__,
@@ -620,52 +881,49 @@ class Color:
                 hex=self.__get_name(),
             )
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Hex format of this :class:`Color` object.
+        
+        :return: Hexadecimal color string.
+        :rtype: str
         """
         return self.__get_hex(True)
 
     def __getstate__(self) -> Tuple[float, float, float, Optional[float]]:
         """
-        Overview:
-            Dump color as pickle object.
+        Dump color as pickle object.
 
-        Returns:
-            - info (:obj:`Tuple[float, float, float, Optional[float]]`): Dumped data object.
+        :return: Dumped data object containing (r, g, b, alpha).
+        :rtype: Tuple[float, float, float, Optional[float]]
         """
         return self.__r, self.__g, self.__b, self.__alpha
 
     def __setstate__(self, v: Tuple[float, float, float, Optional[float]]):
         """
-        Overview:
-            Load color from pickle object.
+        Load color from pickle object.
 
-        Args:
-            - v (:obj:`Tuple[float, float, float, Optional[float]]`): Dumped data object.
+        :param v: Dumped data object containing (r, g, b, alpha).
+        :type v: Tuple[float, float, float, Optional[float]]
         """
         self.__r, self.__g, self.__b, self.__alpha = v
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         """
-        Overview:
-            Get hash value of current object.
+        Get hash value of current object.
 
-        Returns:
-            - hash (:obj:`int`): Hash value of current color.
+        :return: Hash value of current color.
+        :rtype: int
         """
         return hash(self.__getstate__())
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         """
-        Overview:
-            Get equality between colors.
+        Get equality between colors.
 
-        Arguments:
-            - other: Another object.
-
-        Returns:
-            - equal (:obj:`bool`): Equal or not.
+        :param other: Another object to compare with.
+        :return: True if equal, False otherwise.
+        :rtype: bool
         """
         if other is self:
             return True
@@ -675,70 +933,70 @@ class Color:
             return False
 
     @classmethod
-    def from_rgb(cls, r, g, b, alpha=None) -> 'Color':
+    def from_rgb(cls, r: float, g: float, b: float, alpha: Optional[float] = None) -> 'Color':
         """
-        Overview:
-            Load color from rgb system.
+        Load color from rgb system.
 
-        Arguments:
-            - r (:obj:`float`): Red value, should be a float value in :math:`\\left[0, 1\\right)`.
-            - g (:obj:`float`): Green value, should be a float value in :math:`\\left[0, 1\\right]`.
-            - b (:obj:`float`): Blue value, should be a float value in :math:`\\left[0, 1\\right]`.
-            - alpha (:obj:`Optional[float]`): Alpha value, should be a float value \
-                in :math:`\\left[0, 1\\right]`, default is None which means no alpha value is used.
-
-        Returns:
-            - color (:obj:`Color`): Color object.
+        :param r: Red value, should be a float value in :math:`\\left[0, 1\\right]`.
+        :type r: float
+        :param g: Green value, should be a float value in :math:`\\left[0, 1\\right]`.
+        :type g: float
+        :param b: Blue value, should be a float value in :math:`\\left[0, 1\\right]`.
+        :type b: float
+        :param alpha: Alpha value, should be a float value in :math:`\\left[0, 1\\right]`, \
+            default is None which means no alpha value is used.
+        :type alpha: Optional[float]
+        :return: Color object.
+        :rtype: Color
         """
         return cls((r, g, b), alpha)
 
     @classmethod
     def from_hex(cls, hex_: str) -> 'Color':
         r"""
-        Overview:
-            Load color from hexadecimal rgb string.
+        Load color from hexadecimal rgb string.
 
-        Arguments:
-            - hex\_ (:obj:`str`): Hexadecimal string, maybe starts with ``#``.
-
-        Returns:
-            - color (:obj:`Color`): Color object.
+        :param hex\_: Hexadecimal string, maybe starts with ``#``.
+        :type hex\_: str
+        :return: Color object.
+        :rtype: Color
         """
         return cls(hex_)
 
     @classmethod
-    def from_hsv(cls, h, s, v, alpha=None) -> 'Color':
+    def from_hsv(cls, h: float, s: float, v: float, alpha: Optional[float] = None) -> 'Color':
         """
-        Overview:
-            Load color from hsv system.
+        Load color from hsv system.
 
-        Arguments:
-            - h (:obj:`float`): Hue value, should be a float value in :math:`\\left[0, 1\\right)`.
-            - s (:obj:`float`): Saturation value, should be a float value in :math:`\\left[0, 1\\right]`.
-            - v (:obj:`float`): Brightness (value) value, should be a float value \
-                in :math:`\\left[0, 1\\right]`.
-            - alpha (:obj:`Optional[float]`): Alpha value, should be a float value \
-                in :math:`\\left[0, 1\\right]`, default is None which means no alpha value is used.
-
-        Returns:
-            - color (:obj:`Color`): Color object.
+        :param h: Hue value, should be a float value in :math:`\\left[0, 1\\right)`.
+        :type h: float
+        :param s: Saturation value, should be a float value in :math:`\\left[0, 1\\right]`.
+        :type s: float
+        :param v: Brightness (value) value, should be a float value in :math:`\\left[0, 1\\right]`.
+        :type v: float
+        :param alpha: Alpha value, should be a float value in :math:`\\left[0, 1\\right]`, \
+            default is None which means no alpha value is used.
+        :type alpha: Optional[float]
+        :return: Color object.
+        :rtype: Color
         """
         return cls(colorsys.hsv_to_rgb(h, s, v), alpha)
 
     @classmethod
     def from_hls(cls, h: float, l: float, s: float, alpha: Optional[float] = None) -> 'Color':
         """
-        Overview:
-            Load color from hls system.
+        Load color from hls system.
 
-        Arguments:
-            - h (:obj:`float`): Hue value, should be a float value in :math:`\\left[0, 1\\right)`.
-            - l (:obj:`float`): Lightness value, should be a float value in :math:`\\left[0, 1\\right]`.
-            - s (:obj:`float`): Saturation value, should be a float value in :math:`\\left[0, 1\\right]`.
-            - alpha (:obj:`Optional[float]`): Alpha value, should be a float value \
-                in :math:`\\left[0, 1\\right]`, default is None which means no alpha value is used.
-
-        Returns:
-            - color (:obj:`Color`): Color object.
+        :param h: Hue value, should be a float value in :math:`\\left[0, 1\\right)`.
+        :type h: float
+        :param l: Lightness value, should be a float value in :math:`\\left[0, 1\\right]`.
+        :type l: float
+        :param s: Saturation value, should be a float value in :math:`\\left[0, 1\\right]`.
+        :type s: float
+        :param alpha: Alpha value, should be a float value in :math:`\\left[0, 1\\right]`, \
+            default is None which means no alpha value is used.
+        :type alpha: Optional[float]
+        :return: Color object.
+        :rtype: Color
         """
         return cls(colorsys.hls_to_rgb(h, l, s), alpha)

@@ -1,3 +1,17 @@
+"""
+This module provides version and environment checking utilities for testing purposes.
+
+It includes version information objects for Python and pip packages, as well as
+operating system and Python implementation detection utilities. These are particularly
+useful for conditional test execution based on environment characteristics.
+
+The module exports:
+- vpython: Python version expression object
+- vpip: Pip and package version expression object
+- OS: Operating system detection class
+- Impl: Python implementation detection class
+"""
+
 from abc import ABCMeta
 
 from .version import VersionInfo
@@ -40,7 +54,27 @@ Examples::
 
 
 class PipVersionInfo(VersionInfo):
+    """
+    A specialized VersionInfo class for handling pip and package version checks.
+    
+    This class extends VersionInfo to provide both pip version checking and
+    the ability to check versions of arbitrary installed packages.
+    """
+    
     def __call__(self, name: str) -> VersionInfo:
+        """
+        Get version information for a specific package.
+        
+        :param name: The name of the package to check.
+        :type name: str
+        
+        :return: A VersionInfo object for the specified package.
+        :rtype: VersionInfo
+        
+        Example::
+            >>> vpip('setuptools')  # Get setuptools version info
+            VersionInfo(...)
+        """
         return VersionInfo(lambda: package_version(name))
 
 
@@ -141,8 +175,7 @@ class Impl:
 
     Examples::
         >>> import unittest
-
-from hbutils.testing import Impl
+        >>> from hbutils.testing import Impl
         >>>
         >>> class TestMyCase(unittest.TestCase):  # on CPython
         ...     def test_1_anytime(self):
