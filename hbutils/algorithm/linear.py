@@ -2,7 +2,10 @@
 This module provides utilities for creating multi-staged linear gradient mappings based on float numbers.
 
 The main functionality allows users to define piecewise linear functions through a sequence of control points,
-either with automatic x-spacing or custom x-coordinates.
+either with automatic x-spacing or custom x-coordinates. This is useful for creating custom interpolation
+functions, gradient mappings, and other piecewise linear transformations.
+
+The module exports a single function :func:`linear_map` that creates callable piecewise linear mapping functions.
 """
 
 from bisect import bisect_right
@@ -98,6 +101,10 @@ def linear_map(points: Union[Sequence[float], Sequence[Tuple[float, float]]]) ->
     def _linear(x: float) -> float:
         """
         Perform linear interpolation for the given x-value.
+
+        This internal function performs piecewise linear interpolation based on the control points
+        defined in the outer scope. It uses binary search to find the appropriate segment and then
+        performs linear interpolation within that segment.
 
         :param x: The x-coordinate for which to calculate the interpolated y-value.
         :type x: float
