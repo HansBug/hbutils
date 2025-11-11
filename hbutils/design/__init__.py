@@ -9,6 +9,19 @@ Overview:
     - Final class/method decorators
     - Observer pattern implementation
     - Singleton pattern implementation
+
+.. note::
+    This module serves as the main entry point for the design pattern utilities,
+    importing and exposing all public APIs from its submodules.
+
+Examples::
+    >>> from hbutils.design import SingletonMeta
+    >>> class MyClass(metaclass=SingletonMeta):
+    ...     pass
+    >>> instance1 = MyClass()
+    >>> instance2 = MyClass()
+    >>> instance1 is instance2
+    True
 """
 from .decorator import *
 from .final import *

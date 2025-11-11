@@ -6,5 +6,8 @@ Overview:
     such as module imports, attribute access, and other runtime characteristics.
     It is primarily used for testing purposes to create controlled environments
     that mimic specific Python runtime scenarios.
+    
+    The module re-exports all utilities from the entry submodule, which focuses on
+    simulating CLI entry point execution for testing purposes.
 """
 from .entry import *

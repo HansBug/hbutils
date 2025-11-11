@@ -11,5 +11,9 @@ Overview:
 Note:
     This module focuses on single file operations. For filesystem-level operations,
     refer to the filesystem utilities in ``hbutils.system.filesystem``.
+
+Example::
+    >>> from hbutils.file import *
+    >>> # Use stream utilities for file operations
 """
 from .stream import *

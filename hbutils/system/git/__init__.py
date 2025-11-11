@@ -11,6 +11,14 @@ The module uses subprocess to run Git commands and parse their output, providing
 the Git and Git LFS installations on the system.
 
 This is the main entry point for the git system utilities, which re-exports all functionality from the info module.
+
+Example::
+    >>> from hbutils.system.git import git_info
+    >>> info = git_info()
+    >>> if info['installed']:
+    ...     print(f"Git version: {info['version']}")
+    ...     if info['lfs']['installed']:
+    ...         print(f"Git LFS version: {info['lfs']['version']}")
 """
 
 from .info import *

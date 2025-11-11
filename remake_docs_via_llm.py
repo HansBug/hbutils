@@ -15,6 +15,7 @@ The module supports:
 """
 import argparse
 import glob
+import io
 import os
 import pathlib
 from functools import lru_cache
@@ -47,6 +48,75 @@ def get_client() -> OpenAI:
         api_key=os.environ['OPENAI_API_KEY'],
         base_url=os.environ['OPENAI_SITE'],
     )
+
+
+def get_module_doc_string(code_text: str) -> str:
+    """
+    Extract the module-level docstring from Python code text.
+
+    This function parses the provided Python code to extract the module-level
+    docstring (if present) at the beginning of the file. It handles both
+    single-quoted (''') and double-quoted (\"\"\") docstring formats.
+
+    :param code_text: The Python source code text to parse.
+    :type code_text: str
+
+    :return: The extracted module docstring, or empty string if not found.
+    :rtype: str
+
+    Example::
+        >>> code = '\"\"\"Module doc\"\"\"\\nprint("hello")'
+        >>> get_module_doc_string(code)
+        'Module doc'
+    """
+    doc_lines = []
+    status, prefix = 'idle', None
+
+    for line in code_text.strip().splitlines(keepends=False):
+        if status == 'idle' and (line.startswith('\'\'\'') or line.startswith('"""')):
+            prefix = line[:3]
+            status = 'recording'
+            if line[3:]:
+                doc_lines.append(line[3:])
+        elif status == 'recording':
+            if line.endswith(prefix):
+                if line[:-3]:
+                    doc_lines.append(line[:-3])
+                break
+            else:
+                doc_lines.append(line)
+
+    doc_string = os.linesep.join(doc_lines).strip()
+    return doc_string
+
+
+def get_module_doc_tree(file: str) -> str:
+    """
+    Generate a documentation tree for all Python modules in the file's directory.
+
+    This function recursively scans the directory containing the specified file
+    and extracts module-level docstrings from all Python files found. The result
+    is formatted as a text document showing the relative path and docstring for
+    each module.
+
+    :param file: Path to a Python file whose directory will be scanned.
+    :type file: str
+
+    :return: Formatted text containing all module docstrings in the directory tree.
+    :rtype: str
+
+    Example::
+        >>> doc_tree = get_module_doc_tree('./my_project/module.py')
+        >>> # Returns formatted documentation for all modules in my_project/
+    """
+    with io.StringIO() as sf:
+        for pyfile in glob.glob(os.path.join(os.path.dirname(file), '**', '*.py'), recursive=True):
+            print(f'## Module doc of {pyfile} (relative: {os.path.relpath(pyfile, os.path.dirname(file))})', file=sf)
+            print(f'', file=sf)
+            print(f'{get_module_doc_string(pathlib.Path(pyfile).read_text())}', file=sf)
+            print(f'', file=sf)
+
+        return sf.getvalue().strip()
 
 
 def build_file_tree(root_path: str) -> Tuple[str, List]:
@@ -201,19 +271,21 @@ def _unwrap_python_code(code_output: str) -> str:
     return os.linesep.join(lines)
 
 
-def get_docs(code_text: str, directory_tree: Optional[str] = None) -> str:
+def get_docs(code_text: str, directory_tree: Optional[str] = None, doc_tree: Optional[str] = None) -> str:
     """
     Generate documentation for the provided Python code using OpenAI API.
 
     This function sends the provided Python code to OpenAI's language model
     and receives back the same code enhanced with comprehensive documentation.
-    Optionally includes directory tree context to help the model understand
-    the project structure.
+    Optionally includes directory tree context and module documentation tree
+    to help the model understand the project structure and existing documentation.
 
     :param code_text: The Python source code to document.
     :type code_text: str
     :param directory_tree: Optional directory tree structure for context.
     :type directory_tree: Optional[str]
+    :param doc_tree: Optional documentation tree of related modules for context.
+    :type doc_tree: Optional[str]
 
     :return: The Python code with added documentation.
     :rtype: str
@@ -227,7 +299,9 @@ def get_docs(code_text: str, directory_tree: Optional[str] = None) -> str:
     client = get_client()
     if directory_tree:
         code_text = (f'{code_text}\n\n'
-                     f'And this is the directory tree related to this file, you can use it as reference:\n{directory_tree}')
+                     f'And this is the directory tree related to this file, you can use it as reference:\n{directory_tree}\n\n')
+    if doc_tree:
+        code_text = f'{code_text}\n\nAnd this is this docs of the source files in its directory:\n{doc_tree}\n\n'
 
     response = client.chat.completions.create(
         model=os.environ.get('OPENAI_MODEL_NAME', "claude-sonnet-4-5"),
@@ -271,6 +345,7 @@ def make_doc_for_file(file: str, include_directory_tree: Optional[bool] = None) 
     new_docs = get_docs(
         code_text=pathlib.Path(file).read_text(),
         directory_tree=dir_tree_text(os.path.dirname(file)) if include_directory_tree else None,
+        doc_tree=get_module_doc_tree(file) if include_directory_tree else None,
     )
     with open(file, 'w') as f:
         print(new_docs, file=f)

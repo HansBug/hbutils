@@ -10,6 +10,10 @@ The module exports functionality from the following submodules:
     - template: String templating utilities
     - tree: Tree structure string representation utilities
     - trunc: String truncation utilities
+
+This is the main entry point for the hbutils.string package, providing a unified
+interface to all string processing utilities through wildcard imports from its
+submodules.
 """
 from .inflection import *
 from .plural import *

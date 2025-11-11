@@ -15,6 +15,15 @@ Overview:
     - sequence: Sequence manipulation and processing utilities
     - stacked: Operations for stacked or nested collections
     - structural: Structural transformation and analysis utilities
+    
+    Example::
+        >>> from hbutils.collection import unique, group_by
+        >>> # Remove duplicates while preserving order
+        >>> unique([1, 2, 2, 3, 1, 4])
+        [1, 2, 3, 4]
+        >>> # Group elements by criteria
+        >>> group_by([1, 2, 3, 4, 5], lambda x: x % 2)
+        {1: [1, 3, 5], 0: [2, 4]}
 """
 from .dimension import *
 from .functional import *
