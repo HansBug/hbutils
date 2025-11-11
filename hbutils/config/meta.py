@@ -1,7 +1,7 @@
 """
 Overview:
     Meta information for hbutils package.
-    
+
 This module contains metadata constants for the hbutils package, including version,
 author information, and project description. These constants are typically used in
 setup configuration and package distribution.
@@ -11,7 +11,7 @@ setup configuration and package distribution.
 __TITLE__ = "hbutils"
 
 #: Version of this project.
-__VERSION__ = "0.11.0"
+__VERSION__ = "0.12.0"
 
 #: Short description of the project, will be included in ``setup.py``.
 __DESCRIPTION__ = 'Some useful functions and classes in Python infrastructure development.'
