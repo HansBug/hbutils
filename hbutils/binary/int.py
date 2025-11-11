@@ -1,3 +1,30 @@
+"""
+This module provides signed integer types for binary I/O operations.
+
+It implements various signed integer types (8-bit, 16-bit, 32-bit, 64-bit) that can be used
+to read from and write to binary files or streams. The module also provides platform-dependent
+type aliases that match C language integer types.
+
+The main class is :class:`CSignedIntType`, which handles the conversion between binary data
+and signed integer values. It supports reading and writing signed integers of different sizes
+while handling two's complement representation.
+
+Example::
+    >>> import io
+    >>> from hbutils.binary import c_int32
+    >>> 
+    >>> # Reading signed integers
+    >>> with io.BytesIO(b'\\xde\\xad\\xbe\\xef') as file:
+    ...     value = c_int32.read(file)
+    ...     print(value)
+    -272716322
+    
+    >>> # Writing signed integers
+    >>> with io.BytesIO() as file:
+    ...     c_int32.write(file, -272716322)
+    ...     print(file.getvalue())
+    b'\\xde\\xad\\xbe\\xef'
+"""
 import ctypes
 from typing import Dict, BinaryIO, List
 
@@ -13,15 +40,44 @@ __all__ = [
 
 class CSignedIntType(CRangedIntType):
     """
-    Overview:
-        Signed int type.
+    Signed integer type for binary I/O operations.
+    
+    This class provides functionality to read and write signed integers of a specific size
+    to and from binary streams. It handles two's complement representation internally by
+    using an unsigned integer type for the actual I/O operations.
+    
+    :param size: Size of the integer type in bytes.
+    :type size: int
+    
+    Example::
+        >>> import io
+        >>> from hbutils.binary import CSignedIntType
+        >>> 
+        >>> # Create a 2-byte signed integer type
+        >>> int16_type = CSignedIntType(2)
+        >>> 
+        >>> # Read a signed integer
+        >>> with io.BytesIO(b'\\xde\\xad') as file:
+        ...     value = int16_type.read(file)
+        ...     print(value)
+        -21026
+        
+        >>> # Write a signed integer
+        >>> with io.BytesIO() as file:
+        ...     int16_type.write(file, -21026)
+        ...     print(file.getvalue())
+        b'\\xde\\xad'
     """
 
     def __init__(self, size: int):
         """
-        Constructor of :class:`CSignedIntType`.
+        Initialize a signed integer type with the specified size.
 
-        :param size: Size of the type.
+        :param size: Size of the integer type in bytes.
+        :type size: int
+        
+        The constructor sets up the internal unsigned integer type for I/O operations
+        and calculates the valid range for signed integers of this size.
         """
         self.__size = size
         self._unit = CUnsignedIntType(size)
@@ -34,10 +90,24 @@ class CSignedIntType(CRangedIntType):
 
     def read(self, file: BinaryIO) -> int:
         """
-        Read signed int value.
+        Read a signed integer value from a binary stream.
 
-        :param file: Binary file, ``io.BytesIO`` is supported as well.
-        :return: Signed int value.
+        :param file: Binary file or stream to read from. ``io.BytesIO`` is supported as well.
+        :type file: BinaryIO
+        :return: The signed integer value read from the stream.
+        :rtype: int
+        
+        This method reads the unsigned representation and converts it to a signed integer
+        using two's complement representation.
+        
+        Example::
+            >>> import io
+            >>> from hbutils.binary import c_int16
+            >>> 
+            >>> with io.BytesIO(b'\\xde\\xad') as file:
+            ...     value = c_int16.read(file)
+            ...     print(value)
+            -21026
         """
         uval = self._unit.read(file)
         if uval < self.__half:
@@ -47,10 +117,26 @@ class CSignedIntType(CRangedIntType):
 
     def write(self, file: BinaryIO, val: int):
         """
-        Write signed int value to binary IO object.
+        Write a signed integer value to a binary stream.
 
-        :param file: Binary file, ``io.BytesIO`` is supported as well.
-        :param val: Signed int value to write.
+        :param file: Binary file or stream to write to. ``io.BytesIO`` is supported as well.
+        :type file: BinaryIO
+        :param val: Signed integer value to write.
+        :type val: int
+        :raises TypeError: If the value is not an integer.
+        :raises ValueError: If the value is outside the valid range for this integer type.
+        
+        This method converts the signed integer to its unsigned two's complement representation
+        before writing to the stream.
+        
+        Example::
+            >>> import io
+            >>> from hbutils.binary import c_int16
+            >>> 
+            >>> with io.BytesIO() as file:
+            ...     c_int16.write(file, -21026)
+            ...     print(file.getvalue())
+            b'\\xde\\xad'
         """
         if not isinstance(val, int):
             raise TypeError(f'Int value expected, but {repr(val)} found.')
@@ -64,8 +150,9 @@ class CSignedIntType(CRangedIntType):
 
 c_int8 = CSignedIntType(ctypes.sizeof(ctypes.c_int8))
 """
-Overview:
-    Reading and writing signed integer with 8-bits.
+Reading and writing signed integer with 8-bits.
+
+This type represents a signed 8-bit integer with a range of -128 to 127.
     
 Examples::
     >>> import io
@@ -90,8 +177,9 @@ Examples::
 """
 c_int16 = CSignedIntType(ctypes.sizeof(ctypes.c_int16))
 """
-Overview:
-    Reading and writing signed integer with 16-bits.
+Reading and writing signed integer with 16-bits.
+
+This type represents a signed 16-bit integer with a range of -32768 to 32767.
     
 Examples::
     >>> import io
@@ -116,8 +204,9 @@ Examples::
 """
 c_int32 = CSignedIntType(ctypes.sizeof(ctypes.c_int32))
 """
-Overview:
-    Reading and writing signed integer with 32-bits.
+Reading and writing signed integer with 32-bits.
+
+This type represents a signed 32-bit integer with a range of -2147483648 to 2147483647.
     
 Examples::
     >>> import io
@@ -136,8 +225,9 @@ Examples::
 """
 c_int64 = CSignedIntType(ctypes.sizeof(ctypes.c_int64))
 """
-Overview:
-    Reading and writing signed integer with 64-bits.
+Reading and writing signed integer with 64-bits.
+
+This type represents a signed 64-bit integer with a range of -9223372036854775808 to 9223372036854775807.
     
 Examples::
     >>> import io
@@ -165,35 +255,53 @@ _SIZE_TO_INT_TYPE: Dict[int, CSignedIntType] = {
 
 
 def _get_from_raw(tp) -> CSignedIntType:
+    """
+    Get the corresponding CSignedIntType instance for a ctypes integer type.
+    
+    :param tp: A ctypes integer type (e.g., ctypes.c_int, ctypes.c_long).
+    :return: The corresponding CSignedIntType instance.
+    :rtype: CSignedIntType
+    
+    This internal function maps ctypes integer types to their corresponding
+    CSignedIntType instances based on size.
+    """
     return _SIZE_TO_INT_TYPE[ctypes.sizeof(tp)]
 
 
 c_byte = _get_from_raw(ctypes.c_byte)
 """
-Alias for :data:`c_uint8`.
+Alias for :data:`c_int8`.
+
+This type represents a signed byte, equivalent to a signed 8-bit integer.
 """
 c_short = _get_from_raw(ctypes.c_short)
 """
 Alias for :data:`c_int16`.
+
+This type represents a short integer, equivalent to a signed 16-bit integer.
 """
 c_int = _get_from_raw(ctypes.c_int)
 """
-Alias for :data:`c_int32` (in 64-bits OS).
+Alias for :data:`c_int32` (in 64-bit OS).
 
 .. note::
     Size of :data:`c_int` is the same as that in C language, which mainly depends on CPU and OS.
+    On most modern 64-bit systems, this is a 32-bit signed integer.
 """
 c_long = _get_from_raw(ctypes.c_long)
 """
-Alias for :data:`c_int64` (in 64-bits OS).
+Alias for :data:`c_int64` (in 64-bit OS).
 
 .. note::
     Size of :data:`c_long` is the same as that in C language, which mainly depends on CPU and OS.
+    On 64-bit Unix-like systems, this is typically a 64-bit signed integer.
+    On Windows, it may be 32-bit even on 64-bit systems.
 """
 c_longlong = _get_from_raw(ctypes.c_longlong)
 """
-Alias for :data:`c_int64` (in 64-bits OS).
+Alias for :data:`c_int64` (in 64-bit OS).
 
 .. note::
     Size of :data:`c_longlong` is the same as that in C language, which mainly depends on CPU and OS.
+    This is typically a 64-bit signed integer on all modern platforms.
 """

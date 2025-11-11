@@ -35,6 +35,7 @@ Changes:
 import itertools
 import os
 import sys
+from typing import Callable, Any, Iterable
 
 __all__ = [
     'format_tree',
@@ -46,18 +47,45 @@ _UTF8_CHARS = (u'\u251c', u'\u2514', u'\u2502', u'\u2500', u'')
 _ASCII_CHARS = (u'+', u'`', u'|', u'-', u'')
 
 
-def _format_newlines(prefix, formatted_node, chars: tuple):
+def _format_newlines(prefix: str, formatted_node: str, chars: tuple) -> str:
     """
     Convert newlines into U+23EC characters, followed by an actual newline and
-    then a tree prefix so as to position the remaining text under the previous
-    line.
+    then a tree prefix so as to position the remaining text under the previous line.
+
+    :param prefix: The prefix string to add before each line.
+    :type prefix: str
+    :param formatted_node: The formatted node string that may contain newlines.
+    :type formatted_node: str
+    :param chars: Tuple of characters used for tree formatting (FORK, LAST, VERTICAL, HORIZONTAL, NEWLINE).
+    :type chars: tuple
+
+    :return: The formatted string with newlines replaced by tree prefixes.
+    :rtype: str
     """
     FORK, LAST, VERTICAL, HORIZONTAL, NEWLINE = chars
     replacement = u''.join([NEWLINE, os.linesep, prefix])
     return replacement.join(formatted_node.splitlines())
 
 
-def _format_tree(node, format_node, get_children, prefix=u'', chars: tuple = _UTF8_CHARS):
+def _format_tree(node: Any, format_node: Callable[[Any], str], get_children: Callable[[Any], Iterable[Any]],
+                 prefix: str = u'', chars: tuple = _UTF8_CHARS) -> Iterable[str]:
+    """
+    Recursively format a tree structure into a list of formatted strings.
+
+    :param node: The current node to format.
+    :type node: Any
+    :param format_node: Function to format a node into a string.
+    :type format_node: Callable[[Any], str]
+    :param get_children: Function to get children of a node.
+    :type get_children: Callable[[Any], Iterable[Any]]
+    :param prefix: The prefix string for the current level of indentation.
+    :type prefix: str
+    :param chars: Tuple of characters used for tree formatting (FORK, LAST, VERTICAL, HORIZONTAL, NEWLINE).
+    :type chars: tuple
+
+    :return: Generator yielding formatted strings for the tree structure.
+    :rtype: Iterable[str]
+    """
     FORK, LAST, VERTICAL, HORIZONTAL, NEWLINE = chars
     children = list(get_children(node))
     next_prefix = u''.join([prefix, VERTICAL, u'   '])
@@ -76,39 +104,42 @@ def _format_tree(node, format_node, get_children, prefix=u'', chars: tuple = _UT
             yield result
 
 
-def format_tree(node, format_node, get_children, encoding=None) -> str:
+def format_tree(node: Any, format_node: Callable[[Any], str], get_children: Callable[[Any], Iterable[Any]],
+                encoding: str = None) -> str:
     r"""
-    Overview:
-        Format the given tree.
+    Format the given tree structure into a string representation with tree-like visual formatting.
 
-    Arguments:
-        - node: Node object
-        - format_node: Format node getter
-        - get_children: Children getter.
-        - encoding: Encoding to be used. Default is ``None`` which means system encoding. \
-            When ASCII encoding is used, ASCII chars will be used instead of original chars.
+    :param node: The root node of the tree to format.
+    :type node: Any
+    :param format_node: Function that takes a node and returns its string representation.
+    :type format_node: Callable[[Any], str]
+    :param get_children: Function that takes a node and returns an iterable of its children.
+    :type get_children: Callable[[Any], Iterable[Any]]
+    :param encoding: Encoding to be used. Default is ``None`` which means system encoding. \
+        When ASCII encoding is used, ASCII chars will be used instead of UTF-8 box-drawing characters.
+    :type encoding: str
 
-    Returns:
-        - formatted: Formatted string.
+    :return: Formatted tree string with visual tree structure.
+    :rtype: str
 
-    Example:
+    Example::
         >>> from operator import itemgetter
         >>>
         >>> from hbutils.string import format_tree
         >>>
         >>> tree = (
-        >>>     'foo', [
-        >>>         ('bar', [
-        >>>             ('a', []),
-        >>>             ('b', []),
-        >>>         ]),
-        >>>         ('baz', []),
-        >>>         ('qux', [
-        >>>             ('c\nd', []),
-        >>>         ]),
-        >>>     ],
-        >>> )
-        >>> format_tree(tree, format_node=itemgetter(0), get_children=itemgetter(1))
+        ...     'foo', [
+        ...         ('bar', [
+        ...             ('a', []),
+        ...             ('b', []),
+        ...         ]),
+        ...         ('baz', []),
+        ...         ('qux', [
+        ...             ('c\nd', []),
+        ...         ]),
+        ...     ],
+        ... )
+        >>> print(format_tree(tree, format_node=itemgetter(0), get_children=itemgetter(1)))
         foo
         ├── bar
         │   ├── a

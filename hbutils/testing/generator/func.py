@@ -1,3 +1,14 @@
+"""
+This module provides test matrix generation functionality for creating parameterized test cases.
+
+The module supports two generation modes:
+- AETG (Automatic Efficient Test Generator): Generates test cases using combinatorial testing
+- MATRIX: Generates full Cartesian product of all parameter combinations
+
+It is designed to work seamlessly with pytest's parametrize decorator for creating comprehensive
+test suites with reduced test case counts while maintaining coverage.
+"""
+
 from enum import IntEnum, auto
 from typing import List, Mapping, Union, Tuple, Optional
 
@@ -11,6 +22,12 @@ __all__ = ['tmatrix']
 
 @int_enum_loads(enable_int=False, name_preprocess=str.upper)
 class MatrixMode(IntEnum):
+    """
+    Enumeration of matrix generation modes.
+    
+    :cvar AETG: AETG (Automatic Efficient Test Generator) mode for combinatorial testing
+    :cvar MATRIX: Full Cartesian product matrix mode
+    """
     AETG = auto()
     MATRIX = auto()
 
@@ -18,14 +35,30 @@ class MatrixMode(IntEnum):
 def tmatrix(ranges: Mapping[Union[str, Tuple[str, ...]], List],
             mode='aetg', seed: Optional[int] = 0, level: int = 2) -> Tuple[List[str], List[Tuple]]:
     """
-    Overview:
-        Test matrix generator, which can be used in ``pytest.mark.parameterize``.
+    Generate test matrix for parameterized testing.
+    
+    This function creates a test matrix that can be directly used with pytest's parametrize
+    decorator. It supports two generation modes: AETG for efficient combinatorial testing
+    and MATRIX for full Cartesian product generation.
 
-    :param ranges: Ranges of the values
-    :param mode: Mode of the matrix, should be one of the ``aetg`` or ``matrix``. Default is ``aetg``.
-    :param seed: Random seed, default is ``0`` which means the result is fixed (recommended).
-    :param level: Lavel of AETG generating algorithm, default is ``2``.
-    :returns: A tuple - ``(names, values)``.
+    :param ranges: Mapping of parameter names to their possible values. Keys can be either
+                   a single string (for one parameter) or a tuple of strings (for multiple
+                   parameters that should be varied together). Values are lists of possible
+                   values for the parameter(s).
+    :type ranges: Mapping[Union[str, Tuple[str, ...]], List]
+    :param mode: Generation mode, should be either 'aetg' or 'matrix'. Default is 'aetg'.
+    :type mode: str
+    :param seed: Random seed for AETG mode. Default is 0 which produces deterministic results.
+                 Set to None for non-deterministic generation.
+    :type seed: Optional[int]
+    :param level: Coverage level for AETG algorithm, indicating the strength of combinatorial
+                  coverage (e.g., 2 for pairwise coverage). Default is 2.
+    :type level: int
+    
+    :return: A tuple containing (parameter_names, test_cases) where parameter_names is a list
+             of parameter names and test_cases is a list of tuples, each representing one test case.
+    :rtype: Tuple[List[str], List[Tuple]]
+    :raises ValueError: If an invalid mode is specified.
 
     Examples::
         >>> from hbutils.testing import tmatrix
@@ -65,6 +98,7 @@ def tmatrix(ranges: Mapping[Union[str, Tuple[str, ...]], List],
     """
     mode = MatrixMode.loads(mode)
 
+    # Create internal key mapping for processing
     key_map = {}
     final_names = []
     final_values = {}
@@ -74,6 +108,7 @@ def tmatrix(ranges: Mapping[Union[str, Tuple[str, ...]], List],
         final_names.append(kname)
         final_values[kname] = value
 
+    # Extract all parameter names from the ranges
     names = []
     for key in ranges.keys():
         if isinstance(key, str):
@@ -82,6 +117,7 @@ def tmatrix(ranges: Mapping[Union[str, Tuple[str, ...]], List],
             for k in key:
                 names.append(k)
 
+    # Create appropriate generator based on mode
     if mode == MatrixMode.MATRIX:
         generator = MatrixGenerator(final_values, final_names)
     elif mode == MatrixMode.AETG:
@@ -92,6 +128,7 @@ def tmatrix(ranges: Mapping[Union[str, Tuple[str, ...]], List],
     else:
         raise ValueError(f'Invalid mode - {mode!r}.')  # pragma: no cover
 
+    # Generate test cases and transform them to final format
     pairs = []
     for case in generator.cases():
         _v_case = {}

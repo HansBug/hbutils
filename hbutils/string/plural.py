@@ -1,6 +1,8 @@
 """
 Overview:
-    Useful utilities for pluralize your words.
+    Useful utilities for pluralizing and singularizing words. This module provides
+    convenient functions to convert words between singular and plural forms, and to
+    format words with their counts in grammatically correct forms.
 """
 
 from .inflection import pluralize, singularize
@@ -12,16 +14,15 @@ __all__ = [
 
 def plural_form(word: str) -> str:
     """
-    Overview:
-        Get the pluralized form of the given ``word``.
+    Get the pluralized form of the given word.
 
-        The same as :func:`hbutils.string.inflection.pluralize`.
+    The same as :func:`hbutils.string.inflection.pluralize`.
 
-    Arguments:
-        - word (:obj:`str`): The given word to be pluralized.
+    :param word: The given word to be pluralized.
+    :type word: str
 
-    Returns:
-        - pluralized (:obj:`str`): Pluralized word.
+    :return: Pluralized word.
+    :rtype: str
 
     Examples::
         >>> from hbutils.string import plural_form
@@ -37,16 +38,15 @@ def plural_form(word: str) -> str:
 
 def singular_form(word: str) -> str:
     """
-    Overview:
-        Get the singular form of the given ``word``.
+    Get the singular form of the given word.
 
-        The same as :func:`hbutils.string.inflection.singularize`.
+    The same as :func:`hbutils.string.inflection.singularize`.
 
-    Arguments:
-        - word (:obj:`str`): The given word to be singularized.
+    :param word: The given word to be singularized.
+    :type word: str
 
-    Returns:
-        - single (:obj:`str`): Singular form of word.
+    :return: Singular form of word.
+    :rtype: str
 
     Examples::
         >>> from hbutils.string import singular_form
@@ -66,15 +66,18 @@ def singular_form(word: str) -> str:
 
 def plural_word(count: int, word: str) -> str:
     """
-    Overview:
-        Get plural form of the whole word, with the number before the word.
+    Get plural form of the whole word, with the number before the word.
 
-    Arguments:
-        - count (:obj:`int`): Count of the word, should be a non-negative integer.
-        - word (:obj:`str`): Word to be pluralized.
+    This function formats a word with its count in a grammatically correct way.
+    If the count is 1, the singular form is used; otherwise, the plural form is used.
 
-    Returns:
-        - plural_word (:obj:`str`): Pluralized word, with the number.
+    :param count: Count of the word, should be a non-negative integer.
+    :type count: int
+    :param word: Word to be pluralized.
+    :type word: str
+
+    :return: Pluralized word with the number.
+    :rtype: str
 
     Examples::
         >>> from hbutils.string import plural_word

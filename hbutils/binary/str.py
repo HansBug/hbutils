@@ -1,3 +1,20 @@
+"""
+This module provides C-style string types for binary I/O operations.
+
+It includes support for null-terminated strings (like C strings) and fixed-size strings
+(like C char arrays). Both types support automatic encoding detection and custom encoding.
+
+Classes:
+    - CStringType: Null-terminated string type (ends with \\x00)
+    - CSizedStringType: Fixed-size string type with specified buffer length
+
+Functions:
+    - c_sized_str: Factory function to create CSizedStringType instances
+
+Module-level instances:
+    - c_str: Default CStringType instance for reading/writing null-terminated strings
+"""
+
 import io
 from typing import BinaryIO, Optional
 
@@ -14,15 +31,25 @@ __all__ = [
 
 
 def _auto_encode(s: str, encoding) -> bytes:
+    """
+    Encode a string to bytes using the specified encoding or UTF-8 as default.
+
+    :param s: The string to encode.
+    :type s: str
+    :param encoding: The encoding to use, or None for UTF-8 default.
+    :type encoding: Optional[str]
+    :return: The encoded bytes.
+    :rtype: bytes
+    """
     return s.encode(encoding if encoding is not None else 'utf-8')
 
 
 class CStringType(CIOType):
     """
-    Overview:
-        Simple string type.
+    Simple null-terminated string type.
 
-        It should end with a single ``\\x00``, which is quite common in C language.
+    This class represents C-style strings that end with a single ``\\x00`` byte,
+    which is the standard string format in C language.
     """
 
     def __init__(self, encoding=None):
@@ -30,22 +57,31 @@ class CStringType(CIOType):
         Constructor of :class:`CStringType`.
 
         :param encoding: Encoding type, default is ``None`` which means auto-detect the encodings.
+        :type encoding: Optional[str]
         """
         self.__encoding = encoding
 
     @property
     def encoding(self) -> Optional[str]:
         """
-        Encoding type.
+        Get the encoding type used for string conversion.
+
+        :return: The encoding type, or None for auto-detection.
+        :rtype: Optional[str]
         """
         return self.__encoding
 
     def read(self, file: BinaryIO) -> str:
         """
-        Read simple string value.
+        Read a null-terminated string value from binary file.
 
-        :param file: Binary file, ``io.BytesIO`` is supported as well.
-        :return: String value.
+        Reads bytes from the file until a null byte (\\x00) is encountered,
+        then decodes the bytes to a string using the specified or auto-detected encoding.
+
+        :param file: Binary file object to read from, ``io.BytesIO`` is supported as well.
+        :type file: BinaryIO
+        :return: The decoded string value (without the null terminator).
+        :rtype: str
         """
         b = bytearray()
         while True:
@@ -59,10 +95,16 @@ class CStringType(CIOType):
 
     def write(self, file: BinaryIO, val: str):
         """
-        Write simple string value to binary IO object.
+        Write a null-terminated string value to binary IO object.
 
-        :param file: Binary file, ``io.BytesIO`` is supported as well.
-        :param val: String to write.
+        Encodes the string using the specified or default encoding and appends
+        a null byte (\\x00) at the end.
+
+        :param file: Binary file object to write to, ``io.BytesIO`` is supported as well.
+        :type file: BinaryIO
+        :param val: String value to write.
+        :type val: str
+        :raises TypeError: If val is not a string.
         """
         if not isinstance(val, str):
             raise TypeError(f'String value expected, but {repr(val)} found.')
@@ -72,10 +114,13 @@ class CStringType(CIOType):
 
 c_str = CStringType()
 """
-Overview:
-    Reading and writing simple string, ends with a single ``\\x00``.
+Default instance for reading and writing null-terminated strings.
+
+This instance provides convenient access to CStringType functionality with
+default encoding (auto-detection).
 
 Examples::
+
     >>> import io
     >>> from hbutils.binary import c_str
     >>> 
@@ -104,18 +149,21 @@ Examples::
 
 class CSizedStringType(CFixedType):
     """
-    Overview:
-        Sized string type.
+    Fixed-size string type.
 
-        It should have a fixed size, which is defined like ``char s[size]`` in C language.
+    This class represents C-style fixed-size character arrays, defined like
+    ``char s[size]`` in C language. The string occupies a fixed amount of space
+    regardless of its actual content length.
     """
 
     def __init__(self, size: int, encoding=None):
         """
-        Constructor of :class:`CStringType`.
+        Constructor of :class:`CSizedStringType`.
 
-        :param size: Size of the string's space.
+        :param size: Size of the string's buffer space in bytes.
+        :type size: int
         :param encoding: Encoding type, default is ``None`` which means auto-detect the encodings.
+        :type encoding: Optional[str]
         """
         CFixedType.__init__(self, size)
         self.__encoding = encoding
@@ -124,16 +172,24 @@ class CSizedStringType(CFixedType):
     @property
     def encoding(self) -> Optional[str]:
         """
-        Encoding type.
+        Get the encoding type used for string conversion.
+
+        :return: The encoding type, or None for auto-detection.
+        :rtype: Optional[str]
         """
         return self.__encoding
 
     def read(self, file: BinaryIO) -> str:
         """
-        Read sized string value.
+        Read a fixed-size string value from binary file.
 
-        :param file: Binary file, ``io.BytesIO`` is supported as well.
-        :return: String value.
+        Reads exactly the specified number of bytes from the file, then decodes
+        them as a null-terminated string using the specified or auto-detected encoding.
+
+        :param file: Binary file object to read from, ``io.BytesIO`` is supported as well.
+        :type file: BinaryIO
+        :return: The decoded string value (without padding or null terminator).
+        :rtype: str
         """
         bytes_ = self._buffer.read(file)
         with io.BytesIO(bytes_ + b'\x00') as bf:
@@ -141,10 +197,16 @@ class CSizedStringType(CFixedType):
 
     def write(self, file: BinaryIO, val: str):
         """
-        Write sized string value to binary IO object.
+        Write a fixed-size string value to binary IO object.
 
-        :param file: Binary file, ``io.BytesIO`` is supported as well.
-        :param val: String to write.
+        Encodes the string and writes it to the file, padding with null bytes
+        if necessary to fill the fixed size buffer.
+
+        :param file: Binary file object to write to, ``io.BytesIO`` is supported as well.
+        :type file: BinaryIO
+        :param val: String value to write.
+        :type val: str
+        :raises TypeError: If val is not a string.
         """
         if not isinstance(val, str):
             raise TypeError(f'String value expected, but {repr(val)} found.')
@@ -154,12 +216,18 @@ class CSizedStringType(CFixedType):
 
 def c_sized_str(size: int) -> CSizedStringType:
     """
-    Overview:
-        Reading and writing sized string, which occupy a fixed space..
+    Factory function to create a fixed-size string type.
 
-    :param size: Size of the string's space.
+    Creates a CSizedStringType instance that reads and writes strings occupying
+    a fixed amount of space, similar to C char arrays.
+
+    :param size: Size of the string's buffer space in bytes.
+    :type size: int
+    :return: A CSizedStringType instance with the specified size.
+    :rtype: CSizedStringType
 
     Examples::
+
         >>> import io
         >>> from hbutils.binary import c_sized_str
         >>> 

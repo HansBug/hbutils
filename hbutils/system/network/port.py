@@ -1,3 +1,11 @@
+"""
+This module provides utilities for checking and allocating free network ports.
+
+The module contains functions to verify if a port is available and to find
+an available port within a specified range. It ensures safe port allocation
+by restricting usage to ports above 1024 for security reasons.
+"""
+
 import socket
 import warnings
 from typing import Optional, Iterable
@@ -10,11 +18,12 @@ __all__ = [
 
 def is_free_port(port: int) -> bool:
     """
-    Overview:
-        Check if given ``port`` is currently not in use and able to be allocated.
+    Check if given ``port`` is currently not in use and able to be allocated.
 
     :param port: Port to be checked.
-    :return: In use or not.
+    :type port: int
+    :return: True if the port is free, False if it is in use.
+    :rtype: bool
 
     Examples::
         >>> from hbutils.system import is_free_port
@@ -33,14 +42,21 @@ def is_free_port(port: int) -> bool:
 
 def get_free_port(ports: Optional[Iterable[int]] = None, strict: bool = True) -> int:
     """
-    Overview:
-        Get allocatable port inside the given ``port``.
+    Get allocatable port inside the given ``ports`` range.
 
-    :param ports: Range of ports to select.
-    :param strict: Strictly use the ports in ``ports``. Default is ``False``, otherwise the ports \
-        not in ``ports`` will probably be used.
-    :param: A usable port.
-    :raise OSError: Raise ``OSError`` when no ports can be allocated.
+    This function searches for an available port within the specified range.
+    For security reasons, only ports numbered 1024 and above are considered.
+    If strict mode is disabled and no port in the range is available, the
+    system will allocate any available port.
+
+    :param ports: Range of ports to select from. If None, behavior depends on strict parameter.
+    :type ports: Optional[Iterable[int]]
+    :param strict: Strictly use the ports in ``ports``. Default is ``True``. If ``False``, \
+        ports not in ``ports`` may be used when no port in range is available.
+    :type strict: bool
+    :return: A usable port number.
+    :rtype: int
+    :raises OSError: Raised when no ports can be allocated in strict mode.
 
     Examples::
         >>> from hbutils.system import get_free_port

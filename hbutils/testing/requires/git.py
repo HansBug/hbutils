@@ -35,7 +35,7 @@ def is_git_installed(git_path: Optional[str] = None) -> bool:
     :return: True if Git is installed, False otherwise.
     :rtype: bool
 
-    :usage:
+    Example::
         >>> is_git_installed()
         True
         >>> is_git_installed('/custom/path/to/git')
@@ -56,15 +56,17 @@ def git_version(git_path: Optional[str] = None) -> Optional[VersionInfo]:
              or the version cannot be determined.
     :rtype: Optional[VersionInfo]
 
-    :note: This function may return None even if Git is installed, in cases where the
-           'git --version' output is unrecognizable.
+    .. note::
+        This function may return None even if Git is installed, in cases where the
+        'git --version' output is unrecognizable.
 
-    :usage:
+    Example::
         >>> version = git_version()
         >>> if version:
         ...     print(f"Git version: {version}")
         ... else:
         ...     print("Git version could not be determined")
+        Git version: 2.34.1
     """
     info = git_info(git_path=git_path)
     if info['installed'] and info['version']:
@@ -84,7 +86,7 @@ def is_git_lfs_installed(git_path: Optional[str] = None) -> bool:
     :return: True if both Git and Git LFS are installed, False otherwise.
     :rtype: bool
 
-    :usage:
+    Example::
         >>> is_git_lfs_installed()
         True
         >>> is_git_lfs_installed('/custom/path/to/git')
@@ -106,15 +108,17 @@ def git_lfs_version(git_path: Optional[str] = None) -> Optional[VersionInfo]:
              or the version cannot be determined.
     :rtype: Optional[VersionInfo]
 
-    :note: This function may return None even if Git LFS is installed, in cases where the
-           'git lfs version' output is unrecognizable.
+    .. note::
+        This function may return None even if Git LFS is installed, in cases where the
+        'git lfs version' output is unrecognizable.
 
-    :usage:
+    Example::
         >>> version = git_lfs_version()
         >>> if version:
         ...     print(f"Git LFS version: {version}")
         ... else:
         ...     print("Git LFS version could not be determined")
+        Git LFS version: 3.2.0
     """
     info = git_info(git_path=git_path)
     if info['installed'] and info['lfs']['installed'] and info['lfs']['version']:

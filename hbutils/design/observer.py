@@ -2,6 +2,9 @@
 Overview:
     Implementation of observer pattern.
     See `Observer Pattern - Wikipedia <https://en.wikipedia.org/wiki/Observer_pattern>`_.
+
+    This module provides the Observable class which implements the observer design pattern,
+    allowing objects to subscribe to and receive notifications about events.
 """
 from enum import Enum
 from typing import Union, Type, TypeVar, Dict, Callable, Tuple, Any, List
@@ -14,6 +17,17 @@ _EventSetType = Union[Type[Enum], list, tuple]
 
 
 def _auto_members(events: _EventSetType):
+    """
+    Extract members from event set.
+
+    :param events: Event set, can be an Enum class, list, or tuple.
+    :type events: _EventSetType
+
+    :return: List of event members.
+    :rtype: list
+
+    :raises TypeError: If the event set type is invalid.
+    """
     if isinstance(events, type) and issubclass(events, Enum):
         return list(events.__members__.values())
     elif isinstance(events, (list, tuple)):
@@ -23,6 +37,15 @@ def _auto_members(events: _EventSetType):
 
 
 def _get_object_id(obj) -> Tuple[str, int]:
+    """
+    Get a unique identifier for an object.
+
+    :param obj: The object to identify.
+    :type obj: Any
+
+    :return: A tuple containing the identifier type ('hash' or 'id') and the identifier value.
+    :rtype: Tuple[str, int]
+    """
     try:
         return 'hash', hash(obj)
     except TypeError:
@@ -35,19 +58,38 @@ _CallbackType = TypeVar('_CallbackType', bound=Callable[..., Any])
 
 
 class _CallbackWrapper:
+    """
+    Wrapper class for callback functions to handle dynamic argument passing.
+    """
+
     def __init__(self, callback):
+        """
+        Initialize the callback wrapper.
+
+        :param callback: The callback function to wrap.
+        :type callback: Callable
+        """
         from ..reflection import dynamic_call, sigsupply
         self.raw = callback
         self._callback = dynamic_call(sigsupply(callback, lambda x: None))
 
     def __call__(self, *args, **kwargs):
+        """
+        Call the wrapped callback function.
+
+        :param args: Positional arguments to pass to the callback.
+        :param kwargs: Keyword arguments to pass to the callback.
+
+        :return: The return value of the callback function.
+        :rtype: Any
+        """
         return self._callback(*args, **kwargs)
 
 
 class Observable:
     """
     Overview:
-        Observable object.
+        Observable object implementing the observer pattern.
 
         * :meth:`subscribe` can be used for subscribing on specific event.
         * :meth:`unsubscribe` can be used for unsubscribing from specific event.
@@ -92,6 +134,7 @@ class Observable:
         Constructor of :class:`Observable`.
 
         :param events: Set of events, can be a list, tuple or an enum class.
+        :type events: _EventSetType
 
         .. note::
             When enum is used, its values will be used as events. For example:
@@ -117,7 +160,10 @@ class Observable:
         Get subscribers of the given ``event``.
 
         :param event: Event for querying.
+        :type event: _EventType
+
         :return: A list of subscribers.
+        :rtype: List[_SubscriberType]
         """
         return [self._observers[id_] for id_ in self._get_subscriptions(event).keys()]
 
@@ -126,7 +172,10 @@ class Observable:
         Get subscriptions of the given ``event``.
 
         :param event: Event for querying.
+        :type event: _EventType
+
         :return: A list of tuples with subscribers and their callbacks.
+        :rtype: List[Tuple[_SubscriberType, _CallbackType]]
         """
         return [
             (self._observers[id_], callback.raw)
@@ -134,14 +183,43 @@ class Observable:
         ]
 
     def _get_subscriptions(self, event: _EventType) -> Dict[Tuple[str, int], _CallbackWrapper]:
+        """
+        Get the subscription dictionary for a specific event.
+
+        :param event: The event to query.
+        :type event: _EventType
+
+        :return: Dictionary mapping subscriber IDs to callback wrappers.
+        :rtype: Dict[Tuple[str, int], _CallbackWrapper]
+        """
         return self._events[event]
 
     def _put_subscription(self, event: _EventType, subscriber: _SubscriberType, callback: _CallbackType):
+        """
+        Add a subscription for a specific event.
+
+        :param event: The event to subscribe to.
+        :type event: _EventType
+        :param subscriber: The subscriber object.
+        :type subscriber: _SubscriberType
+        :param callback: The callback function.
+        :type callback: _CallbackType
+        """
         subscriber_id = _get_object_id(subscriber)
         self._get_subscriptions(event)[subscriber_id] = _CallbackWrapper(callback)
         self._observers[subscriber_id] = subscriber
 
     def _del_subscription(self, event: _EventType, subscriber: _SubscriberType):
+        """
+        Remove a subscription for a specific event.
+
+        :param event: The event to unsubscribe from.
+        :type event: _EventType
+        :param subscriber: The subscriber object.
+        :type subscriber: _SubscriberType
+
+        :raises KeyError: If the subscriber is not found.
+        """
         try:
             del self._get_subscriptions(event)[_get_object_id(subscriber)]
         except KeyError:
@@ -153,9 +231,14 @@ class Observable:
         Subscribe to the given ``event``.
 
         :param event: Event to be subscribed.
+        :type event: _EventType
         :param subscriber: Subscriber of this subscription.
+        :type subscriber: _SubscriberType
         :param callback: Callback function. If ``str`` is given, method with this name on ``subscriber`` will be used. \
             Default is ``None`` which means the ``update`` method on ``subscriber`` will be used.
+        :type callback: Union[_CallbackType, str, None]
+
+        :raises TypeError: If the callback is not callable.
 
         .. note::
             Callback function should have no more than 2 positional arguments. For example:
@@ -179,15 +262,23 @@ class Observable:
         Unsubscribe from the given ``event``.
 
         :param event: Event to be unsubscribed.
+        :type event: _EventType
         :param subscriber: Subscriber of this unsubscription.
+        :type subscriber: _SubscriberType
+
+        :raises KeyError: If the subscriber is not found for the given event.
         """
         self._del_subscription(event, subscriber)
 
     def dispatch(self, event: _EventType):
         """
-        Dispatch event.
+        Dispatch event to all subscribers.
 
         :param event: Event to be dispatched.
+        :type event: _EventType
+
+        This method triggers all callbacks subscribed to the given event,
+        passing the event and the observable instance as arguments.
         """
         for _, callback in self._get_subscriptions(event).items():
             callback(event, self)

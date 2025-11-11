@@ -1,3 +1,10 @@
+"""
+This module provides utilities for isolating and mocking loggers in the `logging` module.
+
+It allows temporary replacement of logger handlers for testing or debugging purposes,
+with automatic restoration of the original logger state after use.
+"""
+
 import logging
 from contextlib import contextmanager
 from typing import Optional, Union, List
@@ -14,12 +21,22 @@ def isolated_logger(logger: Optional[Union[str, logging.Logger]] = None,
                     handlers: Optional[List[logging.Handler]] = None,
                     close_handlers: bool = True):
     """
-    Overview:
-        Mock loggers in `logging` module.
+    Context manager for temporarily isolating and mocking loggers in the `logging` module.
 
-    :param logger: Logger or logger's name for isolation.
-    :param handlers: Initial handlers for isolation.
-    :param close_handlers: Close handler's after complete.
+    This function allows you to temporarily replace a logger's handlers with custom ones,
+    and automatically restores the original handlers when exiting the context. This is
+    particularly useful for testing or debugging scenarios where you need to capture or
+    redirect log output.
+
+    :param logger: Logger instance or logger name for isolation. If None, uses the root logger.
+    :type logger: Optional[Union[str, logging.Logger]]
+    :param handlers: Initial handlers to use during isolation. If None, uses an empty list.
+    :type handlers: Optional[List[logging.Handler]]
+    :param close_handlers: Whether to close handlers after exiting the context. Defaults to True.
+    :type close_handlers: bool
+
+    :yield: The isolated logger instance.
+    :rtype: logging.Logger
 
     Examples::
         >>> import logging

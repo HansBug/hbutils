@@ -1,6 +1,10 @@
 """
 Overview:
     Function operations for nested structure.
+    
+    This module provides utilities for applying functions to nested data structures
+    (lists, tuples, and dictionaries) in a recursive manner. It allows mapping operations
+    over complex nested structures while preserving their original types and hierarchy.
 """
 from ..reflection import dynamic_call
 
@@ -11,16 +15,25 @@ __all__ = [
 
 def nested_map(f, s):
     """
-    Overview:
-        Map the nested structure with a function.
+    Map the nested structure with a function.
+    
+    This function recursively traverses a nested structure (containing lists, tuples, 
+    and dictionaries) and applies the given function to each leaf value. The function 
+    can optionally accept the path to the current element as a parameter.
 
-    Arguments:
-        - f: The given function.
-        - s: Nested structure.
-
-    Returns:
-        - result: Mapped nested structure.
-
+    :param f: The function to apply to each leaf value. Can accept 0, 1, or 2 parameters:
+              - 0 params: Returns a constant value
+              - 1 param: Receives the leaf value
+              - 2 params: Receives the leaf value and its path (tuple of keys/indices)
+    :type f: callable
+    :param s: The nested structure to map over. Can be a dict, list, tuple, or any 
+              combination thereof, with leaf values of any type.
+    :type s: dict or list or tuple or any
+    
+    :return: A new nested structure with the same type and hierarchy as the input,
+             but with the function applied to all leaf values.
+    :rtype: Same type as input structure
+    
     Examples::
         >>> from hbutils.collection import nested_map
         >>> nested_map(lambda x: x + 1, [
@@ -42,6 +55,17 @@ def nested_map(f, s):
     _df = dynamic_call(f)
 
     def _recursion(sval, p):
+        """
+        Recursively traverse and map the nested structure.
+        
+        :param sval: The current value being processed
+        :type sval: any
+        :param p: The path to the current value (tuple of keys/indices)
+        :type p: tuple
+        
+        :return: The mapped value or structure
+        :rtype: any
+        """
         if isinstance(sval, dict):
             return type(sval)({k: _recursion(v, (*p, k)) for k, v in sval.items()})
         elif isinstance(sval, (list, tuple)):

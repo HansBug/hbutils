@@ -1,3 +1,13 @@
+"""
+This module provides utilities for creating multi-staged linear gradient mappings based on float numbers.
+
+The main functionality allows users to define piecewise linear functions through a sequence of control points,
+either with automatic x-spacing or custom x-coordinates. This is useful for creating custom interpolation
+functions, gradient mappings, and other piecewise linear transformations.
+
+The module exports a single function :func:`linear_map` that creates callable piecewise linear mapping functions.
+"""
+
 from bisect import bisect_right
 from typing import Sequence, Union, Tuple, Callable
 
@@ -8,13 +18,24 @@ __all__ = [
 
 def linear_map(points: Union[Sequence[float], Sequence[Tuple[float, float]]]) -> Callable[[float], float]:
     """
-    Overview:
-        Multiple-staged linear gradient calculation based on float number.
+    Create a multiple-staged linear gradient calculation function based on control points.
+
+    This function generates a piecewise linear mapping function from a sequence of control points.
+    The points can be specified in two ways:
+    
+    1. Simple sequence of y-values: x-values are automatically distributed evenly from 0 to 1
+    2. Sequence of (x, y) tuples: explicit x and y coordinates for each control point
 
     :param points: Points for this linear mapping. If the sequence consists of float numbers, it will be seen as the \
-        simple linear mapping. If the elements are binary tuples (contains 2 float numbers), it means the x-range is \
-        assigned.
-    :return: A callable function for linear mapping.
+        simple linear mapping with x-values automatically distributed from 0 to 1. If the elements are binary tuples \
+        (contains 2 float numbers), it means the x-range is assigned explicitly.
+    :type points: Union[Sequence[float], Sequence[Tuple[float, float]]]
+    
+    :return: A callable function for linear mapping that takes a float x-value and returns the interpolated y-value.
+    :rtype: Callable[[float], float]
+    
+    :raises AssertionError: If points sequence is empty or if x-values are not in strictly increasing order.
+    :raises ValueError: If the input x-value to the returned function is outside the valid range.
 
     Examples::
         - Simple Linear Mapping
@@ -78,6 +99,21 @@ def linear_map(points: Union[Sequence[float], Sequence[Tuple[float, float]]]) ->
                           f'but {x1_} (at {i}) >= {x2_} (at {i + 1}) found.'
 
     def _linear(x: float) -> float:
+        """
+        Perform linear interpolation for the given x-value.
+
+        This internal function performs piecewise linear interpolation based on the control points
+        defined in the outer scope. It uses binary search to find the appropriate segment and then
+        performs linear interpolation within that segment.
+
+        :param x: The x-coordinate for which to calculate the interpolated y-value.
+        :type x: float
+        
+        :return: The interpolated y-value at position x.
+        :rtype: float
+        
+        :raises ValueError: If x is outside the valid range defined by the control points.
+        """
         if xys[0][0] <= x <= xys[-1][0]:
             _index = bisect_right([x_ for x_, _ in xys[:-1]], x) - 1
             x1, y1 = xys[_index]

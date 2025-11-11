@@ -132,8 +132,11 @@ jobs:
           - 'pypy-3.8'
           - 'pypy-3.9'
           - 'pypy-3.10'
+          - 'pypy-3.11'
         exclude:
           - os: 'windows-latest'
+            python-version: 'pypy-3.9'
+          - os: 'macos-latest'
             python-version: 'pypy-3.9'
 
     steps:

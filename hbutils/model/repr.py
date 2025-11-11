@@ -1,26 +1,45 @@
 """
 Overview:
-    Useful functions for build representation format of object.
+    Useful functions for building representation format of objects.
+    
+This module provides utilities to generate string representations for custom classes,
+particularly useful for implementing ``__repr__`` methods with flexible display options.
 """
-from typing import List, Tuple
+from typing import List, Tuple, Callable, Union, Any
 
 __all__ = [
     'get_repr_info',
 ]
 
 
-def get_repr_info(cls: type, args: List[Tuple]) -> str:
+def get_repr_info(cls: type, args: List[
+    Tuple[str, Union[Callable[[], Any], Tuple[Callable[[], Any], Callable[[], bool]]], Callable[[], bool]]]) -> str:
     """
-    Overview:
-        Get representation information for object.
-        Can be used in ``__repr__`` method for class.
+    Get representation information for object.
+    
+    This function generates a formatted string representation of an object based on
+    the provided class type and argument information. It can be used in ``__repr__``
+    methods to create consistent and informative object representations.
 
-    Arguments:
-        - cls (:obj:`type`): Object's type.
-        - args (:obj:`List[Tuple]`): Argument display information.
-
-    Returns:
-        - repr (:obj:`str`): Representation string.
+    :param cls: The class type of the object to represent.
+    :type cls: type
+    :param args: A list of tuples containing argument display information. Each tuple can have:
+        
+        - 2 elements: (name, data_func) or (name, (data_func, present_func))
+        - 3 elements: (name, data_func, present_func)
+        
+        Where:
+        
+        - name (str): The name of the argument to display
+        - data_func (Callable): A callable that returns the value to display
+        - present_func (Callable): A callable that returns True if the argument should be displayed
+    :type args: List[Tuple]
+    
+    :return: A formatted representation string in the format ``<ClassName arg1: value1, arg2: value2>``
+    :rtype: str
+    
+    :raises ValueError: If a tuple's length is not 2 or 3.
+    :raises TypeError: If an argument item is not a tuple.
 
     Examples::
         >>> from hbutils.model import get_repr_info

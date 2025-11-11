@@ -1,6 +1,10 @@
 """
 Overview:
     Meta information for hbutils package.
+    
+This module contains metadata constants for the hbutils package, including version,
+author information, and project description. These constants are typically used in
+setup configuration and package distribution.
 """
 
 #: Title of this project (should be `hbutils`).

@@ -1,6 +1,8 @@
 """
 Overview:
-    Structural operations.
+    Structural operations module providing utilities for flattening and walking through nested data structures.
+    This module includes functions for flattening sequences and nested structures (dictionaries, lists, tuples),
+    as well as walking through nested structures to extract paths and values.
 """
 from typing import Iterator, Tuple, Union, List
 
@@ -11,6 +13,15 @@ __all__ = [
 
 
 def _g_sq_flatten(s):
+    """
+    Internal generator function for recursively flattening sequences.
+
+    :param s: The sequence to flatten (can be list, tuple, or other types).
+    :type s: Union[list, tuple, object]
+
+    :yield: Individual elements from the flattened sequence.
+    :rtype: Iterator[object]
+    """
     if isinstance(s, (list, tuple)):
         for item in s:
             yield from _g_sq_flatten(item)
@@ -20,13 +31,16 @@ def _g_sq_flatten(s):
 
 def sq_flatten(s):
     """
-    Overview:
-        Sequence flatten.
-    Arguments:
-        - s: The given sequence.
+    Flatten a nested sequence into a single-level list.
 
-    Returns:
-        - flatted: Flatted sequence.
+    This function recursively flattens nested lists and tuples into a single flat list,
+    preserving the order of elements.
+
+    :param s: The given sequence to flatten (can contain nested lists and tuples).
+    :type s: Union[list, tuple]
+
+    :return: Flattened sequence as a list.
+    :rtype: list
 
     Examples::
         >>> from hbutils.collection import sq_flatten
@@ -37,6 +51,17 @@ def sq_flatten(s):
 
 
 def _nested_walk(s, path):
+    """
+    Internal recursive function for walking through nested structures.
+
+    :param s: The structure to walk through (can be dict, list, tuple, or other types).
+    :type s: Union[dict, list, tuple, object]
+    :param path: The current path as a tuple of keys/indices.
+    :type path: tuple
+
+    :yield: Tuple of (path, value) for each leaf element in the structure.
+    :rtype: Iterator[Tuple[Tuple[Union[int, str], ...], object]]
+    """
     if isinstance(s, dict):
         for k, v in s.items():
             yield from _nested_walk(v, (*path, k))
@@ -49,14 +74,16 @@ def _nested_walk(s, path):
 
 def nested_walk(s) -> Iterator[Tuple[Tuple[Union[int, str], ...], object]]:
     """
-    Overview:
-        Walk for nested structure.
+    Walk through a nested structure and yield paths and values for all leaf elements.
 
-    Arguments:
-        - s: Given structure.
+    This function traverses nested dictionaries, lists, and tuples, yielding a tuple
+    containing the path (as a tuple of keys/indices) and the value for each leaf element.
 
-    Returns:
-        - walk_iter (:obj:`Iterator[Tuple[Tuple[Union[int, str], ...], object]]`): Iterator of the walk result.
+    :param s: Given nested structure to walk through.
+    :type s: Union[dict, list, tuple, object]
+
+    :return: Iterator yielding tuples of (path, value) for each leaf element.
+    :rtype: Iterator[Tuple[Tuple[Union[int, str], ...], object]]
 
     Examples::
         >>> from hbutils.collection import nested_walk
@@ -75,14 +102,16 @@ def nested_walk(s) -> Iterator[Tuple[Tuple[Union[int, str], ...], object]]:
 
 def nested_flatten(s) -> List[Tuple[Tuple[Union[int, str], ...], object]]:
     """
-    Overview:
-        Flatten for nested structure.
+    Flatten a nested structure into a list of (path, value) tuples.
 
-    Arguments:
-        - s: Given structure.
+    This function converts a nested structure (dictionaries, lists, tuples) into a flat list
+    where each element is a tuple containing the path to a leaf element and its value.
 
-    Returns:
-        - flatted (:obj:`List[Tuple[Tuple[Union[int, str], ...], object]]`): List of the flatted result.
+    :param s: Given nested structure to flatten.
+    :type s: Union[dict, list, tuple, object]
+
+    :return: List of tuples containing (path, value) for each leaf element.
+    :rtype: List[Tuple[Tuple[Union[int, str], ...], object]]
 
     Examples::
         >>> from hbutils.collection import nested_flatten

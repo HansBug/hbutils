@@ -1,3 +1,10 @@
+"""
+This module provides utilities for creating nested and progressive iteration patterns.
+
+It includes functions for generating nested for-loops from multiple iterables and
+progressive for-loops from a single iterable with configurable depth and offset.
+"""
+
 from itertools import tee, chain, islice
 from typing import Iterator, Iterable, Tuple, TypeVar
 
@@ -10,10 +17,16 @@ _ItemType = TypeVar('_ItemType')
 
 def nested_for(*iters: Iterable[_ItemType]) -> Iterator[Tuple[_ItemType, ...]]:
     """
-    Nested for based on several iterators.
+    Create a nested for-loop based on several iterators.
 
-    :param iters: Iterators to build this nested for loop.
-    :return: Nested for loop iteration.
+    This function generates all possible combinations by iterating through
+    multiple iterables in a nested manner, similar to nested for-loops.
+
+    :param iters: Variable number of iterables to build the nested for loop.
+    :type iters: Iterable[_ItemType]
+
+    :return: Iterator yielding tuples containing one element from each iterable.
+    :rtype: Iterator[Tuple[_ItemType, ...]]
 
     Examples::
         >>> from hbutils.reflection import nested_for
@@ -22,7 +35,7 @@ def nested_for(*iters: Iterable[_ItemType]) -> Iterator[Tuple[_ItemType, ...]]:
         ...         ['a', 'b'],
         ...         map(lambda x: x ** 2, range(1, 4))
         ... ):
-        >>>     print(a, r, b)
+        ...     print(a, r, b)
         1 a 1
         1 a 4
         1 a 9
@@ -40,6 +53,17 @@ def nested_for(*iters: Iterable[_ItemType]) -> Iterator[Tuple[_ItemType, ...]]:
     n = len(iterators)
 
     def _recursion(deep, selections: list):
+        """
+        Recursively generate nested combinations.
+
+        :param deep: Current recursion depth.
+        :type deep: int
+        :param selections: List of currently selected items.
+        :type selections: list
+
+        :return: Iterator yielding tuples of selected items.
+        :rtype: Iterator[Tuple[_ItemType, ...]]
+        """
         if deep >= n:
             yield tuple(selections)
         else:
@@ -53,7 +77,34 @@ def nested_for(*iters: Iterable[_ItemType]) -> Iterator[Tuple[_ItemType, ...]]:
 
 
 def _yield_progressive_for(iterable: Iterable[_ItemType], n: int, offset: int) -> Iterator[Tuple[_ItemType, ...]]:
+    """
+    Internal function to yield progressive for-loop iterations.
+
+    :param iterable: The iterable object to iterate over.
+    :type iterable: Iterable[_ItemType]
+    :param n: Depth of the loop (number of nested levels).
+    :type n: int
+    :param offset: Number of positions to skip between levels.
+    :type offset: int
+
+    :return: Iterator yielding tuples of progressively selected items.
+    :rtype: Iterator[Tuple[_ItemType, ...]]
+    """
+
     def _recursion(deep, iters, selections: list):
+        """
+        Recursively generate progressive combinations.
+
+        :param deep: Current recursion depth.
+        :type deep: int
+        :param iters: List containing the current iterator.
+        :type iters: list
+        :param selections: List of currently selected items.
+        :type selections: list
+
+        :return: Iterator yielding tuples of selected items.
+        :rtype: Iterator[Tuple[_ItemType, ...]]
+        """
         if deep >= n:
             yield tuple(selections)
         else:
@@ -80,13 +131,25 @@ def _yield_progressive_for(iterable: Iterable[_ItemType], n: int, offset: int) -
 
 def progressive_for(iterable: Iterable[_ItemType], n: int, offset: int = 1) -> Iterator[Tuple[_ItemType, ...]]:
     """
-    Progressive for based on one given ``iterable``.
+    Create a progressive for-loop based on one given iterable.
+
+    This function generates combinations where each subsequent level starts
+    from a position relative to the previous level's selection, determined
+    by the offset parameter.
 
     :param iterable: Iterable object for this loop.
-    :param n: Depth of this loop.
+    :type iterable: Iterable[_ItemType]
+    :param n: Depth of this loop (number of nested levels).
+    :type n: int
     :param offset: Offset of this loop, default is ``1`` which means the first value \
-        in the next level will be the one after the above level.
-    :returns: Progressive for loop iteration.
+        in the next level will be the one after the above level. An offset of 0 means \
+        the next level can start from the same position as the current level.
+    :type offset: int
+
+    :return: Iterator yielding tuples of progressively selected items.
+    :rtype: Iterator[Tuple[_ItemType, ...]]
+
+    :raises ValueError: If offset is negative.
 
     Examples::
         >>> from hbutils.reflection import progressive_for

@@ -101,7 +101,8 @@ def size_to_bytes(size: _SIZE_TYPING) -> int:
         * Strings are parsed as size representations (e.g., "23356 KB").
         * Byte objects from the bitmath library are converted to their byte value.
 
-    Examples:
+    Examples::
+
         >>> from hbutils.scale import size_to_bytes
         >>> size_to_bytes(23344)
         23344
@@ -122,8 +123,8 @@ class SizeSystem(IntEnum):
     """
     Enumeration of size systems used for formatting.
 
-    NIST: Uses binary prefixes (KiB, MiB, GiB, etc.)
-    SI: Uses decimal prefixes (KB, MB, GB, etc.)
+    :cvar NIST: Uses binary prefixes (KiB, MiB, GiB, etc.)
+    :cvar SI: Uses decimal prefixes (KB, MB, GB, etc.)
     """
     NIST = NIST
     SI = SI
@@ -147,12 +148,15 @@ def size_to_bytes_str(size: _SIZE_TYPING, precision: Optional[int] = None,
     :return: String formatted size value in the best unit.
     :rtype: str
 
+    :raises ValueError: If an invalid system type is provided.
+
     This function provides a human-readable representation of size values. It automatically
     chooses the most appropriate unit (B, KB/KiB, MB/MiB, etc.) based on the size.
 
     The ``system`` parameter allows choosing between NIST (binary, e.g., KiB) and SI (decimal, e.g., KB) units.
 
-    Examples:
+    Examples::
+
         >>> from hbutils.scale import size_to_bytes_str
         >>> size_to_bytes_str(23344)
         '22.796875 KiB'
