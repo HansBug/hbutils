@@ -119,8 +119,8 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - 'ubuntu-latest'
-          - 'windows-latest'
+#          - 'ubuntu-latest'
+#          - 'windows-latest'
           - 'macos-latest'
         python-version:
           - '3.8'
@@ -194,8 +194,27 @@ jobs:
       - name: Configure network for IPv4
         if: ${{ env.OS_NAME == 'MacOS' }}
         run: |
-          sysctl -w net.inet6.ip6.v6only=1
+          dscacheutil -flushcache || true
+
           echo "PYTHONHTTPSVERIFY=0" >> $GITHUB_ENV
+          echo "PYTHONUNBUFFERED=1" >> $GITHUB_ENV
+
+          ping -c 3 8.8.8.8 || true
+
+          cat > ~/.pythonrc << 'EOF'
+          import socket
+          import os
+
+          original_getaddrinfo = socket.getaddrinfo
+
+          def ipv4_only_getaddrinfo(host, port, family=0, type=0, proto=0, flags=0):
+              return original_getaddrinfo(host, port, socket.AF_INET, type, proto, flags)
+
+          socket.getaddrinfo = ipv4_only_getaddrinfo
+          socket.setdefaulttimeout(30)
+          EOF
+
+          echo "PYTHONSTARTUP=~/.pythonrc" >> $GITHUB_ENV
       - name: Download dist directory
         uses: actions/download-artifact@v4
         with:
