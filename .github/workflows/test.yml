@@ -132,8 +132,11 @@ jobs:
           - 'pypy-3.8'
           - 'pypy-3.9'
           - 'pypy-3.10'
+          - 'pypy-3.11'
         exclude:
           - os: 'windows-latest'
+            python-version: 'pypy-3.9'
+          - os: 'macos-latest'
             python-version: 'pypy-3.9'
 
     steps:
@@ -188,6 +191,11 @@ jobs:
         if: ${{ env.OS_NAME == 'MacOS' }}
         run: |
           brew install tree cloc wget curl make zip
+      - name: Configure network for IPv4
+        if: ${{ env.OS_NAME == 'MacOS' }}
+        run: |
+          sysctl -w net.inet6.ip6.v6only=1
+          echo "PYTHONHTTPSVERIFY=0" >> $GITHUB_ENV
       - name: Download dist directory
         uses: actions/download-artifact@v4
         with:
