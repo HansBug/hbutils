@@ -42,25 +42,75 @@ setup(
     author=meta['__AUTHOR__'],
     author_email=meta['__AUTHOR_EMAIL__'],
     license='Apache License, Version 2.0',
-    keywords='python, generic, utilities',
-    url='https://github.com/hansbug/hbutils',
+    keywords='python, generic, utilities, algorithms, data structures, system operations, design patterns, testing tools',
+    url='https://github.com/HansBug/hbutils',
+    project_urls={
+        'Homepage': 'https://github.com/HansBug/hbutils',
+        'Documentation': 'https://hbutils.readthedocs.io/en/latest/',
+        'Repository': 'https://github.com/HansBug/hbutils',
+        'Bug Reports': 'https://github.com/HansBug/hbutils/issues',
+        'Source': 'https://github.com/HansBug/hbutils',
+    },
 
     # environment
     python_requires=">=3.8",
     install_requires=requirements,
-    tests_require=group_requirements['test'],
+    tests_require=group_requirements.get('test', []),
     extras_require=group_requirements,
     classifiers=[
+        # Development Status
         'Development Status :: 5 - Production/Stable',
+
+        # Intended Audience
         'Intended Audience :: Developers',
+        'Intended Audience :: Information Technology',
+        'Intended Audience :: Science/Research',
+        'Intended Audience :: System Administrators',
+
+        # License
         'License :: OSI Approved :: Apache Software License',
+
+        # Operating System
+        'Operating System :: OS Independent',
+        'Operating System :: POSIX',
+        'Operating System :: POSIX :: Linux',
+        'Operating System :: Microsoft :: Windows',
+        'Operating System :: MacOS',
+
+        # Programming Language
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
+        'Programming Language :: Python :: 3 :: Only',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
         'Programming Language :: Python :: 3.10',
         'Programming Language :: Python :: 3.11',
         'Programming Language :: Python :: 3.12',
-        'Programming Language :: Python :: Implementation :: PyPy'
+        'Programming Language :: Python :: 3.13',
+        'Programming Language :: Python :: Implementation :: CPython',
+        'Programming Language :: Python :: Implementation :: PyPy',
+
+        # Topic
+        'Topic :: Software Development',
+        'Topic :: Software Development :: Libraries',
+        'Topic :: Software Development :: Libraries :: Python Modules',
+        'Topic :: Utilities',
+        'Topic :: System :: Systems Administration',
+        'Topic :: Scientific/Engineering',
+        'Topic :: Text Processing',
+        'Topic :: Software Development :: Testing',
+
+        # Natural Language
+        'Natural Language :: English',
+
+        # Environment
+        'Environment :: Console',
+        'Environment :: Other Environment',
+
+        # Framework
+        'Framework :: Pytest',
+
+        # Typing
+        'Typing :: Typed',
     ],
 )
