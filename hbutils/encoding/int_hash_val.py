@@ -17,7 +17,9 @@ import logging
 import random
 import string
 import time
-from typing import Union, List, Dict, Any
+from typing import Union, List, Dict, Any, Tuple
+
+from .int_hash import _IntHashTyping, _INT_HASH_FUNCS
 
 __all__ = [
     'int_hash_val_determinism',
@@ -30,8 +32,18 @@ __all__ = [
     'int_hash_val_comprehensive',
 ]
 
+_HashFuncTyping = Union[str, _IntHashTyping]
 
-def int_hash_val_determinism(hash_func, test_data: List[Union[str, bytes, bytearray]]) -> Dict[str, Any]:
+
+def _norm_func(hash_func: _HashFuncTyping) -> Tuple[str, _HashFuncTyping]:
+    if isinstance(hash_func, str):
+        return hash_func, _INT_HASH_FUNCS[hash_func]
+    else:
+        return hash_func.__name__, hash_func
+
+
+def int_hash_val_determinism(hash_func: _HashFuncTyping, test_data: List[Union[str, bytes, bytearray]]) -> Dict[
+    str, Any]:
     """
     Validate determinism: same input produces same output.
     
@@ -58,6 +70,7 @@ def int_hash_val_determinism(hash_func, test_data: List[Union[str, bytes, bytear
         >>> result['passed']
         True
     """
+    _, hash_func = _norm_func(hash_func)
     logging.info("Starting determinism validation")
 
     passed = True
@@ -160,7 +173,7 @@ def int_hash_val_type_consistency(hash_func) -> Dict[str, Any]:
     return results
 
 
-def int_hash_val_avalanche_effect(hash_func, sample_size: int = 100) -> Dict[str, Any]:
+def int_hash_val_avalanche_effect(hash_func: _HashFuncTyping, sample_size: int = 100) -> Dict[str, Any]:
     """
     Validate avalanche effect: small input changes cause significant output changes.
     
@@ -191,6 +204,7 @@ def int_hash_val_avalanche_effect(hash_func, sample_size: int = 100) -> Dict[str
         >>> result['change_percentage'] > 40.0
         True
     """
+    _, hash_func = _norm_func(hash_func)
     logging.info(f"Starting avalanche effect validation with {sample_size} samples")
 
     def hamming_distance(a: int, b: int) -> int:
@@ -272,7 +286,7 @@ def int_hash_val_avalanche_effect(hash_func, sample_size: int = 100) -> Dict[str
     return results
 
 
-def int_hash_val_uniform_distribution(hash_func, sample_size: int = 10000) -> Dict[str, Any]:
+def int_hash_val_uniform_distribution(hash_func: _HashFuncTyping, sample_size: int = 10000) -> Dict[str, Any]:
     """
     Validate uniform distribution of hash outputs.
     
@@ -301,6 +315,7 @@ def int_hash_val_uniform_distribution(hash_func, sample_size: int = 10000) -> Di
         >>> result['uniformity_score'] > 0.95
         True
     """
+    _, hash_func = _norm_func(hash_func)
     logging.info(f"Starting uniform distribution validation with {sample_size} samples")
 
     # Generate random samples
@@ -363,7 +378,7 @@ def int_hash_val_uniform_distribution(hash_func, sample_size: int = 10000) -> Di
     return results
 
 
-def int_hash_val_collision_resistance(hash_func, sample_size: int = 100000) -> Dict[str, Any]:
+def int_hash_val_collision_resistance(hash_func: _HashFuncTyping, sample_size: int = 100000) -> Dict[str, Any]:
     """
     Validate collision resistance.
     
@@ -393,6 +408,7 @@ def int_hash_val_collision_resistance(hash_func, sample_size: int = 100000) -> D
         >>> result['collision_rate'] < 0.001
         True
     """
+    _, hash_func = _norm_func(hash_func)
     logging.info(f"Starting collision resistance validation with {sample_size} samples")
 
     hashes = set()
@@ -508,7 +524,7 @@ def int_hash_val_empty_input(hash_func) -> Dict[str, Any]:
     return results
 
 
-def int_hash_val_performance(hash_func, data_sizes: List[int] = None) -> Dict[str, Any]:
+def int_hash_val_performance(hash_func: _HashFuncTyping, data_sizes: List[int] = None) -> Dict[str, Any]:
     """
     Validate performance characteristics.
     
@@ -537,6 +553,7 @@ def int_hash_val_performance(hash_func, data_sizes: List[int] = None) -> Dict[st
         >>> 100 in result['performance_data']
         True
     """
+    _, hash_func = _norm_func(hash_func)
     if data_sizes is None:
         data_sizes = [100, 1000, 10000, 100000]
 
@@ -606,7 +623,7 @@ def int_hash_val_performance(hash_func, data_sizes: List[int] = None) -> Dict[st
     return results
 
 
-def int_hash_val_comprehensive(hash_func, hash_name: str = "unknown") -> Dict[str, Any]:
+def int_hash_val_comprehensive(hash_func: _HashFuncTyping) -> Dict[str, Any]:
     """
     Comprehensive validation of hash function properties.
     
@@ -617,8 +634,6 @@ def int_hash_val_comprehensive(hash_func, hash_name: str = "unknown") -> Dict[st
     :param hash_func: The hash function to validate. Should accept str, bytes, or bytearray
                       and return an integer hash value.
     :type hash_func: callable
-    :param hash_name: Name of the hash function for logging purposes, defaults to "unknown"
-    :type hash_name: str
     
     :return: Dictionary containing comprehensive validation results with keys:
              - 'passed' (bool): Whether all validation tests passed
@@ -640,6 +655,7 @@ def int_hash_val_comprehensive(hash_func, hash_name: str = "unknown") -> Dict[st
         >>> result['total_properties_tested']
         7
     """
+    hash_name, hash_func = _norm_func(hash_func)
     logging.info(f"Starting comprehensive validation for hash function: {hash_name}")
 
     # Test data for various validations
