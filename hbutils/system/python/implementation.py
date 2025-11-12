@@ -33,11 +33,11 @@ __all__ = [
 class PythonImplementation(IntEnum):
     """
     Enumeration of Python implementations.
-    
+
     This enum represents the different Python implementations that can be detected.
     The enum values are loaded from string names (case-insensitive) via the 
     int_enum_loads decorator.
-    
+
     :cvar CPYTHON: The standard CPython implementation.
     :cvar IRONPYTHON: The IronPython implementation (.NET-based).
     :cvar JYTHON: The Jython implementation (JVM-based).
@@ -53,14 +53,14 @@ class PythonImplementation(IntEnum):
 def _get_python_implementation() -> PythonImplementation:
     """
     Get the current Python implementation.
-    
+
     This function detects the Python implementation using platform.python_implementation()
     and converts it to a PythonImplementation enum value. The result is cached for
     performance since the implementation cannot change during runtime.
-    
+
     :return: The detected Python implementation.
     :rtype: PythonImplementation
-    
+
     Example::
         >>> impl = _get_python_implementation()
         >>> print(impl)
@@ -72,13 +72,13 @@ def _get_python_implementation() -> PythonImplementation:
 def is_cpython() -> bool:
     """
     Check if the current Python implementation is CPython.
-    
+
     Overview:
         Return ``True`` if current python is CPython, otherwise return ``False``.
 
     :return: Current python is CPython or not.
     :rtype: bool
-    
+
     Example::
         >>> is_cpython()
         True  # When running on CPython
@@ -89,13 +89,13 @@ def is_cpython() -> bool:
 def is_ironpython() -> bool:
     """
     Check if the current Python implementation is IronPython.
-    
+
     Overview:
         Return ``True`` if current python is IronPython, otherwise return ``False``.
 
     :return: Current python is IronPython or not.
     :rtype: bool
-    
+
     Example::
         >>> is_ironpython()
         False  # When running on CPython
@@ -106,13 +106,13 @@ def is_ironpython() -> bool:
 def is_jython() -> bool:
     """
     Check if the current Python implementation is Jython.
-    
+
     Overview:
         Return ``True`` if current python is Jython, otherwise return ``False``.
 
     :return: Current python is Jython or not.
     :rtype: bool
-    
+
     Example::
         >>> is_jython()
         False  # When running on CPython
@@ -123,13 +123,13 @@ def is_jython() -> bool:
 def is_pypy() -> bool:
     """
     Check if the current Python implementation is PyPy.
-    
+
     Overview:
         Return ``True`` if current python is PyPy, otherwise return ``False``.
 
     :return: Current python is PyPy or not.
     :rtype: bool
-    
+
     Example::
         >>> is_pypy()
         False  # When running on CPython

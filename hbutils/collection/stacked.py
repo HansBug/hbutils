@@ -3,7 +3,7 @@ Overview:
     This module provides a stacked mapping data structure that allows multiple mapping-like objects 
     (such as dictionaries) to be layered together and accessed as a single unified mapping. 
     Later mappings in the stack take precedence over earlier ones when accessing values.
-    
+
     The StackedMapping class is read-only and does not support item assignment or deletion operations,
     as it would be ambiguous which underlying mapping should be modified.
 """
@@ -92,7 +92,7 @@ class StackedMapping(Mapping):
 
         :param mps: Multiple mapping objects to stack together.
         :type mps: Mapping
-        
+
         Example::
             >>> d1 = {'a': 1}
             >>> d2 = {'b': 2}
@@ -105,18 +105,18 @@ class StackedMapping(Mapping):
     def __getitem__(self, k: _KeyType) -> _ValueType:
         """
         Get the value associated with the given key.
-        
+
         Searches through the stacked mappings in reverse order (from last to first),
         returning the value from the first mapping that contains the key.
 
         :param k: The key to look up.
         :type k: _KeyType
-        
+
         :return: The value associated with the key.
         :rtype: _ValueType
-        
+
         :raises KeyError: If the key is not found in any of the stacked mappings.
-        
+
         Example::
             >>> d1 = {'a': 1}
             >>> d2 = {'a': 2, 'b': 3}
@@ -137,13 +137,13 @@ class StackedMapping(Mapping):
     def _key_iter(self) -> Iterator[_KeyType]:
         """
         Internal method to iterate over all unique keys in the stacked mappings.
-        
+
         Yields keys in the order they first appear across all mappings, ensuring
         each key is yielded only once even if it appears in multiple mappings.
 
         :return: An iterator over all unique keys.
         :rtype: Iterator[_KeyType]
-        
+
         Example::
             >>> d1 = {'a': 1, 'b': 2}
             >>> d2 = {'b': 3, 'c': 4}
@@ -164,7 +164,7 @@ class StackedMapping(Mapping):
 
         :return: The total number of unique keys.
         :rtype: int
-        
+
         Example::
             >>> d1 = {'a': 1, 'b': 2}
             >>> d2 = {'b': 3, 'c': 4}
@@ -180,7 +180,7 @@ class StackedMapping(Mapping):
 
         :return: An iterator over all unique keys.
         :rtype: Iterator[_KeyType]
-        
+
         Example::
             >>> d1 = {'a': 1, 'b': 2}
             >>> d2 = {'c': 3}

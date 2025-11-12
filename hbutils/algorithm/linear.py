@@ -22,7 +22,7 @@ def linear_map(points: Union[Sequence[float], Sequence[Tuple[float, float]]]) ->
 
     This function generates a piecewise linear mapping function from a sequence of control points.
     The points can be specified in two ways:
-    
+
     1. Simple sequence of y-values: x-values are automatically distributed evenly from 0 to 1
     2. Sequence of (x, y) tuples: explicit x and y coordinates for each control point
 
@@ -30,10 +30,10 @@ def linear_map(points: Union[Sequence[float], Sequence[Tuple[float, float]]]) ->
         simple linear mapping with x-values automatically distributed from 0 to 1. If the elements are binary tuples \
         (contains 2 float numbers), it means the x-range is assigned explicitly.
     :type points: Union[Sequence[float], Sequence[Tuple[float, float]]]
-    
+
     :return: A callable function for linear mapping that takes a float x-value and returns the interpolated y-value.
     :rtype: Callable[[float], float]
-    
+
     :raises AssertionError: If points sequence is empty or if x-values are not in strictly increasing order.
     :raises ValueError: If the input x-value to the returned function is outside the valid range.
 
@@ -108,10 +108,10 @@ def linear_map(points: Union[Sequence[float], Sequence[Tuple[float, float]]]) ->
 
         :param x: The x-coordinate for which to calculate the interpolated y-value.
         :type x: float
-        
+
         :return: The interpolated y-value at position x.
         :rtype: float
-        
+
         :raises ValueError: If x is outside the valid range defined by the control points.
         """
         if xys[0][0] <= x <= xys[-1][0]:

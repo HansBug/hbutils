@@ -44,7 +44,7 @@ def auto_decode(data: bytes, encoding: Optional[str] = None, prefers: Optional[L
     2. Otherwise, try preferred encodings in order
     3. Fall back to system default encoding
     4. Use chardet library to detect the encoding
-    
+
     The function will try each encoding until one succeeds, keeping track of the
     best partial match in case all attempts fail.
 

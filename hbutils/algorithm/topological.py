@@ -34,7 +34,7 @@ def topoids(n: int, edges: Collection[Tuple[int, int]], sort: bool = False) -> L
 
     :return: Sorted sequence of node IDs in topological order.
     :rtype: List[int]
-    
+
     :raises ArithmeticError: If the graph contains a cycle or invalid node references, 
         making topological sorting impossible.
     :raises AssertionError: If edge endpoints are not valid node IDs (not in range [0, n)).
@@ -131,7 +131,7 @@ def topo(items: Iterable[_ElementType],
 
     :return: Sorted sequence of items in topological order.
     :rtype: List[_ElementType]
-    
+
     :raises ArithmeticError: If the graph contains a cycle, making topological sorting impossible.
 
     Examples::

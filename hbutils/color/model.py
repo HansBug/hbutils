@@ -1,7 +1,7 @@
 """
 Overview:
     Color model, include rgb, hsv, hls color system.
-    
+
     More color system will be supported soon.
 """
 import colorsys
@@ -25,7 +25,7 @@ def _round_mapper(min_: float, max_: float) -> Callable[[float], float]:
     :type max_: float
     :return: A function that maps input values to the specified range.
     :rtype: Callable[[float], float]
-    
+
     Example::
         >>> mapper = _round_mapper(0.0, 1.0)
         >>> mapper(1.5)  # Value greater than max
@@ -60,7 +60,7 @@ def _range_mapper(min_: Optional[float], max_: Optional[float], warning: Optiona
     :type warning: Optional[Callable]
     :return: A function that clamps input values to the specified range.
     :rtype: Callable[[float], float]
-    
+
     Example::
         >>> mapper = _range_mapper(0.0, 1.0)
         >>> mapper(1.5)  # Value greater than max
@@ -162,7 +162,7 @@ class RGBColorProxy:
 
         .. note::
             Setter is available, the change will affect the :class:`Color` object.
-        
+
         :return: Red component value.
         :rtype: float
         """
@@ -185,7 +185,7 @@ class RGBColorProxy:
 
         .. note::
             Setter is available, the change will affect the :class:`Color` object.
-        
+
         :return: Green component value.
         :rtype: float
         """
@@ -208,7 +208,7 @@ class RGBColorProxy:
 
         .. note::
             Setter is available, the change will affect the :class:`Color` object.
-        
+
         :return: Blue component value.
         :rtype: float
         """
@@ -303,7 +303,7 @@ class HSVColorProxy:
 
         .. note::
             Setter is available, the change will affect the :class:`Color` object.
-        
+
         :return: Hue component value.
         :rtype: float
         """
@@ -326,7 +326,7 @@ class HSVColorProxy:
 
         .. note::
             Setter is available, the change will affect the :class:`Color` object.
-        
+
         :return: Saturation component value.
         :rtype: float
         """
@@ -349,7 +349,7 @@ class HSVColorProxy:
 
         .. note::
             Setter is available, the change will affect the :class:`Color` object.
-        
+
         :return: Value (brightness) component value.
         :rtype: float
         """
@@ -369,7 +369,7 @@ class HSVColorProxy:
     def brightness(self) -> float:
         """
         Alias for ``value``.
-        
+
         :return: Brightness (value) component value.
         :rtype: float
         """
@@ -464,7 +464,7 @@ class HLSColorProxy:
 
         .. note::
             Setter is available, the change will affect the :class:`Color` object.
-        
+
         :return: Hue component value.
         :rtype: float
         """
@@ -487,7 +487,7 @@ class HLSColorProxy:
 
         .. note::
             Setter is available, the change will affect the :class:`Color` object.
-        
+
         :return: Lightness component value.
         :rtype: float
         """
@@ -510,7 +510,7 @@ class HLSColorProxy:
 
         .. note::
             Setter is available, the change will affect the :class:`Color` object.
-        
+
         :return: Saturation component value.
         :rtype: float
         """
@@ -678,7 +678,7 @@ class Color:
 
         .. note::
             Setter is available.
-        
+
         :return: Alpha value, or None if no alpha is set.
         :rtype: Optional[float]
         """
@@ -885,7 +885,7 @@ class Color:
     def __str__(self) -> str:
         """
         Hex format of this :class:`Color` object.
-        
+
         :return: Hexadecimal color string.
         :rtype: str
         """

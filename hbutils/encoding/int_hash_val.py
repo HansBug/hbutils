@@ -11,6 +11,77 @@ This module provides comprehensive validation utilities for hash functions, incl
 
 The module is designed to validate integer-based hash functions that accept
 string, bytes, or bytearray inputs and return integer hash values.
+
+Example::
+    >>> from hbutils.encoding import int_hash_val_comprehensive
+    >>>
+    >>> print(int_hash_val_comprehensive('xs'))  # validate existing hash functions
+    ╔══════════════════════════════════════════════════════════════════════════════════════════════╗
+    ║                          COMPREHENSIVE HASH FUNCTION VALIDATION REPORT                       ║
+    ╠══════════════════════════════════════════════════════════════════════════════════════════════╣
+    ║ Function Name:     xs               │ Overall Status:    PASS                                ║
+    ║ Properties Tested: 7                │ Properties Passed: 7    (100.0%)                       ║
+    ╠══════════════════════════════════════════════════════════════════════════════════════════════╣
+    ║                                    PROPERTY STATUS                                           ║
+    ╠══════════════════════════════════════════════════════════════════════════════════════════════╣
+    ║ ✓ Determinism                                   │ PASS                                       ║
+    ║ ✓ Type Consistency                              │ PASS                                       ║
+    ║ ✓ Avalanche Effect                              │ PASS       | Avalanche Effect:       42.9% ║
+    ║ ✓ Uniform Distribution                          │ PASS       | Uniformity Score:       0.996 ║
+    ║ ✓ Collision Resistance                          │ PASS       | Collision Rate:        0.0000 ║
+    ║ ✓ Empty Input                                   │ PASS                                       ║
+    ║ ✓ Performance                                   │ PASS       | Avg Throughput:      4.6 MB/s ║
+    ╠══════════════════════════════════════════════════════════════════════════════════════════════╣
+    ║                                   RECOMMENDATIONS                                            ║
+    ╠══════════════════════════════════════════════════════════════════════════════════════════════╣
+    ║ ✓ Hash function meets all validation criteria - suitable for production use                  ║
+    ╚══════════════════════════════════════════════════════════════════════════════════════════════╝
+    DETAILED ANALYSIS:
+    • All validation tests passed successfully
+    • Hash function demonstrates good cryptographic properties
+    • Suitable for general-purpose hashing applications
+    >>>
+    >>> def basic_good_hash(data) -> int:
+    ...     # Convert all input types to bytes
+    ...     if isinstance(data, str):
+    ...         data = data.encode('utf-8')
+    ...     elif isinstance(data, bytearray):
+    ...         data = bytes(data)
+    ...     hash_val = 0x811c9dc5  # FNV offset basis (32-bit)
+    ...     for byte in data:
+    ...         # Simple polynomial hash variant
+    ...         hash_val = ((hash_val * 33) ^ byte) & 0xffffffff
+    ...         # Add some bit mixing
+    ...         hash_val ^= hash_val >> 16
+    ...         hash_val = (hash_val * 0x85ebca6b) & 0xffffffff
+    ...         hash_val ^= hash_val >> 13
+    ...     return hash_val & 0xffffffff
+    ...
+    >>> print(int_hash_val_comprehensive(basic_good_hash))
+    ╔══════════════════════════════════════════════════════════════════════════════════════════════╗
+    ║                          COMPREHENSIVE HASH FUNCTION VALIDATION REPORT                       ║
+    ╠══════════════════════════════════════════════════════════════════════════════════════════════╣
+    ║ Function Name:     basic_good_hash  │ Overall Status:    PASS                                ║
+    ║ Properties Tested: 7                │ Properties Passed: 7    (100.0%)                       ║
+    ╠══════════════════════════════════════════════════════════════════════════════════════════════╣
+    ║                                    PROPERTY STATUS                                           ║
+    ╠══════════════════════════════════════════════════════════════════════════════════════════════╣
+    ║ ✓ Determinism                                   │ PASS                                       ║
+    ║ ✓ Type Consistency                              │ PASS                                       ║
+    ║ ✓ Avalanche Effect                              │ PASS       | Avalanche Effect:       50.5% ║
+    ║ ✓ Uniform Distribution                          │ PASS       | Uniformity Score:       0.996 ║
+    ║ ✓ Collision Resistance                          │ PASS       | Collision Rate:        0.0000 ║
+    ║ ✓ Empty Input                                   │ PASS                                       ║
+    ║ ✓ Performance                                   │ PASS       | Avg Throughput:      2.5 MB/s ║
+    ╠══════════════════════════════════════════════════════════════════════════════════════════════╣
+    ║                                   RECOMMENDATIONS                                            ║
+    ╠══════════════════════════════════════════════════════════════════════════════════════════════╣
+    ║ ✓ Hash function meets all validation criteria - suitable for production use                  ║
+    ╚══════════════════════════════════════════════════════════════════════════════════════════════╝
+    DETAILED ANALYSIS:
+    • All validation tests passed successfully
+    • Hash function demonstrates good cryptographic properties
+    • Suitable for general-purpose hashing applications
 """
 
 import logging
@@ -32,6 +103,14 @@ __all__ = [
     'int_hash_val_empty_input',
     'int_hash_val_performance',
     'int_hash_val_comprehensive',
+    'DeterminismValidationResult',
+    'TypeConsistencyValidationResult',
+    'AvalancheEffectValidationResult',
+    'UniformDistributionValidationResult',
+    'CollisionResistanceValidationResult',
+    'EmptyInputValidationResult',
+    'PerformanceValidationResult',
+    'ComprehensiveValidationResult',
 ]
 
 _HashFuncTyping = Union[str, _IntHashTyping]
@@ -39,7 +118,18 @@ _HashFuncTyping = Union[str, _IntHashTyping]
 
 @dataclass
 class DeterminismValidationResult:
-    """Results from determinism validation test."""
+    """
+    Results from determinism validation test.
+
+    :param passed: Whether the determinism test passed
+    :type passed: bool
+    :param failed_cases: List of test cases that failed determinism check
+    :type failed_cases: List[str]
+    :param total_tested: Total number of test cases evaluated
+    :type total_tested: int
+    :param failed_count: Number of test cases that failed
+    :type failed_count: int
+    """
     passed: bool
     failed_cases: List[str]
     total_tested: int
@@ -48,7 +138,20 @@ class DeterminismValidationResult:
 
 @dataclass
 class TypeConsistencyValidationResult:
-    """Results from type consistency validation test."""
+    """
+    Results from type consistency validation test.
+
+    :param passed: Whether the type consistency test passed
+    :type passed: bool
+    :param failed_cases: List of test cases that failed type consistency check
+    :type failed_cases: List[str]
+    :param total_tested: Total number of test cases evaluated
+    :type total_tested: int
+    :param failed_count: Number of test cases that failed
+    :type failed_count: int
+    :param consistent_hashes: Dictionary mapping test strings to their consistent hash values
+    :type consistent_hashes: Dict[str, int]
+    """
     passed: bool
     failed_cases: List[str]
     total_tested: int
@@ -58,7 +161,24 @@ class TypeConsistencyValidationResult:
 
 @dataclass
 class AvalancheEffectValidationResult:
-    """Results from avalanche effect validation test."""
+    """
+    Results from avalanche effect validation test.
+
+    :param passed: Whether the avalanche effect test passed
+    :type passed: bool
+    :param avg_bit_changes: Average number of bits changed across all comparisons
+    :type avg_bit_changes: float
+    :param change_percentage: Percentage of bits changed (avg_bit_changes / total_bits * 100)
+    :type change_percentage: float
+    :param total_comparisons: Total number of hash comparisons performed
+    :type total_comparisons: int
+    :param bit_changes_list: List of bit changes for each comparison
+    :type bit_changes_list: List[int]
+    :param min_changes: Minimum number of bits changed in any comparison
+    :type min_changes: int
+    :param max_changes: Maximum number of bits changed in any comparison
+    :type max_changes: int
+    """
     passed: bool
     avg_bit_changes: float
     change_percentage: float
@@ -70,7 +190,20 @@ class AvalancheEffectValidationResult:
 
 @dataclass
 class UniformDistributionValidationResult:
-    """Results from uniform distribution validation test."""
+    """
+    Results from uniform distribution validation test.
+
+    :param passed: Whether the uniform distribution test passed
+    :type passed: bool
+    :param uniformity_score: Score indicating distribution uniformity (0-1, higher is better)
+    :type uniformity_score: float
+    :param bucket_stats: Statistics about bucket distribution
+    :type bucket_stats: Dict[str, Any]
+    :param sample_count: Number of samples used in the test
+    :type sample_count: int
+    :param buckets: List of counts for each bucket
+    :type buckets: List[int]
+    """
     passed: bool
     uniformity_score: float
     bucket_stats: Dict[str, Any]
@@ -80,7 +213,22 @@ class UniformDistributionValidationResult:
 
 @dataclass
 class CollisionResistanceValidationResult:
-    """Results from collision resistance validation test."""
+    """
+    Results from collision resistance validation test.
+
+    :param passed: Whether the collision resistance test passed
+    :type passed: bool
+    :param collision_count: Number of collisions detected
+    :type collision_count: int
+    :param collision_rate: Rate of collisions (collision_count / sample_size)
+    :type collision_rate: float
+    :param sample_size: Total number of samples tested
+    :type sample_size: int
+    :param unique_hashes: Number of unique hash values generated
+    :type unique_hashes: int
+    :param collision_pairs: List of (input, hash) tuples that collided
+    :type collision_pairs: List[Tuple[str, int]]
+    """
     passed: bool
     collision_count: int
     collision_rate: float
@@ -91,7 +239,20 @@ class CollisionResistanceValidationResult:
 
 @dataclass
 class EmptyInputValidationResult:
-    """Results from empty input validation test."""
+    """
+    Results from empty input validation test.
+
+    :param passed: Whether the empty input test passed
+    :type passed: bool
+    :param hash_results: List of hash values for empty inputs
+    :type hash_results: List[int]
+    :param consistent_empty_hash: Whether all empty inputs produced the same hash
+    :type consistent_empty_hash: bool
+    :param error_cases: List of (input_type, error_message) tuples for failed cases
+    :type error_cases: List[Tuple[str, str]]
+    :param empty_hash_value: The consistent hash value for empty inputs, or None if inconsistent
+    :type empty_hash_value: Union[int, None]
+    """
     passed: bool
     hash_results: List[int]
     consistent_empty_hash: bool
@@ -101,7 +262,18 @@ class EmptyInputValidationResult:
 
 @dataclass
 class PerformanceValidationResult:
-    """Results from performance validation test."""
+    """
+    Results from performance validation test.
+
+    :param passed: Whether the performance test passed (completed without errors)
+    :type passed: bool
+    :param performance_data: Dictionary mapping data sizes to performance metrics
+    :type performance_data: Dict[int, Dict[str, float]]
+    :param tested_sizes: List of data sizes that were tested
+    :type tested_sizes: List[int]
+    :param completed_sizes: List of data sizes that completed successfully
+    :type completed_sizes: List[int]
+    """
     passed: bool
     performance_data: Dict[int, Dict[str, float]]
     tested_sizes: List[int]
@@ -110,7 +282,34 @@ class PerformanceValidationResult:
 
 @dataclass
 class ComprehensiveValidationResult:
-    """Results from comprehensive validation test."""
+    """
+    Results from comprehensive validation test.
+
+    :param passed: Whether all validation tests passed
+    :type passed: bool
+    :param not_passed_properties: List of property names that failed validation
+    :type not_passed_properties: List[str]
+    :param hash_function_name: Name of the hash function being validated
+    :type hash_function_name: str
+    :param total_properties_tested: Total number of properties tested
+    :type total_properties_tested: int
+    :param properties_passed: Number of properties that passed validation
+    :type properties_passed: int
+    :param determinism: Results from determinism validation
+    :type determinism: DeterminismValidationResult
+    :param type_consistency: Results from type consistency validation
+    :type type_consistency: TypeConsistencyValidationResult
+    :param avalanche_effect: Results from avalanche effect validation
+    :type avalanche_effect: AvalancheEffectValidationResult
+    :param uniform_distribution: Results from uniform distribution validation
+    :type uniform_distribution: UniformDistributionValidationResult
+    :param collision_resistance: Results from collision resistance validation
+    :type collision_resistance: CollisionResistanceValidationResult
+    :param empty_input: Results from empty input validation
+    :type empty_input: EmptyInputValidationResult
+    :param performance: Results from performance validation
+    :type performance: PerformanceValidationResult
+    """
     passed: bool
     not_passed_properties: List[str]
     hash_function_name: str
@@ -125,6 +324,12 @@ class ComprehensiveValidationResult:
     performance: PerformanceValidationResult
 
     def __str__(self) -> str:
+        """
+        Generate a formatted string representation of the validation results.
+
+        :return: Formatted validation report
+        :rtype: str
+        """
         overall_status = "PASS" if self.passed else "FAIL"
         success_rate = (
                 self.properties_passed / self.total_properties_tested * 100) if self.total_properties_tested > 0 else 0
@@ -187,6 +392,12 @@ class ComprehensiveValidationResult:
 {self._get_detailed_analysis()}""".strip()
 
     def _get_recommendation(self) -> str:
+        """
+        Generate a recommendation based on validation results.
+
+        :return: Recommendation string
+        :rtype: str
+        """
         if self.passed:
             return "✓ Hash function meets all validation criteria - suitable for production use"
         elif self.determinism.passed and self.collision_resistance.passed:
@@ -195,6 +406,12 @@ class ComprehensiveValidationResult:
             return "✗ Hash function has significant issues - not recommended for use"
 
     def _get_detailed_analysis(self) -> str:
+        """
+        Generate detailed analysis of validation results.
+
+        :return: Detailed analysis string
+        :rtype: str
+        """
         analysis = []
 
         if not self.determinism.passed:

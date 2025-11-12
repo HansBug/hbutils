@@ -25,7 +25,7 @@ __all__ = [
 class _FakeEntryPoint:
     """
     A fake entry point class that mimics the behavior of real entry points.
-    
+
     :param name: The name of the entry point.
     :type name: str
     :param group: The group name that this entry point belongs to.
@@ -40,7 +40,7 @@ class _FakeEntryPoint:
     def load(self):
         """
         Load and return the distribution object.
-        
+
         :return: The distribution object.
         :rtype: object
         """
@@ -53,7 +53,7 @@ _max_fake_id = 0
 def _fake_id() -> int:
     """
     Generate a unique fake ID for unnamed entry points.
-    
+
     :return: A unique integer ID.
     :rtype: int
     """
@@ -65,7 +65,7 @@ def _fake_id() -> int:
 def _fake_entry_name() -> str:
     """
     Generate a unique fake entry point name.
-    
+
     :return: A unique entry point name in the format 'unnamed_fake_entry_{id}'.
     :rtype: str
     """
@@ -75,20 +75,20 @@ def _fake_entry_name() -> str:
 def _yield_from_units(fes, auto_import: bool = True) -> Iterator[Tuple[str, Any]]:
     """
     Yield name-distribution pairs from various input formats.
-    
+
     This function processes different input formats (list, tuple, dict) and yields
     standardized (name, dist) tuples. It can automatically import objects from strings
     if auto_import is enabled.
-    
+
     :param fes: Fake entry specifications in list, tuple, or dict format.
     :type fes: Union[list, tuple, dict]
     :param auto_import: Whether to automatically import objects from string paths.
     :type auto_import: bool
-    
+
     :return: Iterator yielding (name, distribution) tuples.
     :rtype: Iterator[Tuple[str, Any]]
     :raises TypeError: If the input format is not recognized.
-    
+
     Example::
         >>> list(_yield_from_units([('name', object), 'module.func']))
         [('name', <object>), ('func', <function>)]
@@ -122,14 +122,14 @@ def _yield_from_units(fes, auto_import: bool = True) -> Iterator[Tuple[str, Any]
 def _yield_fake_entries(group, fes, auto_import: bool = True) -> Iterator[_FakeEntryPoint]:
     """
     Yield fake entry point objects for a specific group.
-    
+
     :param group: The group name for the entry points.
     :type group: str
     :param fes: Fake entry specifications.
     :type fes: Union[list, tuple, dict]
     :param auto_import: Whether to automatically import objects from string paths.
     :type auto_import: bool
-    
+
     :return: Iterator yielding _FakeEntryPoint objects.
     :rtype: Iterator[_FakeEntryPoint]
     """
@@ -142,11 +142,11 @@ def isolated_entry_points(group: str, fakes: Union[List, Dict[str, Any], None] =
                           auto_import: bool = True, clear: bool = False):
     """
     Isolation context manager for entry points functions.
-    
+
     This context manager allows for mocking or clearing entry points during testing.
     It supports pkg_resources.iter_entry_points, importlib.metadata.entry_points,
     and importlib_metadata.entry_points.
-    
+
     :param group: The entry point group name to isolate.
     :type group: str
     :param fakes: Fake entry points to inject. Can be a list, tuple, or dict.
@@ -157,9 +157,9 @@ def isolated_entry_points(group: str, fakes: Union[List, Dict[str, Any], None] =
     :type auto_import: bool
     :param clear: Clear original entry points if ``True``. Default is ``False``.
     :type clear: bool
-    
+
     :raises TypeError: If fakes parameter is not of type list, tuple, dict, or None.
-    
+
     Example::
         >>> from hbutils.testing import isolated_entry_points
         >>> 
@@ -185,7 +185,7 @@ def isolated_entry_points(group: str, fakes: Union[List, Dict[str, Any], None] =
         >>> with isolated_entry_points('my_plugin', clear=True):
         ...     # No entry points available in this context
         ...     pass
-    
+
     .. warning::
         The ``pkg_resources`` package is no longer officially supported.
         However, certain libraries that rely on hbutils are still in use,
@@ -205,12 +205,12 @@ def isolated_entry_points(group: str, fakes: Union[List, Dict[str, Any], None] =
     def _new_iter_func(group, name=None):
         """
         Replacement function for pkg_resources.iter_entry_points.
-        
+
         :param group: The entry point group to query.
         :type group: str
         :param name: Optional specific entry point name to filter.
         :type name: str or None
-        
+
         :return: Iterator of entry points.
         :rtype: Iterator
         """
@@ -219,10 +219,10 @@ def isolated_entry_points(group: str, fakes: Union[List, Dict[str, Any], None] =
         def _check_name(x) -> bool:
             """
             Check if an entry point should be included based on name filtering.
-            
+
             :param x: The entry point to check.
             :type x: _FakeEntryPoint or EntryPoint
-            
+
             :return: True if the entry point should be included.
             :rtype: bool
             """
@@ -251,10 +251,10 @@ def isolated_entry_points(group: str, fakes: Union[List, Dict[str, Any], None] =
         def _py37_entry_points(**kwargs):
             """
             Replacement function for importlib_metadata.entry_points (Python 3.7 backport).
-            
+
             :param kwargs: Keyword arguments for filtering entry points (group, name, etc.).
             :type kwargs: dict
-            
+
             :return: List of entry points matching the criteria.
             :rtype: list
             """
@@ -266,10 +266,10 @@ def isolated_entry_points(group: str, fakes: Union[List, Dict[str, Any], None] =
             def _check_name(x) -> bool:
                 """
                 Check if an entry point should be included based on filtering criteria.
-                
+
                 :param x: The entry point to check.
                 :type x: _FakeEntryPoint or EntryPoint
-                
+
                 :return: True if the entry point should be included.
                 :rtype: bool
                 """
@@ -302,10 +302,10 @@ def isolated_entry_points(group: str, fakes: Union[List, Dict[str, Any], None] =
         def _py38_entry_points(**kwargs):
             """
             Replacement function for importlib.metadata.entry_points (Python 3.8+).
-            
+
             :param kwargs: Keyword arguments for filtering entry points (group, name, etc.).
             :type kwargs: dict
-            
+
             :return: Dict or list of entry points depending on Python version.
             :rtype: Union[dict, list]
             """
@@ -317,10 +317,10 @@ def isolated_entry_points(group: str, fakes: Union[List, Dict[str, Any], None] =
             def _check_name(x) -> bool:
                 """
                 Check if an entry point should be included based on filtering criteria.
-                
+
                 :param x: The entry point to check.
                 :type x: _FakeEntryPoint or EntryPoint
-                
+
                 :return: True if the entry point should be included.
                 :rtype: bool
                 """

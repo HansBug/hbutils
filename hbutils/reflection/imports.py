@@ -1,7 +1,7 @@
 """
 Overview:
     Import functions, may be useful when support some dynamic features (such as imports in cli development).
-    
+
     This module provides utilities for dynamically importing Python objects, modules, and attributes.
     It supports pattern matching and flexible import strategies for runtime object resolution.
 """
@@ -24,12 +24,12 @@ __all__ = [
 def _import_module(module_name: Optional[str] = None):
     """
     Import a module by name or return the builtins module.
-    
+
     :param module_name: Name of the module to import. If None, returns builtins module.
     :type module_name: Optional[str]
     :return: The imported module or builtins.
     :rtype: module
-    
+
     Example::
         >>> _import_module('os')  # Returns os module
         >>> _import_module(None)  # Returns builtins module
@@ -43,7 +43,7 @@ def _import_module(module_name: Optional[str] = None):
 def import_object(obj_name: str, module_name: Optional[str] = None):
     """
     Dynamically import an object from a module.
-    
+
     This function imports a specific object (class, function, variable, etc.) from a given module.
     If no module name is provided, it searches in the builtins module.
 
@@ -67,7 +67,7 @@ def import_object(obj_name: str, module_name: Optional[str] = None):
 def quick_import_object(full_name: str, predicate: Optional[Callable] = None) -> Tuple[Any, str, str]:
     """
     Quickly dynamically import an object with a single name.
-    
+
     This function attempts to import an object using its full dotted name, supporting
     nested attributes. It returns the first matching object along with its module and name.
 
@@ -100,7 +100,7 @@ def iter_import_objects(full_pattern: str, predicate: Optional[Callable] = None)
         -> Iterator[Tuple[Any, str, str]]:
     """
     Quickly dynamically import all objects matching a full name pattern.
-    
+
     This function yields all objects that match the given pattern, supporting wildcards
     in attribute names. It performs a breadth-first search through module attributes
     to find all matching objects.

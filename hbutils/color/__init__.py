@@ -7,7 +7,7 @@ This module provides comprehensive color manipulation functionality including:
     - Color model representations (RGB, HSV, etc.)
     - Color conversion utilities
     - Color manipulation and transformation functions
-    
+
 The module exports all public APIs from its submodules:
 
     - model: Color model representations (RGB, HSV, HLS color systems)

@@ -24,7 +24,7 @@ _NOT_GIVEN = SingletonMark('_TextAligner_NOT_GIVEN')
 class TextAligner:
     """
     Text aligner for comparing texts in unittest.
-    
+
     This class provides a flexible way to align, transform, and compare text content.
     It supports various preprocessing operations and can be chained for complex transformations.
     """
@@ -62,7 +62,7 @@ class TextAligner:
         :type text_func: Callable[[str], str]
         :return: A new :class:`TextAligner` object with ``text_func`` process.
         :rtype: TextAligner
-        
+
         Example::
             >>> from hbutils.testing import TextAligner
             >>> text_align = TextAligner()
@@ -82,7 +82,7 @@ class TextAligner:
         :type line_func: Callable[[str], str]
         :return: A new :class:`TextAligner` object with ``line_func`` process.
         :rtype: TextAligner
-        
+
         Example::
             >>> from hbutils.testing import TextAligner
             >>> text_align = TextAligner()
@@ -103,7 +103,7 @@ class TextAligner:
         :type ls_func: Callable[[List[str]], List[str]]
         :return: A new :class:`TextAligner` object with ``ls_func`` process.
         :rtype: TextAligner
-        
+
         Example::
             >>> from hbutils.testing import TextAligner
             >>> text_align = TextAligner()
@@ -390,7 +390,7 @@ class TextAligner:
         :param actual: Actual text or lines.
         :type actual: Union[str, List[str]]
         :raises AssertionError: If the texts are equal.
-        
+
         Example::
             >>> from hbutils.testing import TextAligner
             >>> text_align = TextAligner()
@@ -404,7 +404,7 @@ class TextAligner:
 class _StrMethodProxy:
     """
     Proxy class for wrapping string methods to be applied to each line in TextAligner.
-    
+
     This class enables dynamic method chaining by proxying string methods
     and applying them line-by-line through the TextAligner.
     """
@@ -433,7 +433,7 @@ class _StrMethodProxy:
         :param kwargs: Keyword arguments to pass to the string method.
         :return: A new TextAligner with the method applied to each line.
         :rtype: TextAligner
-        
+
         Example::
             >>> from hbutils.testing import TextAligner
             >>> text_align = TextAligner()

@@ -1,7 +1,7 @@
 """
 Overview:
     Functions for directory processing.
-    
+
     This module provides utility functions for common directory and file operations
     including copying, removing, and calculating sizes of files and directories.
     These functions support glob patterns and provide Unix-like command functionality.
@@ -21,10 +21,10 @@ __all__ = [
 def _single_copy(src: str, dst: str):
     """
     Copy a single file or directory from source to destination.
-    
+
     This is an internal helper function that handles both file and directory copying.
     It attempts to copy as a directory first, and falls back to file copying if needed.
-    
+
     :param src: Source path to copy from.
     :type src: str
     :param dst: Destination path to copy to.
@@ -109,7 +109,7 @@ def copy(src1: str, src2: str, *srcn_dst: str):
 def remove(*files: str):
     """
     Remove files or directories.
-    
+
     This function can remove both files and directories. It supports glob patterns
     to match multiple files at once. The function works recursively for directories.
 
@@ -164,10 +164,10 @@ def remove(*files: str):
 def _single_getsize(file: str) -> int:
     """
     Get the size of a single file or directory.
-    
+
     This is an internal helper function that calculates the total size of a file
     or recursively sums up all file sizes in a directory, excluding symbolic links.
-    
+
     :param file: Path to the file or directory.
     :type file: str
     :return: Size in bytes of the file or total size of all files in the directory.
@@ -189,7 +189,7 @@ def _single_getsize(file: str) -> int:
 def getsize(*files: str) -> int:
     """
     Get the total size of files or directories.
-    
+
     This function calculates the total size of one or more files or directories.
     For directories, it recursively sums up all file sizes. Supports glob patterns
     to match multiple files.

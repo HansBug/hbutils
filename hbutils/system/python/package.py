@@ -78,12 +78,12 @@ def _nonblank(text: str) -> bool:
 def yield_lines(iterable):
     """
     Yield valid lines of a string or iterable.
-    
+
     Based on https://github.com/jaraco/jaraco.text/blob/main/jaraco/text/__init__.py#L537 .
-    
+
     :param iterable: An iterable of strings or a string.
     :return: Generator yielding valid non-blank lines.
-    
+
     Examples::
         >>> list(yield_lines(''))
         []
@@ -103,7 +103,7 @@ def yield_lines(iterable):
 def _(text: str):
     """
     Yield valid lines from a string.
-    
+
     :param text: Text string to process.
     :type text: str
     :return: Generator yielding valid non-blank lines.
@@ -114,18 +114,18 @@ def _(text: str):
 def drop_comment(line: str) -> str:
     """
     Drop comments from a line.
-    
+
     Based on https://github.com/jaraco/jaraco.text/blob/main/jaraco/text/__init__.py#L560 .
-    
+
     :param line: Line of text to process.
     :type line: str
     :return: Line with comment removed.
     :rtype: str
-    
+
     Examples::
         >>> drop_comment('foo # bar')
         'foo'
-        
+
     A hash without a space may be in a URL::
         >>> drop_comment('https://example.com/foo#bar')
         'https://example.com/foo#bar'
@@ -136,12 +136,12 @@ def drop_comment(line: str) -> str:
 def join_continuation(lines):
     """
     Join lines continued by a trailing backslash.
-    
+
     Based on https://github.com/jaraco/jaraco.text/blob/main/jaraco/text/__init__.py#L575 .
-    
+
     :param lines: Iterable of lines to process.
     :return: Generator yielding joined lines.
-    
+
     Examples::
         >>> list(join_continuation(['foo \\\\', 'bar', 'baz']))
         ['foobar', 'baz']
@@ -149,12 +149,12 @@ def join_continuation(lines):
         ['foobar', 'baz']
         >>> list(join_continuation(['foo \\\\', 'bar \\\\', 'baz']))
         ['foobarbaz']
-        
+
     Note:
         The character preceding the backslash is also elided::
             >>> list(join_continuation(['goo\\\\', 'dly']))
             ['godly']
-        
+
         If no line is available to continue, suppress the lines::
             >>> list(join_continuation(['foo', 'bar\\\\', 'baz\\\\']))
             ['foo']
@@ -225,7 +225,7 @@ def pip(*args, silent: bool = False):
 def _yield_reqs_to_install(req: Requirement, current_extra: str = ''):
     """
     Yield requirements that need to be installed.
-    
+
     This function recursively checks a requirement and its dependencies to determine
     which packages need to be installed.
 
@@ -321,7 +321,7 @@ def check_req_file(requirements_file: str) -> bool:
 def pip_install(reqs: List[str], silent: bool = False, force: bool = False, user: bool = False):
     """
     Pip install requirements with code.
-    
+
     Similar to ``pip install req1 req2 ...``.
 
     :param reqs: Requirement items to install.
@@ -355,7 +355,7 @@ def pip_install(reqs: List[str], silent: bool = False, force: bool = False, user
 def pip_install_req_file(requirements_file: str, silent: bool = False, force: bool = False, user: bool = False):
     """
     Pip install requirements from file with code.
-    
+
     Similar to ``pip install -r requirements.txt``.
 
     :param requirements_file: Requirements file, such as ``requirements.txt``.

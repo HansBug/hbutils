@@ -24,7 +24,7 @@ __all__ = ['tmatrix']
 class MatrixMode(IntEnum):
     """
     Enumeration of matrix generation modes.
-    
+
     :cvar AETG: AETG (Automatic Efficient Test Generator) mode for combinatorial testing
     :cvar MATRIX: Full Cartesian product matrix mode
     """
@@ -36,7 +36,7 @@ def tmatrix(ranges: Mapping[Union[str, Tuple[str, ...]], List],
             mode='aetg', seed: Optional[int] = 0, level: int = 2) -> Tuple[List[str], List[Tuple]]:
     """
     Generate test matrix for parameterized testing.
-    
+
     This function creates a test matrix that can be directly used with pytest's parametrize
     decorator. It supports two generation modes: AETG for efficient combinatorial testing
     and MATRIX for full Cartesian product generation.
@@ -54,7 +54,7 @@ def tmatrix(ranges: Mapping[Union[str, Tuple[str, ...]], List],
     :param level: Coverage level for AETG algorithm, indicating the strength of combinatorial
                   coverage (e.g., 2 for pairwise coverage). Default is 2.
     :type level: int
-    
+
     :return: A tuple containing (parameter_names, test_cases) where parameter_names is a list
              of parameter names and test_cases is a list of tuples, each representing one test case.
     :rtype: Tuple[List[str], List[Tuple]]

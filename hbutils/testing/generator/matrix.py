@@ -14,7 +14,7 @@ from .base import BaseGenerator, _single_dict_process, _single_to_tuple, _check_
 class MatrixGenerator(BaseGenerator):
     """
     Full matrix model, all the cases in this matrix will be iterated.
-    
+
     This generator creates a cartesian product of all provided parameter values,
     with optional inclusions and exclusions to customize the generated test cases.
     """
@@ -25,7 +25,7 @@ class MatrixGenerator(BaseGenerator):
                  excludes: Optional[List[Mapping[str, Any]]] = None):
         """
         Constructor of the :class:`MatrixGenerator` class.
-        
+
         It is similar to GitHub Action's matrix strategy, generating all combinations
         of the provided values with support for custom inclusions and exclusions.
 
@@ -40,7 +40,7 @@ class MatrixGenerator(BaseGenerator):
         :param excludes: Exclude Items, such as ``[{'a': 2, 'b': 'c'}]``, \
             default is ``None`` which means no extra exclusions.
         :type excludes: Optional[List[Mapping[str, Any]]]
-        
+
         Example::
             >>> gen = MatrixGenerator(
             ...     {'a': [1, 2], 'b': ['x', 'y']},
@@ -63,7 +63,7 @@ class MatrixGenerator(BaseGenerator):
     def includes(self) -> List[Mapping[str, Any]]:
         """
         Get the include items.
-        
+
         Include items are additional parameter combinations that will be added
         to the generated cases, even if they don't fit the original matrix values.
 
@@ -76,7 +76,7 @@ class MatrixGenerator(BaseGenerator):
     def excludes(self) -> List[Mapping[str, Any]]:
         """
         Get the exclude items.
-        
+
         Exclude items are parameter combinations that will be filtered out
         from the generated cases. A case is excluded if it matches all
         key-value pairs in any exclude item.
@@ -89,7 +89,7 @@ class MatrixGenerator(BaseGenerator):
     def cases(self) -> Iterator[Mapping[str, Any]]:
         """
         Get the cases in this matrix.
-        
+
         Generates all possible combinations of the matrix values, applying
         exclusions and inclusions as specified. The method performs a cartesian
         product of all parameter values, then filters based on exclude rules,
@@ -126,12 +126,12 @@ class MatrixGenerator(BaseGenerator):
         def _check_single_exclude(dict_value: Mapping[str, Any], exclude: Mapping[str, Any]) -> bool:
             """
             Check if a single case matches an exclude pattern.
-            
+
             :param dict_value: The case dictionary to check.
             :type dict_value: Mapping[str, Any]
             :param exclude: The exclude pattern to match against.
             :type exclude: Mapping[str, Any]
-            
+
             :return: True if the case matches the exclude pattern, False otherwise.
             :rtype: bool
             """
@@ -144,12 +144,12 @@ class MatrixGenerator(BaseGenerator):
         def _check_exclude(dict_value: Mapping[str, Any], excludes: List[Mapping[str, Any]]) -> bool:
             """
             Check if a case should be excluded based on all exclude patterns.
-            
+
             :param dict_value: The case dictionary to check.
             :type dict_value: Mapping[str, Any]
             :param excludes: List of exclude patterns to check against.
             :type excludes: List[Mapping[str, Any]]
-            
+
             :return: True if the case should be excluded, False otherwise.
             :rtype: bool
             """
@@ -164,10 +164,10 @@ class MatrixGenerator(BaseGenerator):
                               excludes: List[Mapping[str, Any]]) -> Iterator[Mapping[str, Any]]:
             """
             Recursively generate matrix combinations.
-            
+
             This function performs a depth-first traversal to generate all combinations
             of parameter values, checking exclusions at each level.
-            
+
             :param depth: Current recursion depth (parameter index).
             :type depth: int
             :param dict_value: Current accumulated parameter values.
@@ -176,7 +176,7 @@ class MatrixGenerator(BaseGenerator):
             :type values: Mapping[str, Any]
             :param excludes: Exclude patterns to apply.
             :type excludes: List[Mapping[str, Any]]
-            
+
             :return: Iterator yielding valid case dictionaries.
             :rtype: Iterator[Mapping[str, Any]]
             """

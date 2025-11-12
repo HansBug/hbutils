@@ -29,7 +29,7 @@ __all__ = [
 class _NameValueTuple(IComparable):
     """
     Internal class representing a name-value tuple for AETG algorithm.
-    
+
     This class is used to store and compare parameter name-value pairs
     during test case generation.
     """
@@ -37,7 +37,7 @@ class _NameValueTuple(IComparable):
     def __init__(self, name, value):
         """
         Initialize a name-value tuple.
-        
+
         :param name: The parameter name.
         :type name: str
         :param value: The parameter value.
@@ -49,7 +49,7 @@ class _NameValueTuple(IComparable):
     def _cmpkey(self):
         """
         Get the comparison key for this tuple.
-        
+
         :return: A tuple containing name and value for comparison.
         :rtype: tuple
         """
@@ -63,7 +63,7 @@ class _NameValueTuple(IComparable):
 class _AETGValuePair(IComparable):
     """
     Internal class representing a collection of name-value pairs for AETG algorithm.
-    
+
     This class is used to represent and compare combinations of parameter values
     that need to be covered in test cases.
     """
@@ -71,7 +71,7 @@ class _AETGValuePair(IComparable):
     def __init__(self, *pairs):
         """
         Initialize an AETG value pair.
-        
+
         :param pairs: Variable number of _NameValueTuple objects.
         :type pairs: _NameValueTuple
         """
@@ -80,7 +80,7 @@ class _AETGValuePair(IComparable):
     def _cmpkey(self):
         """
         Get the comparison key for this pair.
-        
+
         :return: A tuple of items for comparison.
         :rtype: tuple
         """
@@ -90,12 +90,12 @@ class _AETGValuePair(IComparable):
 def _create_init_pairs(names: List[str]) -> List[Tuple[str, ...]]:
     """
     Create initial pairs for AETG algorithm.
-    
+
     Generates all possible combinations of parameter names up to a minimum of 2 parameters.
-    
+
     :param names: List of parameter names.
     :type names: List[str]
-    
+
     :return: List of tuples representing parameter combinations.
     :rtype: List[Tuple[str, ...]]
     """
@@ -105,15 +105,15 @@ def _create_init_pairs(names: List[str]) -> List[Tuple[str, ...]]:
 def _process_pairs(pairs: List[Tuple[str, ...]], names: List[str]) -> List[Tuple[str, ...]]:
     """
     Process and validate pairs for AETG algorithm.
-    
+
     This function filters and sorts pairs, removing redundant combinations
     where one pair is a subset of another.
-    
+
     :param pairs: List of parameter name tuples to process.
     :type pairs: List[Tuple[str, ...]]
     :param names: List of all valid parameter names.
     :type names: List[str]
-    
+
     :return: Processed list of parameter combinations.
     :rtype: List[Tuple[str, ...]]
     """
@@ -150,13 +150,13 @@ _DEFAULT_RANDOM = random._inst
 def _to_random(rnd: Optional[Union[random.Random, int]] = None) -> random.Random:
     """
     Convert various random input types to a Random object.
-    
+
     :param rnd: Random object, seed integer, or None for default random.
     :type rnd: Optional[Union[random.Random, int]]
-    
+
     :return: A Random object for generating random numbers.
     :rtype: random.Random
-    
+
     :raises TypeError: If rnd is not a valid type.
     """
     if isinstance(rnd, random.Random):
@@ -172,11 +172,11 @@ def _to_random(rnd: Optional[Union[random.Random, int]] = None) -> random.Random
 class AETGGenerator(BaseGenerator):
     """
     Full AETG model, test cases will be generated to make sure the required pairs will be all tested.
-    
+
     The AETG (Automatic Efficient Test Generator) algorithm generates test cases that ensure
     all required parameter combinations are covered. It uses a greedy approach to select
     parameter values that cover the most uncovered pairs.
-    
+
     Example::
         >>> from hbutils.testing import AETGGenerator
         >>> gene = AETGGenerator({'a': (1, 2), 'b': (3, 4), 'c': (5, 6)})
@@ -218,7 +218,7 @@ class AETGGenerator(BaseGenerator):
     def pairs(self) -> List[Tuple[str, ...]]:
         """
         Pairs required to be all tested.
-        
+
         :return: List of parameter name tuples that must be covered.
         :rtype: List[Tuple[str, ...]]
         """
@@ -227,10 +227,10 @@ class AETGGenerator(BaseGenerator):
     def __get_init_info(self) -> Tuple[dict, list, set]:
         """
         Get initialization information for the AETG algorithm.
-        
+
         This method calculates the frequency of each parameter value in uncovered pairs
         and creates the initial set of pairs that need to be covered.
-        
+
         :return: A tuple containing:
             - dict: Count of occurrences for each name-value tuple
             - list: List of uncovered pairs
@@ -257,14 +257,14 @@ class AETGGenerator(BaseGenerator):
     def cases(self) -> Iterator[Mapping[str, object]]:
         """
         Get the cases in this AETG model.
-        
+
         Generates test cases using the AETG algorithm, ensuring all required parameter
         combinations are covered. The algorithm uses a greedy approach to select values
         that cover the most uncovered pairs.
 
         :return: Iterator yielding test case dictionaries.
         :rtype: Iterator[Mapping[str, object]]
-        
+
         Examples::
             >>> from hbutils.testing import AETGGenerator
             >>> gene = AETGGenerator({'a': (1, 2), 'b': (3, 4), 'c': (5, 6), 'd': (7, 8), 'e': (9, 10)})

@@ -29,7 +29,7 @@ class OutputCaptureResult:
     def __init__(self):
         """
         Constructor of :class:`OutputCaptureResult`.
-        
+
         Initializes the result object with None values for stdout and stderr,
         and creates a lock that is initially acquired to prevent premature access.
         """
@@ -88,7 +88,7 @@ def _capture_via_memory() -> ContextManager[OutputCaptureResult]:
 
     :return: A context manager yielding an OutputCaptureResult object.
     :rtype: ContextManager[OutputCaptureResult]
-    
+
     .. note::
         This method uses StringIO which doesn't have a fileno() method, which may
         cause issues with some operations like subprocess.run.
@@ -112,7 +112,7 @@ def _capture_via_tempfile() -> ContextManager[OutputCaptureResult]:
 
     :return: A context manager yielding an OutputCaptureResult object.
     :rtype: ContextManager[OutputCaptureResult]
-    
+
     .. note::
         This method uses actual files which have fileno() methods, making them
         compatible with operations like subprocess.run.

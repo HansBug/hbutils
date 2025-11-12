@@ -29,10 +29,10 @@ __all__ = [
 def _raw_expr_func() -> Callable:
     """
     Get the cached _expr method from Expression class.
-    
+
     This function uses lru_cache to avoid repeated attribute lookups,
     improving performance when converting values to expressions.
-    
+
     :return: The _expr class method from Expression.
     :rtype: Callable
     """
@@ -42,12 +42,12 @@ def _raw_expr_func() -> Callable:
 def _raw_expr(e: Any) -> 'Expression':
     """
     Convert any value to an Expression object.
-    
+
     This is an internal helper function that wraps the cached _expr method.
-    
+
     :param e: The value to convert to an Expression.
     :type e: Any
-    
+
     :return: An Expression object wrapping the input value.
     :rtype: Expression
     """
@@ -60,7 +60,7 @@ def efunc(e: Any) -> Callable:
 
     :param e: Original object.
     :type e: Any
-    
+
     :return: Callable object. If given ``e`` is an :class:`Expression`, its callable method will be returned. \
         If given ``e`` is a function, an equivalent method will be returned. Otherwise, a method which always return \
         ``e`` will be returned.
@@ -91,11 +91,11 @@ def efunc(e: Any) -> Callable:
 class Expression:
     """
     Base class of expressions.
-    
+
     This class provides the foundation for building composable expressions.
     It wraps a callable function and provides methods to combine expressions
     into more complex ones.
-    
+
     The Expression class can be subclassed to create custom expression types
     with specialized operators and methods.
     """
@@ -112,7 +112,7 @@ class Expression:
     def _func(self, func: Callable, *args, **kwargs) -> 'Expression':
         """
         Expression building based on given ``func`` and arguments.
-        
+
         This method creates a new expression by composing the given function with
         the provided arguments. Each argument is converted to a callable using efunc,
         allowing for nested expression composition.
@@ -123,7 +123,7 @@ class Expression:
         :type args: Any
         :param kwargs: Key-word arguments, can be expressions, callables, or constants.
         :type kwargs: Any
-        
+
         :return: New expression with current class.
         :rtype: Expression
 
@@ -156,7 +156,7 @@ class Expression:
     def _expr(cls, v: Any) -> 'Expression':
         """
         Build expression with this class.
-        
+
         This class method converts any value into an Expression object:
         - If v is already an Expression, return it as-is
         - If v is callable, wrap it in an Expression
@@ -164,7 +164,7 @@ class Expression:
 
         :param v: Any types of value.
         :type v: Any
-        
+
         :return: An expression object.
         :rtype: Expression
         """

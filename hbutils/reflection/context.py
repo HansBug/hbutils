@@ -8,7 +8,7 @@ Overview:
     passing parameters through the call stack.
 
     The main features include:
-    
+
     - Thread-level context variable storage
     - Context inheritance and variable scoping
     - Context wrapping for functions (useful in threading)
@@ -299,7 +299,7 @@ def cwrap(func, *, context_: Optional[ContextVars] = None, **vars_):
         :func:`cwrap` **is not compatible on Windows or Python3.8+ on macOS** when creating **new process**.
         Please pass in direct arguments by ``args`` argument of :class:`Process`.
         If you insist on using :func:`context` feature, you need to pass the context object into the sub process.
-        
+
         For example::
 
             >>> from contextlib import contextmanager
