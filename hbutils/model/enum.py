@@ -1,7 +1,7 @@
 """
 Overview:
     Useful utilities for python enum class.
-    
+
     This module provides utilities for working with Python enum classes, including:
     - AutoIntEnum: An IntEnum that automatically assigns sequential integer values
     - int_enum_loads: A decorator that adds a 'loads' method to IntEnum classes for flexible data parsing
@@ -20,7 +20,7 @@ class AutoIntEnum(IntEnum):
     """
     Overview:
         An example from `official documentation <https://docs.python.org/3/library/enum.html#using-a-custom-new>`_.
-        
+
         An IntEnum subclass that automatically assigns sequential integer values starting from 1.
         This allows you to define enum members with custom initialization values while the actual
         enum value is automatically assigned.
@@ -51,12 +51,12 @@ class AutoIntEnum(IntEnum):
     def __new__(cls, *args, **kwargs):
         """
         Create a new enum member with an automatically assigned sequential integer value.
-        
+
         :param args: Arguments to pass to the enum member's __init__ method.
         :type args: tuple
         :param kwargs: Keyword arguments to pass to the enum member's __init__ method.
         :type kwargs: dict
-        
+
         :return: A new enum member instance.
         :rtype: AutoIntEnum
         """
@@ -72,10 +72,10 @@ _EnumType = TypeVar('_EnumType', bound=IntEnum)
 def _default_value_preprocess(value: int) -> int:
     """
     Default preprocessor for integer values that returns the value unchanged.
-    
+
     :param value: The integer value to preprocess.
     :type value: int
-    
+
     :return: The unchanged integer value.
     :rtype: int
     """
@@ -85,10 +85,10 @@ def _default_value_preprocess(value: int) -> int:
 def _default_name_preprocess(name: str) -> str:
     """
     Default preprocessor for string names that returns the name unchanged.
-    
+
     :param name: The string name to preprocess.
     :type name: str
-    
+
     :return: The unchanged string name.
     :rtype: str
     """
@@ -98,10 +98,10 @@ def _default_name_preprocess(name: str) -> str:
 def _get_default_external_preprocess(enum_class: Type[_EnumType]) -> Callable:
     """
     Get the default external preprocessor that raises a TypeError for unknown types.
-    
+
     :param enum_class: The enum class for which to create the preprocessor.
     :type enum_class: Type[_EnumType]
-    
+
     :return: A function that raises TypeError for any input.
     :rtype: Callable
     """
@@ -109,10 +109,10 @@ def _get_default_external_preprocess(enum_class: Type[_EnumType]) -> Callable:
     def _default_external_preprocess(data):
         """
         Raise a TypeError for data that cannot be processed.
-        
+
         :param data: The data that failed to be processed.
         :type data: Any
-        
+
         :raises TypeError: Always raised with information about the unknown type.
         """
         raise TypeError('Unknown type {type} for loads to {cls}.'.format(
@@ -144,10 +144,10 @@ def int_enum_loads(enable_int: bool = True, value_preprocess: Optional[Callable[
     :param external_process: External processor function for handling unprocessable data types,
         defaults to None which means raise a TypeError.
     :type external_process: Optional[Callable[[Any, ], Optional[_EnumType]]]
-    
+
     :return: A decorator function that adds the loads method to an IntEnum class.
     :rtype: Callable[[Type[_EnumType]], Type[_EnumType]]
-    
+
     :raises TypeError: If the decorated class is not a subclass of IntEnum.
 
     Examples:
@@ -211,13 +211,13 @@ def int_enum_loads(enable_int: bool = True, value_preprocess: Optional[Callable[
     def _decorator(enum_class: Type[_EnumType]) -> Type[_EnumType]:
         """
         The actual decorator that adds the loads method to the enum class.
-        
+
         :param enum_class: The IntEnum class to decorate.
         :type enum_class: Type[_EnumType]
-        
+
         :return: The decorated enum class with the loads method added.
         :rtype: Type[_EnumType]
-        
+
         :raises TypeError: If enum_class is not a subclass of IntEnum.
         """
         if not issubclass(enum_class, IntEnum):
@@ -228,7 +228,7 @@ def int_enum_loads(enable_int: bool = True, value_preprocess: Optional[Callable[
         def _dict_item():
             """
             Get a cached dictionary of all enum members.
-            
+
             :return: Dictionary mapping member names to member values.
             :rtype: dict
             """
@@ -238,7 +238,7 @@ def int_enum_loads(enable_int: bool = True, value_preprocess: Optional[Callable[
         def _int_value_to_item():
             """
             Get a cached dictionary mapping integer values to enum members.
-            
+
             :return: Dictionary mapping integer values to enum members.
             :rtype: dict
             """
@@ -248,7 +248,7 @@ def int_enum_loads(enable_int: bool = True, value_preprocess: Optional[Callable[
         def _str_name_to_item():
             """
             Get a cached dictionary mapping preprocessed string names to enum members.
-            
+
             :return: Dictionary mapping preprocessed names to enum members.
             :rtype: dict
             """
@@ -257,13 +257,13 @@ def int_enum_loads(enable_int: bool = True, value_preprocess: Optional[Callable[
         def _load_func(data) -> Optional[enum_class]:
             """
             Internal function to load enum data from raw data.
-            
+
             :param data: Data to be parsed into an enum member.
             :type data: Any
-            
+
             :return: The corresponding enum member, or result from external_process.
             :rtype: Optional[enum_class]
-            
+
             :raises KeyError: If the data cannot be parsed and no external_process is provided.
             :raises TypeError: If the data type is not supported and no external_process is provided.
             """
@@ -286,7 +286,7 @@ def int_enum_loads(enable_int: bool = True, value_preprocess: Optional[Callable[
 
             :return: Parsed enum data.
             :rtype: Optional[enum_class]
-            
+
             :raises KeyError: If the data cannot be parsed and no external_process is provided.
             :raises TypeError: If the data type is not supported and no external_process is provided.
             """

@@ -1,7 +1,7 @@
 """
 Overview:
     Base64 encode and decode utilities.
-    
+
     This module provides convenient wrapper functions for base64 encoding and decoding operations,
     supporting both standard and URL-safe base64 formats. It simplifies the usage of Python's
     built-in base64 module by providing a cleaner interface with optional URL-safe mode.
@@ -18,7 +18,7 @@ __all__ = [
 def base64_encode(data: bytes, altchars: Optional[bytes] = None, urlsafe: bool = False) -> str:
     r"""
     Encoding the given binary data to base64 string.
-    
+
     This function encodes binary data into a base64-encoded string. It supports both standard
     base64 encoding and URL-safe base64 encoding. When URL-safe mode is enabled, the characters
     '+' and '/' in standard base64 are replaced with '-' and '_' respectively.
@@ -31,10 +31,10 @@ def base64_encode(data: bytes, altchars: Optional[bytes] = None, urlsafe: bool =
     :param urlsafe: Enable URL-safe mode. When True, uses URL-safe base64 encoding which
                     replaces '+' with '-' and '/' with '_'. Default is ``False``.
     :type urlsafe: bool
-    
+
     :return: Base64-encoded string representation of the input data.
     :rtype: str
-    
+
     :raises UserWarning: When both urlsafe is True and altchars is provided, a warning is issued
                          indicating that altchars will be ignored.
 
@@ -58,7 +58,7 @@ def base64_encode(data: bytes, altchars: Optional[bytes] = None, urlsafe: bool =
 def base64_decode(base64_str: str, altchars: Optional[bytes] = None, urlsafe: bool = False) -> bytes:
     r"""
     Decode the given base64 string back to binary data.
-    
+
     This function decodes a base64-encoded string back into its original binary form. It supports
     both standard base64 decoding and URL-safe base64 decoding. When URL-safe mode is enabled,
     it properly handles the URL-safe characters '-' and '_' used in place of '+' and '/'.
@@ -71,10 +71,10 @@ def base64_decode(base64_str: str, altchars: Optional[bytes] = None, urlsafe: bo
     :param urlsafe: Enable URL-safe mode. When True, uses URL-safe base64 decoding which
                     handles '-' and '_' characters. Default is ``False``.
     :type urlsafe: bool
-    
+
     :return: Decoded binary data from the base64 string.
     :rtype: bytes
-    
+
     :raises UserWarning: When both urlsafe is True and altchars is provided, a warning is issued
                          indicating that altchars will be ignored.
 

@@ -23,7 +23,7 @@ __all__ = [
 class CUnsignedIntType(CRangedIntType):
     """
     Unsigned integer type for binary I/O operations.
-    
+
     This class provides functionality to read and write unsigned integers
     of various sizes to/from binary files using little-endian byte order.
     """
@@ -44,14 +44,14 @@ class CUnsignedIntType(CRangedIntType):
     def read(self, file: BinaryIO) -> int:
         """
         Read unsigned int value from binary file.
-        
+
         Reads bytes in little-endian order and converts them to an unsigned integer.
 
         :param file: Binary file object to read from. ``io.BytesIO`` is supported as well.
         :type file: BinaryIO
         :return: Unsigned int value read from the file.
         :rtype: int
-        
+
         Example::
             >>> import io
             >>> from hbutils.binary import c_uint8
@@ -67,7 +67,7 @@ class CUnsignedIntType(CRangedIntType):
     def write(self, file: BinaryIO, val: int):
         """
         Write unsigned int value to binary IO object.
-        
+
         Writes the integer value as bytes in little-endian order.
 
         :param file: Binary file object to write to. ``io.BytesIO`` is supported as well.
@@ -76,7 +76,7 @@ class CUnsignedIntType(CRangedIntType):
         :type val: int
         :raises TypeError: If val is not an integer.
         :raises ValueError: If val is outside the valid range for this type.
-        
+
         Example::
             >>> import io
             >>> from hbutils.binary import c_uint8
@@ -104,7 +104,7 @@ c_uint8 = CUnsignedIntType(ctypes.sizeof(ctypes.c_uint8))
 Reading and writing unsigned integer with 8-bits.
 
 This type represents an unsigned 8-bit integer (range: 0 to 255).
-    
+
 Examples::
     >>> import io
     >>> from hbutils.binary import c_uint8
@@ -131,7 +131,7 @@ c_uint16 = CUnsignedIntType(ctypes.sizeof(ctypes.c_uint16))
 Reading and writing unsigned integer with 16-bits.
 
 This type represents an unsigned 16-bit integer (range: 0 to 65535).
-    
+
 Examples::
     >>> import io
     >>> from hbutils.binary import c_uint16
@@ -158,7 +158,7 @@ c_uint32 = CUnsignedIntType(ctypes.sizeof(ctypes.c_uint32))
 Reading and writing unsigned integer with 32-bits.
 
 This type represents an unsigned 32-bit integer (range: 0 to 4294967295).
-    
+
 Examples::
     >>> import io
     >>> from hbutils.binary import c_uint32
@@ -179,7 +179,7 @@ c_uint64 = CUnsignedIntType(ctypes.sizeof(ctypes.c_uint64))
 Reading and writing unsigned integer with 64-bits.
 
 This type represents an unsigned 64-bit integer (range: 0 to 18446744073709551615).
-    
+
 Examples::
     >>> import io
     >>> from hbutils.binary import c_uint64
@@ -208,7 +208,7 @@ _SIZE_TO_INT_TYPE: Dict[int, CUnsignedIntType] = {
 def _get_from_raw(tp) -> CUnsignedIntType:
     """
     Get the corresponding CUnsignedIntType for a ctypes type.
-    
+
     :param tp: A ctypes unsigned integer type.
     :return: The corresponding CUnsignedIntType instance.
     :rtype: CUnsignedIntType

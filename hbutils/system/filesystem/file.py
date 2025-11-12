@@ -1,7 +1,7 @@
 """
 Overview:
     Functions for file processing.
-    
+
     This module provides utility functions for common file system operations including:
     - Creating files and directories (touch)
     - Pattern-based file searching (glob)

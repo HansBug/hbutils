@@ -49,13 +49,13 @@ def _raw_check_git(git_path: str):
 
     :return: A dictionary containing information about Git and Git LFS installations.
              The dictionary structure includes:
-             
+
              - 'exec' (str or None): Path to Git executable
              - 'installed' (bool): Whether Git is installed
              - 'version_info' (str or None): Full version string from 'git --version'
              - 'version' (str or None): Parsed Git version number
              - 'lfs' (dict): Git LFS information (only present if Git is installed)
-               
+
                - 'installed' (bool): Whether Git LFS is installed
                - 'version_info' (str): Full version string from 'git lfs version'
                - 'version' (str or None): Parsed Git LFS version number
@@ -128,13 +128,13 @@ def git_info(git_path: Optional[str] = None):
 
     :return: A dictionary containing information about Git and Git LFS installations.
              The dictionary structure includes:
-             
+
              - 'exec' (str or None): Path to Git executable
              - 'installed' (bool): Whether Git is installed
              - 'version_info' (str or None): Full version string from 'git --version'
              - 'version' (str or None): Parsed Git version number
              - 'lfs' (dict): Git LFS information (only present if Git is installed)
-               
+
                - 'installed' (bool): Whether Git LFS is installed
                - 'version_info' (str): Full version string from 'git lfs version'
                - 'version' (str or None): Parsed Git LFS version number

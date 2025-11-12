@@ -14,14 +14,14 @@ __all__ = ['cmdv']
 def cmdv(execfile: str) -> bool:
     """
     Check if the given command exists in this environment.
-    
+
     This function behaves like the ``command -v xxx`` command in Linux, checking whether
     an executable file is available in the system PATH. It is useful for verifying
     dependencies or determining platform-specific command availability.
 
     :param execfile: Executable file name to check, such as ``python``, ``bash``, or ``apt-get``.
     :type execfile: str
-    
+
     :return: True if the executable file exists in the system PATH, False otherwise.
     :rtype: bool
 

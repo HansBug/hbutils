@@ -1,7 +1,7 @@
 """
 Overview:
     Useful utilities for truncate (shorten) your string.
-    
+
 This module provides functionality to truncate long strings into shorter forms
 with customizable options for width, tail display, and length indication.
 """
@@ -13,7 +13,7 @@ __all__ = ['truncate']
 def truncate(text: str, width: int = 70, tail_length: int = 0, show_length: bool = False) -> str:
     """
     Truncate string into short form.
-    
+
     This function shortens a given text to a specified width, optionally showing
     the tail portion of the original text and/or the total character count.
 
@@ -25,7 +25,7 @@ def truncate(text: str, width: int = 70, tail_length: int = 0, show_length: bool
     :type tail_length: int
     :param show_length: Show length in middle part or not, default is ``False`` which means do not show this.
     :type show_length: bool
-    
+
     :return: Short-formed string.
     :rtype: str
 

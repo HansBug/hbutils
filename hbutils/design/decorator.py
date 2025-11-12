@@ -24,7 +24,7 @@ def decolize(deco: Callable[..., Callable]) -> Callable:
     :param deco: Decorator function to be decorated. The first parameter should be the
                  function to be decorated, followed by optional keyword arguments.
     :type deco: Callable[..., Callable]
-    
+
     :return: A new decorator that can be used with or without parameters.
     :rtype: Callable
 
@@ -72,7 +72,7 @@ def decolize(deco: Callable[..., Callable]) -> Callable:
         :type func: Optional[Callable]
         :param kwargs: Keyword arguments to pass to the original decorator.
         :type kwargs: dict
-        
+
         :return: Either a partial function (for parameterized use) or the decorated function.
         :rtype: Callable
         """

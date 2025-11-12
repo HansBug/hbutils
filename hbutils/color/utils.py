@@ -1,9 +1,9 @@
 """
 Overview:
     Useful color utilities based on color model.
-    
+
     This module provides utilities for color manipulation including:
-    
+
     - Visual distance calculation between colors
     - Random color generation with visual distinctiveness
     - Linear gradient generation between multiple colors
@@ -25,7 +25,7 @@ __all__ = [
 def _to_color(color: Color):
     """
     Convert input to Color object if it's not already one.
-    
+
     :param color: Color object or color representation.
     :type color: Color
     :return: Color object.
@@ -40,7 +40,7 @@ def _to_color(color: Color):
 def visual_distance(c1: Union[Color, str], c2: Union[Color, str]) -> float:
     """
     Calculate the visual distance between two colors.
-    
+
     This function computes the perceptual distance between two colors using
     a weighted Euclidean distance in RGB space. The weights are based on the
     average red component to account for human perception differences.
@@ -82,10 +82,10 @@ def visual_distance(c1: Union[Color, str], c2: Union[Color, str]) -> float:
 def _dis_ratio(k):
     """
     Calculate distance ratio based on color index.
-    
+
     This function returns different ratio values based on the index to control
     the minimum distance between colors during random generation.
-    
+
     :param k: Index of the color.
     :type k: int
     :return: Distance ratio value.
@@ -108,7 +108,7 @@ def rnd_colors(
 ) -> Iterator[Color]:
     """
     Generate random colors that are visually distinct from each other.
-    
+
     This function generates a specified number of colors with controlled visual
     distinctiveness. It uses the HLS color space and ensures generated colors
     maintain a minimum visual distance from previously generated colors.
@@ -192,7 +192,7 @@ def linear_gradient(colors: Union[Sequence[Union[Color, str]], Sequence[Tuple[fl
         -> Callable[[float], Color]:
     """
     Create a linear gradient function from a sequence of colors.
-    
+
     This function creates a gradient mapping that interpolates linearly between
     the provided colors. Colors can be provided either as a simple sequence
     (evenly distributed) or as position-color tuples for custom positioning.
@@ -269,7 +269,7 @@ def linear_gradient(colors: Union[Sequence[Union[Color, str]], Sequence[Tuple[fl
         def amap(x):
             """
             Return None for alpha channel when no alpha values are specified.
-            
+
             :param x: Position parameter (unused).
             :type x: float
             :return: None.
@@ -280,7 +280,7 @@ def linear_gradient(colors: Union[Sequence[Union[Color, str]], Sequence[Tuple[fl
     def _gradient(x: float) -> Color:
         """
         Interpolate color at given position.
-        
+
         :param x: Position in the gradient (typically 0.0 to 1.0).
         :type x: float
         :return: Interpolated color at position x.

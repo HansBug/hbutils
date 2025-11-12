@@ -27,7 +27,7 @@ Examples::
     '5eb63bbbe01eeed093cb22bb8f5acdc3'
     >>> sha256(b'hello world')
     'b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9'
-    
+
     >>> from hbutils.encoding import int_hash
     >>> int_hash("hello", method='FNV-1a-32')
     1335831723

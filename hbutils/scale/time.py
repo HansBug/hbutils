@@ -1,7 +1,7 @@
 """
 Overview:
     Useful utilities for time units, such as h/m/s.
-    
+
     This module provides functions to convert various time duration formats into
     standardized representations. It supports numeric values (int, float) and
     string formats (e.g., '1h30m', '0:03:53.540000').
@@ -25,7 +25,7 @@ def time_to_duration(time_: _TIME_TYPING) -> Union[float, int]:
 
     :return: Time duration value in seconds.
     :rtype: Union[float, int]
-    
+
     :raises TypeError: If the input type is not int, float, or str.
 
     Examples::
@@ -65,7 +65,7 @@ def time_to_delta_str(time_: _TIME_TYPING) -> str:
 
     :return: Time duration value in formatted string (e.g., '6:29:04' or '0:03:53.540000').
     :rtype: str
-    
+
     :raises TypeError: If the input type is not int, float, or str (raised by time_to_duration).
 
     Examples::

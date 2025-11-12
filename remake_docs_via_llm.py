@@ -226,7 +226,7 @@ def parse_hf_fs_path(path: str) -> HfFileSystemPath:
     :return: The parsed huggingface filesystem path.
     :rtype: HfFileSystemPath
     :raises ValueError: If this path is invalid.
-    
+
     Example::
         >>> parse_hf_fs_path('xxxxx')  # comment of this line
         output of this line

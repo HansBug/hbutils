@@ -1,10 +1,10 @@
 """
 Overview:
     Implementation of singleton design pattern.
-    
+
     This module provides metaclasses and utilities for implementing singleton patterns in Python.
     It includes:
-    
+
     - :class:`SingletonMeta`: A metaclass for creating traditional singleton classes
     - :class:`ValueBasedSingletonMeta`: A metaclass for creating value-based singleton classes
     - :class:`SingletonMark`: A utility class for creating unique singleton marker objects
@@ -106,7 +106,7 @@ class ValueBasedSingletonMeta(type):
 class SingletonMark(metaclass=ValueBasedSingletonMeta):
     """
     Singleton mark for some situation.
-    
+
     Can be used when some default value is needed, especially when `None` has 
     meaning which is not default. This class creates unique marker objects that
     can be used as sentinel values.

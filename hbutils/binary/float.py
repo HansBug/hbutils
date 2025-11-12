@@ -21,7 +21,7 @@ __all__ = [
 class CFloatType(CMarkedType):
     """
     Float type class for binary I/O operations, based on ``struct`` module.
-    
+
     This class extends CMarkedType to provide specialized handling for floating-point
     numbers in binary format.
     """

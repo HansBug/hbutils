@@ -61,3 +61,60 @@ int_hash_val_comprehensive
 .. autofunction:: int_hash_val_comprehensive
 
 
+
+DeterminismValidationResult
+----------------------------------------------------
+
+.. autoclass:: DeterminismValidationResult
+
+
+
+TypeConsistencyValidationResult
+----------------------------------------------------
+
+.. autoclass:: TypeConsistencyValidationResult
+
+
+
+AvalancheEffectValidationResult
+----------------------------------------------------
+
+.. autoclass:: AvalancheEffectValidationResult
+
+
+
+UniformDistributionValidationResult
+----------------------------------------------------
+
+.. autoclass:: UniformDistributionValidationResult
+
+
+
+CollisionResistanceValidationResult
+----------------------------------------------------
+
+.. autoclass:: CollisionResistanceValidationResult
+
+
+
+EmptyInputValidationResult
+----------------------------------------------------
+
+.. autoclass:: EmptyInputValidationResult
+
+
+
+PerformanceValidationResult
+----------------------------------------------------
+
+.. autoclass:: PerformanceValidationResult
+
+
+
+ComprehensiveValidationResult
+----------------------------------------------------
+
+.. autoclass:: ComprehensiveValidationResult
+    :members: __str__
+
+

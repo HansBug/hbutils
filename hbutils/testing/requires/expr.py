@@ -56,7 +56,7 @@ Examples::
 class PipVersionInfo(VersionInfo):
     """
     A specialized VersionInfo class for handling pip and package version checks.
-    
+
     This class extends VersionInfo to provide both pip version checking and
     the ability to check versions of arbitrary installed packages.
     """
@@ -64,13 +64,13 @@ class PipVersionInfo(VersionInfo):
     def __call__(self, name: str) -> VersionInfo:
         """
         Get version information for a specific package.
-        
+
         :param name: The name of the package to check.
         :type name: str
-        
+
         :return: A VersionInfo object for the specified package.
         :rtype: VersionInfo
-        
+
         Example::
             >>> vpip('setuptools')  # Get setuptools version info
             VersionInfo(...)

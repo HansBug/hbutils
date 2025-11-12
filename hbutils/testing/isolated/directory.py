@@ -18,7 +18,7 @@ __all__ = [
 def isolated_directory(mapping: Optional[Dict[str, str]] = None) -> ContextManager:
     """
     Execute code in an isolated temporary directory with optional file/directory mappings.
-    
+
     This context manager creates a temporary directory, optionally copies specified files
     or directories into it based on the provided mapping, changes the working directory
     to the temporary location, and automatically cleans up and restores the original
@@ -28,10 +28,10 @@ def isolated_directory(mapping: Optional[Dict[str, str]] = None) -> ContextManag
                    to source paths (relative to the current directory). If None, creates
                    an empty isolated directory.
     :type mapping: Optional[Dict[str, str]]
-    
+
     :return: A context manager that yields control in the isolated directory.
     :rtype: ContextManager
-    
+
     :raises OSError: If directory operations fail (e.g., permission issues).
     :raises FileNotFoundError: If a source path in the mapping does not exist.
 

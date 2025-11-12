@@ -115,7 +115,7 @@ class TestTestingCompareText:
                 Python 3.6.5
                 Hello world!!
                 Do not see me like this...
-                
+
                 nihao
                   sdkfjl
                 233

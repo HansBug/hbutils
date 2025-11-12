@@ -20,7 +20,7 @@ __all__ = [
 class CBoolType(CFixedType):
     """
     Boolean type for binary I/O operations.
-    
+
     This class provides methods to read and write boolean values in binary format,
     compatible with C language boolean representation.
     """
@@ -41,10 +41,10 @@ class CBoolType(CFixedType):
 
         :param file: Binary file object to read from, ``io.BytesIO`` is supported as well.
         :type file: BinaryIO
-        
+
         :return: Boolean value read from the file. Returns True if any byte is non-zero.
         :rtype: bool
-        
+
         Example::
             >>> import io
             >>> from hbutils.binary import c_bool
@@ -68,7 +68,7 @@ class CBoolType(CFixedType):
         :type file: BinaryIO
         :param val: Boolean value to write.
         :type val: bool
-        
+
         Example::
             >>> import io
             >>> from hbutils.binary import c_bool
@@ -104,7 +104,7 @@ Examples::
     False
     True
     False
-    
+
     >>> # Writing boolean values
     >>> with io.BytesIO() as file:
     ...     c_bool.write(file, True)

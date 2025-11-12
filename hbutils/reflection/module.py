@@ -23,7 +23,7 @@ __all__ = [
 def _copy_list(origin: list, target: list):
     """
     Copy the contents of target list into origin list in-place.
-    
+
     :param origin: The list to be modified.
     :type origin: list
     :param target: The list to copy from.
@@ -35,9 +35,9 @@ def _copy_list(origin: list, target: list):
 def _copy_dict(origin: dict, target: dict):
     """
     Synchronize origin dict with target dict in-place.
-    
+
     Removes keys from origin that are not in target, and updates/adds keys from target.
-    
+
     :param origin: The dictionary to be modified.
     :type origin: dict
     :param target: The dictionary to copy from.
@@ -54,17 +54,17 @@ def _copy_dict(origin: dict, target: dict):
 def _native_mount_pythonpath(paths: List[str], modules: Dict[str, types.ModuleType]) -> ContextManager:
     """
     Internal context manager to temporarily replace sys.path and sys.modules.
-    
+
     This function saves the current state of sys.path and sys.modules, replaces them with
     the provided values, and restores the original state upon exit.
-    
+
     :param paths: List of paths to set as sys.path.
     :type paths: List[str]
     :param modules: Dictionary of modules to set as sys.modules.
     :type modules: Dict[str, types.ModuleType]
     :return: Context manager that handles the mounting and unmounting.
     :rtype: ContextManager
-    
+
     Example::
         >>> with _native_mount_pythonpath(['/custom/path'], {}):
         ...     # sys.path is now ['/custom/path']
@@ -87,7 +87,7 @@ def _native_mount_pythonpath(paths: List[str], modules: Dict[str, types.ModuleTy
 class PythonPathEnv:
     """
     Python environment object that encapsulates a specific PYTHONPATH and module set.
-    
+
     This class represents a snapshot of Python's import environment, including the
     sys.path entries and loaded modules. It can be mounted to temporarily activate
     this environment.
@@ -145,7 +145,7 @@ class PythonPathEnv:
 def mount_pythonpath(*path) -> ContextManager[PythonPathEnv]:
     """
     Append paths to ``PYTHONPATH`` within a context manager.
-    
+
     This function allows you to temporarily add directories to Python's import path,
     making packages in those directories importable. When the context exits, both
     sys.path and sys.modules are restored to their original state, ensuring isolation.
@@ -154,7 +154,7 @@ def mount_pythonpath(*path) -> ContextManager[PythonPathEnv]:
     :type path: str
     :return: Context manager that yields a PythonPathEnv instance representing the mounted environment.
     :rtype: ContextManager[PythonPathEnv]
-    
+
     Examples::
         Here is the testfile directory structure:
 

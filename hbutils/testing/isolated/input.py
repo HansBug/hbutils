@@ -22,7 +22,7 @@ __all__ = [
 class _redirect_stdin(_RedirectStream):
     """
     A context manager for redirecting stdin stream.
-    
+
     This class extends the contextlib._RedirectStream to specifically handle
     stdin redirection.
     """
@@ -32,15 +32,15 @@ class _redirect_stdin(_RedirectStream):
 def _to_input_text(v: Union[str, List[str]]) -> str:
     """
     Convert input value to a single text string.
-    
+
     :param v: Input content, either a string or a list of strings.
     :type v: Union[str, List[str]]
-    
+
     :return: A single string representing the input text.
     :rtype: str
-    
+
     :raises TypeError: If the input type is neither string nor list.
-    
+
     Example::
         >>> _to_input_text('hello')
         'hello'
@@ -59,13 +59,13 @@ def _to_input_text(v: Union[str, List[str]]) -> str:
 def _stdin_via_mem(v: str) -> ContextManager[TextIO]:
     """
     Create a stdin stream using in-memory StringIO.
-    
+
     :param v: The input text content.
     :type v: str
-    
+
     :return: A context manager that yields a TextIO object.
     :rtype: ContextManager[TextIO]
-    
+
     Example::
         >>> with _stdin_via_mem('test input') as f:
         ...     content = f.read()
@@ -80,16 +80,16 @@ def _stdin_via_mem(v: str) -> ContextManager[TextIO]:
 def _stdin_via_file(v: str) -> ContextManager[TextIO]:
     """
     Create a stdin stream using a temporary file.
-    
+
     This function creates a temporary file, writes the input content to it,
     and then opens it for reading to simulate stdin.
-    
+
     :param v: The input text content.
     :type v: str
-    
+
     :return: A context manager that yields a TextIO object.
     :rtype: ContextManager[TextIO]
-    
+
     Example::
         >>> with _stdin_via_file('test input') as f:
         ...     content = f.read()
@@ -109,14 +109,14 @@ def _stdin_via_file(v: str) -> ContextManager[TextIO]:
 def isolated_stdin(v: Union[str, List[str]], mem: bool = False):
     """
     Isolation for stdin stream.
-    
+
     This context manager allows you to mock stdin with predefined input content,
     useful for testing interactive programs or simulating user input.
 
     :param v: Input content, either a whole string or a list of strings.
               If a list is provided, each element will be treated as a separate line.
     :type v: Union[str, List[str]]
-    
+
     :param mem: Use memory-based (StringIO) or file-based approach for stdin.
                 Default is ``False`` which means a temporary file will be used as fake input stream.
                 Set to ``True`` to use in-memory StringIO instead.
@@ -132,7 +132,7 @@ def isolated_stdin(v: Union[str, List[str]], mem: bool = False):
         ...     b = int(input())
         ...     print(a, b, a + b)
         123 456 579
-        
+
         >>> with isolated_stdin('single line input', mem=True):
         ...     line = input()
         ...     print(f'Read: {line}')

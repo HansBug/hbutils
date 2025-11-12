@@ -18,7 +18,7 @@ __all__ = [
 class CBufferType(CIOType):
     """
     A binary I/O type for handling fixed-size byte buffers.
-    
+
     This class provides methods to read and write byte data with a predetermined size.
     When writing data shorter than the buffer size, it automatically pads with null bytes.
     """
@@ -36,7 +36,7 @@ class CBufferType(CIOType):
     def size(self) -> int:
         """
         Get the size of the buffer.
-        
+
         :return: Size of the buffer in bytes.
         :rtype: int
         """
@@ -56,7 +56,7 @@ class CBufferType(CIOType):
     def write(self, file: BinaryIO, val: Union[bytearray, bytes]):
         """
         Write bytes value to binary IO object.
-        
+
         If the length of the provided value is less than the buffer size,
         null bytes (``\\x00``) will be appended to reach the specified size.
 
@@ -80,7 +80,7 @@ class CBufferType(CIOType):
 def c_buffer(size: int) -> CBufferType:
     """
     Create a buffer type for reading and writing bytes with a given size.
-    
+
     This function returns a :class:`CBufferType` object that can be used to read
     and write fixed-size byte buffers. When writing, if the data is shorter than
     the specified size, it will be padded with null bytes.

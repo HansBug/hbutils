@@ -25,11 +25,11 @@ __all__ = [
 class OSType(IntEnum):
     """
     Enumeration of supported operating system types.
-    
+
     This enum defines integer constants for different operating systems
     that can be detected by the platform module. The enum is decorated
     with int_enum_loads to support loading from string names.
-    
+
     :cvar LINUX: Linux operating system identifier.
     :cvar WINDOWS: Windows operating system identifier.
     :cvar DARWIN: Darwin/macOS operating system identifier.
@@ -45,14 +45,14 @@ class OSType(IntEnum):
 def _get_os_type() -> OSType:
     """
     Get the current operating system type with caching.
-    
+
     This function detects the current operating system using platform.system()
     and converts it to an OSType enum value. The result is cached using lru_cache
     to avoid repeated system calls.
-    
+
     :return: The detected operating system type.
     :rtype: OSType
-    
+
     Example::
         >>> _get_os_type()  # On a Linux system
         <OSType.LINUX: 1>
@@ -63,12 +63,12 @@ def _get_os_type() -> OSType:
 def is_linux() -> bool:
     """
     Check if the current operating system is Linux.
-    
+
     Return ``True`` if current operating system is linux, otherwise return ``False``.
 
     :return: This OS is linux or not.
     :rtype: bool
-    
+
     Example::
         >>> is_linux()  # On a Linux system
         True
@@ -81,12 +81,12 @@ def is_linux() -> bool:
 def is_windows() -> bool:
     """
     Check if the current operating system is Windows.
-    
+
     Return ``True`` if current operating system is windows, otherwise return ``False``.
 
     :return: This OS is windows or not.
     :rtype: bool
-    
+
     Example::
         >>> is_windows()  # On a Windows system
         True
@@ -99,7 +99,7 @@ def is_windows() -> bool:
 def is_darwin() -> bool:
     """
     Check if the current operating system is Darwin (macOS).
-    
+
     Return ``True`` if current operating system is darwin, otherwise return ``False``.
 
     :return: This OS is darwin or not.
@@ -107,7 +107,7 @@ def is_darwin() -> bool:
 
     .. note::
         Darwin is macOS.
-    
+
     Example::
         >>> is_darwin()  # On a macOS system
         True

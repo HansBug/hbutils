@@ -80,7 +80,7 @@ def is_text_file(filename) -> bool:
 
     :return: True if the file is text, False otherwise.
     :rtype: bool
-    
+
     Examples::
         >>> from hbutils.system import is_text_file
         >>> is_text_file('rar_template-simple.rar')

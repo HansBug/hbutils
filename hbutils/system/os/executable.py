@@ -4,7 +4,7 @@ Overview:
 
     Based on `hweickert/where <https://github.com/hweickert/where>`_, \
     and this version below will be long-term maintained here.
-    
+
     This module provides functionality to search for executable files in the system PATH,
     similar to the Unix 'which' and 'where' commands. It supports both Unix-like systems
     and Windows, handling platform-specific differences in executable file extensions and

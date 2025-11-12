@@ -1,7 +1,7 @@
 """
 Overview:
     Useful functions for processing python classes and types.
-    
+
 This module provides utility functions for working with Python classes and types,
 including class wrapping decorators and common base class detection.
 """
@@ -22,7 +22,7 @@ def class_wraps(wrapped: type,
                 updated: Tuple[str] = CLASS_WRAPPER_UPDATES):
     """
     Wrapper decorator for class.
-    
+
     This function creates a decorator that can be used to wrap a class while preserving
     its metadata (similar to functools.wraps but for classes). It updates the wrapper
     class with attributes from the wrapped class.
@@ -35,10 +35,10 @@ def class_wraps(wrapped: type,
     :param updated: Tuple of attribute names to be updated from wrapped to wrapper.
                     Defaults to CLASS_WRAPPER_UPDATES (empty tuple).
     :type updated: Tuple[str]
-    
+
     :return: A partial function that can be used as a decorator.
     :rtype: functools.partial
-    
+
     Examples::
         >>> def cls_dec(clazz):
         ...     @class_wraps(clazz)
@@ -65,7 +65,7 @@ def class_wraps(wrapped: type,
 def common_base(cls: type, *clss: type) -> type:
     """
     Get common base class of the given classes.
-    
+
     This function finds the most specific common base class shared by all provided classes.
     Only the ``__base__`` attribute is considered during the search, which means it follows
     the direct inheritance chain rather than the full MRO (Method Resolution Order).
@@ -74,10 +74,10 @@ def common_base(cls: type, *clss: type) -> type:
     :type cls: type
     :param clss: Additional classes to find common base for.
     :type clss: type
-    
+
     :return: The most specific common base class shared by all input classes.
     :rtype: type
-    
+
     Examples::
         >>> from hbutils.reflection import common_base
         >>> common_base(object)
