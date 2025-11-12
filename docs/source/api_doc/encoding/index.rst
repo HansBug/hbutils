@@ -12,3 +12,5 @@ hbutils.encoding
     base64
     decode
     hash
+    int_hash
+    int_hash_val
