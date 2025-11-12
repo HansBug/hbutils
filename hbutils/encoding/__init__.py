@@ -28,3 +28,4 @@ from .ansi import *
 from .base64 import *
 from .decode import *
 from .hash import *
+from .int_hash import *

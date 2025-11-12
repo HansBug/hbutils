@@ -12,3 +12,4 @@ hbutils.encoding
     base64
     decode
     hash
+    int_hash
