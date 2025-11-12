@@ -43,10 +43,10 @@ def _norm_func(hash_func: _HashFuncTyping) -> Tuple[str, _IntHashTyping]:
     from the registry, or extracts the function name from callable objects.
     
     :param hash_func: Either a string name of a registered hash function or a callable hash function
-    :type hash_func: Union[str, callable]
+    :type hash_func: Union[str, _IntHashTyping]
     
     :return: A tuple containing (function_name, function_object)
-    :rtype: Tuple[str, callable]
+    :rtype: Tuple[str, _IntHashTyping]
     
     Example::
         >>> def my_hash(data):
@@ -74,7 +74,7 @@ def int_hash_val_determinism(hash_func: _HashFuncTyping, test_data: List[Union[s
     
     :param hash_func: The hash function to validate. Should accept str, bytes, or bytearray
                       and return an integer hash value. Can be a string name or callable.
-    :type hash_func: Union[str, callable]
+    :type hash_func: _HashFuncTyping
     :param test_data: List of test inputs to validate determinism
     :type test_data: List[Union[str, bytes, bytearray]]
     
@@ -134,7 +134,7 @@ def int_hash_val_type_consistency(hash_func: _HashFuncTyping) -> Dict[str, Any]:
     
     :param hash_func: The hash function to validate. Should accept str, bytes, or bytearray
                       and return an integer hash value. Can be a string name or callable.
-    :type hash_func: Union[str, callable]
+    :type hash_func: _HashFuncTyping
     
     :return: Dictionary containing validation results with keys:
              
@@ -208,7 +208,7 @@ def int_hash_val_avalanche_effect(hash_func: _HashFuncTyping, sample_size: int =
     
     :param hash_func: The hash function to validate. Should accept str, bytes, or bytearray
                       and return an integer hash value. Can be a string name or callable.
-    :type hash_func: Union[str, callable]
+    :type hash_func: _HashFuncTyping
     :param sample_size: Number of random samples to test, defaults to 100
     :type sample_size: int
     
@@ -322,7 +322,7 @@ def int_hash_val_uniform_distribution(hash_func: _HashFuncTyping, sample_size: i
     
     :param hash_func: The hash function to validate. Should accept str, bytes, or bytearray
                       and return an integer hash value. Can be a string name or callable.
-    :type hash_func: Union[str, callable]
+    :type hash_func: _HashFuncTyping
     :param sample_size: Number of random samples to generate and hash, defaults to 10000
     :type sample_size: int
     
@@ -415,7 +415,7 @@ def int_hash_val_collision_resistance(hash_func: _HashFuncTyping, sample_size: i
     
     :param hash_func: The hash function to validate. Should accept str, bytes, or bytearray
                       and return an integer hash value. Can be a string name or callable.
-    :type hash_func: Union[str, callable]
+    :type hash_func: _HashFuncTyping
     :param sample_size: Number of random samples to test, defaults to 100000
     :type sample_size: int
     
@@ -490,7 +490,7 @@ def int_hash_val_empty_input(hash_func: _HashFuncTyping) -> Dict[str, Any]:
     
     :param hash_func: The hash function to validate. Should accept str, bytes, or bytearray
                       and return an integer hash value. Can be a string name or callable.
-    :type hash_func: Union[str, callable]
+    :type hash_func: _HashFuncTyping
     
     :return: Dictionary containing validation results with keys:
              
@@ -563,7 +563,7 @@ def int_hash_val_performance(hash_func: _HashFuncTyping, data_sizes: List[int] =
     
     :param hash_func: The hash function to validate. Should accept str, bytes, or bytearray
                       and return an integer hash value. Can be a string name or callable.
-    :type hash_func: Union[str, callable]
+    :type hash_func: _HashFuncTyping
     :param data_sizes: List of data sizes (in bytes) to test, defaults to [100, 1000, 10000, 100000]
     :type data_sizes: List[int], optional
     
@@ -664,7 +664,7 @@ def int_hash_val_comprehensive(hash_func: _HashFuncTyping) -> Dict[str, Any]:
     
     :param hash_func: The hash function to validate. Should accept str, bytes, or bytearray
                       and return an integer hash value. Can be a string name or callable.
-    :type hash_func: Union[str, callable]
+    :type hash_func: _HashFuncTyping
     
     :return: Dictionary containing comprehensive validation results with keys:
              

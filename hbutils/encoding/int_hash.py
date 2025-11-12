@@ -13,6 +13,7 @@ Available hash algorithms:
 - MurmurHash3 (32-bit): Fast non-cryptographic hash by Austin Appleby
 - CRC32 Variant: Modified CRC32 algorithm
 - xxHash32: Extremely fast hash algorithm
+- xs: A tiny and fast but reliable hash algorithm
 
 The module provides a unified interface through the `int_hash` function, which allows
 selecting different hash algorithms via the method parameter. Custom hash functions
@@ -416,10 +417,12 @@ def _int_hash_xxhash32_simple(data: Union[str, bytes, bytearray], seed: int = 0)
 @register_int_hash('xs')
 def _int_hash_xs(data: Union[str, bytes, bytearray]) -> int:
     """
-    A minimal but functional hash function that satisfies basic hash properties.
+    Compute a minimal but functional hash using simple polynomial hashing.
 
-    Uses a simple polynomial hash with a single bit mixing operation to improve
-    avalanche effect.
+    This is a lightweight hash function that uses a simple polynomial hash
+    (hash = hash * 31 + byte) with a single bit mixing operation to improve
+    the avalanche effect. It satisfies basic hash properties while maintaining
+    simplicity and speed.
 
     :param data: The input data to hash. Can be string, bytes, or bytearray.
     :type data: Union[str, bytes, bytearray]
@@ -461,7 +464,7 @@ def int_hash(data: Union[str, bytes, bytearray], method: str = 'FNV-1a-32') -> i
     :type data: Union[str, bytes, bytearray]
     :param method: Hash algorithm to use (default: 'FNV-1a-32').
                    Available methods: 'FNV-1a-32', 'FNV-1a-64', 'DJB2', 'SDBM',
-                   'MurmurHash3-32', 'CRC32-Variant', 'xxHash32-Simple'.
+                   'MurmurHash3-32', 'CRC32-Variant', 'xxHash32-Simple', 'xs'.
     :type method: str
 
     :return: Hash value computed by the specified method.
