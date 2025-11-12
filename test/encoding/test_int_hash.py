@@ -1,6 +1,6 @@
 import pytest
 
-from hbutils.encoding import int_hash
+from hbutils.encoding import int_hash, int_hash_val_comprehensive
 
 
 @pytest.mark.unittest
@@ -4196,3 +4196,21 @@ class TestEncodingIntHash:
     )
     def test_int_hash_xs(self, text, method, hash_value):
         assert int_hash(text, method=method) == hash_value
+
+    @pytest.mark.parametrize(
+        ["func", "passed", "properties"],
+        [
+            ('FNV-1a-32', True, []),
+            ('FNV-1a-64', True, []),
+            ('DJB2', True, []),
+            ('SDBM', True, []),
+            ('MurmurHash3-32', True, []),
+            ('CRC32-Variant', True, []),
+            ('xxHash32-Simple', True, []),
+            ('xs', True, []),
+        ],
+    )
+    def test_int_hash_val_comprehensive(self, func, passed, properties):
+        result = int_hash_val_comprehensive(func)
+        assert result["passed"] == passed
+        assert result["not_passed_properties"] == properties
