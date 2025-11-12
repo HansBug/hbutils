@@ -205,7 +205,7 @@ def bad_hash_type_inconsistent(data: Union[str, bytes, bytearray]) -> int:
     """
     if isinstance(data, str):
         # Use one algorithm for strings
-        return hash(data) & 0xFFFFFFFF
+        return (hash(data) if data else 0) & 0xFFFFFFFF
     elif isinstance(data, bytes):
         # Use another algorithm for bytes
         return sum(data) & 0xFFFFFFFF
