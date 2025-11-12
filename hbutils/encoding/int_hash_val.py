@@ -535,7 +535,8 @@ def int_hash_val_empty_input(hash_func: _HashFuncTyping) -> Dict[str, Any]:
 
     # Check if all empty inputs produce same result
     if results_list and len(set(results_list)) != 1:
-        logging.warning("Different empty inputs produce different hash values")
+        logging.warning(f"Different empty inputs produce different hash values - "
+                        f"{list(zip(empty_inputs, results_list))!r}")
         passed = False
 
     results = {
