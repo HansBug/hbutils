@@ -413,6 +413,43 @@ def _int_hash_xxhash32_simple(data: Union[str, bytes, bytearray], seed: int = 0)
     return hash_val
 
 
+@register_int_hash('xs')
+def _int_hash_xs(data: Union[str, bytes, bytearray]) -> int:
+    """
+    A minimal but functional hash function that satisfies basic hash properties.
+
+    Uses a simple polynomial hash with a single bit mixing operation to improve
+    avalanche effect.
+
+    :param data: The input data to hash. Can be string, bytes, or bytearray.
+    :type data: Union[str, bytes, bytearray]
+
+    :return: A 32-bit unsigned integer hash value.
+    :rtype: int
+
+    Example::
+        >>> _int_hash_xs('hello')  # Hash a string
+        123456789
+        >>> _int_hash_xs(b'hello')  # Hash bytes
+        123456789
+    """
+    # Convert all input types to bytes
+    if isinstance(data, str):
+        data = data.encode('utf-8')
+    elif isinstance(data, bytearray):
+        data = bytes(data)
+
+    # Simple polynomial hash: hash = (hash * 31 + byte)
+    hash_val = 0
+    for byte in data:
+        hash_val = (hash_val * 31 + byte) & 0xffffffff
+
+    # Single bit mixing to improve avalanche effect
+    hash_val ^= hash_val >> 16
+
+    return hash_val & 0xffffffff
+
+
 def int_hash(data: Union[str, bytes, bytearray], method: str = 'FNV-1a-32') -> int:
     """
     Compute integer hash using the specified method.

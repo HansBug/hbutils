@@ -35,7 +35,29 @@ __all__ = [
 _HashFuncTyping = Union[str, _IntHashTyping]
 
 
-def _norm_func(hash_func: _HashFuncTyping) -> Tuple[str, _HashFuncTyping]:
+def _norm_func(hash_func: _HashFuncTyping) -> Tuple[str, _IntHashTyping]:
+    """
+    Normalize hash function input to a tuple of (name, function).
+    
+    Converts string hash function names to their corresponding function objects
+    from the registry, or extracts the function name from callable objects.
+    
+    :param hash_func: Either a string name of a registered hash function or a callable hash function
+    :type hash_func: Union[str, callable]
+    
+    :return: A tuple containing (function_name, function_object)
+    :rtype: Tuple[str, callable]
+    
+    Example::
+        >>> def my_hash(data):
+        ...     return hash(data)
+        >>> name, func = _norm_func(my_hash)
+        >>> name
+        'my_hash'
+        >>> name, func = _norm_func('xxhash32')  # If registered
+        >>> name
+        'xxhash32'
+    """
     if isinstance(hash_func, str):
         return hash_func, _INT_HASH_FUNCS[hash_func]
     else:
@@ -51,12 +73,13 @@ def int_hash_val_determinism(hash_func: _HashFuncTyping, test_data: List[Union[s
     for identical inputs across multiple invocations.
     
     :param hash_func: The hash function to validate. Should accept str, bytes, or bytearray
-                      and return an integer hash value.
-    :type hash_func: callable
+                      and return an integer hash value. Can be a string name or callable.
+    :type hash_func: Union[str, callable]
     :param test_data: List of test inputs to validate determinism
     :type test_data: List[Union[str, bytes, bytearray]]
     
     :return: Dictionary containing validation results with keys:
+             
              - 'passed' (bool): Whether all tests passed
              - 'failed_cases' (list): List of inputs that failed determinism test
              - 'total_tested' (int): Total number of test cases
@@ -102,7 +125,7 @@ def int_hash_val_determinism(hash_func: _HashFuncTyping, test_data: List[Union[s
     return results
 
 
-def int_hash_val_type_consistency(hash_func) -> Dict[str, Any]:
+def int_hash_val_type_consistency(hash_func: _HashFuncTyping) -> Dict[str, Any]:
     """
     Validate type consistency: same content in different types should produce same hash.
     
@@ -110,10 +133,11 @@ def int_hash_val_type_consistency(hash_func) -> Dict[str, Any]:
     content when provided as string, bytes, or bytearray types.
     
     :param hash_func: The hash function to validate. Should accept str, bytes, or bytearray
-                      and return an integer hash value.
-    :type hash_func: callable
+                      and return an integer hash value. Can be a string name or callable.
+    :type hash_func: Union[str, callable]
     
     :return: Dictionary containing validation results with keys:
+             
              - 'passed' (bool): Whether all type consistency tests passed
              - 'failed_cases' (list): List of inputs that failed consistency test
              - 'total_tested' (int): Total number of test cases
@@ -130,6 +154,7 @@ def int_hash_val_type_consistency(hash_func) -> Dict[str, Any]:
         >>> result['passed']
         True
     """
+    _, hash_func = _norm_func(hash_func)
     logging.info("Starting type consistency validation")
 
     test_strings = ["hello", "world", "test", ""]
@@ -182,12 +207,13 @@ def int_hash_val_avalanche_effect(hash_func: _HashFuncTyping, sample_size: int =
     of good hash functions.
     
     :param hash_func: The hash function to validate. Should accept str, bytes, or bytearray
-                      and return an integer hash value.
-    :type hash_func: callable
+                      and return an integer hash value. Can be a string name or callable.
+    :type hash_func: Union[str, callable]
     :param sample_size: Number of random samples to test, defaults to 100
     :type sample_size: int
     
     :return: Dictionary containing validation results with keys:
+             
              - 'passed' (bool): Whether avalanche effect is sufficient (>40% bit changes)
              - 'avg_bit_changes' (float): Average number of bits changed
              - 'change_percentage' (float): Percentage of bits changed on average
@@ -295,12 +321,13 @@ def int_hash_val_uniform_distribution(hash_func: _HashFuncTyping, sample_size: i
     hash values are evenly distributed.
     
     :param hash_func: The hash function to validate. Should accept str, bytes, or bytearray
-                      and return an integer hash value.
-    :type hash_func: callable
+                      and return an integer hash value. Can be a string name or callable.
+    :type hash_func: Union[str, callable]
     :param sample_size: Number of random samples to generate and hash, defaults to 10000
     :type sample_size: int
     
     :return: Dictionary containing validation results with keys:
+             
              - 'passed' (bool): Whether distribution is uniform (uniformity_score > 0.95)
              - 'uniformity_score' (float): Score from 0 to 1 indicating uniformity
              - 'bucket_stats' (dict): Statistics about bucket distribution
@@ -387,12 +414,13 @@ def int_hash_val_collision_resistance(hash_func: _HashFuncTyping, sample_size: i
     a very low collision rate.
     
     :param hash_func: The hash function to validate. Should accept str, bytes, or bytearray
-                      and return an integer hash value.
-    :type hash_func: callable
+                      and return an integer hash value. Can be a string name or callable.
+    :type hash_func: Union[str, callable]
     :param sample_size: Number of random samples to test, defaults to 100000
     :type sample_size: int
     
     :return: Dictionary containing validation results with keys:
+             
              - 'passed' (bool): Whether collision rate is acceptable (<0.001)
              - 'collision_count' (int): Number of collisions detected
              - 'collision_rate' (float): Ratio of collisions to total samples
@@ -453,7 +481,7 @@ def int_hash_val_collision_resistance(hash_func: _HashFuncTyping, sample_size: i
     return results
 
 
-def int_hash_val_empty_input(hash_func) -> Dict[str, Any]:
+def int_hash_val_empty_input(hash_func: _HashFuncTyping) -> Dict[str, Any]:
     """
     Validate empty input handling.
     
@@ -461,10 +489,11 @@ def int_hash_val_empty_input(hash_func) -> Dict[str, Any]:
     (empty string, empty bytes, empty bytearray) and produces consistent results.
     
     :param hash_func: The hash function to validate. Should accept str, bytes, or bytearray
-                      and return an integer hash value.
-    :type hash_func: callable
+                      and return an integer hash value. Can be a string name or callable.
+    :type hash_func: Union[str, callable]
     
     :return: Dictionary containing validation results with keys:
+             
              - 'passed' (bool): Whether empty inputs are handled consistently
              - 'hash_results' (list): Hash values for each empty input type
              - 'consistent_empty_hash' (bool): Whether all empty inputs produce same hash
@@ -481,6 +510,7 @@ def int_hash_val_empty_input(hash_func) -> Dict[str, Any]:
         >>> result['consistent_empty_hash']
         True
     """
+    _, hash_func = _norm_func(hash_func)
     logging.info("Starting empty input validation")
 
     empty_inputs = [
@@ -532,12 +562,13 @@ def int_hash_val_performance(hash_func: _HashFuncTyping, data_sizes: List[int] =
     calculating average hashing time and throughput in MB/s.
     
     :param hash_func: The hash function to validate. Should accept str, bytes, or bytearray
-                      and return an integer hash value.
-    :type hash_func: callable
+                      and return an integer hash value. Can be a string name or callable.
+    :type hash_func: Union[str, callable]
     :param data_sizes: List of data sizes (in bytes) to test, defaults to [100, 1000, 10000, 100000]
     :type data_sizes: List[int], optional
     
     :return: Dictionary containing validation results with keys:
+             
              - 'passed' (bool): Whether all performance tests completed without errors
              - 'performance_data' (dict): Performance metrics for each data size
              - 'tested_sizes' (list): List of data sizes that were tested
@@ -632,10 +663,11 @@ def int_hash_val_comprehensive(hash_func: _HashFuncTyping) -> Dict[str, Any]:
     collision resistance, empty input handling, and performance characteristics.
     
     :param hash_func: The hash function to validate. Should accept str, bytes, or bytearray
-                      and return an integer hash value.
-    :type hash_func: callable
+                      and return an integer hash value. Can be a string name or callable.
+    :type hash_func: Union[str, callable]
     
     :return: Dictionary containing comprehensive validation results with keys:
+             
              - 'passed' (bool): Whether all validation tests passed
              - 'not_passed_properties' (list): List of properties that failed validation
              - 'hash_function_name' (str): Name of the hash function
@@ -649,7 +681,7 @@ def int_hash_val_comprehensive(hash_func: _HashFuncTyping) -> Dict[str, Any]:
         ...     if isinstance(data, str):
         ...         data = data.encode('utf-8')
         ...     return hash(bytes(data)) & 0xFFFFFFFF
-        >>> result = int_hash_val_comprehensive(simple_hash, "simple_hash")
+        >>> result = int_hash_val_comprehensive(simple_hash)
         >>> result['hash_function_name']
         'simple_hash'
         >>> result['total_properties_tested']
