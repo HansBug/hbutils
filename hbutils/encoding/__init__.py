@@ -9,6 +9,8 @@ This module provides various encoding and decoding utilities including:
     - Base64 encoding and decoding operations
     - General decoding utilities for various data formats
     - Hash functions for data integrity and identification
+    - Non-cryptographic integer hash functions for fast hashing
+    - Hash function validation utilities
 
 The module aggregates functionality from several submodules:
 
@@ -16,6 +18,8 @@ The module aggregates functionality from several submodules:
     - base64: Base64 encoding/decoding utilities
     - decode: Automatic encoding detection and decoding
     - hash: Cryptographic hash function wrappers
+    - int_hash: Non-cryptographic integer hash algorithms
+    - int_hash_val: Hash function validation and testing utilities
 
 Examples::
     >>> from hbutils.encoding import md5, sha256
@@ -23,9 +27,14 @@ Examples::
     '5eb63bbbe01eeed093cb22bb8f5acdc3'
     >>> sha256(b'hello world')
     'b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9'
+    
+    >>> from hbutils.encoding import int_hash
+    >>> int_hash("hello", method='FNV-1a-32')
+    1335831723
 """
 from .ansi import *
 from .base64 import *
 from .decode import *
 from .hash import *
 from .int_hash import *
+from .int_hash_val import *

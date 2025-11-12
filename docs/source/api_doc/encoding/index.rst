@@ -13,3 +13,4 @@ hbutils.encoding
     decode
     hash
     int_hash
+    int_hash_val
