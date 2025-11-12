@@ -272,5 +272,5 @@ class TestEncodingIntHashVal:
     )
     def test_int_hash_val_comprehensive(self, func, passed, properties):
         result = int_hash_val_comprehensive(func)
-        assert result["passed"] == passed
-        assert result["not_passed_properties"] == properties
+        assert result.passed == passed
+        assert result.not_passed_properties == properties
