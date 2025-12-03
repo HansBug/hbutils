@@ -45,7 +45,7 @@ tested on:
 
 | Operating System | Python Versions                       | Implementations                                        |
 |:-----------------|:--------------------------------------|:-------------------------------------------------------|
-| **Windows**      | 3.7, 3.8, 3.9, 3.10, 3.11, 3.12, 3.13 | CPython, PyPy3.8, PyPy3.8, PyPy3.9, PyPy3.10, PyPy3.11 |
+| **Windows**      | 3.7, 3.8, 3.9, 3.10, 3.11, 3.12, 3.13 | CPython, PyPy3.7, PyPy3.8, PyPy3.9, PyPy3.10, PyPy3.11 |
 | **Ubuntu**       | 3.7, 3.8, 3.9, 3.10, 3.11, 3.12, 3.13 | CPython, PyPy3.7, PyPy3.8, PyPy3.9, PyPy3.10, PyPy3.11 |
 | **macOS**        | 3.7, 3.8, 3.9, 3.10, 3.11, 3.12, 3.13 | CPython, PyPy3.7, PyPy3.8, PyPy3.9, PyPy3.10, PyPy3.11 |
 
