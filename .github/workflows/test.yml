@@ -123,14 +123,12 @@ jobs:
           - 'windows-latest'
           - 'macos-latest'
         python-version:
-          - '3.7'
           - '3.8'
           - '3.9'
           - '3.10'
           - '3.11'
           - '3.12'
           - '3.13'
-          - 'pypy-3.7'
           - 'pypy-3.8'
           - 'pypy-3.9'
           - 'pypy-3.10'
@@ -140,6 +138,19 @@ jobs:
             python-version: 'pypy-3.9'
           - os: 'macos-latest'
             python-version: 'pypy-3.9'
+        include:
+          - os: 'ubuntu-22.04'
+            python: '3.7'
+          - os: 'ubuntu-22.04'
+            python: 'pypy-3.7'
+          - os: 'windows-latest'
+            python: '3.7'
+          - os: 'windows-latest'
+            python: 'pypy-3.7'
+          - os: 'macos-13'
+            python: '3.7'
+          - os: 'macos-13'
+            python: 'pypy-3.7'
 
     steps:
       - name: Get system version for Linux
