@@ -1,2 +1,2 @@
-pyinstaller>=4.5,<5
+pyinstaller>=4.7,<5
 setuptools<70
