@@ -6,10 +6,15 @@ Overview:
 """
 import warnings
 from enum import IntEnum, unique
-from typing import Union, Optional, Literal
+from typing import Union, Optional
 
 from bitmath import Byte, NIST, SI
 from bitmath import parse_string_unsafe as parse_bytes
+
+try:
+    from typing import Literal
+except ImportError:
+    from typing_extensions import Literal
 
 from ..model import int_enum_loads
 
