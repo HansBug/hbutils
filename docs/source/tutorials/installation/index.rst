@@ -1,7 +1,7 @@
 Installation
 ===================
 
-``HBUtils`` is currently hosted on PyPI. It required python >= 3.8.
+``HBUtils`` is currently hosted on PyPI. It required python >= 3.7.
 
 You can simply install HBUtils from PyPI with the following command:
 
