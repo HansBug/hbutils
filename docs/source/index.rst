@@ -30,6 +30,7 @@ Overview
     api_doc/encoding/index
     api_doc/expression/index
     api_doc/file/index
+    api_doc/logging/index
     api_doc/model/index
     api_doc/random/index
     api_doc/reflection/index

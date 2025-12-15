@@ -21,8 +21,6 @@ jobs:
             python-version: '3.7'
           - os: 'windows-2022'
             python-version: '3.7'
-          - os: 'macos-13'
-            python-version: '3.7'
 
     steps:
       - name: Get system version for Linux
@@ -153,10 +151,6 @@ jobs:
           - os: 'windows-2022'
             python-version: '3.7'
           - os: 'windows-2022'
-            python-version: 'pypy-3.7'
-          - os: 'macos-13'
-            python-version: '3.7'
-          - os: 'macos-13'
             python-version: 'pypy-3.7'
 
     steps:
