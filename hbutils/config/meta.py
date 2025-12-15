@@ -11,7 +11,7 @@ setup configuration and package distribution.
 __TITLE__ = "hbutils"
 
 #: Version of this project.
-__VERSION__ = "0.13.1"
+__VERSION__ = "0.14.0"
 
 #: Short description of the project, will be included in ``setup.py``.
 __DESCRIPTION__ = 'Some useful functions and classes in Python infrastructure development.'
