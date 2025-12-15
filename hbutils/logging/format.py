@@ -43,25 +43,25 @@ class ANSIColors:
     in terminal environments that support ANSI escape codes.
     
     Attributes:
-        RESET (str): Reset all text formatting to default.
-        BOLD (str): Apply bold text style.
-        UNDERLINE (str): Apply underline text style.
-        BLACK (str): Apply black color to text.
-        RED (str): Apply red color to text.
-        GREEN (str): Apply green color to text.
-        YELLOW (str): Apply yellow color to text.
-        BLUE (str): Apply blue color to text.
-        MAGENTA (str): Apply magenta color to text.
-        CYAN (str): Apply cyan color to text.
-        WHITE (str): Apply white color to text.
-        BRIGHT_BLACK (str): Apply bright black (gray) color to text.
-        BRIGHT_RED (str): Apply bright red color to text.
-        BRIGHT_GREEN (str): Apply bright green color to text.
-        BRIGHT_YELLOW (str): Apply bright yellow color to text.
-        BRIGHT_BLUE (str): Apply bright blue color to text.
-        BRIGHT_MAGENTA (str): Apply bright magenta color to text.
-        BRIGHT_CYAN (str): Apply bright cyan color to text.
-        BRIGHT_WHITE (str): Apply bright white color to text.
+        * RESET (str): Reset all text formatting to default.
+        * BOLD (str): Apply bold text style.
+        * UNDERLINE (str): Apply underline text style.
+        * BLACK (str): Apply black color to text.
+        * RED (str): Apply red color to text.
+        * GREEN (str): Apply green color to text.
+        * YELLOW (str): Apply yellow color to text.
+        * BLUE (str): Apply blue color to text.
+        * MAGENTA (str): Apply magenta color to text.
+        * CYAN (str): Apply cyan color to text.
+        * WHITE (str): Apply white color to text.
+        * BRIGHT_BLACK (str): Apply bright black (gray) color to text.
+        * BRIGHT_RED (str): Apply bright red color to text.
+        * BRIGHT_GREEN (str): Apply bright green color to text.
+        * BRIGHT_YELLOW (str): Apply bright yellow color to text.
+        * BRIGHT_BLUE (str): Apply bright blue color to text.
+        * BRIGHT_MAGENTA (str): Apply bright magenta color to text.
+        * BRIGHT_CYAN (str): Apply bright cyan color to text.
+        * BRIGHT_WHITE (str): Apply bright white color to text.
     
     Example::
         >>> print(f"{ANSIColors.RED}This is red text{ANSIColors.RESET}")
