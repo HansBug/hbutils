@@ -31,6 +31,7 @@ import os
 __all__ = [
     'ANSIColors',
     'ColoredFormatter',
+    'format_multiline_message',
 ]
 
 
@@ -89,7 +90,7 @@ class ANSIColors:
     BRIGHT_WHITE = "\033[97m"
 
 
-def _format_multiline_message(message: str, indent_length: int) -> str:
+def format_multiline_message(message: str, indent_length: int) -> str:
     """
     Format a multi-line message with proper indentation for continuation lines.
 
@@ -106,7 +107,7 @@ def _format_multiline_message(message: str, indent_length: int) -> str:
     
     Example::
         >>> msg = "First line\\nSecond line\\nThird line"
-        >>> result = _format_multiline_message(msg, 4)
+        >>> result = format_multiline_message(msg, 4)
         >>> print(result)
         First line
             Second line
@@ -270,7 +271,7 @@ class ColoredFormatter(logging.Formatter):
 
         # Format multi-line message with proper indentation
         original_message = record.getMessage()
-        formatted_message = _format_multiline_message(original_message, indent_length)
+        formatted_message = format_multiline_message(original_message, indent_length)
 
         # Create a new record with the formatted message
         record_copy = logging.makeLogRecord(record.__dict__)

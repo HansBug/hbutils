@@ -24,9 +24,9 @@ ColoredFormatter
 
 
 
-_format_multiline_message
+format_multiline_message
 ----------------------------------------------------------
 
-.. autofunction:: _format_multiline_message
+.. autofunction:: format_multiline_message
 
 
