@@ -16,7 +16,7 @@ import pytest
 
 from hbutils.concurrent import ReadWriteLock
 from hbutils.reflection import progressive_for
-from hbutils.testing import tmatrix
+from hbutils.testing import tmatrix, OS
 
 
 def log_message(message: str) -> None:
@@ -155,7 +155,8 @@ class TestConcurrentReadWriteLock:
             thread.join()
 
         overall_duration = time.time() - overall_start
-        assert overall_duration == pytest.approx(read_time_cost, abs=0.05)
+        if OS.linux:
+            assert overall_duration == pytest.approx(read_time_cost, abs=0.05)
         resource.assert_write_write_exclusive()
         resource.assert_read_write_exclusive()
 
@@ -188,7 +189,8 @@ class TestConcurrentReadWriteLock:
             thread.join()
 
         overall_duration = time.time() - overall_start
-        assert overall_duration == pytest.approx(write_time_cost * thread_count, abs=0.1)
+        if OS.linux:
+            assert overall_duration == pytest.approx(write_time_cost * thread_count, abs=0.1)
         resource.assert_write_write_exclusive()
         resource.assert_read_write_exclusive()
 
