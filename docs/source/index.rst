@@ -25,6 +25,7 @@ Overview
     api_doc/binary/index
     api_doc/collection/index
     api_doc/color/index
+    api_doc/concurrent/index
     api_doc/config/index
     api_doc/design/index
     api_doc/encoding/index
