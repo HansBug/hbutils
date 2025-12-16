@@ -59,11 +59,13 @@ The project is structured into several top-level modules, each dedicated to a sp
 | **`hbutils.binary`**     | Offers basic IO types and utilities for structured binary file operations, often used for low-level data handling.                  | [API Documentation](https://hbutils.readthedocs.io/en/latest/api_doc/binary/index.html)     |
 | **`hbutils.collection`** | Offers advanced data structures and utilities for manipulating sequences and collections, including grouping and deduplication.     | [API Documentation](https://hbutils.readthedocs.io/en/latest/api_doc/collection/index.html) |
 | **`hbutils.color`**      | Deals with color models (RGB, HSV, HLS) and their calculations, including parsing and conversion.                                   | [API Documentation](https://hbutils.readthedocs.io/en/latest/api_doc/color/index.html)      |
+| **`hbutils.concurrent`** | Provides concurrent utilities, including a ReadWriteLock implementation for efficient shared resource access.                       | [API Documentation](https://hbutils.readthedocs.io/en/latest/api_doc/concurrent/index.html) |
 | **`hbutils.config`**     | Contains global meta information of this package.                                                                                   | [API Documentation](https://hbutils.readthedocs.io/en/latest/api_doc/config/index.html)     |
 | **`hbutils.design`**     | Contains extendable implementations for common design patterns in Python, such as Singleton.                                        | [API Documentation](https://hbutils.readthedocs.io/en/latest/api_doc/design/index.html)     |
 | **`hbutils.encoding`**   | Provides utilities for common encoding, decoding, and cryptographic hash calculations for binary data.                              | [API Documentation](https://hbutils.readthedocs.io/en/latest/api_doc/encoding/index.html)   |
 | **`hbutils.expression`** | A flexible system for creating and composing callable functions and complex expressions with operator overloading.                  | [API Documentation](https://hbutils.readthedocs.io/en/latest/api_doc/expression/index.html) |
 | **`hbutils.file`**       | Offers useful utilities for managing file streams, including cursor position and size retrieval.                                    | [API Documentation](https://hbutils.readthedocs.io/en/latest/api_doc/file/index.html)       |
+| **`hbutils.logging`**    | Provides enhanced logging capabilities, such as colored output and proper multi-line message formatting.                            | [API Documentation](https://hbutils.readthedocs.io/en/latest/api_doc/logging/index.html)    |
 | **`hbutils.model`**      | Provides decorators and utilities for enhancing Python classes with features like automatic field access and visual representation. | [API Documentation](https://hbutils.readthedocs.io/en/latest/api_doc/model/index.html)      |
 | **`hbutils.random`**     | Utilities for generating random sequences, strings (e.g., random hashes), and performing random choices.                            | [API Documentation](https://hbutils.readthedocs.io/en/latest/api_doc/random/index.html)     |
 | **`hbutils.reflection`** | Provides powerful utilities for introspection and manipulation of Python objects, functions, and modules.                           | [API Documentation](https://hbutils.readthedocs.io/en/latest/api_doc/reflection/index.html) |
@@ -167,12 +169,80 @@ foods = ['apple', 'orange', 'pear', 'banana', 'fish']
 # Group by length
 by_len = group_by(foods, len)
 print(by_len)
-# Expected output: {5: ['apple', 'orange'], 4: ['pear', 'fish'], 6: ['banana']}
+# Expected output: {5: ['apple', 'orange', 'banana'], 4: ['pear', 'fish']}
 
 # Group by first letter and count the items in each group
 by_first_letter_count = group_by(foods, lambda x: x[0], len)
 print(by_first_letter_count)
 # Expected output: {'a': 1, 'o': 1, 'p': 1, 'b': 1, 'f': 1}
+```
+
+### `hbutils.concurrent`
+
+Utilities for managing concurrent access to shared resources.
+
+#### `ReadWriteLock`
+
+A reader-writer lock implementation that allows multiple concurrent readers or a single exclusive writer, optimizing for
+read-heavy scenarios.
+
+**Documentation:
+** [ReadWriteLock](https://hbutils.readthedocs.io/en/latest/api_doc/concurrent/readwrite.html#hbutils.concurrent.readwrite.ReadWriteLock)
+
+```python
+import threading
+import time
+from hbutils.concurrent import ReadWriteLock
+
+# Shared resource and lock
+shared_data = {'value': 0}
+rwlock = ReadWriteLock()
+
+
+def reader(thread_id):
+    with rwlock.read_lock():
+        # Multiple readers can enter this block concurrently
+        print(f"Reader {thread_id} acquired read lock. Value: {shared_data['value']}")
+        time.sleep(0.1)  # Simulate read operation
+        print(f"Reader {thread_id} released read lock.")
+
+
+def writer(thread_id, new_value):
+    with rwlock.write_lock():
+        # Only one writer can enter this block, and it blocks all readers/writers
+        print(f"Writer {thread_id} acquired write lock. Updating...")
+        time.sleep(0.2)  # Simulate write operation
+        shared_data['value'] = new_value
+        print(f"Writer {thread_id} updated value to {new_value} and released write lock.")
+
+
+# Example usage
+threads = []
+threads.append(threading.Thread(target=reader, args=(1,)))
+threads.append(threading.Thread(target=reader, args=(2,)))
+threads.append(threading.Thread(target=writer, args=(3, 100)))
+threads.append(threading.Thread(target=reader, args=(4,)))
+threads.append(threading.Thread(target=writer, args=(5, 200)))
+
+for t in threads:
+    t.start()
+
+for t in threads:
+    t.join()
+
+print(f"Final value: {shared_data['value']}")
+# Expected output (order may vary, but readers 1, 2, 4 should run concurrently,
+# and writers 3, 5 should run exclusively):
+# Reader 1 acquired read lock. Value: 0
+# Reader 2 acquired read lock. Value: 0
+# ... (Reader 1 and 2 release)
+# Writer 3 acquired write lock. Updating...
+# Writer 3 updated value to 100 and released write lock.
+# Reader 4 acquired read lock. Value: 100
+# ... (Reader 4 releases)
+# Writer 5 acquired write lock. Updating...
+# Writer 5 updated value to 200 and released write lock.
+# Final value: 200
 ```
 
 ### `hbutils.design`
@@ -299,6 +369,50 @@ size = getsize(file)
 
 print(f"File size: {size}")
 # Expected output: File size: 4
+```
+
+### `hbutils.logging`
+
+Provides enhanced logging capabilities.
+
+#### `ColoredFormatter`
+
+A logging formatter that applies colors to log messages based on their severity level and handles proper indentation for
+multi-line messages.
+
+**Documentation:
+** [ColoredFormatter](https://hbutils.readthedocs.io/en/latest/api_doc/logging/format.html#hbutils.logging.format.ColoredFormatter)
+
+```python
+import logging
+import sys
+from hbutils.logging import ColoredFormatter
+
+# Setup logger
+logger = logging.getLogger('my_app')
+logger.setLevel(logging.DEBUG)
+
+# Setup handler with ColoredFormatter
+handler = logging.StreamHandler(sys.stdout)
+handler.setFormatter(ColoredFormatter(datefmt='%H:%M:%S'))
+logger.addHandler(handler)
+
+# Test messages
+logger.debug("Debug message - for detailed information.")
+logger.info("Info message - normal operation.")
+logger.warning("Warning message - potential issue.")
+logger.error(
+    "Error message - critical failure.\n  - Detail 1: The system is down.\n  - Detail 2: Check logs for more info.")
+logger.critical("Critical message - immediate action required.")
+
+# Expected output (colors will be applied in a real terminal):
+# [HH:MM:SS] DEBUG    my_app Debug message - for detailed information.
+# [HH:MM:SS] INFO     my_app Info message - normal operation.
+# [HH:MM:SS] WARNING  my_app Warning message - potential issue.
+# [HH:MM:SS] ERROR    my_app Error message - critical failure.
+#                                  - Detail 1: The system is down.
+#                                  - Detail 2: Check logs for more info.
+# [HH:MM:SS] CRITICAL my_app Critical message - immediate action required.
 ```
 
 ### `hbutils.reflection`
