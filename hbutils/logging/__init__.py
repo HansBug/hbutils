@@ -1,12 +1,12 @@
 """
 Overview:
     This module serves as the main entry point for the logging utilities package.
-    It exports all functionality from the format and tqdm modules, which provide colored
+    It exports all functionality from the format and progress modules, which provide colored
     logging formatters and progress bar utilities for enhanced console output.
 
     The module re-exports all public members from the format submodule, including
     the ColoredFormatter class and Colors class for ANSI color formatting, as well
-    as tqdm-related utilities from the tqdm submodule.
+    as progress-related utilities from the progress submodule.
 
 Example::
     >>> import logging
@@ -26,4 +26,4 @@ Example::
 """
 
 from .format import *
-from .tqdm import *
+from .progress import *

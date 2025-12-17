@@ -386,7 +386,7 @@ class SimpleTqdm:
 
         # Estimated time remaining
         eta_part = ""
-        if self.total is not None and self.n > 0:
+        if self.total is not None and self.n > 0 and elapsed > 0:
             rate = self.n / elapsed
             if rate > 0:
                 eta = (self.total - self.n) / rate
