@@ -93,8 +93,8 @@ def _capture_via_memory() -> ContextManager[OutputCaptureResult]:
         This method uses StringIO which doesn't have a fileno() method, which may
         cause issues with some operations like subprocess.run.
     """
-    r = OutputCaptureResult()
     with io.StringIO() as sout, io.StringIO() as serr:
+        r = OutputCaptureResult()
         try:
             with redirect_stdout(sout), redirect_stderr(serr):
                 yield r
@@ -117,20 +117,20 @@ def _capture_via_tempfile() -> ContextManager[OutputCaptureResult]:
         This method uses actual files which have fileno() methods, making them
         compatible with operations like subprocess.run.
     """
-    r = OutputCaptureResult()
     with TemporaryDirectory() as tdir:
         stdout_file = os.path.join(tdir, 'stdout')
         stderr_file = os.path.join(tdir, 'stderr')
-        try:
-            with open(stdout_file, 'w+', encoding='utf-8') as f_stdout, \
-                    open(stderr_file, 'w+', encoding='utf-8') as f_stderr:
+        with open(stdout_file, 'w+', encoding='utf-8') as f_stdout, \
+                open(stderr_file, 'w+', encoding='utf-8') as f_stderr:
+            r = OutputCaptureResult()
+            try:
                 with redirect_stdout(f_stdout), redirect_stderr(f_stderr):
                     yield r
-        finally:
-            r.put_result(
-                pathlib.Path(stdout_file).read_text(encoding='utf-8'),
-                pathlib.Path(stderr_file).read_text(encoding='utf-8'),
-            )
+            finally:
+                r.put_result(
+                    pathlib.Path(stdout_file).read_text(encoding='utf-8'),
+                    pathlib.Path(stderr_file).read_text(encoding='utf-8'),
+                )
 
 
 @contextmanager
