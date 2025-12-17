@@ -530,3 +530,107 @@ class TestLoggingTqdm:
 
         pbar2.close()
         assert len(SimpleTqdm._instances) == 0
+
+    def test_trange_basic(self, clear_instances):
+        """Test trange basic functionality."""
+        from hbutils.logging.progress import trange, SimpleTqdm
+
+        with patch('hbutils.logging.progress._origin_tqdm', None):
+            result = trange(10)
+            assert isinstance(result, SimpleTqdm)
+            assert result.total == 10
+            assert list(result.iterable) == list(range(10))
+
+    def test_trange_with_start_stop(self, clear_instances):
+        """Test trange with start and stop arguments."""
+        from hbutils.logging.progress import trange, SimpleTqdm
+
+        with patch('hbutils.logging.progress._origin_tqdm', None):
+            result = trange(5, 15)
+            assert isinstance(result, SimpleTqdm)
+            assert result.total == 10
+            assert list(result.iterable) == list(range(5, 15))
+
+    def test_trange_with_step(self, clear_instances):
+        """Test trange with start, stop, and step arguments."""
+        from hbutils.logging.progress import trange, SimpleTqdm
+
+        with patch('hbutils.logging.progress._origin_tqdm', None):
+            result = trange(0, 20, 2)
+            assert isinstance(result, SimpleTqdm)
+            assert result.total == 10
+            assert list(result.iterable) == list(range(0, 20, 2))
+
+    def test_trange_with_kwargs(self, clear_instances):
+        """Test trange with keyword arguments."""
+        from hbutils.logging.progress import trange, SimpleTqdm
+
+        with patch('hbutils.logging.progress._origin_tqdm', None):
+            result = trange(10, desc="Testing", unit="items")
+            assert isinstance(result, SimpleTqdm)
+            assert result.desc == "Testing"
+            assert result.unit == "items"
+            assert result.total == 10
+
+    def test_trange_with_real_tqdm(self):
+        """Test trange when real tqdm is available."""
+        from hbutils.logging.progress import trange
+
+        mock_real_tqdm = MagicMock()
+        with patch('hbutils.logging.progress._origin_tqdm', mock_real_tqdm):
+            result = trange(10, desc="test")
+            mock_real_tqdm.assert_called_once_with(
+                iterable=range(0, 10), desc='test', total=None, leave=True, file=None, ncols=None, mininterval=0.1,
+                ascii=None, disable=False, unit='it', unit_scale=False, initial=0, position=None, unit_divisor=1000
+            )
+
+    def test_trange_empty_range(self, clear_instances):
+        """Test trange with empty range."""
+        from hbutils.logging.progress import trange, SimpleTqdm
+
+        with patch('hbutils.logging.progress._origin_tqdm', None):
+            result = trange(0)
+            assert isinstance(result, SimpleTqdm)
+            assert result.total == 0
+            assert list(result.iterable) == []
+
+    def test_trange_negative_step(self, clear_instances):
+        """Test trange with negative step."""
+        from hbutils.logging.progress import trange, SimpleTqdm
+
+        with patch('hbutils.logging.progress._origin_tqdm', None):
+            result = trange(10, 0, -1)
+            assert isinstance(result, SimpleTqdm)
+            assert result.total == 10
+            assert list(result.iterable) == list(range(10, 0, -1))
+
+    def test_trange_iteration(self, clear_instances):
+        """Test trange iteration functionality."""
+        from hbutils.logging.progress import trange
+
+        with patch('hbutils.logging.progress._origin_tqdm', None):
+            values = []
+            for i in trange(5, file=StringIO()):
+                values.append(i)
+
+            assert values == [0, 1, 2, 3, 4]
+
+    def test_trange_with_all_kwargs(self, clear_instances):
+        """Test trange with multiple keyword arguments."""
+        from hbutils.logging.progress import trange, SimpleTqdm
+
+        with patch('hbutils.logging.progress._origin_tqdm', None):
+            result = trange(
+                10,
+                desc="Processing",
+                unit="B",
+                unit_scale=True,
+                leave=False,
+                disable=False
+            )
+            assert isinstance(result, SimpleTqdm)
+            assert result.desc == "Processing"
+            assert result.unit == "B"
+            assert result.unit_scale is True
+            assert result.leave is False
+            assert result.disable is False
