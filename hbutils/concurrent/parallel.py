@@ -117,7 +117,8 @@ class BoundedThreadPoolExecutor(ThreadPoolExecutor):
 
 
 def parallel_call(iterable: Iterable, fn: Callable[[Any], None], total: Optional[int] = None,
-                  desc: Optional[str] = None, max_workers: Optional[int] = None, max_pending: Optional[int] = None):
+                  desc: Optional[str] = None, max_workers: Optional[int] = None, max_pending: Optional[int] = None,
+                  disable_tqdm: bool = False):
     """
     Execute a callable in parallel for each item in an iterable with progress tracking.
     
@@ -139,6 +140,8 @@ def parallel_call(iterable: Iterable, fn: Callable[[Any], None], total: Optional
     :param max_pending: Maximum number of pending tasks. If -1, no limit is applied. 
                         Defaults to max_workers * 5.
     :type max_pending: Optional[int]
+    :param disable_tqdm: Whether to disable the progress bar. Defaults to False.
+    :type disable_tqdm: bool
     
     Example::
         >>> def process_item(item):
@@ -157,7 +160,7 @@ def parallel_call(iterable: Iterable, fn: Callable[[Any], None], total: Optional
         except (TypeError, AttributeError):
             total = None
 
-    pg = tqdm(total=total, desc=desc or f'Process with {fn!r}')
+    pg = tqdm(total=total, desc=desc or f'Process with {fn!r}', disable=disable_tqdm)
     if not max_workers:
         max_workers = min(os.cpu_count(), 16)
     if max_pending == -1:
