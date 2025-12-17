@@ -9,5 +9,6 @@ hbutils.logging
     :maxdepth: 3
 
     format
+    progress
 
 
