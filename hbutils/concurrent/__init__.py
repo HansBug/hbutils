@@ -1,16 +1,15 @@
 """
-This module provides concurrent utilities for managing read-write locks.
+Module for concurrent programming utilities.
 
-The module exports read-write lock implementations that allow multiple concurrent readers
-or a single exclusive writer. This is useful for scenarios with frequent read operations
-and occasional write operations, enabling better performance through concurrent reads
-while maintaining data consistency.
+This module provides utilities for concurrent and parallel execution, including:
 
-The lock follows these rules:
-- Read-Read: Non-exclusive, allows concurrent access
-- Read-Write: Exclusive, write operations wait for all read operations to complete
-- Write-Write: Exclusive, write operations execute serially
-- Write-Read: Exclusive, read operations wait for write operations to complete
+- Bounded thread pool executor with task queue limits
+- Parallel execution with progress tracking
+- Read-write lock implementation for shared resource access control
+
+The module combines functionality from parallel and readwrite submodules to provide
+a comprehensive set of tools for managing concurrent operations in Python applications.
 """
 
+from .parallel import *
 from .readwrite import *
