@@ -8,6 +8,7 @@ hbutils.concurrent
 .. toctree::
     :maxdepth: 3
 
+    parallel
     readwrite
 
 
