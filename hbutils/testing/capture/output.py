@@ -127,10 +127,18 @@ def _capture_via_tempfile() -> ContextManager[OutputCaptureResult]:
                 with redirect_stdout(f_stdout), redirect_stderr(f_stderr):
                     yield r
             finally:
-                r.put_result(
-                    pathlib.Path(stdout_file).read_text(encoding='utf-8'),
-                    pathlib.Path(stderr_file).read_text(encoding='utf-8'),
-                )
+                if not f_stdout.closed:
+                    f_stdout.close()
+                if not f_stderr.closed:
+                    f_stderr.close()
+                try:
+                    r.put_result(
+                        pathlib.Path(stdout_file).read_text(encoding='utf-8'),
+                        pathlib.Path(stderr_file).read_text(encoding='utf-8'),
+                    )
+                except:  # process for extreme cases to avoid lock stuck
+                    r.put_result(None, None)
+                    raise
 
 
 @contextmanager
