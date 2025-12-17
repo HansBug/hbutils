@@ -46,7 +46,7 @@ class BoundedThreadPoolExecutor(ThreadPoolExecutor):
         10
     """
 
-    def __init__(self, max_workers=None, max_pending=None, **kwargs):
+    def __init__(self, max_workers: Optional[int] = None, max_pending: Optional[int] = None, **kwargs):
         """
         Initialize the BoundedThreadPoolExecutor.
         
