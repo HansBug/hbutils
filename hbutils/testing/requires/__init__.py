@@ -1,27 +1,34 @@
 """
-Overview:
-    System requirements conditions for unittest.
-    Can be used on ``unittest.skipUnless``, ``pytest.mark.skipUnless``, etc.
+System requirement predicates for conditional test execution.
 
-    This module provides various condition checkers for testing requirements,
-    including command availability, expression evaluation, and git-related checks.
-    These conditions can be used to conditionally skip tests based on system
-    capabilities and environment setup.
+This package module aggregates a collection of requirement checkers that are
+commonly used with conditional test decorators such as
+:func:`unittest.skipUnless` or ``pytest.mark.skipUnless``. The available
+predicates and objects are imported from the following submodules:
 
-The module aggregates functionality from:
+* :mod:`hbutils.testing.requires.cmd` - command availability checks
+* :mod:`hbutils.testing.requires.expr` - Python version and implementation expressions
+* :mod:`hbutils.testing.requires.git` - Git and Git LFS availability checks
 
-    - cmd: Command availability checking
-    - expr: Version and environment expression evaluation
-    - git: Git and Git LFS installation and version checking
+The module exposes these utilities at the package level via ``import *`` to
+provide a concise import experience for test suites.
 
 Example::
+
     >>> from hbutils.testing.requires import vpython, is_git_installed
-    >>> # Check Python version
+    >>> # Check the current Python version (evaluated at runtime)
     >>> vpython >= '3.7'
     True
-    >>> # Check if Git is installed
+    >>> # Check whether Git is installed on the system
     >>> is_git_installed()
     True
+
+.. note::
+   The exported names depend on the corresponding submodules. Refer to
+   :mod:`hbutils.testing.requires.cmd`, :mod:`hbutils.testing.requires.expr`,
+   and :mod:`hbutils.testing.requires.git` for detailed descriptions of
+   individual utilities.
+
 """
 from .cmd import *
 from .expr import *

@@ -1,10 +1,27 @@
 """
-Overview:
-    Useful utilities for time units, such as h/m/s.
+Time duration conversion utilities.
 
-    This module provides functions to convert various time duration formats into
-    standardized representations. It supports numeric values (int, float) and
-    string formats (e.g., '1h30m', '0:03:53.540000').
+This module provides helper functions for converting time durations into
+standardized numeric or string formats. It supports raw numeric values
+interpreted as seconds, as well as string duration formats such as
+``"1h30m"`` or ``"0:03:53.540000"`` parsed by :mod:`pytimeparse`.
+
+The main public utilities are:
+
+* :func:`time_to_duration` - Convert any supported time format into seconds.
+* :func:`time_to_delta_str` - Convert time durations into a ``datetime.timedelta`` string.
+
+Example::
+
+    >>> from hbutils.scale.time import time_to_duration, time_to_delta_str
+    >>> time_to_duration("1h343m67.4s")
+    24247.4
+    >>> time_to_delta_str(233.54)
+    '0:03:53.540000'
+
+.. note::
+   The parsing of string durations is delegated to :func:`pytimeparse.parse`.
+   Unsupported strings may result in a ``None`` return value from the parser.
 """
 import datetime
 from typing import Union
@@ -22,11 +39,11 @@ def time_to_duration(time_: _TIME_TYPING) -> Union[float, int]:
 
     :param time_: Any types of time duration, can be numeric (seconds) or string format.
     :type time_: Union[int, float, str]
-
     :return: Time duration value in seconds.
     :rtype: Union[float, int]
-
     :raises TypeError: If the input type is not int, float, or str.
+    :raises TypeError: If the string input is not parsable by :mod:`pytimeparse`.
+    :raises ValueError: If the string input is not parsable by :mod:`pytimeparse`.
 
     Examples::
         >>> from hbutils.scale import time_to_duration
@@ -57,16 +74,16 @@ def time_to_delta_str(time_: _TIME_TYPING) -> str:
     Turn any types of time duration into time value in formatted string.
 
     This function converts various time duration formats into a standardized
-    string representation using the format 'H:MM:SS' or 'H:MM:SS.ffffff' for
+    string representation using the format ``H:MM:SS`` or ``H:MM:SS.ffffff`` for
     durations with fractional seconds.
 
     :param time_: Any types of time duration, can be numeric (seconds) or string format.
     :type time_: Union[int, float, str]
-
-    :return: Time duration value in formatted string (e.g., '6:29:04' or '0:03:53.540000').
+    :return: Time duration value in formatted string (e.g., ``"6:29:04"`` or
+        ``"0:03:53.540000"``).
     :rtype: str
-
-    :raises TypeError: If the input type is not int, float, or str (raised by time_to_duration).
+    :raises TypeError: If the input type is not int, float, or str (raised by
+        :func:`time_to_duration`).
 
     Examples::
         >>> from hbutils.scale import time_to_delta_str

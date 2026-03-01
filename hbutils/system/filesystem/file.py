@@ -1,10 +1,25 @@
 """
-Overview:
-    Functions for file processing.
+File system utilities for creating files and performing glob-based searches.
 
-    This module provides utility functions for common file system operations including:
-    - Creating files and directories (touch)
-    - Pattern-based file searching (glob)
+This module provides lightweight helpers that wrap common filesystem operations,
+including file creation (similar to the Unix ``touch`` command) and pattern-based
+file discovery using glob expressions.
+
+The module contains the following public components:
+
+* :func:`touch` - Create or update files, optionally creating parent directories.
+* :func:`glob` - Iterate over file paths that match one or more glob patterns.
+
+.. note::
+   The :func:`glob` helper yields results as a generator, which is more
+   memory-efficient than :func:`glob.glob` for large result sets.
+
+Example::
+
+    >>> from hbutils.system.filesystem.file import touch, glob
+    >>> touch('data/output.txt')
+    >>> list(glob('data/*.txt'))
+    ['data/output.txt']
 """
 import glob as gb
 import os
@@ -16,22 +31,28 @@ __all__ = [
 ]
 
 
-def touch(file: str, exist_ok: bool = True, makedirs: bool = True):
+def touch(file: str, exist_ok: bool = True, makedirs: bool = True) -> None:
     """
     Touch the file at given path.
-    Just like the ``touch`` command in unix system.
+
+    This function creates an empty file if it does not exist, or updates its
+    modification time if it does. It can also create parent directories
+    automatically.
 
     :param file: Path of the file to create or update.
     :type file: str
-    :param exist_ok: If True, do not raise an error if the file already exists. Defaults to True.
+    :param exist_ok: If True, do not raise an error if the file already exists.
     :type exist_ok: bool
-    :param makedirs: If True, create parent directories as needed. Defaults to True.
+    :param makedirs: If True, create parent directories as needed.
     :type makedirs: bool
+    :return: This function returns ``None``.
+    :rtype: None
 
     .. note::
-        You can use this like ``touch`` command on unix.
+       You can use this like the Unix ``touch`` command.
 
-    Examples::
+    Example::
+
         >>> import os
         >>> from hbutils.system import touch
         >>> os.listdir('.')
@@ -50,13 +71,13 @@ def touch(file: str, exist_ok: bool = True, makedirs: bool = True):
     pathlib.Path(file).touch(exist_ok=exist_ok)
 
 
-def glob(*items) -> Iterator[str]:
+def glob(*items: str) -> Iterator[str]:
     """
     Glob filter by the given ``items``.
 
     This function performs pattern matching on file paths using glob patterns.
-    Unlike the native ``glob.glob``, this function returns a generator that yields
-    matching paths, making it more memory-efficient for large result sets.
+    Unlike the native :func:`glob.glob`, this function returns a generator that
+    yields matching paths, making it more memory-efficient for large result sets.
 
     :param items: One or more glob patterns to match against file paths.
     :type items: str
@@ -64,9 +85,11 @@ def glob(*items) -> Iterator[str]:
     :rtype: Iterator[str]
 
     .. note::
-        :func:`glob` is different from native ``glob.glob``, for its return value is a generator instead of list.
+       :func:`glob` is different from native :func:`glob.glob`, for its return
+       value is a generator instead of a list.
 
-    Examples::
+    Example::
+
         >>> from hbutils.system import glob
         >>>
         >>> list(glob('*.md'))  # simple filter

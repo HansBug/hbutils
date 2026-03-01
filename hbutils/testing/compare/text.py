@@ -1,15 +1,32 @@
 """
-Text alignment utilities for comparing and processing text in unit tests.
+Text alignment and comparison utilities for unit tests.
 
-This module provides the :class:`TextAligner` class for flexible text comparison and alignment,
-particularly useful in unit testing scenarios where text output needs to be validated.
-It supports various text preprocessing operations like stripping, dedenting, and line-by-line transformations.
+This module provides :class:`TextAligner`, a composable helper that normalizes,
+transforms, and compares text content. It is designed for test assertions where
+text output may require preprocessing such as trimming, dedenting, line mapping,
+or custom transformations.
+
+The module contains the following main components:
+
+* :class:`TextAligner` - Configurable text alignment and comparison helper
+
+Example::
+
+    >>> from hbutils.testing.compare.text import TextAligner
+    >>> aligner = TextAligner().multiple_lines()
+    >>> normalized = aligner('''
+    ...     Hello
+    ...       World
+    ... ''')
+    >>> print(normalized)
+    Hello
+      World
 """
 
 import io
 import os
 import textwrap
-from typing import List, Union, Callable, Optional
+from typing import List, Union, Callable, Optional, Any
 
 __all__ = [
     'TextAligner',
@@ -25,14 +42,42 @@ class TextAligner:
     """
     Text aligner for comparing texts in unittest.
 
-    This class provides a flexible way to align, transform, and compare text content.
-    It supports various preprocessing operations and can be chained for complex transformations.
+    This class provides a flexible way to align, transform, and compare text
+    content. It supports various preprocessing operations and can be chained
+    for complex transformations.
+
+    :param line_rstrip: Right strip each line, defaults to ``True``.
+    :type line_rstrip: bool
+    :param keep_empty_tail: Keep the empty tail of the text, defaults to
+        ``False``. When ``False``, trailing empty lines are removed.
+    :type keep_empty_tail: bool
+    :param text_func: Function for preprocessing the entire text.
+    :type text_func: Optional[Callable[[str], str]]
+    :param line_func: Function for processing each line.
+    :type line_func: Optional[Callable[[str], str]]
+    :param ls_func: Function for processing the list of lines.
+    :type ls_func: Optional[Callable[[List[str]], List[str]]]
+
+    Example::
+
+        >>> from hbutils.testing import TextAligner
+        >>> aligner = TextAligner()
+        >>> print(aligner('''
+        ...   Hello
+        ...     World
+        ... '''))
+        Hello
+          World
     """
 
-    def __init__(self, line_rstrip: bool = True, keep_empty_tail: bool = False,
-                 text_func: Optional[Callable[[str], str]] = None,
-                 line_func: Optional[Callable[[str], str]] = None,
-                 ls_func: Optional[Callable[[List[str]], List[str]]] = None):
+    def __init__(
+        self,
+        line_rstrip: bool = True,
+        keep_empty_tail: bool = False,
+        text_func: Optional[Callable[[str], str]] = None,
+        line_func: Optional[Callable[[str], str]] = None,
+        ls_func: Optional[Callable[[List[str]], List[str]]] = None,
+    ) -> None:
         """
         Constructor of :class:`TextAligner`.
 
@@ -320,8 +365,13 @@ class TextAligner:
 
                 return sf.getvalue()
 
-    def assert_equal(self, expect: Union[str, List[str]], actual: Union[str, List[str]],
-                     max_diff: int = 3, max_extra: int = 5):
+    def assert_equal(
+        self,
+        expect: Union[str, List[str]],
+        actual: Union[str, List[str]],
+        max_diff: int = 3,
+        max_extra: int = 5
+    ) -> None:
         """
         Assert two string is equal.
 
@@ -381,7 +431,7 @@ class TextAligner:
         else:
             return 'Actual text are completely the same as expected one!'
 
-    def assert_not_equal(self, expect: Union[str, List[str]], actual: Union[str, List[str]]):
+    def assert_not_equal(self, expect: Union[str, List[str]], actual: Union[str, List[str]]) -> None:
         """
         Assert two string is not equal, which is similar to :meth:`assert_equal`.
 
@@ -409,7 +459,7 @@ class _StrMethodProxy:
     and applying them line-by-line through the TextAligner.
     """
 
-    def __init__(self, align: TextAligner, name: str):
+    def __init__(self, align: TextAligner, name: str) -> None:
         """
         Initialize the string method proxy.
 
@@ -425,12 +475,14 @@ class _StrMethodProxy:
         else:
             raise AttributeError(f'Attribute {name!r} not found in str.')
 
-    def __call__(self, *args, **kwargs) -> 'TextAligner':
+    def __call__(self, *args: Any, **kwargs: Any) -> 'TextAligner':
         """
         Apply the proxied string method to each line.
 
         :param args: Positional arguments to pass to the string method.
+        :type args: Any
         :param kwargs: Keyword arguments to pass to the string method.
+        :type kwargs: Any
         :return: A new TextAligner with the method applied to each line.
         :rtype: TextAligner
 

@@ -1,32 +1,47 @@
 """
-This module provides signed integer types for binary I/O operations.
+Signed integer binary I/O utilities.
 
-It implements various signed integer types (8-bit, 16-bit, 32-bit, 64-bit) that can be used
-to read from and write to binary files or streams. The module also provides platform-dependent
-type aliases that match C language integer types.
+This module implements signed integer types for binary input/output operations
+using little-endian byte order. It provides fixed-size signed integer types
+(8-bit, 16-bit, 32-bit, and 64-bit) and platform-dependent aliases that mirror
+the sizes of C language integer types.
 
-The main class is :class:`CSignedIntType`, which handles the conversion between binary data
-and signed integer values. It supports reading and writing signed integers of different sizes
-while handling two's complement representation.
+The module contains the following public components:
+
+* :class:`CSignedIntType` - Signed integer type with two's complement conversion.
+* :data:`c_int8` - 8-bit signed integer reader/writer.
+* :data:`c_int16` - 16-bit signed integer reader/writer.
+* :data:`c_int32` - 32-bit signed integer reader/writer.
+* :data:`c_int64` - 64-bit signed integer reader/writer.
+* :data:`c_byte` - C-compatible signed byte alias.
+* :data:`c_short` - C-compatible signed short alias.
+* :data:`c_int` - C-compatible signed int alias.
+* :data:`c_long` - C-compatible signed long alias.
+* :data:`c_longlong` - C-compatible signed long long alias.
+
+These types are primarily used to read from and write to binary files or streams
+while handling two's complement representation for signed integers.
 
 Example::
+
     >>> import io
     >>> from hbutils.binary import c_int32
-    >>> 
+    >>>
     >>> # Reading signed integers
     >>> with io.BytesIO(b'\\xde\\xad\\xbe\\xef') as file:
     ...     value = c_int32.read(file)
     ...     print(value)
     -272716322
-
+    >>>
     >>> # Writing signed integers
     >>> with io.BytesIO() as file:
     ...     c_int32.write(file, -272716322)
     ...     print(file.getvalue())
     b'\\xde\\xad\\xbe\\xef'
+
 """
 import ctypes
-from typing import Dict, BinaryIO, List
+from typing import Dict, BinaryIO, List, Type
 
 from .base import CRangedIntType
 from .uint import CUnsignedIntType
@@ -42,26 +57,28 @@ class CSignedIntType(CRangedIntType):
     """
     Signed integer type for binary I/O operations.
 
-    This class provides functionality to read and write signed integers of a specific size
-    to and from binary streams. It handles two's complement representation internally by
-    using an unsigned integer type for the actual I/O operations.
+    This class provides functionality to read and write signed integers of a
+    specific size to and from binary streams. It handles two's complement
+    representation internally by using an unsigned integer type for the actual
+    I/O operations.
 
     :param size: Size of the integer type in bytes.
     :type size: int
 
     Example::
+
         >>> import io
         >>> from hbutils.binary import CSignedIntType
-        >>> 
+        >>>
         >>> # Create a 2-byte signed integer type
         >>> int16_type = CSignedIntType(2)
-        >>> 
+        >>>
         >>> # Read a signed integer
         >>> with io.BytesIO(b'\\xde\\xad') as file:
         ...     value = int16_type.read(file)
         ...     print(value)
         -21026
-
+        >>>
         >>> # Write a signed integer
         >>> with io.BytesIO() as file:
         ...     int16_type.write(file, -21026)
@@ -101,9 +118,10 @@ class CSignedIntType(CRangedIntType):
         using two's complement representation.
 
         Example::
+
             >>> import io
             >>> from hbutils.binary import c_int16
-            >>> 
+            >>>
             >>> with io.BytesIO(b'\\xde\\xad') as file:
             ...     value = c_int16.read(file)
             ...     print(value)
@@ -115,7 +133,7 @@ class CSignedIntType(CRangedIntType):
         else:
             return uval - (self.__half << 1)
 
-    def write(self, file: BinaryIO, val: int):
+    def write(self, file: BinaryIO, val: int) -> None:
         """
         Write a signed integer value to a binary stream.
 
@@ -123,6 +141,8 @@ class CSignedIntType(CRangedIntType):
         :type file: BinaryIO
         :param val: Signed integer value to write.
         :type val: int
+        :return: ``None``.
+        :rtype: None
         :raises TypeError: If the value is not an integer.
         :raises ValueError: If the value is outside the valid range for this integer type.
 
@@ -130,9 +150,10 @@ class CSignedIntType(CRangedIntType):
         before writing to the stream.
 
         Example::
+
             >>> import io
             >>> from hbutils.binary import c_int16
-            >>> 
+            >>>
             >>> with io.BytesIO() as file:
             ...     c_int16.write(file, -21026)
             ...     print(file.getvalue())
@@ -155,9 +176,10 @@ Reading and writing signed integer with 8-bits.
 This type represents a signed 8-bit integer with a range of -128 to 127.
 
 Examples::
+
     >>> import io
     >>> from hbutils.binary import c_int8
-    >>> 
+    >>>
     >>> with io.BytesIO(b'\\xde\\xad\\xbe\\xef') as file:
     ...     print(c_int8.read(file))
     ...     print(c_int8.read(file))
@@ -182,9 +204,10 @@ Reading and writing signed integer with 16-bits.
 This type represents a signed 16-bit integer with a range of -32768 to 32767.
 
 Examples::
+
     >>> import io
     >>> from hbutils.binary import c_int16
-    >>> 
+    >>>
     >>> with io.BytesIO(b'\\xde\\xad\\xbe\\xef\\x12\\x34\\x56\\xf7') as file:
     ...     print(c_int16.read(file))
     ...     print(c_int16.read(file))
@@ -209,9 +232,10 @@ Reading and writing signed integer with 32-bits.
 This type represents a signed 32-bit integer with a range of -2147483648 to 2147483647.
 
 Examples::
+
     >>> import io
     >>> from hbutils.binary import c_int32
-    >>> 
+    >>>
     >>> with io.BytesIO(b'\\xde\\xad\\xbe\\xef\\x12\\x34\\x56\\xf7') as file:
     ...     print(c_int32.read(file))
     ...     print(c_int32.read(file))
@@ -227,12 +251,14 @@ c_int64 = CSignedIntType(ctypes.sizeof(ctypes.c_int64))
 """
 Reading and writing signed integer with 64-bits.
 
-This type represents a signed 64-bit integer with a range of -9223372036854775808 to 9223372036854775807.
+This type represents a signed 64-bit integer with a range of
+-9223372036854775808 to 9223372036854775807.
 
 Examples::
+
     >>> import io
     >>> from hbutils.binary import c_int64
-    >>> 
+    >>>
     >>> with io.BytesIO(b'\\xde\\xad\\xbe\\xef\\x12\\x34\\x56\\xf7') as file:
     ...     print(c_int64.read(file))
     -624254242407928354
@@ -254,11 +280,12 @@ _SIZE_TO_INT_TYPE: Dict[int, CSignedIntType] = {
 }
 
 
-def _get_from_raw(tp) -> CSignedIntType:
+def _get_from_raw(tp: Type[ctypes._SimpleCData]) -> CSignedIntType:
     """
     Get the corresponding CSignedIntType instance for a ctypes integer type.
 
     :param tp: A ctypes integer type (e.g., ctypes.c_int, ctypes.c_long).
+    :type tp: Type[ctypes._SimpleCData]
     :return: The corresponding CSignedIntType instance.
     :rtype: CSignedIntType
 

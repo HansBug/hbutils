@@ -1,8 +1,31 @@
 """
-Overview:
-    Useful utilities for pluralizing and singularizing words. This module provides
-    convenient functions to convert words between singular and plural forms, and to
-    format words with their counts in grammatically correct forms.
+Pluralization and singularization helpers for English words.
+
+This module provides thin wrappers around the underlying inflection utilities
+for converting words between singular and plural forms. It also exposes a
+helper for formatting a word with its count using grammatically correct forms.
+
+The module contains the following public components:
+
+* :func:`plural_form` - Convert a word to its plural form.
+* :func:`singular_form` - Convert a word to its singular form.
+* :func:`plural_word` - Format a word with its count using correct plurality.
+
+Example::
+
+    >>> from hbutils.string.plural import plural_form, singular_form, plural_word
+    >>> plural_form('woman')
+    'women'
+    >>> singular_form('women')
+    'woman'
+    >>> plural_word(3, 'word')
+    '3 words'
+
+.. note::
+   These helpers delegate to :func:`hbutils.string.inflection.pluralize` and
+   :func:`hbutils.string.inflection.singularize`, which implement both regular
+   and irregular English inflection rules.
+
 """
 
 from .inflection import pluralize, singularize
@@ -16,15 +39,17 @@ def plural_form(word: str) -> str:
     """
     Get the pluralized form of the given word.
 
-    The same as :func:`hbutils.string.inflection.pluralize`.
+    This function is a thin wrapper around
+    :func:`hbutils.string.inflection.pluralize` and therefore supports the same
+    irregular and uncountable noun handling as the underlying implementation.
 
-    :param word: The given word to be pluralized.
+    :param word: The word to be pluralized.
     :type word: str
-
     :return: Pluralized word.
     :rtype: str
 
-    Examples::
+    Example::
+
         >>> from hbutils.string import plural_form
         >>> plural_form('it')
         'they'
@@ -40,15 +65,18 @@ def singular_form(word: str) -> str:
     """
     Get the singular form of the given word.
 
-    The same as :func:`hbutils.string.inflection.singularize`.
+    This function is a thin wrapper around
+    :func:`hbutils.string.inflection.singularize` and therefore supports the
+    same irregular and uncountable noun handling as the underlying
+    implementation.
 
-    :param word: The given word to be singularized.
+    :param word: The word to be singularized.
     :type word: str
-
-    :return: Singular form of word.
+    :return: Singular form of the word.
     :rtype: str
 
-    Examples::
+    Example::
+
         >>> from hbutils.string import singular_form
         >>> singular_form('they')
         'it'
@@ -66,20 +94,21 @@ def singular_form(word: str) -> str:
 
 def plural_word(count: int, word: str) -> str:
     """
-    Get plural form of the whole word, with the number before the word.
+    Format a word with its count using correct plurality.
 
-    This function formats a word with its count in a grammatically correct way.
-    If the count is 1, the singular form is used; otherwise, the plural form is used.
+    If ``count`` is 1, the singular form is used; otherwise, the plural form is
+    used. The singular form is derived from :func:`singular_form` and the
+    plural form from :func:`plural_form`, which handle irregular inflections.
 
-    :param count: Count of the word, should be a non-negative integer.
+    :param count: Count of the word.
     :type count: int
     :param word: Word to be pluralized.
     :type word: str
-
-    :return: Pluralized word with the number.
+    :return: Formatted string with the count and correct word form.
     :rtype: str
 
-    Examples::
+    Example::
+
         >>> from hbutils.string import plural_word
         >>> plural_word(0, 'word')
         '0 words'

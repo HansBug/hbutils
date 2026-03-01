@@ -1,18 +1,30 @@
 """
-Overview:
-    Utilities for isolating environment, which can be used in testing.
+Testing isolation utilities package.
 
-    This module provides tools for creating isolated testing environments by offering
-    utilities to manage directories, entry points, input streams, and logging configurations.
-    It helps ensure that tests run in controlled, reproducible environments without
-    interfering with the system or other tests.
+This package provides tools for creating isolated testing environments that
+avoid side effects on the host system. The public API is re-exported from
+the following submodules:
 
-    The module exports functionality from the following submodules:
+* :mod:`hbutils.testing.isolated.directory` - Isolated directory and filesystem helpers
+* :mod:`hbutils.testing.isolated.entry_point` - Entry point isolation utilities
+* :mod:`hbutils.testing.isolated.input` - Input stream isolation helpers
+* :mod:`hbutils.testing.isolated.logging` - Logging isolation and configuration tools
 
-    - directory: Tools for managing isolated directory structures
-    - entry_point: Utilities for handling entry points in isolated environments
-    - input: Input stream isolation utilities
-    - logging: Logging configuration and isolation tools
+The module is designed for use in unit tests and integration tests where
+temporary and reproducible environments are required. All public objects
+from the submodules are imported into this package namespace for convenient
+access.
+
+Example::
+
+    >>> from hbutils.testing import isolated
+    >>> # Access utilities re-exported from submodules
+    >>> # For example: isolated.TemporaryDirectory(...)  # if defined in directory submodule
+    >>> # or other helpers documented in the submodules.
+
+.. note::
+   This ``__init__`` module only re-exports symbols from its submodules.
+   Refer to each submodule's documentation for detailed API information.
 """
 from .directory import *
 from .entry_point import *

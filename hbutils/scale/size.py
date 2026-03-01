@@ -1,8 +1,34 @@
 """
-Overview:
-    This module provides useful utilities for handling memory size units, such as MB/KB/B.
-    It includes functions for converting various size representations to bytes and formatting
-    size values as human-readable strings.
+Utilities for converting and formatting memory size values.
+
+This module provides helpers to normalize size representations into integer
+byte counts and to format sizes into human-readable strings using binary
+(NIST) or decimal (SI) prefixes. It builds on :mod:`bitmath` to parse and
+format values while ensuring integer byte counts, issuing warnings when
+floating-point rounding is required.
+
+The module contains the following public components:
+
+* :func:`size_to_bytes` - Convert size representations to integer bytes
+* :func:`size_to_bytes_str` - Format sizes into a readable string
+* :class:`SizeSystem` - Enumerated size systems for formatting
+
+.. note::
+   Floating-point byte values are rounded to the nearest integer with a
+   warning when the rounding is non-negligible.
+
+Example::
+
+    >>> from hbutils.scale.size import size_to_bytes, size_to_bytes_str, SizeSystem
+    >>> size_to_bytes('3.54 GB')
+    3540000000
+    >>> size_to_bytes_str('3.54 GB')
+    '3.296881914138794 GiB'
+    >>> size_to_bytes_str('3.54 GB', system='si')
+    '3.54 GB'
+    >>> SizeSystem.loads('nist')  # Enum lookup for formatting system
+    <SizeSystem.NIST: 2>
+
 """
 import warnings
 from enum import IntEnum, unique
@@ -31,17 +57,16 @@ def _is_int(value: Union[int, float], stacklevel: int = 4) -> int:
 
     :param value: The value to convert to an integer.
     :type value: Union[int, float]
-    :param stacklevel: The stack level for the warning, default is 4.
+    :param stacklevel: The stack level for the warning, defaults to ``4``.
     :type stacklevel: int
-
     :return: The integer representation of the value.
     :rtype: int
+    :raises AssertionError: If the input is neither ``float`` nor ``int``.
 
-    :raises AssertionError: If the input is neither float nor int.
-
-    This function is used internally to ensure that byte values are always integers.
-    If a float is provided, it will be rounded to the nearest integer, and a warning
-    will be issued if the rounding causes a significant change in the value.
+    This function is used internally to ensure that byte values are always
+    integers. If a float is provided, it is rounded to the nearest integer,
+    and a warning is issued if the rounding causes a significant change in
+    the value.
     """
     if isinstance(value, float):
         _actual = int(round(value))
@@ -57,21 +82,22 @@ def _is_int(value: Union[int, float], stacklevel: int = 4) -> int:
                       f"something may be wrong with {__name__}._is_int function."  # pragma: no cover
 
 
-def _base_size_to_bytes(size, stacklevel: int = 4) -> int:
+def _base_size_to_bytes(size: Union[int, float, str, Byte], stacklevel: int = 4) -> int:
     """
     Convert various size representations to bytes.
 
-    :param size: The size to convert, can be int, float, str, or Byte object.
+    :param size: The size to convert, can be ``int``, ``float``, ``str``,
+        or a :class:`bitmath.Byte` object.
     :type size: Union[int, float, str, Byte]
-    :param stacklevel: The stack level for warnings, default is 4.
+    :param stacklevel: The stack level for warnings, defaults to ``4``.
     :type stacklevel: int
-
     :return: The size in bytes as an integer.
     :rtype: int
-
     :raises TypeError: If the input type is not supported.
+    :raises ValueError: If a string cannot be parsed by :func:`bitmath.parse_string_unsafe`.
 
-    This function is used internally to handle different input types and convert them to bytes.
+    This function is used internally to handle different input types and
+    convert them to bytes.
     """
     if isinstance(size, (float, int)):
         return _is_int(size, stacklevel)
@@ -97,14 +123,17 @@ def size_to_bytes(size: _SIZE_TYPING) -> int:
 
     :param size: Any type of size information.
     :type size: Union[int, float, str, Byte]
-
     :return: Size in bytes as an integer.
     :rtype: int
+    :raises TypeError: If ``size`` is not an ``int``, ``float``, ``str``, or
+        :class:`bitmath.Byte`.
+    :raises ValueError: If a string cannot be parsed by :func:`bitmath.parse_string_unsafe`.
 
     This function can handle various input types:
-        * Integers and floats are treated as byte values.
-        * Strings are parsed as size representations (e.g., "23356 KB").
-        * Byte objects from the bitmath library are converted to their byte value.
+
+    * Integers and floats are treated as byte values.
+    * Strings are parsed as size representations (e.g., ``"23356 KB"``).
+    * :class:`bitmath.Byte` objects are converted to their byte value.
 
     Examples::
 
@@ -128,8 +157,21 @@ class SizeSystem(IntEnum):
     """
     Enumeration of size systems used for formatting.
 
-    :cvar NIST: Uses binary prefixes (KiB, MiB, GiB, etc.)
-    :cvar SI: Uses decimal prefixes (KB, MB, GB, etc.)
+    The enumeration is enhanced by :func:`hbutils.model.int_enum_loads`,
+    providing a :meth:`loads` class method for convenient lookup by name or
+    value.
+
+    :cvar NIST: Uses binary prefixes (KiB, MiB, GiB, etc.).
+    :cvar SI: Uses decimal prefixes (KB, MB, GB, etc.).
+
+    Example::
+
+        >>> SizeSystem.loads('nist') is SizeSystem.NIST
+        True
+        >>> SizeSystem.loads('si') is SizeSystem.SI
+        True
+        >>> SizeSystem.loads(2) is SizeSystem.NIST
+        True
     """
     NIST = NIST
     SI = SI
@@ -143,22 +185,28 @@ def size_to_bytes_str(size: _SIZE_TYPING, precision: Optional[int] = None,
 
     :param size: Any type of size information.
     :type size: Union[int, float, str, Byte]
-    :param precision: Precision for float values. Default is None, which shows the original float number.
+    :param precision: Precision for float values. When ``None``, the
+        default string representation from :mod:`bitmath` is used.
     :type precision: Optional[int]
-    :param sigfigs: Number of significant figures to use. If specified, overrides precision.
+    :param sigfigs: Number of significant figures to use. If specified,
+        this overrides ``precision``.
     :type sigfigs: Optional[int]
-    :param system: The unit system to use, either ``nist`` (binary) or ``si`` (decimal). Default is ``nist``.
+    :param system: The unit system to use, either ``'nist'`` (binary) or
+        ``'si'`` (decimal). Default is ``'nist'``.
     :type system: Literal['nist', 'si']
-
     :return: String formatted size value in the best unit.
     :rtype: str
-
     :raises ValueError: If an invalid system type is provided.
+    :raises TypeError: If ``size`` is not an ``int``, ``float``, ``str``, or
+        :class:`bitmath.Byte`.
+    :raises ValueError: If a string cannot be parsed by :func:`bitmath.parse_string_unsafe`.
 
-    This function provides a human-readable representation of size values. It automatically
-    chooses the most appropriate unit (B, KB/KiB, MB/MiB, etc.) based on the size.
+    This function provides a human-readable representation of size values.
+    It automatically chooses the most appropriate unit (B, KB/KiB, MB/MiB,
+    etc.) based on the size.
 
-    The ``system`` parameter allows choosing between NIST (binary, e.g., KiB) and SI (decimal, e.g., KB) units.
+    The ``system`` parameter allows choosing between NIST (binary, e.g.,
+    KiB) and SI (decimal, e.g., KB) units.
 
     Examples::
 

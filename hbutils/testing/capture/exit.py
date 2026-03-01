@@ -1,11 +1,34 @@
 """
-Overview:
-    Capture for exitcode. This module provides utilities to capture system exit codes
-    from calls to `sys.exit()` and `quit()` functions, allowing tests to verify exit
-    behavior without actually terminating the process.
+Exit code capture utilities for test environments.
+
+This module provides context managers and result models for capturing exit codes
+raised by :func:`sys.exit` or :func:`quit` without terminating the running
+process. It is primarily intended for unit testing scenarios where code paths
+that call system exit functions need to be verified safely.
+
+The module contains the following main components:
+
+* :class:`ExitCaptureResult` - Stores the captured exit code
+* :func:`capture_exit` - Context manager that intercepts exit calls
+
+.. note::
+   The implementation patches :func:`sys.exit`. The built-in :func:`quit`
+   delegates to :func:`sys.exit`, so it is captured by the same mechanism.
+
+Example::
+
+    >>> from hbutils.testing.capture.exit import capture_exit
+    >>> with capture_exit() as result:
+    ...     pass
+    >>> result.exitcode
+    0
+    >>> with capture_exit() as result:
+    ...     quit(3)
+    >>> result.exitcode
+    3
 """
 from contextlib import contextmanager
-from typing import ContextManager
+from typing import ContextManager, Optional
 from unittest.mock import patch
 
 __all__ = [
@@ -15,41 +38,45 @@ __all__ = [
 _DEFAULT_EXITCODE = 0
 
 
-def _exitcode(status=None):
+def _exitcode(status: Optional[int] = None) -> int:
     """
     Normalize the exit status code.
 
-    :param status: The exit status code, can be None or an integer.
+    :param status: Exit status code returned by :exc:`SystemExit` or ``None``.
     :type status: int or None
-    :return: The normalized exit code, returns default if status is None.
+    :return: Normalized exit code, defaults to ``0`` when ``status`` is ``None``.
     :rtype: int
     """
     return status if status is not None else _DEFAULT_EXITCODE
 
 
-def _fake_exit(status=None):
+def _fake_exit(status: Optional[int] = None) -> None:
     """
-    Fake exit function that raises SystemExit instead of terminating the process.
+    Fake exit function that raises :exc:`SystemExit` instead of terminating.
 
-    :param status: The exit status code.
+    :param status: Exit status code passed to :func:`sys.exit`.
     :type status: int or None
-    :raises SystemExit: Always raises SystemExit with the given status.
+    :raises SystemExit: Always raised with the provided ``status``.
     """
     raise SystemExit(status)
 
 
 class ExitCaptureResult:
     """
-    Overview:
-        Model of exit capture result. This class stores the captured exit code
-        from a context where system exits are intercepted.
+    Model of exit capture result.
+
+    This class stores the captured exit code from a context where exit calls
+    are intercepted by :func:`capture_exit`.
+
+    :param exitcode: Initial exit code to store.
+    :type exitcode: int
     """
 
-    def __init__(self, exitcode):
+    def __init__(self, exitcode: int) -> None:
         """
-        Constructor of :class:`ExitCaptureResult`.
+        Initialize the result container.
 
-        :param exitcode: Initial exitcode value.
+        :param exitcode: Initial exit code to store.
         :type exitcode: int
         """
         self.__exitcode = exitcode
@@ -57,22 +84,22 @@ class ExitCaptureResult:
     @property
     def exitcode(self) -> int:
         """
-        Get the captured exitcode value.
+        Get the captured exit code.
 
-        :return: The exit code that was captured.
+        :return: The exit code captured by :func:`capture_exit`.
         :rtype: int
 
         .. note::
-            Do not use this property when :func:`capture_exit` is not over, otherwise this result \
-                is not guaranteed to be correct.
+           Do not access this property before :func:`capture_exit` finishes,
+           otherwise the result may not be finalized.
         """
         return self.__exitcode
 
-    def put_result(self, exitcode: int):
+    def put_result(self, exitcode: int) -> None:
         """
-        Put result inside this model.
+        Store the captured exit code.
 
-        :param exitcode: New exitcode value to store.
+        :param exitcode: Exit code to store.
         :type exitcode: int
         """
         self.__exitcode = exitcode
@@ -81,18 +108,20 @@ class ExitCaptureResult:
 @contextmanager
 def capture_exit(default: int = 0) -> ContextManager[ExitCaptureResult]:
     """
-    Overview:
-        Capture for exitcode, :func:`quit` and :func:`sys.exit` can be captured.
-        This context manager intercepts system exit calls and stores the exit code
-        in an :class:`ExitCaptureResult` object instead of terminating the process.
+    Capture system exit calls and store the resulting exit code.
 
-    :param default: Default exitcode when no exit is called, default is ``0``.
+    This context manager intercepts calls to :func:`sys.exit` (and therefore
+    :func:`quit`) and stores the exit code in an :class:`ExitCaptureResult`
+    instance instead of terminating the process.
+
+    :param default: Default exit code when no exit is invoked, defaults to ``0``.
     :type default: int
-    :return: A context manager that yields an ExitCaptureResult object.
+    :return: Context manager yielding an :class:`ExitCaptureResult` instance.
     :rtype: ContextManager[ExitCaptureResult]
 
-    Examples::
-        >>> from hbutils.testing import capture_exit
+    Example::
+
+        >>> from hbutils.testing.capture.exit import capture_exit
         >>> with capture_exit() as ex:
         ...     pass
         >>> ex.exitcode

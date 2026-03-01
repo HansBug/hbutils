@@ -1,20 +1,29 @@
 """
-This module provides package information for hbutils.model.
+Package metadata for :mod:`hbutils.model`.
 
-It defines basic metadata about the hbutils.model package including its name,
-homepage URL, and reStructuredText formatted reference string.
+This module centralizes core metadata for the :mod:`hbutils.model` package,
+including its canonical name, homepage URL, and a reStructuredText (RST)
+reference string pointing to the documentation.
 
-:var _PACKAGE_NAME: The name of the hbutils.model package.
-:vartype _PACKAGE_NAME: str
+The module contains the following main components:
 
-:var _PACKAGE_HOMEPAGE: The URL to the hbutils.model package documentation homepage.
-:vartype _PACKAGE_HOMEPAGE: str
+* :data:`_PACKAGE_NAME` - Canonical package name
+* :data:`_PACKAGE_HOMEPAGE` - Documentation homepage URL
+* :data:`_PACKAGE_RST` - RST-formatted link to the homepage
 
-:var _PACKAGE_RST: A reStructuredText formatted string containing a link to the package homepage.
-:vartype _PACKAGE_RST: str
+Example::
+
+    >>> from hbutils.model import _info
+    >>> _info._PACKAGE_NAME
+    'hbutils.model'
+    >>> _info._PACKAGE_HOMEPAGE
+    'https://hansbug.github.io/hbutils/main/api_doc/model/index.html'
+    >>> _info._PACKAGE_RST
+    '`hbutils.model <https://hansbug.github.io/hbutils/main/api_doc/model/index.html>`_'
+
 """
 
-# hbutils.model's package info
-_PACKAGE_NAME = 'hbutils.model'
-_PACKAGE_HOMEPAGE = 'https://hansbug.github.io/hbutils/main/api_doc/model/index.html'
-_PACKAGE_RST = f'`{_PACKAGE_NAME} <{_PACKAGE_HOMEPAGE}>`_'
+# Package information for hbutils.model.
+_PACKAGE_NAME: str = 'hbutils.model'
+_PACKAGE_HOMEPAGE: str = 'https://hansbug.github.io/hbutils/main/api_doc/model/index.html'
+_PACKAGE_RST: str = f'`{_PACKAGE_NAME} <{_PACKAGE_HOMEPAGE}>`_'

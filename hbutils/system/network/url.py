@@ -1,18 +1,37 @@
 """
-This module provides utilities for parsing and splitting URLs into their constituent components.
+URL parsing and splitting utilities for network operations.
 
-It offers a convenient way to decompose URLs into scheme, host, path, query parameters, and fragments,
-with additional functionality to parse query parameters into dictionaries and extract path segments.
-The module wraps Python's standard urllib.parse functionality with enhanced features for easier URL manipulation.
+This module provides utilities for parsing and splitting URLs into their
+constituent components. It offers a convenient way to decompose URLs into
+scheme, host, path, query parameters, and fragments, with additional
+functionality to parse query parameters into dictionaries and extract path
+segments. The module wraps :mod:`urllib.parse` functionality with enhanced
+features for easier URL manipulation.
 
-Main components:
-- :class:`SplitURL`: A dataclass representing a parsed URL with convenient properties
-- :func:`urlsplit`: Function to split a URL string into a SplitURL object
+The module contains the following main components:
+
+* :class:`SplitURL` - Dataclass representing a parsed URL with convenient properties
+* :func:`urlsplit` - Function to split a URL string into a :class:`SplitURL` object
+
+Example::
+
+    >>> from hbutils.system.network.url import urlsplit
+    >>> sp = urlsplit('https://example.com/path/to/file.txt?q=1&v=kdjf&q=2#frag')
+    >>> sp.scheme
+    'https'
+    >>> sp.host
+    'example.com'
+    >>> sp.query_dict
+    {'q': ['1', '2'], 'v': 'kdjf'}
+    >>> sp.path_segments
+    ['', 'path', 'to', 'file.txt']
+    >>> sp.filename
+    'file.txt'
 """
 
 import re
 from dataclasses import dataclass
-from typing import List, Tuple, Optional
+from typing import Dict, List, Optional, Tuple
 from urllib import parse as urlparse
 
 __all__ = [
@@ -26,8 +45,8 @@ def _split_params(params: str) -> List[Tuple[str, Optional[str]]]:
 
     :param params: The query parameters string to split.
     :type params: str
-
-    :return: A list of tuples containing parameter names and their values (or None if no value).
+    :return: A list of tuples containing parameter names and their values
+        (or ``None`` if no value).
     :rtype: List[Tuple[str, Optional[str]]]
 
     Example::
@@ -65,7 +84,6 @@ def _split_path(path: str) -> List[str]:
 
     :param path: The URL path string to split.
     :type path: str
-
     :return: A list of decoded path segments.
     :rtype: List[str]
 
@@ -88,15 +106,15 @@ class SplitURL:
 
     :ivar url: The original URL string.
     :vartype url: str
-    :ivar scheme: The URL scheme (e.g., 'http', 'https', 'ftp').
+    :ivar scheme: The URL scheme (e.g., ``'http'``, ``'https'``, ``'ftp'``).
     :vartype scheme: str
     :ivar host: The host/netloc part of the URL.
     :vartype host: str
     :ivar path: The path component of the URL.
     :vartype path: str
-    :ivar query: The query string (without the leading '?').
+    :ivar query: The query string (without the leading ``'?'``).
     :vartype query: str
-    :ivar fragment: The fragment identifier (without the leading '#').
+    :ivar fragment: The fragment identifier (without the leading ``'#'``).
     :vartype fragment: str
     """
     url: str
@@ -107,14 +125,16 @@ class SplitURL:
     fragment: str
 
     @property
-    def query_dict(self):
+    def query_dict(self) -> Dict[str, Optional[object]]:
         """
         Parse the query string into a dictionary.
 
-        When a query parameter appears multiple times, its values are stored as a list.
-        Single-occurrence parameters are stored as single values.
+        When a query parameter appears multiple times, its values are stored
+        as a list. Single-occurrence parameters are stored as single values,
+        and parameters without explicit values are stored as ``None``.
 
-        :return: A dictionary mapping parameter names to their values (or lists of values).
+        :return: A dictionary mapping parameter names to their values
+            (or lists of values).
         :rtype: dict
 
         Example::
@@ -139,7 +159,7 @@ class SplitURL:
         """
         Get the path split into individual segments.
 
-        The path is split by '/' and each segment is URL-decoded.
+        The path is split by ``'/'`` and each segment is URL-decoded.
 
         :return: A list of decoded path segments.
         :rtype: List[str]
@@ -156,9 +176,10 @@ class SplitURL:
         """
         Get the filename from the URL path.
 
-        Returns the last segment of the path, or None if the path is empty.
+        Returns the last segment of the path. If the path is empty or ends
+        with a trailing slash, the filename may be an empty string.
 
-        :return: The filename, or None if no path exists.
+        :return: The filename segment from the path.
         :rtype: Optional[str]
 
         Example::
@@ -171,7 +192,7 @@ class SplitURL:
         """
         return self.path_segments[-1]
 
-    def __str__(self):
+    def __str__(self) -> str:
         """
         Get the original URL string.
 
@@ -180,9 +201,13 @@ class SplitURL:
         """
         return self.url
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
-        Get a detailed string representation of the SplitURL object.
+        Get a detailed string representation of the :class:`SplitURL` object.
+
+        Only non-empty components are included in the representation. The
+        query portion is shown as the parsed dictionary from
+        :attr:`query_dict`.
 
         :return: A string representation showing all non-empty components.
         :rtype: str
@@ -207,15 +232,15 @@ def urlsplit(url: str) -> SplitURL:
     """
     Split a URL into its constituent components.
 
-    This function parses a URL string and returns a SplitURL object containing
-    the scheme, host, path, query parameters, and fragment. It provides enhanced
-    functionality over urllib.parse.urlsplit by offering convenient properties
-    for accessing parsed query parameters and path segments.
+    This function parses a URL string and returns a :class:`SplitURL` object
+    containing the scheme, host, path, query parameters, and fragment. It
+    provides enhanced functionality over :func:`urllib.parse.urlsplit` by
+    offering convenient properties for accessing parsed query parameters
+    and path segments.
 
     :param url: The URL string to split.
     :type url: str
-
-    :return: A SplitURL object containing the parsed URL components.
+    :return: A :class:`SplitURL` object containing the parsed URL components.
     :rtype: SplitURL
 
     Examples::

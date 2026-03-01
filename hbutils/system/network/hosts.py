@@ -1,8 +1,31 @@
 """
-This module provides utilities for managing and querying host file information across different operating systems.
+Host file utilities for cross-platform systems.
 
-It includes functions to locate the host file path, parse host entries, and retrieve localhost IP address.
-The module handles platform-specific differences between Windows and Unix-like systems.
+This module provides small utilities for locating and parsing the system
+hosts file. It offers functions to resolve the hosts file path according to
+the current operating system, parse host entries into a dictionary, and
+retrieve the IP address of ``localhost``. The implementation supports
+Windows and Unix-like platforms.
+
+The module contains the following main components:
+
+* :func:`hostfile` - Resolve the hosts file path for the current OS
+* :func:`get_hosts` - Parse the hosts file into a hostname-to-IP mapping
+* :func:`get_localhost_ip` - Retrieve the IP address associated with ``localhost``
+
+Example::
+
+    >>> from hbutils.system.network.hosts import hostfile, get_hosts, get_localhost_ip
+    >>> hostfile()  # doctest: +SKIP
+    '/etc/hosts'
+    >>> hosts = get_hosts()  # doctest: +SKIP
+    >>> hosts.get('localhost')  # doctest: +SKIP
+    '127.0.0.1'
+    >>> get_localhost_ip()  # doctest: +SKIP
+    '127.0.0.1'
+
+.. note::
+   Parsing ignores empty lines and comments in the hosts file.
 """
 
 from typing import Dict
@@ -16,41 +39,42 @@ __all__ = [
 
 def hostfile() -> str:
     """
-    Get host file path in this operating system.
+    Get the hosts file path for the current operating system.
 
-    :return: Host file path in this os.
+    :return: Hosts file path on this operating system.
     :rtype: str
 
     .. note::
-        This should be ``/etc/hosts`` on Linux and macOS, but ``c:\\windows\\system32\\drivers\\etc\\hosts`` on Windows.
+       This should be ``/etc/hosts`` on Linux and macOS, and
+       ``c:\\windows\\system32\\drivers\\etc\\hosts`` on Windows.
 
     Examples::
-        >>> from hbutils.system import hostfile
-        >>> hostfile()  # On Linux/macOS
+        >>> from hbutils.system.network.hosts import hostfile
+        >>> hostfile()  # On Linux/macOS  # doctest: +SKIP
         '/etc/hosts'
-        >>> hostfile()  # On Windows
-        'c:\\windows\\system32\\drivers\\etc\\hosts'
+        >>> hostfile()  # On Windows  # doctest: +SKIP
+        'c:\\\\windows\\\\system32\\\\drivers\\\\etc\\\\hosts'
     """
     return r"c:\windows\system32\drivers\etc\hosts" if is_windows() else '/etc/hosts'
 
 
 def get_hosts() -> Dict[str, str]:
     """
-    Get hosts content in form of dictionary.
+    Parse the system hosts file into a dictionary.
 
-    This function parses the system hosts file and returns a dictionary mapping
-    hostnames to their corresponding IP addresses. Comments and empty lines are
-    automatically ignored during parsing.
+    This function reads the system hosts file line-by-line and constructs a
+    mapping from each hostname to its associated IP address. Inline comments
+    (starting with ``#``) and blank lines are ignored.
 
-    :return: A dictionary of the hosts file where keys are hostnames and values are IP addresses.
+    :return: Dictionary mapping hostnames to their corresponding IP addresses.
     :rtype: Dict[str, str]
 
     Examples::
-        >>> from hbutils.system import get_hosts
-        >>> get_hosts()
+        >>> from hbutils.system.network.hosts import get_hosts
+        >>> get_hosts()  # doctest: +SKIP
         {'hansbug-VirtualBox': '127.0.0.1', 'localhost': '127.0.0.1'}
     """
-    resdict = {}
+    resdict: Dict[str, str] = {}
     with open(hostfile(), 'r') as hf:
         for line in hf:
             line = line.strip()
@@ -71,18 +95,18 @@ _DEFAULT_LOCALHOST = '127.0.0.1'
 
 def get_localhost_ip() -> str:
     """
-    Get IP address of localhost.
+    Get the IP address of ``localhost``.
 
-    This function retrieves the IP address associated with 'localhost' from the
-    system hosts file. If 'localhost' is not found in the hosts file, it returns
-    the default localhost IP address ``127.0.0.1``.
+    This function retrieves the IP address associated with ``localhost`` from
+    the system hosts file. If ``localhost`` is not present, it returns the
+    default value ``127.0.0.1``.
 
     :return: IP address of ``localhost``.
     :rtype: str
 
     Examples::
-        >>> from hbutils.system import get_localhost_ip
-        >>> get_localhost_ip()
+        >>> from hbutils.system.network.hosts import get_localhost_ip
+        >>> get_localhost_ip()  # doctest: +SKIP
         '127.0.0.1'
     """
     return get_hosts().get(_LOCALHOST, _DEFAULT_LOCALHOST)

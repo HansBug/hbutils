@@ -1,16 +1,37 @@
 """
-Overview:
-    Useful color utilities based on color model.
+Color utility helpers for perceptual distance, random palettes, and gradients.
 
-    This module provides utilities for color manipulation including:
+This module provides utility functions built on top of :class:`hbutils.color.model.Color`
+for common color-related operations:
 
-    - Visual distance calculation between colors
-    - Random color generation with visual distinctiveness
-    - Linear gradient generation between multiple colors
+* :func:`visual_distance` - Perceptual distance between two colors in RGB space
+* :func:`rnd_colors` - Generator for visually distinct random colors
+* :func:`linear_gradient` - Linear gradient interpolation between multiple colors
+
+The functions are designed to accept :class:`Color` objects, CSS3 color names,
+hexadecimal strings, or RGB tuples when appropriate.
+
+Example::
+
+    >>> from hbutils.color import visual_distance, rnd_colors, linear_gradient
+    >>>
+    >>> visual_distance('red', '#00ff00')
+    2.5495097567963922
+    >>>
+    >>> for c in rnd_colors(3):
+    ...     print(c)
+    #ff00ee
+    #00ff00
+    #009cff
+    >>>
+    >>> grad = linear_gradient(('red', 'yellow', 'lime'))
+    >>> grad(0.5)
+    <Color yellow>
+
 """
 import math
 import random
-from typing import Iterator, Union, Sequence, Tuple, Callable
+from typing import Iterator, Union, Sequence, Tuple, Callable, Optional
 
 from .model import Color
 from ..algorithm import linear_map
@@ -22,14 +43,28 @@ __all__ = [
 ]
 
 
-def _to_color(color: Color):
+def _to_color(color: Union[Color, str, Tuple[float, float, float]]) -> Color:
     """
-    Convert input to Color object if it's not already one.
+    Convert a color-like value into a :class:`Color` object.
 
-    :param color: Color object or color representation.
-    :type color: Color
-    :return: Color object.
+    The input can be a :class:`Color` instance, a CSS3 name, a hexadecimal
+    string, or an RGB tuple. If the input is already a :class:`Color`, it is
+    returned as-is; otherwise, a new :class:`Color` is constructed.
+
+    :param color: Color representation to convert.
+    :type color: Union[Color, str, Tuple[float, float, float]]
+    :return: Converted :class:`Color` object.
     :rtype: Color
+    :raises TypeError: If the value is not supported by :class:`Color`.
+    :raises ValueError: If a string color is invalid.
+
+    Example::
+
+        >>> from hbutils.color import Color
+        >>> _to_color('red')
+        <Color red>
+        >>> _to_color(Color('#ffffff'))
+        <Color white>
     """
     if isinstance(color, Color):
         return color
@@ -45,24 +80,21 @@ def visual_distance(c1: Union[Color, str], c2: Union[Color, str]) -> float:
     a weighted Euclidean distance in RGB space. The weights are based on the
     average red component to account for human perception differences.
 
-    :param c1: First color, can be a Color object or string representation.
+    :param c1: First color, can be a :class:`Color` object or string representation.
     :type c1: Union[Color, str]
-    :param c2: Second color, can be a Color object or string representation.
+    :param c2: Second color, can be a :class:`Color` object or string representation.
     :type c2: Union[Color, str]
     :return: Distance value representing visual difference between colors.
     :rtype: float
+    :raises TypeError: If either color is an unsupported type.
+    :raises ValueError: If a string color is invalid.
 
     Examples::
-        >>> from hbutils.color import visual_distance, Color
-        >>> visual_distance(
-        ...     '#ff0000',
-        ...     '#00ff00'
-        ... )
+
+        >>> from hbutils.color import visual_distance
+        >>> visual_distance('#ff0000', '#00ff00')
         2.5495097567963922
-        >>> visual_distance(
-        ...     '#778800',
-        ...     '#887700'
-        ... )
+        >>> visual_distance('#778800', '#887700')
         0.16996731711975946
     """
     c1, c2 = _to_color(c1), _to_color(c2)
@@ -79,14 +111,14 @@ def visual_distance(c1: Union[Color, str], c2: Union[Color, str]) -> float:
     )
 
 
-def _dis_ratio(k):
+def _dis_ratio(k: int) -> float:
     """
-    Calculate distance ratio based on color index.
+    Calculate the distance ratio based on color index.
 
-    This function returns different ratio values based on the index to control
-    the minimum distance between colors during random generation.
+    This helper adjusts the minimum distance requirement when generating
+    random colors to balance distinctiveness and feasibility.
 
-    :param k: Index of the color.
+    :param k: Index of the color relative to previously generated colors.
     :type k: int
     :return: Distance ratio value.
     :rtype: float
@@ -102,67 +134,59 @@ def _dis_ratio(k):
 
 
 def rnd_colors(
-        count, lightness=0.5, saturation=1.0, alpha=None,
-        init_dis=4.0, lr=0.95, ur=1.5,
-        rnd=None
+        count: int,
+        lightness: float = 0.5,
+        saturation: float = 1.0,
+        alpha: Optional[float] = None,
+        init_dis: float = 4.0,
+        lr: float = 0.95,
+        ur: float = 1.5,
+        rnd: Optional[random.Random] = None
 ) -> Iterator[Color]:
     """
     Generate random colors that are visually distinct from each other.
 
-    This function generates a specified number of colors with controlled visual
-    distinctiveness. It uses the HLS color space and ensures generated colors
-    maintain a minimum visual distance from previously generated colors.
+    This generator creates ``count`` colors in HLS space and enforces a
+    minimum visual distance between each new color and all previously generated
+    colors. When many attempts fail, the minimum distance is relaxed; when
+    generation succeeds quickly, the distance is increased.
 
     :param count: Number of colors to generate.
     :type count: int
-    :param lightness: Lightness value in HLS color space (0.0 to 1.0), default is 0.5.
+    :param lightness: Lightness value in HLS color space (0.0 to 1.0).
     :type lightness: float
-    :param saturation: Saturation value in HLS color space (0.0 to 1.0), default is 1.0.
+    :param saturation: Saturation value in HLS color space (0.0 to 1.0).
     :type saturation: float
-    :param alpha: Alpha (transparency) value for colors, default is None.
-    :type alpha: float, optional
-    :param init_dis: Initial minimum distance between colors, default is 4.0.
+    :param alpha: Alpha (transparency) value for colors; ``None`` means no alpha.
+    :type alpha: Optional[float]
+    :param init_dis: Initial minimum distance between colors.
     :type init_dis: float
-    :param lr: Lower ratio for adjusting minimum distance when generation fails, default is 0.95.
+    :param lr: Lower ratio for decreasing minimum distance after failures.
     :type lr: float
-    :param ur: Upper ratio for adjusting minimum distance when generation succeeds, default is 1.5.
+    :param ur: Upper ratio for increasing minimum distance after successes.
     :type ur: float
-    :param rnd: Random number generator instance, default is random.Random(0).
-    :type rnd: random.Random, optional
-    :return: Iterator yielding Color objects.
+    :param rnd: Random number generator instance; if ``None``, ``random.Random(0)`` is used.
+    :type rnd: Optional[random.Random]
+    :return: Iterator yielding :class:`Color` objects.
     :rtype: Iterator[Color]
 
+    .. note::
+       The generator yields colors lazily; iteration triggers the generation.
+
     Examples::
+
         >>> from hbutils.color import rnd_colors
-        >>> for c in rnd_colors(12):
+        >>> for c in rnd_colors(3):
         ...     print(c)
         #ff00ee
         #00ff00
         #009cff
-        #ff006c
-        #c9ff00
-        #00f3ff
-        #d100ff
-        #ffaf00
-        #00ff6c
-        #4100ff
-        #ff5300
-        #46ff00
 
-        >>> for c in rnd_colors(12, 0.8, 0.9):
+        >>> for c in rnd_colors(3, 0.8, 0.9):
         ...     print(c)
         #fa9ef4
         #9efaa1
         #9eb4fa
-        #faa69e
-        #c5fa9e
-        #9ed6fa
-        #f09efa
-        #faf89e
-        #9ef9fa
-        #c09efa
-        #fabe9e
-        #9efaca
     """
     rnd = rnd or random.Random(0)
     min_distance = init_dis
@@ -188,8 +212,12 @@ def rnd_colors(
                     try_cnt = 0
 
 
-def linear_gradient(colors: Union[Sequence[Union[Color, str]], Sequence[Tuple[float, Union[Color, str]]]]) \
-        -> Callable[[float], Color]:
+def linear_gradient(
+        colors: Union[
+            Sequence[Union[Color, str, Tuple[float, float, float]]],
+            Sequence[Tuple[float, Union[Color, str, Tuple[float, float, float]]]]
+        ]
+) -> Callable[[float], Color]:
     """
     Create a linear gradient function from a sequence of colors.
 
@@ -197,14 +225,22 @@ def linear_gradient(colors: Union[Sequence[Union[Color, str]], Sequence[Tuple[fl
     the provided colors. Colors can be provided either as a simple sequence
     (evenly distributed) or as position-color tuples for custom positioning.
 
-    :param colors: Sequence of colors or position-color tuples. If simple sequence,
-                   colors are evenly distributed from 0 to 1. If tuples, first element
-                   is position (float) and second is color.
-    :type colors: Union[Sequence[Union[Color, str]], Sequence[Tuple[float, Union[Color, str]]]]
-    :return: A function that takes a float parameter and returns the interpolated Color.
+    :param colors: Sequence of colors or position-color tuples. If a simple
+                   sequence, colors are evenly distributed from 0 to 1.
+                   If tuples, the first element is position and the second
+                   is the color.
+    :type colors: Union[Sequence[Union[Color, str, Tuple[float, float, float]]], \
+Sequence[Tuple[float, Union[Color, str, Tuple[float, float, float]]]]]
+    :return: A function that maps a float position to the interpolated color.
     :rtype: Callable[[float], Color]
+    :raises AssertionError: If control points are empty or not strictly increasing.
+    :raises ZeroDivisionError: If only one control point is provided.
+    :raises TypeError: If input is not iterable or contains invalid elements.
+    :raises ValueError: If the gradient function is evaluated outside valid range
+                        or if any color value is invalid.
 
     Examples::
+
         - Simple Linear Gradientation
 
         >>> from hbutils.color import linear_gradient
@@ -214,14 +250,8 @@ def linear_gradient(colors: Union[Sequence[Union[Color, str]], Sequence[Tuple[fl
         <Color red>
         >>> f(0.25)
         <Color #ff8000>
-        >>> f(1 / 3)
-        <Color #ffaa00>
         >>> f(0.5)
         <Color yellow>
-        >>> f(2 / 3)
-        <Color #aaff00>
-        >>> f(0.75)
-        <Color #80ff00>
         >>> f(1)
         <Color lime>
 
@@ -230,24 +260,8 @@ def linear_gradient(colors: Union[Sequence[Union[Color, str]], Sequence[Tuple[fl
         >>> f = linear_gradient(((-0.2, 'red'), (0.7, '#ffff0044'), (1.1, 'lime')))
         >>> f(-0.2)
         <Color red, alpha: 1.000>
-        >>> f(0)
-        <Color #ff3900, alpha: 0.837>
-        >>> f(0.25)
-        <Color #ff8000, alpha: 0.633>
-        >>> f(1 / 3)
-        <Color #ff9700, alpha: 0.565>
-        >>> f(0.5)
-        <Color #ffc600, alpha: 0.430>
-        >>> f(2 / 3)
-        <Color #fff600, alpha: 0.294>
         >>> f(0.7)
         <Color yellow, alpha: 0.267>
-        >>> f(0.75)
-        <Color #dfff00, alpha: 0.358>
-        >>> f(0.8)
-        <Color #bfff00, alpha: 0.450>
-        >>> f(1)
-        <Color #40ff00, alpha: 0.817>
         >>> f(1.1)
         <Color lime, alpha: 1.000>
 
@@ -266,14 +280,14 @@ def linear_gradient(colors: Union[Sequence[Union[Color, str]], Sequence[Tuple[fl
         amap = linear_map([(x, y.alpha if y.alpha is not None else 1.0) for x, y in xys])
     else:
         # noinspection PyUnusedLocal
-        def amap(x):
+        def amap(x: float) -> Optional[float]:
             """
-            Return None for alpha channel when no alpha values are specified.
+            Return ``None`` for alpha channel when no alpha values are specified.
 
             :param x: Position parameter (unused).
             :type x: float
-            :return: None.
-            :rtype: None
+            :return: ``None``.
+            :rtype: Optional[float]
             """
             return None
 
@@ -281,9 +295,9 @@ def linear_gradient(colors: Union[Sequence[Union[Color, str]], Sequence[Tuple[fl
         """
         Interpolate color at given position.
 
-        :param x: Position in the gradient (typically 0.0 to 1.0).
+        :param x: Position in the gradient (typically within the defined range).
         :type x: float
-        :return: Interpolated color at position x.
+        :return: Interpolated color at position ``x``.
         :rtype: Color
         """
         return Color((rmap(x), gmap(x), bmap(x)), amap(x))

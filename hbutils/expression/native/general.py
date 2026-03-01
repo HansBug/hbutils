@@ -1,16 +1,29 @@
 """
-This module provides a general expression system with various features including comparison, indexing,
-object operations, logical operations, and mathematical operations. It offers convenient factory functions
-to create expressions from different types of values.
+General expression utilities for native expression building.
 
-The main components include:
-- GeneralExpression: A comprehensive expression class combining multiple expression features
-- expr: Factory function to transform objects into expressions
-- keep: Factory function to create identity expressions
-- raw: Factory function to create constant expressions
+This module defines a combined expression class that aggregates comparison,
+indexing, object access, logical, and arithmetic behaviors. It also exposes
+factory helpers to convert arbitrary values into expression instances, build
+identity expressions, or create constant expressions.
+
+The module contains the following public components:
+
+* :class:`GeneralExpression` - Combined expression type with multiple features.
+* :func:`expr` - Factory to convert values/callables to expressions.
+* :func:`keep` - Factory for identity expressions.
+* :func:`raw` - Factory for constant expressions.
+
+Example::
+
+    >>> from hbutils.expression.native.general import GeneralExpression, expr, keep, raw
+    >>> e_add = expr(lambda x: x + 1)
+    >>> e_id = keep()
+    >>> e_const = raw(42)
+    >>> # Expressions are composable through their base features.
+    >>> getter = expr(lambda d: d["value"])
 """
 
-from typing import Optional, Type
+from typing import Any, Optional, Type
 
 from .base import Expression
 from .feature import ComparableExpression, IndexedExpression, LogicalExpression, MathExpression, ObjectExpression
@@ -29,42 +42,47 @@ class GeneralExpression(
     MathExpression,
 ):
     """
-    A general-purpose expression class that combines multiple expression features.
+    General-purpose expression with combined feature support.
 
-    This class inherits from multiple expression base classes to provide a comprehensive
-    set of operations including comparisons, indexing, object operations, logical operations,
-    and mathematical operations.
+    This class mixes in comparison, indexing, object access, logical, and
+    arithmetic behaviors by inheriting from the corresponding feature classes.
 
-    Features:
-        Inherited from :class:`ComparableExpression`, :class:`IndexedExpression`, :class:`ObjectExpression`,
-        :class:`LogicalExpression` and :class:`MathExpression`.
+    Features included:
+
+    * :class:`~hbutils.expression.native.feature.ComparableExpression`
+    * :class:`~hbutils.expression.native.feature.IndexedExpression`
+    * :class:`~hbutils.expression.native.feature.ObjectExpression`
+    * :class:`~hbutils.expression.native.feature.LogicalExpression`
+    * :class:`~hbutils.expression.native.feature.MathExpression`
 
     Example::
+
         >>> expr_obj = GeneralExpression._expr(lambda x: x + 1)
-        >>> # Use the expression object for various operations
+        >>> # The resulting expression can be used with all supported operators.
     """
     pass
 
 
-def expr(v, cls: Optional[Type[Expression]] = None):
+def expr(v: Any, cls: Optional[Type[Expression]] = None) -> Expression:
     """
-    Transform any objects to :class:`Expression`.
+    Transform any value into an :class:`Expression` instance.
 
-    This function intelligently converts different types of values into expressions:
-    - If the given ``v`` is already an :class:`Expression`, it returns ``v`` unchanged.
-    - If the given ``v`` is a callable object, it creates an expression with ``v`` as the transformation function.
-    - Otherwise, it creates an expression with ``lambda x: v`` as the transformation function (constant expression).
+    This function converts values into expressions using the following rules:
 
-    :param v: Original value to be converted into an expression. Can be an Expression, callable, or any other value.
+    * If ``v`` is already an :class:`Expression`, it is returned unchanged.
+    * If ``v`` is callable, it is wrapped as an expression.
+    * Otherwise, a constant expression that returns ``v`` is created.
+
+    :param v: Value to be converted into an expression.
     :type v: Any
-    :param cls: Class of expression, should be a subclass of :class:`Expression`. Default is ``None`` which
-        means :class:`GeneralExpression` will be used.
+    :param cls: Expression class to construct, defaults to ``None`` which
+        selects :class:`GeneralExpression`.
     :type cls: Optional[Type[Expression]]
-
-    :return: Generated expression object.
+    :return: The generated expression object.
     :rtype: Expression
 
     Example::
+
         >>> # Create expression from callable
         >>> e1 = expr(lambda x: x * 2)
         >>> # Create expression from constant
@@ -76,44 +94,42 @@ def expr(v, cls: Optional[Type[Expression]] = None):
     return getattr(cls, '_expr')(v)
 
 
-def keep(cls: Optional[Type[Expression]] = None):
+def keep(cls: Optional[Type[Expression]] = None) -> Expression:
     """
-    Create an identity expression that returns the input unchanged.
+    Create an identity expression that returns its input unchanged.
 
-    This is an alias for ``expr(lambda x: x, cls)``, which creates an expression
-    that simply passes through its input without any transformation.
+    This is an alias for ``expr(lambda x: x, cls)``.
 
-    :param cls: Class of expression, should be a subclass of :class:`Expression`. Default is ``None`` which
-        means :class:`GeneralExpression` will be used.
+    :param cls: Expression class to construct, defaults to ``None`` which
+        selects :class:`GeneralExpression`.
     :type cls: Optional[Type[Expression]]
-
-    :return: Generated identity expression.
+    :return: Identity expression.
     :rtype: Expression
 
     Example::
+
         >>> identity = keep()
         >>> # The expression will return input unchanged
     """
     return expr(lambda x: x, cls)
 
 
-def raw(v, cls: Optional[Type[Expression]] = None):
+def raw(v: Any, cls: Optional[Type[Expression]] = None) -> Expression:
     """
     Create a constant expression that always returns the same value.
 
-    This is an alias for ``expr(lambda x: v, cls)``, which creates an expression
-    that ignores its input and always returns the constant value ``v``.
+    This is an alias for ``expr(lambda x: v, cls)`` and ignores its input.
 
-    :param v: Raw value to be returned by the expression, regardless of input.
+    :param v: Constant value returned by the expression.
     :type v: Any
-    :param cls: Class of expression, should be a subclass of :class:`Expression`. Default is ``None`` which
-        means :class:`GeneralExpression` will be used.
+    :param cls: Expression class to construct, defaults to ``None`` which
+        selects :class:`GeneralExpression`.
     :type cls: Optional[Type[Expression]]
-
-    :return: Generated constant expression.
+    :return: Constant expression.
     :rtype: Expression
 
     Example::
+
         >>> constant = raw(42)
         >>> # The expression will always return 42, regardless of input
     """

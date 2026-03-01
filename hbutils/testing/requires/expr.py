@@ -1,15 +1,42 @@
 """
-This module provides version and environment checking utilities for testing purposes.
+Environment and version expressions for conditional testing.
 
-It includes version information objects for Python and pip packages, as well as
-operating system and Python implementation detection utilities. These are particularly
-useful for conditional test execution based on environment characteristics.
+This module provides utilities for expressing runtime requirements in a
+comparison-friendly form. The exported objects are intended for use with
+``unittest.skipUnless`` or other conditional execution mechanisms. It includes
+version expressions for the Python interpreter and pip or third-party packages,
+along with boolean indicators for the current operating system and Python
+implementation.
 
-The module exports:
-- vpython: Python version expression object
-- vpip: Pip and package version expression object
-- OS: Operating system detection class
-- Impl: Python implementation detection class
+The module contains the following main components:
+
+* :data:`vpython` - Version expression bound to the current Python interpreter
+* :data:`vpip` - Version expression bound to pip and package versions
+* :class:`OS` - Operating system detection attributes
+* :class:`Impl` - Python implementation detection attributes
+
+Example::
+
+    >>> import unittest
+    >>> from hbutils.testing import vpython, vpip, OS, Impl
+    >>>
+    >>> class TestMyCase(unittest.TestCase):
+    ...     @unittest.skipUnless('3.8' <= vpython, 'Python 3.8+ only')
+    ...     def test_python_version(self):
+    ...         assert True
+    ...
+    ...     @unittest.skipUnless(vpip >= '21', 'pip 21+ only')
+    ...     def test_pip_version(self):
+    ...         assert True
+    ...
+    ...     @unittest.skipUnless(OS.linux and Impl.cpython, 'CPython on Linux only')
+    ...     def test_runtime(self):
+    ...         assert True
+
+.. note::
+   All version expressions are dynamic and read the current environment when
+   compared or evaluated.
+
 """
 
 from abc import ABCMeta
@@ -23,17 +50,20 @@ __all__ = [
     'OS', 'Impl',
 ]
 
-vpython = VersionInfo(lambda: python_version())
+vpython: VersionInfo = VersionInfo(lambda: python_version())
 vpython.__doc__ = """
-Overview:
-    Python version expression.
+Python version expression.
+
+This object represents the current Python interpreter version and supports
+comparison operations against version strings, tuples, or integers.
 
 Examples::
+
     >>> import platform
     >>> import unittest
     >>> from hbutils.testing import vpython
-    >>> 
-    >>> class TestMyCase(unittest.TestCase):  # on python 3.6
+    >>>
+    >>> class TestMyCase(unittest.TestCase):  # on Python 3.6
     ...     def test_anytime(self):
     ...         assert 2 + 1 == 3
     ...
@@ -55,10 +85,12 @@ Examples::
 
 class PipVersionInfo(VersionInfo):
     """
-    A specialized VersionInfo class for handling pip and package version checks.
+    Version expression for pip and installed packages.
 
-    This class extends VersionInfo to provide both pip version checking and
-    the ability to check versions of arbitrary installed packages.
+    This class extends :class:`~hbutils.testing.requires.version.VersionInfo`
+    to provide version expressions for arbitrary installed packages. The
+    base instance is bound to the current ``pip`` version, while calling the
+    instance returns a version expression for another package name.
     """
 
     def __call__(self, name: str) -> VersionInfo:
@@ -67,26 +99,32 @@ class PipVersionInfo(VersionInfo):
 
         :param name: The name of the package to check.
         :type name: str
-
-        :return: A VersionInfo object for the specified package.
+        :return: A :class:`~hbutils.testing.requires.version.VersionInfo` object
+            for the specified package.
         :rtype: VersionInfo
 
         Example::
+
+            >>> from hbutils.testing import vpip
             >>> vpip('setuptools')  # Get setuptools version info
-            VersionInfo(...)
+            <VersionInfo ...>
         """
         return VersionInfo(lambda: package_version(name))
 
 
-vpip = PipVersionInfo(lambda: package_version('pip'))
+vpip: PipVersionInfo = PipVersionInfo(lambda: package_version('pip'))
 vpip.__doc__ = """
-Overview:
-    Pip version expression
+Pip and package version expression.
+
+This object represents the current ``pip`` version and supports comparisons.
+Calling the object with a package name returns a version expression for that
+package.
 
 Examples::
+
     >>> import unittest
     >>> from hbutils.testing import vpip
-    >>> 
+    >>>
     >>> class TestMyCase(unittest.TestCase):
     ...     def test_1_anytime(self):
     ...         assert 2 + 1 == 3
@@ -106,7 +144,7 @@ Examples::
     ...     @unittest.skipUnless(not vpip and vpip('build') >= '0.8', '')  # pip not installed, and build>=0.8
     ...     def test_5_on_nopip_and_build(self):
     ...         assert True
-    ... 
+    ...
     >>> unittest.main()
     ....s
     ----------------------------------------------------------------------
@@ -117,10 +155,22 @@ Examples::
 
 class OS(metaclass=ABCMeta):
     """
-    Overview:
-        Expressions for operating system.
+    Operating system detection expressions.
+
+    The attributes of this class are boolean values evaluated at import time,
+    indicating the current operating system.
+
+    :cvar windows: Whether the current OS is Windows.
+    :vartype windows: bool
+    :cvar linux: Whether the current OS is Linux.
+    :vartype linux: bool
+    :cvar darwin: Whether the current OS is macOS (Darwin).
+    :vartype darwin: bool
+    :cvar macos: Alias for :attr:`darwin`.
+    :vartype macos: bool
 
     Examples::
+
         >>> import unittest
         >>> from hbutils.testing import OS
         >>>
@@ -146,34 +196,47 @@ class OS(metaclass=ABCMeta):
         Ran 4 tests in 0.001s
         OK (skipped=2)
     """
-    windows = is_windows()
+    windows: bool = is_windows()
     """
-    Is windows system or not, related to your local OS.
-    """
-
-    linux = is_linux()
-    """
-    Is linux system or not, related to your local OS.
+    Whether the current operating system is Windows.
     """
 
-    darwin = is_darwin()
+    linux: bool = is_linux()
     """
-    Is darwin (macos) system or not, related to your local OS.
+    Whether the current operating system is Linux.
     """
-    macos = darwin
+
+    darwin: bool = is_darwin()
     """
-    Alias for ``OS.darwin``.
+    Whether the current operating system is Darwin (macOS).
+    """
+    macos: bool = darwin
+    """
+    Alias for :attr:`OS.darwin`.
     """
 
 
 class Impl:
     """
-    Overview:
-        Expression for python implementation.
-        See `platform.python_implementation() \
-        <https://docs.python.org/3/library/platform.html#platform.python_implementation>`_ .
+    Python implementation detection expressions.
+
+    The attributes of this class are boolean values evaluated at import time,
+    indicating the current Python implementation. See
+    `platform.python_implementation()
+    <https://docs.python.org/3/library/platform.html#platform.python_implementation>`_
+    for details.
+
+    :cvar cpython: Whether the current implementation is CPython.
+    :vartype cpython: bool
+    :cvar iron_python: Whether the current implementation is IronPython.
+    :vartype iron_python: bool
+    :cvar jython: Whether the current implementation is Jython.
+    :vartype jython: bool
+    :cvar pypy: Whether the current implementation is PyPy.
+    :vartype pypy: bool
 
     Examples::
+
         >>> import unittest
         >>> from hbutils.testing import Impl
         >>>
@@ -203,22 +266,22 @@ class Impl:
         Ran 5 tests in 0.000s
         OK (skipped=3)
     """
-    cpython = is_cpython()
+    cpython: bool = is_cpython()
     """
-    Is CPython (most-frequently-used python) or not, related to your local python.
-    """
-
-    iron_python = is_ironpython()
-    """
-    Is IronPython or not, related to your local python.
+    Whether the current Python implementation is CPython.
     """
 
-    jython = is_jython()
+    iron_python: bool = is_ironpython()
     """
-    Is Jython (java-based python) or not, related to your local python.
+    Whether the current Python implementation is IronPython.
     """
 
-    pypy = is_pypy()
+    jython: bool = is_jython()
     """
-    Is PyPy or not, related to your local python.
+    Whether the current Python implementation is Jython.
+    """
+
+    pypy: bool = is_pypy()
+    """
+    Whether the current Python implementation is PyPy.
     """

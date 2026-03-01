@@ -1,24 +1,34 @@
 """
-This module provides functionality for checking and retrieving information about Git and Git LFS installations.
+Git installation inspection utilities.
 
-It includes functions to:
+This module serves as the public entry point for Git-related system utilities.
+It re-exports all public objects from :mod:`hbutils.system.git.info`, providing
+a concise API for retrieving information about Git and Git LFS installations.
 
-1. Check if Git is installed and get its version information.
-2. Check if Git LFS is installed and get its version information.
-3. Cache the results of these checks for improved performance.
+The module focuses on:
 
-The module uses subprocess to run Git commands and parse their output, providing detailed information about
-the Git and Git LFS installations on the system.
+* Discovering whether Git is installed.
+* Retrieving Git version information.
+* Detecting Git LFS and retrieving its version details.
 
-This is the main entry point for the git system utilities, which re-exports all functionality from the info module.
+The following public functions are commonly used:
+
+* :func:`git_info` - Retrieve Git installation information.
+* :func:`git_lfs_info` - Retrieve Git LFS installation information.
+
+.. note::
+   All functionality is implemented in :mod:`hbutils.system.git.info`. This
+   module simply exposes that API for convenient import paths.
 
 Example::
+
     >>> from hbutils.system.git import git_info
     >>> info = git_info()
     >>> if info['installed']:
     ...     print(f"Git version: {info['version']}")
     ...     if info['lfs']['installed']:
     ...         print(f"Git LFS version: {info['lfs']['version']}")
+
 """
 
 from .info import *

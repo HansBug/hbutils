@@ -1,14 +1,38 @@
 """
-Overview:
-    Simulation for CLI entry points. This module provides utilities to simulate the execution
-    of command-line interface (CLI) entry functions in a controlled environment, capturing
-    their output, exit codes, and exceptions for testing purposes.
+CLI entry simulation utilities for test environments.
+
+This module provides helpers for simulating the execution of command-line
+interface (CLI) entry functions within a controlled environment. It captures
+standard output, standard error, exit codes, and uncaught exceptions to support
+reproducible and assertion-friendly tests.
+
+The module contains the following main components:
+
+* :class:`EntryRunResult` - Result container for a simulated CLI invocation
+* :func:`simulate_entry` - Execute an entry function with mocked arguments and environment
+
+Example::
+
+    >>> from hbutils.testing.simulate.entry import simulate_entry
+    >>> def my_cli():
+    ...     print("hello")
+    ...
+    >>> result = simulate_entry(my_cli, argv=["mycli"])
+    >>> result.exitcode
+    0
+    >>> result.stdout
+    'hello\\n'
+
+.. note::
+   Uncaught exceptions raised by the entry function are captured in the
+   :attr:`EntryRunResult.error` attribute instead of being printed to stderr.
 """
+
 import io
 import traceback
 from contextlib import contextmanager
 from functools import partial
-from typing import Optional, List, Callable, Mapping, ContextManager
+from typing import Optional, List, Callable, Mapping, ContextManager, Any
 from unittest.mock import patch
 
 from ..capture import capture_output, capture_exit
@@ -20,22 +44,39 @@ __all__ = [
 
 class EntryRunResult:
     """
-    Overview:
-        Run result of one entry. This class encapsulates the results of executing a CLI entry
-        function, including exit code, stdout/stderr output, and any uncaught exceptions.
+    Result container for a simulated CLI entry invocation.
+
+    This class encapsulates the execution result of a CLI entry function,
+    including exit code, captured stdout/stderr content, and any uncaught
+    exception raised during execution.
+
+    :param exitcode: Exit code returned by the entry function.
+    :type exitcode: int
+    :param stdout: Output captured from standard output.
+    :type stdout: Optional[str]
+    :param stderr: Output captured from standard error.
+    :type stderr: Optional[str]
+    :param error: Uncaught exception raised by the entry function.
+    :type error: Optional[BaseException]
     """
 
-    def __init__(self, exitcode: int, stdout: Optional[str], stderr: Optional[str], error: Optional[BaseException]):
+    def __init__(
+        self,
+        exitcode: int,
+        stdout: Optional[str],
+        stderr: Optional[str],
+        error: Optional[BaseException],
+    ) -> None:
         """
-        Constructor of :class:`EntryRunResult`.
+        Initialize the entry run result.
 
         :param exitcode: Exit code returned by the entry function.
         :type exitcode: int
-        :param stdout: Output captured from standard output stream.
+        :param stdout: Output captured from standard output.
         :type stdout: Optional[str]
-        :param stderr: Output captured from standard error stream.
+        :param stderr: Output captured from standard error.
         :type stderr: Optional[str]
-        :param error: Uncaught exception raised inside the entry function.
+        :param error: Uncaught exception raised by the entry function.
         :type error: Optional[BaseException]
         """
         self.__exitcode = exitcode
@@ -58,7 +99,7 @@ class EntryRunResult:
         """
         Output captured from standard output stream.
 
-        :return: The stdout content, or None if no output was captured.
+        :return: The stdout content, or ``None`` if no output was captured.
         :rtype: Optional[str]
         """
         return self.__stdout
@@ -68,7 +109,7 @@ class EntryRunResult:
         """
         Output captured from standard error stream.
 
-        :return: The stderr content, or None if no output was captured.
+        :return: The stderr content, or ``None`` if no output was captured.
         :rtype: Optional[str]
         """
         return self.__stderr
@@ -78,7 +119,7 @@ class EntryRunResult:
         """
         Uncaught exception raised inside the entry function.
 
-        :return: The exception object, or None if no exception was raised.
+        :return: The exception object, or ``None`` if no exception was raised.
         :rtype: Optional[BaseException]
         """
         return self.__error
@@ -87,7 +128,8 @@ class EntryRunResult:
         """
         Generate a detailed error message for assertion failures.
 
-        :return: Formatted error message containing exit code, exception details, and output streams.
+        :return: Formatted error message containing exit code, exception details,
+                 and output streams.
         :rtype: str
         """
         with io.StringIO() as sf:
@@ -100,31 +142,36 @@ class EntryRunResult:
                 pp(f'Exitcode - {self.exitcode!r}.')
 
             if self.stdout:
-                pp(f'---------------------------------')
-                pp(f'[Stdout]')
+                pp('---------------------------------')
+                pp('[Stdout]')
                 pp(self.stdout)
                 pp()
 
             if self.stderr:
-                pp(f'---------------------------------')
-                pp(f'[Stderr]')
+                pp('---------------------------------')
+                pp('[Stderr]')
                 pp(self.stderr)
                 pp()
 
             return sf.getvalue()
 
-    def assert_okay(self):
+    def assert_okay(self) -> None:
         """
         Assert that the entry execution was successful.
 
-        Checks that the exit code is 0 and no uncaught exception was raised.
-        If the assertion fails, a detailed error message is displayed.
+        This checks that the exit code is ``0`` and no uncaught exception was
+        raised. If the assertion fails, a detailed error message is provided.
 
-        :raises AssertionError: If the exit code is not 0 or an exception was raised.
+        :raises AssertionError: If the exit code is not ``0`` or an exception
+                                was raised.
 
         Example::
-            >>> result = simulate_entry(my_cli_function, ['mycli', 'arg1'])
-            >>> result.assert_okay()  # Raises AssertionError if execution failed
+
+            >>> def my_cli():
+            ...     print("hello")
+            ...
+            >>> result = simulate_entry(my_cli, ['mycli'])
+            >>> result.assert_okay()
         """
         assert self.exitcode == 0 and self.error is None, self._assert_okay_message()
 
@@ -136,17 +183,19 @@ _USAGE_EXITCODE = 0x2
 
 
 @contextmanager
-def _mock_argv(argv: Optional[List[str]] = None) -> ContextManager:
+def _mock_argv(argv: Optional[List[str]] = None) -> ContextManager[None]:
     """
-    Context manager to mock sys.argv.
+    Context manager to mock ``sys.argv``.
 
-    :param argv: Command line arguments to mock. If None, sys.argv is not mocked.
+    :param argv: Command line arguments to mock. If ``None``, ``sys.argv`` is
+                 not mocked.
     :type argv: Optional[List[str]]
-    :return: Context manager for mocking sys.argv.
-    :rtype: ContextManager
-    :yields: None
+    :return: Context manager for mocking ``sys.argv``.
+    :rtype: ContextManager[None]
 
     Example::
+
+        >>> import sys
         >>> with _mock_argv(['script.py', 'arg1', 'arg2']):
         ...     print(sys.argv)
         ['script.py', 'arg1', 'arg2']
@@ -159,17 +208,19 @@ def _mock_argv(argv: Optional[List[str]] = None) -> ContextManager:
 
 
 @contextmanager
-def _mock_environ(envs: Optional[Mapping[str, str]] = None) -> ContextManager:
+def _mock_environ(envs: Optional[Mapping[str, str]] = None) -> ContextManager[None]:
     """
-    Context manager to mock os.environ.
+    Context manager to mock ``os.environ``.
 
-    :param envs: Environment variables to mock. If None, os.environ is not mocked.
+    :param envs: Environment variables to mock. If ``None``, ``os.environ`` is
+                 not mocked.
     :type envs: Optional[Mapping[str, str]]
-    :return: Context manager for mocking os.environ.
-    :rtype: ContextManager
-    :yields: None
+    :return: Context manager for mocking ``os.environ``.
+    :rtype: ContextManager[None]
 
     Example::
+
+        >>> import os
         >>> with _mock_environ({'MY_VAR': 'value'}):
         ...     print(os.environ['MY_VAR'])
         value
@@ -181,20 +232,25 @@ def _mock_environ(envs: Optional[Mapping[str, str]] = None) -> ContextManager:
         yield
 
 
-def simulate_entry(entry: Callable, argv: Optional[List[str]] = None,
-                   envs: Optional[Mapping[str, str]] = None) -> EntryRunResult:
+def simulate_entry(
+    entry: Callable[[], Any],
+    argv: Optional[List[str]] = None,
+    envs: Optional[Mapping[str, str]] = None,
+) -> EntryRunResult:
     """
-    Overview:
-        CLI entry's simulation. Executes a CLI entry function in a controlled environment,
-        capturing its output, exit code, and any exceptions for testing purposes.
+    Simulate execution of a CLI entry function.
 
-    :param entry: Entry function, should be a simple function without any arguments.
-    :type entry: Callable
-    :param argv: Command line arguments. Default is ``None``, which means do not mock ``sys.argv``.
+    This function executes a CLI entry function in a controlled environment,
+    capturing its output, exit code, and any uncaught exceptions for testing
+    purposes.
+
+    :param entry: Entry function; should be callable without arguments.
+    :type entry: Callable[[], Any]
+    :param argv: Command line arguments. If ``None``, ``sys.argv`` is not mocked.
     :type argv: Optional[List[str]]
-    :param envs: Environment arguments. Default is ``None``, which means do not mock ``os.environ``.
+    :param envs: Environment variables. If ``None``, ``os.environ`` is not mocked.
     :type envs: Optional[Mapping[str, str]]
-    :return: A result object containing exit code, stdout, stderr, and error information.
+    :return: A result object containing exit code, stdout, stderr, and error.
     :rtype: EntryRunResult
 
     Examples::
@@ -253,9 +309,9 @@ def simulate_entry(entry: Callable, argv: Optional[List[str]] = None,
             Error: Invalid value for 'A': 'dklsfj' is not a valid integer.
 
         .. note::
-            Please note that if there is uncaught exception raised inside the entry function, \
-                it will be caught and put into ``error`` property instead of being printed \
-                to ``stderr``. For example
+            If an uncaught exception is raised inside the entry function, it
+            will be captured in :attr:`EntryRunResult.error` instead of being
+            printed to ``stderr``.
 
             >>> from hbutils.testing import simulate_entry
             >>> def my_cli():

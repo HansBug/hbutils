@@ -1,23 +1,36 @@
 """
-This module provides a flexible expression system for creating and composing callable functions.
+Native expression base utilities for building composable callable expressions.
 
-The module allows users to build complex expressions from simple components, supporting both
-direct callable functions and Expression objects. It provides utilities to convert various
-types into callable objects and compose them into more complex expressions.
+This module provides the core building blocks for the native expression system.
+It defines a lightweight :class:`Expression` base class for composing callables
+and a helper function :func:`efunc` for converting arbitrary values into
+callable objects. These utilities allow you to combine constants, callables,
+and expression objects into reusable, composable expressions.
 
-Key Features:
-    - Convert any object (Expression, callable, or constant) into a callable function
-    - Build complex expressions by composing simpler ones
-    - Cache expression function lookups for performance
-    - Support for custom expression subclasses with operator overloading
+The module contains the following main components:
 
-Main Components:
-    - :func:`efunc`: Convert any object to a callable function
-    - :class:`Expression`: Base class for building custom expression types
+* :func:`efunc` - Convert any object into a callable function
+* :class:`Expression` - Base class for building custom expression types
+
+.. note::
+   Only public interfaces are listed above. Internal helpers are used for
+   caching and value conversion, but they are not part of the public API.
+
+Example::
+
+    >>> from hbutils.expression.native.base import Expression, efunc
+    >>>
+    >>> class MyExpression(Expression):
+    ...     def add(self, other):
+    ...         return self._func(lambda x, y: x + y, self, other)
+    ...
+    >>> e1 = MyExpression()
+    >>> efunc(e1.add(1))(5)
+    6
 """
 
 from functools import lru_cache
-from typing import Callable, Any, Optional
+from typing import Callable, Any, Optional, Dict, Tuple
 
 __all__ = [
     'efunc',
@@ -28,12 +41,13 @@ __all__ = [
 @lru_cache()
 def _raw_expr_func() -> Callable:
     """
-    Get the cached _expr method from Expression class.
+    Get the cached :meth:`Expression._expr` method.
 
-    This function uses lru_cache to avoid repeated attribute lookups,
-    improving performance when converting values to expressions.
+    This function uses :func:`functools.lru_cache` to avoid repeated attribute
+    lookups on the :class:`Expression` class, improving performance when
+    converting values into expressions.
 
-    :return: The _expr class method from Expression.
+    :return: The :meth:`Expression._expr` class method.
     :rtype: Callable
     """
     return getattr(Expression, '_expr')
@@ -41,14 +55,14 @@ def _raw_expr_func() -> Callable:
 
 def _raw_expr(e: Any) -> 'Expression':
     """
-    Convert any value to an Expression object.
+    Convert any value to an :class:`Expression` object.
 
-    This is an internal helper function that wraps the cached _expr method.
+    This is an internal helper function that wraps the cached
+    :meth:`Expression._expr` method.
 
-    :param e: The value to convert to an Expression.
+    :param e: The value to convert to an expression.
     :type e: Any
-
-    :return: An Expression object wrapping the input value.
+    :return: An :class:`Expression` object wrapping the input value.
     :rtype: Expression
     """
     return _raw_expr_func()(e)
@@ -56,34 +70,35 @@ def _raw_expr(e: Any) -> 'Expression':
 
 def efunc(e: Any) -> Callable:
     """
-    Get callable object from any types.
+    Get a callable object from any type.
+
+    This function is the primary entry point for converting arbitrary values
+    into callables:
+
+    * If ``e`` is an :class:`Expression`, its internal callable is returned.
+    * If ``e`` is a callable, a wrapped expression callable is returned.
+    * Otherwise, a callable that always returns ``e`` is returned.
 
     :param e: Original object.
     :type e: Any
-
-    :return: Callable object. If given ``e`` is an :class:`Expression`, its callable method will be returned. \
-        If given ``e`` is a function, an equivalent method will be returned. Otherwise, a method which always return \
-        ``e`` will be returned.
+    :return: Callable object derived from ``e``.
     :rtype: Callable
 
     .. note::
-        This is the key feature of the native expressions, you need to use :func:`efunc` function to transform \
-        expressions to callable functions.
+        This is the key feature of native expressions. Use :func:`efunc` to
+        transform expressions into callable functions.
 
     Examples::
-        >>> from hbutils.expression import keep, efunc, expr
+
+        >>> from hbutils.expression.native.base import Expression, efunc
         >>>
-        >>> e1 = keep()
-        >>> efunc(e1 == 1)(1)
-        True
-        >>> efunc(e1 == 1)(2)
-        False
-        >>>
-        >>> e2 = expr(lambda x: x + 2)
-        >>> efunc(e2 == 1)(-1)
-        True
-        >>> efunc(e2 == 1)(1)
-        False
+        >>> class MyExpression(Expression):
+        ...     def add(self, other):
+        ...         return self._func(lambda x, y: x + y, self, other)
+        ...
+        >>> e1 = MyExpression()
+        >>> efunc(e1.add(1))(5)
+        6
     """
     return getattr(_raw_expr(e), '_fcall')
 
@@ -96,55 +111,64 @@ class Expression:
     It wraps a callable function and provides methods to combine expressions
     into more complex ones.
 
-    The Expression class can be subclassed to create custom expression types
-    with specialized operators and methods.
+    The :class:`Expression` class can be subclassed to create custom expression
+    types with specialized operators and methods.
+
+    :param func: Callable function used by the expression. If ``None``, the
+                 identity function ``lambda x: x`` is used.
+    :type func: Optional[Callable]
+
+    :ivar _fcall: Internal callable associated with this expression.
+    :vartype _fcall: Callable
     """
 
     def __init__(self, func: Optional[Callable] = None):
         """
-        Constructor of :class:`Expression`.
+        Initialize an :class:`Expression` instance.
 
-        :param func: Callable function, default is ``None`` which means a ``lambda x: x`` will be used.
+        :param func: Callable function, defaults to ``None`` which means the
+                     identity function ``lambda x: x`` is used.
         :type func: Optional[Callable]
         """
         self._fcall = func or (lambda x: x)
 
-    def _func(self, func: Callable, *args, **kwargs) -> 'Expression':
+    def _func(self, func: Callable, *args: Any, **kwargs: Any) -> 'Expression':
         """
-        Expression building based on given ``func`` and arguments.
+        Build a new expression based on a given function and arguments.
 
-        This method creates a new expression by composing the given function with
-        the provided arguments. Each argument is converted to a callable using efunc,
-        allowing for nested expression composition.
+        This method creates a new expression by composing the given function
+        with the provided arguments. Each argument is converted to a callable
+        using :func:`efunc`, allowing for nested expression composition.
 
         :param func: Logical function to apply to the evaluated arguments.
         :type func: Callable
-        :param args: Positional arguments, can be expressions, callables, or constants.
+        :param args: Positional arguments, which may be expressions, callables,
+                     or constants.
         :type args: Any
-        :param kwargs: Key-word arguments, can be expressions, callables, or constants.
+        :param kwargs: Keyword arguments, which may be expressions, callables,
+                       or constants.
         :type kwargs: Any
-
-        :return: New expression with current class.
+        :return: A new expression instance of the current class.
         :rtype: Expression
 
         Examples::
-            >>> from hbutils.expression import efunc, Expression
+
+            >>> from hbutils.expression.native.base import Expression, efunc
             >>>
             >>> class MyExpression(Expression):
             ...     def add(self, other):
             ...         return self._func(lambda x, y: x + y, self, other)
             ...
-            >>>
             >>> e1 = MyExpression()
-            >>> efunc(e1.add(1))(5)  # 5 + 1 = 6
+            >>> efunc(e1.add(1))(5)
             6
-            >>> efunc(e1.add(e1.add(1)))(5)  # 5 + (5 + 1) = 11
+            >>> efunc(e1.add(e1.add(1)))(5)
             11
         """
-        _args = tuple(efunc(v) for v in args)
-        _kwargs = {k: efunc(v) for k, v in kwargs.items()}
+        _args: Tuple[Callable, ...] = tuple(efunc(v) for v in args)
+        _kwargs: Dict[str, Callable] = {k: efunc(v) for k, v in kwargs.items()}
 
-        def _new_func(x):
+        def _new_func(x: Any) -> Any:
             return func(
                 *(v(x) for v in _args),
                 **{k: v(x) for k, v in _kwargs.items()},
@@ -155,16 +179,16 @@ class Expression:
     @classmethod
     def _expr(cls, v: Any) -> 'Expression':
         """
-        Build expression with this class.
+        Build an expression using this class.
 
-        This class method converts any value into an Expression object:
-        - If v is already an Expression, return it as-is
-        - If v is callable, wrap it in an Expression
-        - Otherwise, create an Expression that returns the constant value v
+        This class method converts any value into an :class:`Expression` object:
 
-        :param v: Any types of value.
+        * If ``v`` is already an :class:`Expression`, return it as-is.
+        * If ``v`` is callable, wrap it in an expression.
+        * Otherwise, create an expression that returns the constant value ``v``.
+
+        :param v: Any value to convert.
         :type v: Any
-
         :return: An expression object.
         :rtype: Expression
         """

@@ -1,18 +1,32 @@
 """
-This module provides comprehensive validation utilities for hash functions, including tests for:
+Hash function validation utilities for integer-based hashing.
 
-- Determinism: Ensures consistent output for the same input
-- Type consistency: Validates consistent hashing across different input types
-- Avalanche effect: Measures how small input changes affect output
-- Uniform distribution: Analyzes hash value distribution patterns
-- Collision resistance: Tests for hash collisions
-- Empty input handling: Validates behavior with empty inputs
-- Performance characteristics: Measures hashing speed and throughput
+This module provides a comprehensive validation suite for integer hash functions
+that accept :class:`str`, :class:`bytes`, or :class:`bytearray` inputs and return
+integer hash values. The validation suite focuses on common properties expected
+from robust hash functions, including determinism, type consistency, avalanche
+effect, uniform distribution, collision resistance, empty input handling, and
+performance characteristics.
 
-The module is designed to validate integer-based hash functions that accept
-string, bytes, or bytearray inputs and return integer hash values.
+The module contains the following main components:
+
+* :func:`int_hash_val_determinism` - Determinism validation
+* :func:`int_hash_val_type_consistency` - Type consistency validation
+* :func:`int_hash_val_avalanche_effect` - Avalanche effect validation
+* :func:`int_hash_val_uniform_distribution` - Uniform distribution validation
+* :func:`int_hash_val_collision_resistance` - Collision resistance validation
+* :func:`int_hash_val_empty_input` - Empty input handling validation
+* :func:`int_hash_val_performance` - Performance validation
+* :func:`int_hash_val_comprehensive` - Full validation suite
+* :class:`ComprehensiveValidationResult` - Aggregated results report
+
+.. note::
+   The validation suite assumes a 32-bit output when computing the avalanche
+   effect score. For hash functions with different bit widths, interpret the
+   avalanche metrics accordingly.
 
 Example::
+
     >>> from hbutils.encoding import int_hash_val_comprehensive
     >>>
     >>> print(int_hash_val_comprehensive('xs'))  # validate existing hash functions
@@ -40,48 +54,7 @@ Example::
     • All validation tests passed successfully
     • Hash function demonstrates good cryptographic properties
     • Suitable for general-purpose hashing applications
-    >>>
-    >>> def basic_good_hash(data) -> int:
-    ...     # Convert all input types to bytes
-    ...     if isinstance(data, str):
-    ...         data = data.encode('utf-8')
-    ...     elif isinstance(data, bytearray):
-    ...         data = bytes(data)
-    ...     hash_val = 0x811c9dc5  # FNV offset basis (32-bit)
-    ...     for byte in data:
-    ...         # Simple polynomial hash variant
-    ...         hash_val = ((hash_val * 33) ^ byte) & 0xffffffff
-    ...         # Add some bit mixing
-    ...         hash_val ^= hash_val >> 16
-    ...         hash_val = (hash_val * 0x85ebca6b) & 0xffffffff
-    ...         hash_val ^= hash_val >> 13
-    ...     return hash_val & 0xffffffff
-    ...
-    >>> print(int_hash_val_comprehensive(basic_good_hash))
-    ╔══════════════════════════════════════════════════════════════════════════════════════════════╗
-    ║                          COMPREHENSIVE HASH FUNCTION VALIDATION REPORT                       ║
-    ╠══════════════════════════════════════════════════════════════════════════════════════════════╣
-    ║ Function Name:     basic_good_hash  │ Overall Status:    PASS                                ║
-    ║ Properties Tested: 7                │ Properties Passed: 7    (100.0%)                       ║
-    ╠══════════════════════════════════════════════════════════════════════════════════════════════╣
-    ║                                    PROPERTY STATUS                                           ║
-    ╠══════════════════════════════════════════════════════════════════════════════════════════════╣
-    ║ ✓ Determinism                                   │ PASS                                       ║
-    ║ ✓ Type Consistency                              │ PASS                                       ║
-    ║ ✓ Avalanche Effect                              │ PASS       | Avalanche Effect:       50.5% ║
-    ║ ✓ Uniform Distribution                          │ PASS       | Uniformity Score:       0.996 ║
-    ║ ✓ Collision Resistance                          │ PASS       | Collision Rate:        0.0000 ║
-    ║ ✓ Empty Input                                   │ PASS                                       ║
-    ║ ✓ Performance                                   │ PASS       | Avg Throughput:      2.5 MB/s ║
-    ╠══════════════════════════════════════════════════════════════════════════════════════════════╣
-    ║                                   RECOMMENDATIONS                                            ║
-    ╠══════════════════════════════════════════════════════════════════════════════════════════════╣
-    ║ ✓ Hash function meets all validation criteria - suitable for production use                  ║
-    ╚══════════════════════════════════════════════════════════════════════════════════════════════╝
-    DETAILED ANALYSIS:
-    • All validation tests passed successfully
-    • Hash function demonstrates good cryptographic properties
-    • Suitable for general-purpose hashing applications
+
 """
 
 import logging
@@ -90,7 +63,7 @@ import random
 import string
 import time
 from dataclasses import dataclass
-from typing import Union, List, Dict, Any, Tuple
+from typing import Union, List, Dict, Any, Tuple, Optional
 
 from .int_hash import _IntHashTyping, _INT_HASH_FUNCS
 
@@ -934,7 +907,8 @@ def int_hash_val_empty_input(hash_func: _HashFuncTyping) -> EmptyInputValidation
     return results
 
 
-def int_hash_val_performance(hash_func: _HashFuncTyping, data_sizes: List[int] = None) -> PerformanceValidationResult:
+def int_hash_val_performance(hash_func: _HashFuncTyping,
+                             data_sizes: Optional[List[int]] = None) -> PerformanceValidationResult:
     """
     Validate performance characteristics.
 

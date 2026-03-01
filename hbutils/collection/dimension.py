@@ -1,23 +1,39 @@
 """
-Overview:
-    Dimension operations for multi-dimensional array structures.
+Dimension operations for multi-dimensional array structures.
 
-    This module provides utilities for working with nested list/tuple structures
-    that represent multi-dimensional arrays (cubes). It includes functions for:
+This module provides utilities for working with nested list/tuple structures
+that represent multi-dimensional arrays (cubes). It includes functions for:
 
-    - Determining the shape of cube arrays
-    - Switching/transposing dimensions
-    - Swapping 2D array dimensions
+* :func:`cube_shape` - Determine the shape of a cube array
+* :func:`dimension_switch` - Switch/transpose dimensions in a cube array
+* :func:`swap_2d` - Convenience helper for transposing 2D arrays
 
-    These operations are useful for manipulating nested data structures without
-    requiring external dependencies like NumPy.
+These operations are useful for manipulating nested data structures without
+requiring external dependencies like NumPy.
+
+Example::
+
+    >>> from hbutils.collection.dimension import cube_shape, dimension_switch, swap_2d
+    >>> cube_shape([[1, 2, 3], [4, 5, 6]])
+    (2, 3)
+    >>> dimension_switch([[1, 2, 3], [4, 5, 6]], (1, 0))
+    [[1, 4], [2, 5], [3, 6]]
+    >>> swap_2d([[1, 2, 3], [4, 5, 6]])
+    [[1, 4], [2, 5], [3, 6]]
+
+.. note::
+   These utilities operate on standard Python list/tuple structures and will
+   return lists when building new arrays.
+
 """
+from typing import Any, List, Sequence, Tuple
+
 __all__ = [
     'cube_shape', 'dimension_switch', 'swap_2d',
 ]
 
 
-def _s_cube_shape(c, path):
+def _s_cube_shape(c: Any, path: Tuple[int, ...]) -> Tuple[int, ...]:
     """
     Internal recursive function to calculate the shape of a cube array.
 
@@ -47,16 +63,17 @@ def _s_cube_shape(c, path):
         return ()
 
 
-def cube_shape(c):
+def cube_shape(c: Any) -> Tuple[int, ...]:
     """
     Get the shape of a cube array (nested list/tuple structure).
 
     This function analyzes a nested list or tuple structure and returns its shape
     as a tuple of dimensions. The structure must be a valid "cube" where all
-    elements at the same nesting level have consistent shapes.
+    elements at the same nesting level have consistent shapes. If the input is
+    not a list or tuple, an empty shape tuple is returned.
 
     :param c: The cube array to analyze (nested list/tuple structure).
-    :type c: list or tuple
+    :type c: list or tuple or any
 
     :return: Shape of the cube as a tuple of dimension sizes.
     :rtype: tuple
@@ -77,23 +94,23 @@ def cube_shape(c):
         >>> cube_shape([[1, 2], [3, 4, 5]])
         Traceback (most recent call last):
         ...
-        ValueError: Mismatching between (0,) and (1,), this is not a cube!
+        ValueError: ('Mismatching between (0,) and (1,), this is not a cube!', ((0,), (2,)), ((1,), (3,)))
     """
     return _s_cube_shape(c, ())
 
 
-def dimension_switch(c, dimensions):
+def dimension_switch(c: Sequence[Any], dimensions: Sequence[int]) -> List[Any]:
     """
     Switch (transpose) the dimensions of a cube array according to a specified order.
 
     This function rearranges the dimensions of a multi-dimensional nested structure
-    according to the provided dimension order. It's similar to NumPy's transpose
+    according to the provided dimension order. It is similar to NumPy's transpose
     operation but works with nested Python lists/tuples.
 
     :param c: Multi-dimensional array (nested list/tuple structure).
     :type c: list or tuple
     :param dimensions: New order of dimensions as a tuple/list of indices (0 to N-1).
-                      Each index should appear exactly once.
+                       Each index should appear exactly once.
     :type dimensions: tuple or list
 
     :return: Array with switched dimensions.
@@ -120,7 +137,7 @@ def dimension_switch(c, dimensions):
     if sorted(set(dimensions)) != list(range(len(shape))):
         raise ValueError(f'Invalid dimensions - {repr(dimensions)}.', dimensions)
 
-    def _recursive(p, path):
+    def _recursive(p: int, path: Tuple[int, ...]) -> Any:
         """
         Recursive helper function to build the switched array.
 
@@ -147,12 +164,13 @@ def dimension_switch(c, dimensions):
     return _recursive(0, ())
 
 
-def swap_2d(c):
+def swap_2d(c: Sequence[Sequence[Any]]) -> List[Any]:
     """
     Swap the dimensions of a 2D array (transpose rows and columns).
 
     This is a convenience function that transposes a 2D nested list/tuple structure
-    by swapping its two dimensions. It's equivalent to calling dimension_switch(c, (1, 0)).
+    by swapping its two dimensions. It is equivalent to calling
+    :func:`dimension_switch` with ``(1, 0)``.
 
     :param c: 2D array (nested list/tuple structure).
     :type c: list or tuple

@@ -1,14 +1,33 @@
 """
-Overview:
-    Final class implementation module providing metaclass to prevent class inheritance.
+Final class enforcement utilities.
 
-    This module implements a metaclass that makes classes final (unable to be extended by other classes).
-    It's not a custom design pattern, but a useful utility for designing immutable class hierarchies.
+This module provides the :class:`FinalMeta` metaclass, which can be used to define
+classes that cannot be subclassed. It is designed for situations where you want
+to explicitly prevent inheritance to preserve a class's integrity or guarantee
+certain behaviors remain unchanged.
+
+The module contains the following main components:
+
+* :class:`FinalMeta` - Metaclass that makes classes final (non-inheritable)
 
 .. note::
-    This is particularly useful when you want to prevent further inheritance of a class
-    to maintain its integrity and prevent unintended modifications.
+   The inheritance check is performed at class definition time. Any attempt to
+   subclass a final class raises a :exc:`TypeError`.
+
+Example::
+
+    >>> from hbutils.design.final import FinalMeta
+    >>> class FinalClass(metaclass=FinalMeta):
+    ...     pass
+    ...
+    >>> class TryToExtendFinalClass(FinalClass):
+    ...     pass
+    Traceback (most recent call last):
+        ...
+    TypeError: Type 'FinalClass' is a final class, which is not an acceptable common type.
 """
+
+from typing import Any, Dict, Tuple
 
 __all__ = ['FinalMeta']
 
@@ -32,7 +51,7 @@ class FinalMeta(type):
         TypeError: Type 'FinalClass' is a final class, which is not an acceptable common type.
     """
 
-    def __new__(mcs, name, bases, attrs):
+    def __new__(mcs: type, name: str, bases: Tuple[type, ...], attrs: Dict[str, Any]) -> type:
         """
         Create a new finalized class and validate that it doesn't inherit from any final classes.
 

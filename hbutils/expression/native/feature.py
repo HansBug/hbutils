@@ -1,20 +1,41 @@
 """
-Expression module providing various expression types with operator overloading support.
+Operator-oriented expression feature classes.
 
-This module defines several expression classes that extend the base Expression class,
-each providing different sets of operator overloads for various use cases:
+This module provides a set of expression subclasses that extend
+:class:`hbutils.expression.native.base.Expression` with operator overloading.
+Each subclass offers a focused set of operators for building expression trees
+that can later be evaluated through :func:`hbutils.expression.native.base.efunc`.
 
-- CheckExpression: Basic equality/inequality checks
-- ComparableExpression: Full comparison operations
-- IndexedExpression: Item access operations
-- ObjectExpression: Attribute access and callable operations
-- LogicalExpression: Logical operations (and, or, not)
-- MathExpression: Mathematical operations
-- BitwiseExpression: Bitwise operations
+The main public components are:
 
-These expression classes enable building complex expression trees through operator
-overloading, useful for creating DSLs, query builders, or deferred computation systems.
+* :class:`CheckExpression` - Equality/inequality operators.
+* :class:`ComparableExpression` - Full comparison operators.
+* :class:`IndexedExpression` - Item access operator.
+* :class:`ObjectExpression` - Attribute access and call operators.
+* :class:`LogicalExpression` - Logical operations implemented via bitwise
+  operators (``&``, ``|``, ``~``).
+* :class:`MathExpression` - Arithmetic operators.
+* :class:`BitwiseExpression` - Bitwise operators.
+
+These classes allow building composable expression trees suitable for
+domain-specific languages, query builders, or deferred computation.
+
+Example::
+
+    >>> from hbutils.expression.native.feature import MathExpression
+    >>> from hbutils.expression.native.base import efunc
+    >>> expr = MathExpression()
+    >>> calc = efunc((expr + 1) * 2)
+    >>> calc(3)
+    8
+
+.. note::
+   Operators return a new instance of the same class, preserving the expression
+   type during chaining.
+
 """
+
+from typing import Any
 
 from .base import Expression
 
@@ -31,14 +52,22 @@ __all__ = [
 
 class CheckExpression(Expression):
     """
-    Check expression.
+    Expression supporting basic equality checks.
 
-    Features:
-        * ``__eq__``, which means ``x == y``.
-        * ``__ne__``, which means ``x != y``.
+    This class provides only the ``==`` and ``!=`` operators for building
+    comparison expressions.
+
+    Example::
+
+        >>> from hbutils.expression.native.feature import CheckExpression
+        >>> from hbutils.expression.native.base import efunc
+        >>> expr = CheckExpression()
+        >>> is_five = efunc(expr == 5)
+        >>> is_five(5)
+        True
     """
 
-    def __eq__(self, other):
+    def __eq__(self, other: Any) -> Expression:
         """
         Equality comparison operator.
 
@@ -48,12 +77,13 @@ class CheckExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = CheckExpression(...)
+
+            >>> expr = CheckExpression()
             >>> result = expr == 5
         """
         return self._func(lambda x, y: x == y, self, other)
 
-    def __ne__(self, other):
+    def __ne__(self, other: Any) -> Expression:
         """
         Inequality comparison operator.
 
@@ -63,7 +93,8 @@ class CheckExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = CheckExpression(...)
+
+            >>> expr = CheckExpression()
             >>> result = expr != 5
         """
         return self._func(lambda x, y: x != y, self, other)
@@ -71,18 +102,22 @@ class CheckExpression(Expression):
 
 class ComparableExpression(CheckExpression):
     """
-    Comparable expression.
+    Expression supporting full comparison operations.
 
-    Features:
-        * ``__eq__``, which means ``x == y`` (the same as :class:`CheckExpression`).
-        * ``__ne__``, which means ``x != y`` (the same as :class:`CheckExpression`).
-        * ``__ge__``, which means ``x >= y``.
-        * ``__gt__``, which means ``x > y``.
-        * ``__le__``, which means ``x <= y``.
-        * ``__lt__``, which means ``x < y``.
+    This class extends :class:`CheckExpression` by adding ``<=``, ``<``,
+    ``>=``, and ``>`` comparisons.
+
+    Example::
+
+        >>> from hbutils.expression.native.feature import ComparableExpression
+        >>> from hbutils.expression.native.base import efunc
+        >>> expr = ComparableExpression()
+        >>> is_between = efunc((expr >= 1) & (expr < 3))
+        >>> is_between(2)
+        True
     """
 
-    def __le__(self, other):
+    def __le__(self, other: Any) -> Expression:
         """
         Less than or equal to comparison operator.
 
@@ -92,12 +127,13 @@ class ComparableExpression(CheckExpression):
         :rtype: Expression
 
         Example::
-            >>> expr = ComparableExpression(...)
+
+            >>> expr = ComparableExpression()
             >>> result = expr <= 10
         """
         return self._func(lambda x, y: x <= y, self, other)
 
-    def __lt__(self, other):
+    def __lt__(self, other: Any) -> Expression:
         """
         Less than comparison operator.
 
@@ -107,12 +143,13 @@ class ComparableExpression(CheckExpression):
         :rtype: Expression
 
         Example::
-            >>> expr = ComparableExpression(...)
+
+            >>> expr = ComparableExpression()
             >>> result = expr < 10
         """
         return self._func(lambda x, y: x < y, self, other)
 
-    def __ge__(self, other):
+    def __ge__(self, other: Any) -> Expression:
         """
         Greater than or equal to comparison operator.
 
@@ -122,12 +159,13 @@ class ComparableExpression(CheckExpression):
         :rtype: Expression
 
         Example::
-            >>> expr = ComparableExpression(...)
+
+            >>> expr = ComparableExpression()
             >>> result = expr >= 5
         """
         return self._func(lambda x, y: x >= y, self, other)
 
-    def __gt__(self, other):
+    def __gt__(self, other: Any) -> Expression:
         """
         Greater than comparison operator.
 
@@ -137,7 +175,8 @@ class ComparableExpression(CheckExpression):
         :rtype: Expression
 
         Example::
-            >>> expr = ComparableExpression(...)
+
+            >>> expr = ComparableExpression()
             >>> result = expr > 5
         """
         return self._func(lambda x, y: x > y, self, other)
@@ -145,13 +184,22 @@ class ComparableExpression(CheckExpression):
 
 class IndexedExpression(Expression):
     """
-    Indexed expression.
+    Expression supporting indexed access.
 
-    Features:
-        * ``__getitem__``, which means ``x[y]``.
+    This class enables ``expr[key]`` syntax, which produces a new expression
+    that indexes into the evaluation target.
+
+    Example::
+
+        >>> from hbutils.expression.native.feature import IndexedExpression
+        >>> from hbutils.expression.native.base import efunc
+        >>> expr = IndexedExpression()
+        >>> getter = efunc(expr["key"])
+        >>> getter({"key": "value"})
+        'value'
     """
 
-    def __getitem__(self, item):
+    def __getitem__(self, item: Any) -> Expression:
         """
         Item access operator.
 
@@ -161,7 +209,8 @@ class IndexedExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = IndexedExpression(...)
+
+            >>> expr = IndexedExpression()
             >>> result = expr[0]
             >>> result = expr['key']
         """
@@ -170,14 +219,24 @@ class IndexedExpression(Expression):
 
 class ObjectExpression(Expression):
     """
-    Object-like expression.
+    Expression supporting attribute access and callable behavior.
 
-    Features:
-        * ``__getattr__``, which means ``x.y``.
-        * ``__call__``, which means ``x(*args, **kwargs)``.
+    This class supports:
+
+    * Attribute access via ``expr.attr``.
+    * Calling via ``expr(*args, **kwargs)``.
+
+    Example::
+
+        >>> from hbutils.expression.native.feature import ObjectExpression
+        >>> from hbutils.expression.native.base import efunc
+        >>> expr = ObjectExpression()
+        >>> attr_getter = efunc(expr.real)
+        >>> attr_getter(3+4j)
+        3.0
     """
 
-    def __getattr__(self, item):
+    def __getattr__(self, item: str) -> Expression:
         """
         Attribute access operator.
 
@@ -187,24 +246,26 @@ class ObjectExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = ObjectExpression(...)
+
+            >>> expr = ObjectExpression()
             >>> result = expr.attribute_name
         """
         return self._func(lambda x, y: getattr(x, y), self, item)
 
-    def __call__(self, *args, **kwargs):
+    def __call__(self, *args: Any, **kwargs: Any) -> Expression:
         """
         Call operator for making the expression callable.
 
         :param args: Positional arguments to pass to the call.
-        :type args: tuple
+        :type args: Any
         :param kwargs: Keyword arguments to pass to the call.
-        :type kwargs: dict
+        :type kwargs: Any
         :return: A new expression representing the function call.
         :rtype: Expression
 
         Example::
-            >>> expr = ObjectExpression(...)
+
+            >>> expr = ObjectExpression()
             >>> result = expr(arg1, arg2, key=value)
         """
         return self._func(lambda s, *args_, **kwargs_: s(*args_, **kwargs_), self, *args, **kwargs)
@@ -212,18 +273,29 @@ class ObjectExpression(Expression):
 
 class LogicalExpression(Expression):
     """
-    Logic expression.
+    Expression supporting logical operations.
 
-    Features:
-        * ``__and__``, which means ``x and y`` (written as ``x & y``).
-        * ``__or__``, which means ``x or y`` (written as ``x | y``).
-        * ``__invert__``, which means ``not x`` (written as ``~x``).
+    The logical operations are implemented using bitwise operators:
+
+    * ``&`` for logical ``and``.
+    * ``|`` for logical ``or``.
+    * ``~`` for logical ``not``.
 
     .. note::
-        Do not use this with :class:`BitwiseExpression`, or unexpected conflict will be caused.
+       Do not combine this class with :class:`BitwiseExpression` in a single
+       expression chain because both reuse bitwise operators.
+
+    Example::
+
+        >>> from hbutils.expression.native.feature import LogicalExpression
+        >>> from hbutils.expression.native.base import efunc
+        >>> expr = LogicalExpression()
+        >>> is_true = efunc(expr & True)
+        >>> is_true(True)
+        True
     """
 
-    def __and__(self, other):
+    def __and__(self, other: Any) -> Expression:
         """
         Logical AND operator.
 
@@ -233,13 +305,14 @@ class LogicalExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr1 = LogicalExpression(...)
-            >>> expr2 = LogicalExpression(...)
+
+            >>> expr1 = LogicalExpression()
+            >>> expr2 = LogicalExpression()
             >>> result = expr1 & expr2
         """
         return self._func(lambda x, y: x and y, self, other)
 
-    def __rand__(self, other):
+    def __rand__(self, other: Any) -> Expression:
         """
         Reverse logical AND operator.
 
@@ -249,12 +322,13 @@ class LogicalExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = LogicalExpression(...)
+
+            >>> expr = LogicalExpression()
             >>> result = True & expr
         """
         return self._func(lambda x, y: x and y, other, self)
 
-    def __or__(self, other):
+    def __or__(self, other: Any) -> Expression:
         """
         Logical OR operator.
 
@@ -264,13 +338,14 @@ class LogicalExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr1 = LogicalExpression(...)
-            >>> expr2 = LogicalExpression(...)
+
+            >>> expr1 = LogicalExpression()
+            >>> expr2 = LogicalExpression()
             >>> result = expr1 | expr2
         """
         return self._func(lambda x, y: x or y, self, other)
 
-    def __ror__(self, other):
+    def __ror__(self, other: Any) -> Expression:
         """
         Reverse logical OR operator.
 
@@ -280,12 +355,13 @@ class LogicalExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = LogicalExpression(...)
+
+            >>> expr = LogicalExpression()
             >>> result = False | expr
         """
         return self._func(lambda x, y: x or y, other, self)
 
-    def __invert__(self):
+    def __invert__(self) -> Expression:
         """
         Logical NOT operator.
 
@@ -293,7 +369,8 @@ class LogicalExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = LogicalExpression(...)
+
+            >>> expr = LogicalExpression()
             >>> result = ~expr
         """
         return self._func(lambda x: not x, self)
@@ -301,21 +378,22 @@ class LogicalExpression(Expression):
 
 class MathExpression(Expression):
     """
-    Math calculation expression.
+    Expression supporting arithmetic operations.
 
-    Features:
-        * ``__add__``, which means ``x + y``.
-        * ``__sub__``, which means ``x - y``.
-        * ``__mul__``, which means ``x * y``.
-        * ``__truediv__``, which means ``x / y``.
-        * ``__floordiv__``, which means ``x // y``.
-        * ``__mod__``, which means ``x % y``.
-        * ``__pow__``, which means ``x ** y``.
-        * ``__pos__``, which means ``+x``.
-        * ``__neg__``, which means ``-x``.
+    This class provides the usual arithmetic operators, including unary
+    operators for positive/negative.
+
+    Example::
+
+        >>> from hbutils.expression.native.feature import MathExpression
+        >>> from hbutils.expression.native.base import efunc
+        >>> expr = MathExpression()
+        >>> f = efunc(-(expr * 2) + 1)
+        >>> f(3)
+        -5
     """
 
-    def __add__(self, other):
+    def __add__(self, other: Any) -> Expression:
         """
         Addition operator.
 
@@ -325,12 +403,13 @@ class MathExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = MathExpression(...)
+
+            >>> expr = MathExpression()
             >>> result = expr + 5
         """
         return self._func(lambda x, y: x + y, self, other)
 
-    def __radd__(self, other):
+    def __radd__(self, other: Any) -> Expression:
         """
         Reverse addition operator.
 
@@ -340,12 +419,13 @@ class MathExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = MathExpression(...)
+
+            >>> expr = MathExpression()
             >>> result = 5 + expr
         """
         return self._func(lambda x, y: x + y, other, self)
 
-    def __sub__(self, other):
+    def __sub__(self, other: Any) -> Expression:
         """
         Subtraction operator.
 
@@ -355,12 +435,13 @@ class MathExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = MathExpression(...)
+
+            >>> expr = MathExpression()
             >>> result = expr - 5
         """
         return self._func(lambda x, y: x - y, self, other)
 
-    def __rsub__(self, other):
+    def __rsub__(self, other: Any) -> Expression:
         """
         Reverse subtraction operator.
 
@@ -370,12 +451,13 @@ class MathExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = MathExpression(...)
+
+            >>> expr = MathExpression()
             >>> result = 10 - expr
         """
         return self._func(lambda x, y: x - y, other, self)
 
-    def __mul__(self, other):
+    def __mul__(self, other: Any) -> Expression:
         """
         Multiplication operator.
 
@@ -385,12 +467,13 @@ class MathExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = MathExpression(...)
+
+            >>> expr = MathExpression()
             >>> result = expr * 3
         """
         return self._func(lambda x, y: x * y, self, other)
 
-    def __rmul__(self, other):
+    def __rmul__(self, other: Any) -> Expression:
         """
         Reverse multiplication operator.
 
@@ -400,12 +483,13 @@ class MathExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = MathExpression(...)
+
+            >>> expr = MathExpression()
             >>> result = 3 * expr
         """
         return self._func(lambda x, y: x * y, other, self)
 
-    def __truediv__(self, other):
+    def __truediv__(self, other: Any) -> Expression:
         """
         True division operator.
 
@@ -415,12 +499,13 @@ class MathExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = MathExpression(...)
+
+            >>> expr = MathExpression()
             >>> result = expr / 2
         """
         return self._func(lambda x, y: x / y, self, other)
 
-    def __rtruediv__(self, other):
+    def __rtruediv__(self, other: Any) -> Expression:
         """
         Reverse true division operator.
 
@@ -430,12 +515,13 @@ class MathExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = MathExpression(...)
+
+            >>> expr = MathExpression()
             >>> result = 10 / expr
         """
         return self._func(lambda x, y: x / y, other, self)
 
-    def __floordiv__(self, other):
+    def __floordiv__(self, other: Any) -> Expression:
         """
         Floor division operator.
 
@@ -445,12 +531,13 @@ class MathExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = MathExpression(...)
+
+            >>> expr = MathExpression()
             >>> result = expr // 2
         """
         return self._func(lambda x, y: x // y, self, other)
 
-    def __rfloordiv__(self, other):
+    def __rfloordiv__(self, other: Any) -> Expression:
         """
         Reverse floor division operator.
 
@@ -460,12 +547,13 @@ class MathExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = MathExpression(...)
+
+            >>> expr = MathExpression()
             >>> result = 10 // expr
         """
         return self._func(lambda x, y: x // y, other, self)
 
-    def __mod__(self, other):
+    def __mod__(self, other: Any) -> Expression:
         """
         Modulo operator.
 
@@ -475,12 +563,13 @@ class MathExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = MathExpression(...)
+
+            >>> expr = MathExpression()
             >>> result = expr % 3
         """
         return self._func(lambda x, y: x % y, self, other)
 
-    def __rmod__(self, other):
+    def __rmod__(self, other: Any) -> Expression:
         """
         Reverse modulo operator.
 
@@ -490,12 +579,13 @@ class MathExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = MathExpression(...)
+
+            >>> expr = MathExpression()
             >>> result = 10 % expr
         """
         return self._func(lambda x, y: x % y, other, self)
 
-    def __pow__(self, power):
+    def __pow__(self, power: Any) -> Expression:
         """
         Power operator.
 
@@ -505,12 +595,13 @@ class MathExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = MathExpression(...)
+
+            >>> expr = MathExpression()
             >>> result = expr ** 2
         """
         return self._func(lambda x, y: x ** y, self, power)
 
-    def __rpow__(self, other):
+    def __rpow__(self, other: Any) -> Expression:
         """
         Reverse power operator.
 
@@ -520,12 +611,13 @@ class MathExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = MathExpression(...)
+
+            >>> expr = MathExpression()
             >>> result = 2 ** expr
         """
         return self._func(lambda x, y: x ** y, other, self)
 
-    def __pos__(self):
+    def __pos__(self) -> Expression:
         """
         Unary positive operator.
 
@@ -533,12 +625,13 @@ class MathExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = MathExpression(...)
+
+            >>> expr = MathExpression()
             >>> result = +expr
         """
         return self._func(lambda x: +x, self)
 
-    def __neg__(self):
+    def __neg__(self) -> Expression:
         """
         Unary negative operator.
 
@@ -546,7 +639,8 @@ class MathExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = MathExpression(...)
+
+            >>> expr = MathExpression()
             >>> result = -expr
         """
         return self._func(lambda x: -x, self)
@@ -554,21 +648,25 @@ class MathExpression(Expression):
 
 class BitwiseExpression(Expression):
     """
-    Bitwise expression class.
+    Expression supporting bitwise operations.
 
-    Features:
-        * ``__and__``, which means ``x & y`` (bitwise).
-        * ``__or__``, which means ``x | y`` (bitwise).
-        * ``__xor__``, which means ``x ^ y`` (bitwise).
-        * ``__lshift__``, which means ``x << y`` (bitwise).
-        * ``__rshift__``, which means ``x >> y`` (bitwise).
-        * ``__invert__``, which means ``~x`` (bitwise).
+    This class provides operators for bitwise logic and shifts.
 
     .. note::
-        Do not use this with :class:`LogicalExpression`, or unexpected conflict will be caused.
+       Do not combine this class with :class:`LogicalExpression` in a single
+       expression chain because both reuse bitwise operators.
+
+    Example::
+
+        >>> from hbutils.expression.native.feature import BitwiseExpression
+        >>> from hbutils.expression.native.base import efunc
+        >>> expr = BitwiseExpression()
+        >>> f = efunc(expr | 0b0011)
+        >>> f(0b0100)
+        7
     """
 
-    def __or__(self, other):
+    def __or__(self, other: Any) -> Expression:
         """
         Bitwise OR operator.
 
@@ -578,12 +676,13 @@ class BitwiseExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = BitwiseExpression(...)
+
+            >>> expr = BitwiseExpression()
             >>> result = expr | 0b1010
         """
         return self._func(lambda x, y: x | y, self, other)
 
-    def __ror__(self, other):
+    def __ror__(self, other: Any) -> Expression:
         """
         Reverse bitwise OR operator.
 
@@ -593,12 +692,13 @@ class BitwiseExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = BitwiseExpression(...)
+
+            >>> expr = BitwiseExpression()
             >>> result = 0b1010 | expr
         """
         return self._func(lambda x, y: x | y, other, self)
 
-    def __xor__(self, other):
+    def __xor__(self, other: Any) -> Expression:
         """
         Bitwise XOR operator.
 
@@ -608,12 +708,13 @@ class BitwiseExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = BitwiseExpression(...)
+
+            >>> expr = BitwiseExpression()
             >>> result = expr ^ 0b1010
         """
         return self._func(lambda x, y: x ^ y, self, other)
 
-    def __rxor__(self, other):
+    def __rxor__(self, other: Any) -> Expression:
         """
         Reverse bitwise XOR operator.
 
@@ -623,12 +724,13 @@ class BitwiseExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = BitwiseExpression(...)
+
+            >>> expr = BitwiseExpression()
             >>> result = 0b1010 ^ expr
         """
         return self._func(lambda x, y: x ^ y, other, self)
 
-    def __and__(self, other):
+    def __and__(self, other: Any) -> Expression:
         """
         Bitwise AND operator.
 
@@ -638,12 +740,13 @@ class BitwiseExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = BitwiseExpression(...)
+
+            >>> expr = BitwiseExpression()
             >>> result = expr & 0b1010
         """
         return self._func(lambda x, y: x & y, self, other)
 
-    def __rand__(self, other):
+    def __rand__(self, other: Any) -> Expression:
         """
         Reverse bitwise AND operator.
 
@@ -653,12 +756,13 @@ class BitwiseExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = BitwiseExpression(...)
+
+            >>> expr = BitwiseExpression()
             >>> result = 0b1010 & expr
         """
         return self._func(lambda x, y: x & y, other, self)
 
-    def __invert__(self):
+    def __invert__(self) -> Expression:
         """
         Bitwise NOT operator.
 
@@ -666,12 +770,13 @@ class BitwiseExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = BitwiseExpression(...)
+
+            >>> expr = BitwiseExpression()
             >>> result = ~expr
         """
         return self._func(lambda x: ~x, self)
 
-    def __lshift__(self, other):
+    def __lshift__(self, other: Any) -> Expression:
         """
         Left shift operator.
 
@@ -681,12 +786,13 @@ class BitwiseExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = BitwiseExpression(...)
+
+            >>> expr = BitwiseExpression()
             >>> result = expr << 2
         """
         return self._func(lambda x, y: x << y, self, other)
 
-    def __rlshift__(self, other):
+    def __rlshift__(self, other: Any) -> Expression:
         """
         Reverse left shift operator.
 
@@ -696,12 +802,13 @@ class BitwiseExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = BitwiseExpression(...)
+
+            >>> expr = BitwiseExpression()
             >>> result = 5 << expr
         """
         return self._func(lambda x, y: x << y, other, self)
 
-    def __rshift__(self, other):
+    def __rshift__(self, other: Any) -> Expression:
         """
         Right shift operator.
 
@@ -711,12 +818,13 @@ class BitwiseExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = BitwiseExpression(...)
+
+            >>> expr = BitwiseExpression()
             >>> result = expr >> 2
         """
         return self._func(lambda x, y: x >> y, self, other)
 
-    def __rrshift__(self, other):
+    def __rrshift__(self, other: Any) -> Expression:
         """
         Reverse right shift operator.
 
@@ -726,7 +834,8 @@ class BitwiseExpression(Expression):
         :rtype: Expression
 
         Example::
-            >>> expr = BitwiseExpression(...)
+
+            >>> expr = BitwiseExpression()
             >>> result = 20 >> expr
         """
         return self._func(lambda x, y: x >> y, other, self)

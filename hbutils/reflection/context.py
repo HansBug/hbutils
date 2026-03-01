@@ -1,44 +1,47 @@
 """
-Overview:
-    Utilities for building context variables on thread level.
+Thread-Local Context Variable Utilities.
 
-    This module provides a thread-safe context variable management system that allows
-    developers to create with-block-based syntax for managing state across function calls.
-    It's particularly useful for implementing context-dependent behavior without explicitly
-    passing parameters through the call stack.
+This module provides a thread-safe context variable management system that allows
+developers to build context-dependent behavior without explicitly passing values
+through a call stack. It supports context inheritance, scoped variable overrides,
+function wrapping for new threads, nested context management, and conditional
+context creation.
 
-    The main features include:
+The module contains the following main public components:
 
-    - Thread-level context variable storage
-    - Context inheritance and variable scoping
-    - Context wrapping for functions (useful in threading)
-    - Nested context management
-    - Conditional context creation
+* :class:`ContextVars` - Thread-local context mapping with scoped mutation helpers
+* :func:`context` - Accessor for the current thread's :class:`ContextVars`
+* :func:`cwrap` - Function wrapper to inherit and extend context in new threads
+* :func:`nested_with` - Helper to nest multiple context managers
+* :func:`conditional_with` - Conditionally enter a context manager
 
-    Example::
-        >>> from contextlib import contextmanager
-        >>> from hbutils.reflection import context
-        >>>
-        >>> # developer's view
-        ... @contextmanager
-        ... def use_mul():  # set 'mul' to `True` in its with-block
-        ...     with context().vars(mul=True):
-        ...         yield
-        >>>
-        >>> def calc(a, b):  # logic of `calc` will be changed when 'mul' is given
-        ...     if context().get('mul', None):
-        ...         return a * b
-        ...     else:
-        ...         return a + b
-        >>>
-        >>> # user's view (magic-liked, isn't it?)
-        ... print(calc(3, 5))  # 3 + 5
-        8
-        >>> with use_mul():
-        ...     print(calc(3, 5))  # changed to 3 * 5
-        15
-        >>> print(calc(3, 5))  # back to 3 + 5, again :)
-        8
+.. note::
+   Context instances are stored per thread and reused within the same thread.
+   Use :func:`cwrap` to pass the current context into new threads.
+
+Example::
+
+    >>> from contextlib import contextmanager
+    >>> from hbutils.reflection import context
+    >>>
+    >>> @contextmanager
+    ... def use_mul():
+    ...     with context().vars(mul=True):
+    ...         yield
+    >>>
+    >>> def calc(a, b):
+    ...     if context().get('mul', None):
+    ...         return a * b
+    ...     else:
+    ...         return a + b
+    >>>
+    >>> print(calc(3, 5))
+    8
+    >>> with use_mul():
+    ...     print(calc(3, 5))
+    15
+    >>> print(calc(3, 5))
+    8
 """
 import collections.abc
 
@@ -46,7 +49,7 @@ from contextlib import contextmanager
 from functools import wraps
 from multiprocessing import current_process
 from threading import current_thread
-from typing import Tuple, TypeVar, Iterator, Mapping, Optional, ContextManager, Any
+from typing import Tuple, TypeVar, Iterator, Mapping, Optional, ContextManager, Any, Dict, Callable, List
 
 __all__ = [
     'context', 'cwrap',
@@ -84,7 +87,7 @@ def _get_context_id() -> Tuple[int, int]:
     return _get_pid(), _get_tid()
 
 
-_global_contexts = {}
+_global_contexts: Dict[Tuple[int, int], 'ContextVars'] = {}
 
 _KeyType = TypeVar('_KeyType', bound=str)
 _ValueType = TypeVar('_ValueType')
@@ -95,13 +98,13 @@ class ContextVars(collections.abc.Mapping):
     Context variable management class.
 
     This class provides a thread-safe way to manage context variables that can be
-    temporarily modified within a with-block scope. It inherits from :class:`collections.abc.Mapping`
-    and supports standard mapping operations.
+    temporarily modified within a with-block scope. It inherits from
+    :class:`collections.abc.Mapping` and supports standard mapping operations.
 
     .. note::
         This class is inherited from :class:`collections.abc.Mapping`.
-        Main features of mapping object (such as ``__getitem__``, ``__len__``, ``__iter__``) are supported.
-        See `Collections Abstract Base Classes \
+        Main features of mapping object (such as ``__getitem__``, ``__len__``,
+        ``__iter__``) are supported. See `Collections Abstract Base Classes
         <https://docs.python.org/3/library/collections.abc.html#collections-abstract-base-classes>`_.
 
     .. warning::
@@ -109,17 +112,17 @@ class ContextVars(collections.abc.Mapping):
         It is not recommended constructing manually. Use :func:`context` instead.
     """
 
-    def __init__(self, **kwargs):
+    def __init__(self, **kwargs: _ValueType) -> None:
         """
         Initialize a ContextVars instance.
 
         :param kwargs: Initial context variable key-value pairs.
-        :type kwargs: Any
+        :type kwargs: _ValueType
         """
-        self._vars = dict(kwargs)
+        self._vars: Dict[_KeyType, _ValueType] = dict(kwargs)
 
     @contextmanager
-    def _with_vars(self, params: Mapping[_KeyType, _ValueType], clear: bool = False):
+    def _with_vars(self, params: Mapping[_KeyType, _ValueType], clear: bool = False) -> Iterator[None]:
         """
         Internal context manager for temporarily modifying context variables.
 
@@ -129,7 +132,7 @@ class ContextVars(collections.abc.Mapping):
         :type clear: bool
         :yield: None
         """
-        # initialize new values
+        # Initialize new values.
         _origin = dict(self._vars)
         self._vars.update(params)
         if clear:
@@ -140,7 +143,7 @@ class ContextVars(collections.abc.Mapping):
         try:
             yield
         finally:
-            # de-initialize, recover changed values
+            # De-initialize and recover changed values.
             for k in set(_origin.keys()) | set(self._vars.keys()):
                 if k not in _origin:
                     del self._vars[k]
@@ -148,7 +151,7 @@ class ContextVars(collections.abc.Mapping):
                     self._vars[k] = _origin[k]
 
     @contextmanager
-    def vars(self, **kwargs):
+    def vars(self, **kwargs: _ValueType) -> Iterator[None]:
         """
         Add or modify variables in the context within a with-block.
 
@@ -156,7 +159,7 @@ class ContextVars(collections.abc.Mapping):
         of the with-block. Original values are restored when exiting the block.
 
         :param kwargs: Context variables to add or modify.
-        :type kwargs: Any
+        :type kwargs: _ValueType
         :yield: None
 
         Examples::
@@ -183,7 +186,7 @@ class ContextVars(collections.abc.Mapping):
             yield
 
     @contextmanager
-    def inherit(self, context_: 'ContextVars'):
+    def inherit(self, context_: 'ContextVars') -> Iterator[None]:
         """
         Inherit variables from another context.
 
@@ -195,13 +198,13 @@ class ContextVars(collections.abc.Mapping):
         :yield: None
 
         .. note::
-            After :meth:`inherit` is used, **the original variables which not present in the given ``context_`` \
-            will be removed**. This is different from :meth:`vars`, so attention.
+            After :meth:`inherit` is used, **the original variables which not present in the given
+            ``context_`` will be removed**. This is different from :meth:`vars`, so attention.
         """
         with self._with_vars(context_._vars, clear=True):
             yield
 
-    def __getitem__(self, key: _KeyType):
+    def __getitem__(self, key: _KeyType) -> _ValueType:
         """
         Get a context variable by key.
 
@@ -236,15 +239,16 @@ def context() -> ContextVars:
     """
     Get the context object for the current thread.
 
-    This function returns a thread-local singleton ContextVars instance. Each thread
-    has its own independent context that persists across function calls within that thread.
+    This function returns a thread-local singleton :class:`ContextVars` instance.
+    Each thread has its own independent context that persists across function calls
+    within that thread.
 
-    :return: The ContextVars object for the current thread.
+    :return: The :class:`ContextVars` object for the current thread.
     :rtype: ContextVars
 
     .. note::
         This result is unique on one thread. Multiple calls within the same thread
-        will return the same ContextVars instance.
+        will return the same :class:`ContextVars` instance.
     """
     _context_id = _get_context_id()
     if _context_id not in _global_contexts:
@@ -254,7 +258,12 @@ def context() -> ContextVars:
     return _global_contexts[_context_id]
 
 
-def cwrap(func, *, context_: Optional[ContextVars] = None, **vars_):
+def cwrap(
+    func: Callable[..., _ValueType],
+    *,
+    context_: Optional[ContextVars] = None,
+    **vars_: _ValueType
+) -> Callable[..., _ValueType]:
     """
     Wrap a function to inherit and extend context variables.
 
@@ -262,13 +271,13 @@ def cwrap(func, *, context_: Optional[ContextVars] = None, **vars_):
     as thread-local storage is not automatically inherited by child threads.
 
     :param func: The function to wrap.
-    :type func: callable
+    :type func: Callable[..., _ValueType]
     :param context_: Context to inherit. If None, uses the current thread's context.
     :type context_: Optional[ContextVars]
     :param vars_: Additional variables to add after inheriting the context.
-    :type vars_: Any
+    :type vars_: _ValueType
     :return: A wrapped function that executes with the inherited context.
-    :rtype: callable
+    :rtype: Callable[..., _ValueType]
 
     Examples::
         >>> from threading import Thread
@@ -296,9 +305,10 @@ def cwrap(func, *, context_: Optional[ContextVars] = None, **vars_):
         And **it is compatible on all platforms**.
 
     .. warning::
-        :func:`cwrap` **is not compatible on Windows or Python3.8+ on macOS** when creating **new process**.
-        Please pass in direct arguments by ``args`` argument of :class:`Process`.
-        If you insist on using :func:`context` feature, you need to pass the context object into the sub process.
+        :func:`cwrap` **is not compatible on Windows or Python3.8+ on macOS** when creating
+        **new process**. Please pass in direct arguments by ``args`` argument of
+        :class:`Process`. If you insist on using :func:`context` feature, you need to pass
+        the context object into the subprocess.
 
         For example::
 
@@ -306,13 +316,12 @@ def cwrap(func, *, context_: Optional[ContextVars] = None, **vars_):
             >>> from multiprocessing import Process
             >>> from hbutils.reflection import context
             >>>
-            >>> # developer's view
-            ... @contextmanager
-            ... def use_mul():  # set 'mul' to `True` in its with-block
+            >>> @contextmanager
+            ... def use_mul():
             ...     with context().vars(mul=True):
             ...         yield
             >>>
-            >>> def calc(a, b):  # logic of `calc` will be changed when 'mul' is given
+            >>> def calc(a, b):
             ...     if context().get('mul', None):
             ...         print(a * b)
             ...     else:
@@ -322,14 +331,13 @@ def cwrap(func, *, context_: Optional[ContextVars] = None, **vars_):
             ...     with context().inherit(ctx or context()):
             ...         return calc(a, b)
             >>>
-            >>> # user's view
-            ... if __name__ == '__main__':
-            ...     calc(3, 5)  # 3 + 5
+            >>> if __name__ == '__main__':
+            ...     calc(3, 5)
             ...     with use_mul():
             ...         p = Process(target=_calc, args=(3, 5, context()))
             ...         p.start()
             ...         p.join()
-            ...     calc(3, 5)  # back to 3 + 5, again :)
+            ...     calc(3, 5)
             8
             15
             8
@@ -337,7 +345,7 @@ def cwrap(func, *, context_: Optional[ContextVars] = None, **vars_):
     context_ = context_ or context()
 
     @wraps(func)
-    def _new_func(*args, **kwargs):
+    def _new_func(*args: Any, **kwargs: Any) -> _ValueType:
         with context().inherit(context_):
             with context().vars(**vars_):
                 return func(*args, **kwargs)
@@ -345,7 +353,11 @@ def cwrap(func, *, context_: Optional[ContextVars] = None, **vars_):
     return _new_func
 
 
-def _yield_nested_for(contexts, depth, items):
+def _yield_nested_for(
+    contexts: List[ContextManager[Any]],
+    depth: int,
+    items: List[Any]
+) -> Iterator[Tuple[Any, ...]]:
     """
     Internal recursive generator for nested context management.
 
@@ -367,7 +379,7 @@ def _yield_nested_for(contexts, depth, items):
 
 
 @contextmanager
-def nested_with(*contexts) -> ContextManager[Tuple[Any, ...]]:
+def nested_with(*contexts: ContextManager[Any]) -> Iterator[Tuple[Any, ...]]:
     """
     Enter and exit multiple context managers in a nested fashion.
 
@@ -386,20 +398,17 @@ def nested_with(*contexts) -> ContextManager[Tuple[Any, ...]]:
         >>> from contextlib import contextmanager
         >>> from hbutils.reflection import nested_with
         >>>
-        >>> # allocate a temporary directory, and put one file inside
         >>> @contextmanager
         ... def opent(x):
         ...     with tempfile.TemporaryDirectory() as td:
         ...         pathlib.Path(os.path.join(td, f'{x}.txt')).write_text(f'this is {x}!')
         ...         yield td
         >>>
-        >>> # let's try it
         >>> with opent(1) as d:
         ...     print(os.listdir(d))
         ...     print(pathlib.Path(f'{d}/1.txt').read_text())
         ['1.txt']
         this is 1!
-        >>> # open 5 temporary directories at one time
         >>> with nested_with(*map(opent, range(5))) as ds:
         ...     for d in ds:
         ...         print(d)
@@ -420,10 +429,9 @@ def nested_with(*contexts) -> ContextManager[Tuple[Any, ...]]:
         /tmp/tmpy99_wwtt
         True ['4.txt']
         this is 4!
-        >>> # these directories are released now
         >>> for d in ds:
         ...     print(d)
-        ...     print(os.path.exists(d))  # not exist anymore
+        ...     print(os.path.exists(d))
         /tmp/tmp3u1984br
         False
         /tmp/tmp0yx56hv0
@@ -435,24 +443,24 @@ def nested_with(*contexts) -> ContextManager[Tuple[Any, ...]]:
         /tmp/tmpy99_wwtt
         False
     """
-    yield from _yield_nested_for(contexts, 0, [])
+    yield from _yield_nested_for(list(contexts), 0, [])
 
 
 @contextmanager
-def conditional_with(ctx, cond):
+def conditional_with(ctx: ContextManager[Any], cond: bool) -> Iterator[Optional[Any]]:
     """
     Conditionally create and enter a context manager.
 
     This function provides a way to conditionally use a context manager based on
     a boolean condition. If the condition is False, the context is not entered
-    and None is yielded instead.
+    and ``None`` is yielded instead.
 
     :param ctx: The context manager to conditionally enter.
     :type ctx: ContextManager
     :param cond: Boolean condition determining whether to enter the context.
     :type cond: bool
     :yield: The value from the context manager if cond is True, otherwise None.
-    :rtype: Any or None
+    :rtype: Optional[Any]
 
     Examples::
         Here is an example of conditionally creating a temporary directory.
@@ -462,7 +470,6 @@ def conditional_with(ctx, cond):
         >>> from hbutils.reflection import conditional_with
         >>> from hbutils.system import TemporaryDirectory
         >>>
-        >>> # create
         >>> with conditional_with(TemporaryDirectory(), cond=True) as td:
         ...     print('td:', td)
         ...     print('exist:', os.path.exists(td))
@@ -471,7 +478,6 @@ def conditional_with(ctx, cond):
         td: /tmp/tmp07lpb9ah
         exist: True
         isdir: True
-        >>> # not create
         >>> with conditional_with(TemporaryDirectory(), cond=False) as td:
         ...     print('td:', td)
         ...

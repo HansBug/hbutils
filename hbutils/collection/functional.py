@@ -1,11 +1,31 @@
 """
-Overview:
-    Function operations for nested structure.
+Functional utilities for nested collection processing.
 
-    This module provides utilities for applying functions to nested data structures
-    (lists, tuples, and dictionaries) in a recursive manner. It allows mapping operations
-    over complex nested structures while preserving their original types and hierarchy.
+This module provides function-oriented helpers for recursively transforming
+nested collection structures such as dictionaries, lists, and tuples. It is
+primarily focused on applying a callable to every leaf value in a nested
+structure while preserving the original container types and hierarchy.
+
+The module exposes the following public functionality:
+
+* :func:`nested_map` - Apply a callable to all leaf values in a nested structure.
+
+The implementation relies on :func:`hbutils.reflection.dynamic_call` to allow
+flexible call signatures for mapping functions, enabling callables that accept
+zero, one, or two positional parameters.
+
+Example::
+
+    >>> from hbutils.collection.functional import nested_map
+    >>> nested_map(lambda x: x * 2, {'a': [1, 2], 'b': (3, {'c': 4})})
+    {'a': [2, 4], 'b': (6, {'c': 8})}
+    >>> nested_map(lambda x, p: (x, p), [10, {'k': 20}])
+    [(10, (0,)), {'k': (20, (1, 'k'))}]
+    >>> nested_map(lambda: 42, (1, 2, 3))
+    (42, 42, 42)
 """
+from typing import Any, Callable, Tuple
+
 from ..reflection import dynamic_call
 
 __all__ = [
@@ -13,35 +33,41 @@ __all__ = [
 ]
 
 
-def nested_map(f, s):
+def nested_map(f: Callable[..., Any], s: Any) -> Any:
     """
-    Map the nested structure with a function.
+    Map a callable over a nested structure.
 
-    This function recursively traverses a nested structure (containing lists, tuples, 
-    and dictionaries) and applies the given function to each leaf value. The function 
-    can optionally accept the path to the current element as a parameter.
+    This function recursively traverses a nested structure (containing lists,
+    tuples, and dictionaries) and applies the given function to each leaf value.
+    The callable can optionally accept the path to the current element as a
+    parameter. Paths are represented as tuples of keys and indices.
 
-    :param f: The function to apply to each leaf value. Can accept 0, 1, or 2 parameters:
-              - 0 params: Returns a constant value
-              - 1 param: Receives the leaf value
-              - 2 params: Receives the leaf value and its path (tuple of keys/indices)
-    :type f: callable
-    :param s: The nested structure to map over. Can be a dict, list, tuple, or any 
-              combination thereof, with leaf values of any type.
-    :type s: dict or list or tuple or any
+    The callable ``f`` is wrapped by :func:`hbutils.reflection.dynamic_call`,
+    which allows it to accept flexible argument counts:
 
-    :return: A new nested structure with the same type and hierarchy as the input,
-             but with the function applied to all leaf values.
-    :rtype: Same type as input structure
+    * ``f()`` will be called with no arguments.
+    * ``f(value)`` will be called with the leaf value.
+    * ``f(value, path)`` will be called with the leaf value and its path.
 
-    Examples::
-        >>> from hbutils.collection import nested_map
+    :param f: The function to apply to each leaf value.
+    :type f: Callable[..., Any]
+    :param s: The nested structure to map over. Supported containers are
+              dictionaries, lists, and tuples. All other values are treated as
+              leaf values.
+    :type s: Any
+    :return: A new nested structure with the same container types and hierarchy
+             as the input, with the function applied to all leaf values.
+    :rtype: Any
+
+    Example::
+
+        >>> from hbutils.collection.functional import nested_map
         >>> nested_map(lambda x: x + 1, [
         ...     2, 3, (4, {'x': 2, 'y': 4}),
         ...     {'a': 3, 'b': (4, 5)},
         ... ])
         [3, 4, (5, {'x': 3, 'y': 5}), {'a': 4, 'b': (5, 6)}]
-        >>> nested_map(lambda x, p: (x + 1) *  len(p), [
+        >>> nested_map(lambda x, p: (x + 1) * len(p), [
         ...     2, 3, (4, {'x': 2, 'y': 4}),
         ...     {'a': 3, 'b': (4, 5)},
         ... ])
@@ -54,17 +80,16 @@ def nested_map(f, s):
     """
     _df = dynamic_call(f)
 
-    def _recursion(sval, p):
+    def _recursion(sval: Any, p: Tuple[Any, ...]) -> Any:
         """
         Recursively traverse and map the nested structure.
 
-        :param sval: The current value being processed
-        :type sval: any
-        :param p: The path to the current value (tuple of keys/indices)
-        :type p: tuple
-
-        :return: The mapped value or structure
-        :rtype: any
+        :param sval: The current value being processed.
+        :type sval: Any
+        :param p: The path to the current value (tuple of keys/indices).
+        :type p: Tuple[Any, ...]
+        :return: The mapped value or structure.
+        :rtype: Any
         """
         if isinstance(sval, dict):
             return type(sval)({k: _recursion(v, (*p, k)) for k, v in sval.items()})

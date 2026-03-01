@@ -1,17 +1,28 @@
 """
-Overview:
-    Color module, include the basic color system model, and some simple color utilities.
+Color utilities and model representations.
 
-This module provides comprehensive color manipulation functionality including:
+This package module exposes the public API for the :mod:`hbutils.color` package,
+combining color model representations and common color utilities into a single
+namespace. The main entry point is the :class:`Color` class, which supports
+RGB/HSV/HLS conversions, CSS3 color names, and hexadecimal color strings.
 
-    - Color model representations (RGB, HSV, etc.)
-    - Color conversion utilities
-    - Color manipulation and transformation functions
+The module re-exports the public symbols from the following submodules:
 
-The module exports all public APIs from its submodules:
+* :mod:`hbutils.color.model` - Core color model representations
+* :mod:`hbutils.color.utils` - Color utility functions and helpers
 
-    - model: Color model representations (RGB, HSV, HLS color systems)
-    - utils: Color utilities for manipulation, distance calculation, and gradient generation
+.. note::
+   This module is an aggregator and does not define additional functionality
+   beyond re-exporting public APIs.
+
+Example::
+
+    >>> from hbutils.color import Color
+    >>> color = Color('red')
+    >>> str(color)
+    '#ff0000'
+    >>> color.hsv.hue
+    0.0
 """
 from .model import *
 from .utils import *

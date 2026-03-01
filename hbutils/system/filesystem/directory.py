@@ -1,10 +1,28 @@
 """
-Overview:
-    Functions for directory processing.
+Directory and filesystem utilities for copying, removing, and sizing paths.
 
-    This module provides utility functions for common directory and file operations
-    including copying, removing, and calculating sizes of files and directories.
-    These functions support glob patterns and provide Unix-like command functionality.
+This module provides Unix-like operations for directories and files, including
+recursive copy, removal, and size calculation. All public functions accept glob
+patterns to match multiple files or directories, leveraging
+:func:`hbutils.system.filesystem.file.glob` for pattern expansion.
+
+The module contains the following main components:
+
+* :func:`copy` - Copy files or directories, supporting multiple sources
+* :func:`remove` - Remove files or directories with glob support
+* :func:`getsize` - Calculate total size of files or directories
+
+.. note::
+   These helpers are designed to emulate common Unix commands such as
+   ``cp -rf``, ``rm -rf``, and ``du -sh``.
+
+Example::
+
+    >>> from hbutils.system.filesystem.directory import copy, remove, getsize
+    >>> copy('README.md', 'README.bak')
+    >>> size = getsize('README.bak')
+    >>> remove('README.bak')
+
 """
 import errno
 import os
@@ -18,18 +36,20 @@ __all__ = [
 ]
 
 
-def _single_copy(src: str, dst: str):
+def _single_copy(src: str, dst: str) -> None:
     """
     Copy a single file or directory from source to destination.
 
-    This is an internal helper function that handles both file and directory copying.
-    It attempts to copy as a directory first, and falls back to file copying if needed.
+    This is an internal helper function that handles both file and directory
+    copying. It attempts to copy as a directory first, and falls back to file
+    copying if needed.
 
     :param src: Source path to copy from.
     :type src: str
     :param dst: Destination path to copy to.
     :type dst: str
-    :raises OSError: If the copy operation fails for reasons other than type mismatch.
+    :raises OSError: If the copy operation fails for reasons other than a
+        type mismatch (file vs. directory).
     """
     try:
         shutil.copytree(src, dst)  # copy directory
@@ -40,14 +60,15 @@ def _single_copy(src: str, dst: str):
             raise  # pragma: no cover
 
 
-def copy(src1: str, src2: str, *srcn_dst: str):
+def copy(src1: str, src2: str, *srcn_dst: str) -> None:
     """
     Copy files or directories.
 
-    No less than 2 arguments are accepted.
-    When the last path is an existing path, all the fore paths will be copied to this path.
-    Otherwise, the first path will be copied to the last path (exactly 2 arguments are accepted in this
-    case, or ``NotADirectoryError`` will be raised).
+    At least two arguments are accepted. When the last path is an existing
+    directory, all preceding paths are copied into that directory. Otherwise,
+    the first path is copied to the last path, and exactly two arguments are
+    accepted in this case; if more sources are provided, a
+    :exc:`NotADirectoryError` is raised.
 
     From `Stack Overflow - Copy file or directories recursively in Python
     <https://stackoverflow.com/a/1994840/6995899>`_.
@@ -58,10 +79,11 @@ def copy(src1: str, src2: str, *srcn_dst: str):
     :type src2: str
     :param srcn_dst: Additional source paths and the final destination path.
     :type srcn_dst: str
-    :raises NotADirectoryError: If destination is not a directory when multiple sources are provided.
+    :raises NotADirectoryError: If destination is not a directory when multiple
+        sources are provided.
 
     .. note::
-        You can use this like ``cp -rf`` command on unix.
+        You can use this like ``cp -rf`` command on Unix.
 
     Examples::
         >>> import os
@@ -106,18 +128,19 @@ def copy(src1: str, src2: str, *srcn_dst: str):
         _single_copy(srcs[0], dst)
 
 
-def remove(*files: str):
+def remove(*files: str) -> None:
     """
     Remove files or directories.
 
-    This function can remove both files and directories. It supports glob patterns
-    to match multiple files at once. The function works recursively for directories.
+    This function can remove both files and directories. It supports glob
+    patterns to match multiple files at once. The function works recursively
+    for directories.
 
     :param files: Files or directories to be removed. Supports glob patterns.
     :type files: str
 
     .. note::
-        You can use this like ``rm -rf`` command on unix.
+        You can use this like ``rm -rf`` command on Unix.
 
     Examples::
         >>> import os
@@ -165,8 +188,9 @@ def _single_getsize(file: str) -> int:
     """
     Get the size of a single file or directory.
 
-    This is an internal helper function that calculates the total size of a file
-    or recursively sums up all file sizes in a directory, excluding symbolic links.
+    This is an internal helper function that calculates the total size of a
+    file or recursively sums up all file sizes in a directory, excluding
+    symbolic links.
 
     :param file: Path to the file or directory.
     :type file: str
@@ -191,8 +215,8 @@ def getsize(*files: str) -> int:
     Get the total size of files or directories.
 
     This function calculates the total size of one or more files or directories.
-    For directories, it recursively sums up all file sizes. Supports glob patterns
-    to match multiple files.
+    For directories, it recursively sums up all file sizes. Supports glob
+    patterns to match multiple files.
 
     :param files: File or directory paths. Supports glob patterns.
     :type files: str
@@ -200,7 +224,7 @@ def getsize(*files: str) -> int:
     :rtype: int
 
     .. note::
-        You can use this like ``du -sh`` command on unix.
+        You can use this like ``du -sh`` command on Unix.
 
     Examples::
         >>> from hbutils.system import getsize

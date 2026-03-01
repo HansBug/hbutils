@@ -1,14 +1,53 @@
 """
-Overview:
-    Implementation of singleton design pattern.
+Singleton pattern utilities for Python applications.
 
-    This module provides metaclasses and utilities for implementing singleton patterns in Python.
-    It includes:
+This module provides metaclasses and helper utilities for implementing various
+forms of the singleton design pattern. The provided components allow you to
+create traditional singleton classes (one instance for the entire lifetime) as
+well as value-based singletons (one instance per unique value), along with a
+convenient marker class for sentinel values.
 
-    - :class:`SingletonMeta`: A metaclass for creating traditional singleton classes
-    - :class:`ValueBasedSingletonMeta`: A metaclass for creating value-based singleton classes
-    - :class:`SingletonMark`: A utility class for creating unique singleton marker objects
+The module contains the following main components:
+
+* :class:`SingletonMeta` - Metaclass for traditional singletons.
+* :class:`ValueBasedSingletonMeta` - Metaclass for value-based singletons.
+* :class:`SingletonMark` - Value-based singleton marker utility.
+
+.. note::
+   The metaclasses in this module intentionally control instantiation, and their
+   ``__call__`` signatures are constrained to match their intended usage.
+
+Example::
+
+    >>> class Service(metaclass=SingletonMeta):
+    ...     def get_value(self) -> int:
+    ...         return 233
+    ...
+    >>> s1 = Service()
+    >>> s2 = Service()
+    >>> s1 is s2
+    True
+    >>> s1.get_value()
+    233
+
+    >>> class Data(metaclass=ValueBasedSingletonMeta):
+    ...     def __init__(self, value: int) -> None:
+    ...         self.value = value
+    ...
+    >>> d1 = Data(1)
+    >>> d2 = Data(1)
+    >>> d3 = Data(2)
+    >>> d1 is d2
+    True
+    >>> d1 is d3
+    False
+
+    >>> NO_VALUE = SingletonMark("no_value")
+    >>> NO_VALUE is SingletonMark("no_value")
+    True
 """
+from typing import Any, Dict, Hashable
+
 __all__ = [
     'SingletonMeta',
     'ValueBasedSingletonMeta',
@@ -26,8 +65,8 @@ class SingletonMeta(type):
 
     Example::
         >>> class MyService(metaclass=SingletonMeta):
-        >>>     def get_value(self):
-        >>>         return 233
+        ...     def get_value(self):
+        ...         return 233
         >>>
         >>> s = MyService()
         >>> s.get_value()    # 233
@@ -36,17 +75,20 @@ class SingletonMeta(type):
 
     .. note::
 
-        In native singleton pattern, the constructor is not needed because \
-        only one instance will be created in the whole lifetime. So when \
-        :class:`SingletonMeta` is used as metaclass, please keep the constructor \
+        In native singleton pattern, the constructor is not needed because
+        only one instance will be created in the whole lifetime. So when
+        :class:`SingletonMeta` is used as metaclass, please keep the constructor
         be non-argument, or just ignore the ``__init__`` function.
 
     """
-    _instances = {}
+    _instances: Dict[type, Any] = {}
 
-    def __call__(cls):
+    def __call__(cls) -> Any:
         """
         Override the call method to control instance creation.
+
+        This implementation accepts no arguments and returns the same instance
+        every time it is called for the same class.
 
         :return: The singleton instance of the class.
         :rtype: object
@@ -60,18 +102,18 @@ class ValueBasedSingletonMeta(type):
     """
     Meta class for value based singleton mode.
 
-    This metaclass creates singleton instances based on a value parameter. 
+    This metaclass creates singleton instances based on a value parameter.
     Multiple calls with the same value will return the same instance, while
     different values will create different instances.
 
     Example::
         >>> class MyData(metaclass=ValueBasedSingletonMeta):
-        >>>     def __init__(self, value):
-        >>>         self.__value = value
+        ...     def __init__(self, value):
+        ...         self.__value = value
         >>>
-        >>>     @property
-        >>>     def value(self):
-        >>>         return self.__value
+        ...     @property
+        ...     def value(self):
+        ...         return self.__value
         >>>
         >>> d1 = MyData(1)
         >>> d1.value       # 1
@@ -82,18 +124,18 @@ class ValueBasedSingletonMeta(type):
 
     .. note::
 
-        This is an external case of singleton pattern. It can only contain one argument \
+        This is an external case of singleton pattern. It can only contain one argument
         (must be positional-supported), which differs from the native singleton case.
 
     """
-    _instances = {}
+    _instances: Dict[tuple, Any] = {}
 
-    def __call__(cls, value):
+    def __call__(cls, value: Hashable) -> Any:
         """
         Override the call method to control instance creation based on value.
 
         :param value: The value used as key for singleton instance lookup.
-        :type value: Any hashable type
+        :type value: Hashable
         :return: The singleton instance associated with the given value.
         :rtype: object
         """
@@ -107,7 +149,7 @@ class SingletonMark(metaclass=ValueBasedSingletonMeta):
     """
     Singleton mark for some situation.
 
-    Can be used when some default value is needed, especially when `None` has 
+    Can be used when some default value is needed, especially when `None` has
     meaning which is not default. This class creates unique marker objects that
     can be used as sentinel values.
 
@@ -117,11 +159,11 @@ class SingletonMark(metaclass=ValueBasedSingletonMeta):
 
     .. note::
 
-        :class:`SingletonMark` is a value-based singleton class, can be used to create an unique \
+        :class:`SingletonMark` is a value-based singleton class, can be used to create an unique
         value, especially in the cases which ``None`` is not suitable for the default value.
     """
 
-    def __init__(self, mark: str):
+    def __init__(self, mark: str) -> None:
         """
         Constructor of :class:`SingletonMark`, can create a singleton mark object.
 
@@ -144,7 +186,7 @@ class SingletonMark(metaclass=ValueBasedSingletonMeta):
         """
         Compute hash value for the singleton mark.
 
-        :class:`SingletonMark` objects are hash supported and can be directly used \
+        :class:`SingletonMark` objects are hash supported and can be directly used
         in :class:`dict` and :class:`set`.
 
         :return: Hash value of the mark.
@@ -152,7 +194,7 @@ class SingletonMark(metaclass=ValueBasedSingletonMeta):
         """
         return hash(self.__mark)
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: Any) -> bool:
         """
         Compare equality between singleton marks.
 
@@ -185,7 +227,7 @@ class SingletonMark(metaclass=ValueBasedSingletonMeta):
         """
         Return string representation of the singleton mark.
 
-        When you try to print a :class:`SingletonMark` object, its mark content will be \
+        When you try to print a :class:`SingletonMark` object, its mark content will be
         displayed.
 
         :return: String representation of the mark.

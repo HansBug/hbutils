@@ -1,20 +1,25 @@
 """
-Overview:
-    Design pattern module. Even in Python, design patterns are not emphasized like Java, \
-    but some simple packages are often useful, such as singleton patterns.
+Design pattern utilities for the :mod:`hbutils.design` package.
 
-    This module provides various design pattern implementations including:
+This package provides lightweight, Pythonic implementations of several classic
+design patterns. It acts as a convenience entry point that re-exports all public
+APIs from its submodules, allowing consumers to import from :mod:`hbutils.design`
+directly.
 
-    - Decorator pattern utilities
-    - Final class/method decorators
-    - Observer pattern implementation
-    - Singleton pattern implementation
+The package includes the following public components:
+
+* :class:`FinalMeta` - Metaclass that prevents class inheritance (final class)
+* :class:`SingletonMeta` - Metaclass implementing the singleton pattern
+* Decorator helpers from :mod:`hbutils.design.decorator`
+* Observer pattern utilities from :mod:`hbutils.design.observer`
 
 .. note::
-    This module serves as the main entry point for the design pattern utilities,
-    importing and exposing all public APIs from its submodules.
+   This module is an aggregation layer that imports and exposes public objects
+   from its submodules. Refer to each submodule for detailed behavior and API
+   specifics.
 
-Examples::
+Example::
+
     >>> from hbutils.design import SingletonMeta
     >>> class MyClass(metaclass=SingletonMeta):
     ...     pass

@@ -1,13 +1,24 @@
 """
-Overview:
-    Simulation module for special behaviors in Python.
+Simulation utilities for specialized Python runtime behaviors.
 
-    This module provides utilities for simulating and testing special Python behaviors,
-    such as module imports, attribute access, and other runtime characteristics.
-    It is primarily used for testing purposes to create controlled environments
-    that mimic specific Python runtime scenarios.
+This module provides helpers for simulating and testing special Python
+behaviors in controlled environments. It primarily re-exports the public API
+from :mod:`hbutils.testing.simulate.entry`, which contains utilities focused
+on simulating CLI entry point execution and related runtime characteristics.
 
-    The module re-exports all utilities from the entry submodule, which focuses on
-    simulating CLI entry point execution for testing purposes.
+The module contains the following main components (re-exported):
+
+* :class:`EntryRunResult` - Result container for simulated CLI entry execution.
+
+.. note::
+   This module is intended for testing usage. It re-exports utilities from
+   :mod:`hbutils.testing.simulate.entry` to provide a convenient import path.
+
+Example::
+
+    >>> from hbutils.testing.simulate import EntryRunResult
+    >>> result = EntryRunResult(0, "ok", "", None)
+    >>> result.exitcode
+    0
 """
 from .entry import *

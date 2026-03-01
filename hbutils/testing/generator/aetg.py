@@ -1,17 +1,34 @@
 """
-This module implements the AETG (Automatic Efficient Test Generator) algorithm for combinatorial testing.
+AETG (Automatic Efficient Test Generator) implementation for combinatorial testing.
 
-The AETG algorithm generates test cases that ensure all required parameter combinations (pairs) are covered,
-providing efficient test coverage while minimizing the number of test cases needed.
+This module provides a greedy AETG-based generator that constructs test cases to
+cover required parameter combinations (pairs or higher-order tuples). The generator
+iteratively selects parameter values that maximize coverage of uncovered combinations,
+yielding a compact suite of test cases.
 
-Classes:
-    - _NameValueTuple: Internal class representing a name-value pair
-    - _AETGValuePair: Internal class representing a collection of name-value pairs
-    - AETGGenerator: Main generator class implementing the AETG algorithm
+The main public component is:
+
+* :class:`AETGGenerator` - Generator that yields test cases covering required pairs
+
+.. note::
+   The algorithm includes randomized selection for tie-breaking. For reproducible
+   results, provide a deterministic random seed or a :class:`random.Random` instance
+   to :class:`AETGGenerator`.
+
+Example::
+
+    >>> from hbutils.testing import AETGGenerator
+    >>> generator = AETGGenerator({'a': (1, 2), 'b': (3, 4), 'c': (5, 6)}, rnd=123)
+    >>> for case in generator.cases():
+    ...     print(case)
+    {'a': 1, 'b': 3, 'c': 5}
+    {'a': 2, 'b': 4, 'c': 6}
+    ...
+
 """
 
 import random
-from typing import Iterator, Mapping, Optional, List, Tuple, Union
+from typing import Iterator, Mapping, Optional, List, Tuple, Union, Dict, Set
 
 from hbutils.model import visual, hasheq, accessor, asitems, IComparable
 from .base import BaseGenerator
@@ -32,9 +49,12 @@ class _NameValueTuple(IComparable):
 
     This class is used to store and compare parameter name-value pairs
     during test case generation.
+
+    .. note::
+        This class is internal and not part of the public API.
     """
 
-    def __init__(self, name, value):
+    def __init__(self, name: str, value: object) -> None:
         """
         Initialize a name-value tuple.
 
@@ -46,7 +66,7 @@ class _NameValueTuple(IComparable):
         self.__name = name
         self.__value = value
 
-    def _cmpkey(self):
+    def _cmpkey(self) -> Tuple[str, object]:
         """
         Get the comparison key for this tuple.
 
@@ -66,18 +86,21 @@ class _AETGValuePair(IComparable):
 
     This class is used to represent and compare combinations of parameter values
     that need to be covered in test cases.
+
+    .. note::
+        This class is internal and not part of the public API.
     """
 
-    def __init__(self, *pairs):
+    def __init__(self, *pairs: _NameValueTuple) -> None:
         """
         Initialize an AETG value pair.
 
-        :param pairs: Variable number of _NameValueTuple objects.
+        :param pairs: Variable number of :class:`_NameValueTuple` objects.
         :type pairs: _NameValueTuple
         """
         self.__items = tuple(sorted(pairs, key=lambda x: (x.name, x.value)))
 
-    def _cmpkey(self):
+    def _cmpkey(self) -> Tuple[_NameValueTuple, ...]:
         """
         Get the comparison key for this pair.
 
@@ -91,7 +114,9 @@ def _create_init_pairs(names: List[str]) -> List[Tuple[str, ...]]:
     """
     Create initial pairs for AETG algorithm.
 
-    Generates all possible combinations of parameter names up to a minimum of 2 parameters.
+    Generates all progressive combinations of parameter names with a length of
+    ``min(2, len(names))``. This means binary pairs for two or more parameters,
+    and singletons when only one parameter is present.
 
     :param names: List of parameter names.
     :type names: List[str]
@@ -106,8 +131,9 @@ def _process_pairs(pairs: List[Tuple[str, ...]], names: List[str]) -> List[Tuple
     """
     Process and validate pairs for AETG algorithm.
 
-    This function filters and sorts pairs, removing redundant combinations
-    where one pair is a subset of another.
+    This function normalizes pairs based on the order of ``names`` and removes
+    redundant combinations where one pair is a subset of another. The resulting
+    list is ordered from lower to higher arity.
 
     :param pairs: List of parameter name tuples to process.
     :type pairs: List[Tuple[str, ...]]
@@ -117,7 +143,6 @@ def _process_pairs(pairs: List[Tuple[str, ...]], names: List[str]) -> List[Tuple
     :return: Processed list of parameter combinations.
     :rtype: List[Tuple[str, ...]]
     """
-    _name_set = set(names)
     _name_id_dict = {name: i for i, name in enumerate(names)}
 
     _init_pairs = []
@@ -149,15 +174,15 @@ _DEFAULT_RANDOM = random._inst
 
 def _to_random(rnd: Optional[Union[random.Random, int]] = None) -> random.Random:
     """
-    Convert various random input types to a Random object.
+    Convert various random input types to a :class:`random.Random` object.
 
-    :param rnd: Random object, seed integer, or None for default random.
+    :param rnd: Random object, seed integer, or ``None`` for default random.
     :type rnd: Optional[Union[random.Random, int]]
 
-    :return: A Random object for generating random numbers.
+    :return: A :class:`random.Random` object for generating random numbers.
     :rtype: random.Random
 
-    :raises TypeError: If rnd is not a valid type.
+    :raises TypeError: If ``rnd`` is not a valid type.
     """
     if isinstance(rnd, random.Random):
         return rnd
@@ -171,15 +196,16 @@ def _to_random(rnd: Optional[Union[random.Random, int]] = None) -> random.Random
 
 class AETGGenerator(BaseGenerator):
     """
-    Full AETG model, test cases will be generated to make sure the required pairs will be all tested.
+    AETG generator that ensures all required parameter combinations are covered.
 
-    The AETG (Automatic Efficient Test Generator) algorithm generates test cases that ensure
-    all required parameter combinations are covered. It uses a greedy approach to select
-    parameter values that cover the most uncovered pairs.
+    The AETG (Automatic Efficient Test Generator) algorithm generates test cases
+    that cover required parameter combinations. It uses a greedy strategy that
+    attempts to maximize coverage of currently uncovered combinations, with a
+    randomized tie-breaking mechanism.
 
     Example::
         >>> from hbutils.testing import AETGGenerator
-        >>> gene = AETGGenerator({'a': (1, 2), 'b': (3, 4), 'c': (5, 6)})
+        >>> gene = AETGGenerator({'a': (1, 2), 'b': (3, 4), 'c': (5, 6)}, rnd=0)
         >>> for case in gene.cases():
         ...     print(case)
         {'a': 1, 'b': 3, 'c': 5}
@@ -187,14 +213,14 @@ class AETGGenerator(BaseGenerator):
         ...
     """
 
-    def __init__(self, values, names: Optional[List[str]] = None,
+    def __init__(self, values: Mapping[str, object], names: Optional[List[str]] = None,
                  pairs: Optional[List[Tuple[str, ...]]] = None,
-                 rnd: Optional[Union[random.Random, int]] = None):
+                 rnd: Optional[Union[random.Random, int]] = None) -> None:
         """
         Constructor of the :class:`hbutils.testing.AETGGenerator` class.
 
         :param values: Selection values, such as ``{'a': [2, 3], 'b': ['b', 'c']}``.
-        :type values: Mapping[str, Iterable]
+        :type values: Mapping[str, object]
         :param names: Names of the given generator, default is ``None`` which means use the sorted \
             key set of the values.
         :type names: Optional[List[str]]
@@ -211,8 +237,8 @@ class AETGGenerator(BaseGenerator):
         self.__pairs = _process_pairs(pairs, self.names)
         self.__rnd = _to_random(rnd)
 
-        self.__node_cnt = None
-        self.__non_exist_pairs = None
+        self.__node_cnt: Optional[Dict[_NameValueTuple, int]] = None
+        self.__non_exist_pairs: Optional[List[_AETGValuePair]] = None
 
     @property
     def pairs(self) -> List[Tuple[str, ...]]:
@@ -224,25 +250,28 @@ class AETGGenerator(BaseGenerator):
         """
         return self.__pairs
 
-    def __get_init_info(self) -> Tuple[dict, list, set]:
+    def __get_init_info(self) -> Tuple[Dict[_NameValueTuple, int], List[_AETGValuePair], Set[_AETGValuePair]]:
         """
         Get initialization information for the AETG algorithm.
 
-        This method calculates the frequency of each parameter value in uncovered pairs
-        and creates the initial set of pairs that need to be covered.
+        This method calculates the frequency of each parameter value in uncovered
+        pairs and creates the initial set of pairs that need to be covered. The
+        results are cached on the generator instance and returned as copies to
+        avoid external mutation.
 
         :return: A tuple containing:
+
             - dict: Count of occurrences for each name-value tuple
-            - list: List of uncovered pairs
+            - list: List of uncovered pairs (sorted)
             - set: Set of uncovered pairs for fast lookup
-        :rtype: Tuple[dict, list, set]
+        :rtype: Tuple[Dict[_NameValueTuple, int], List[_AETGValuePair], Set[_AETGValuePair]]
         """
         if self.__node_cnt is None:
-            node_cnt = {}
-            non_exist_pairs = set()
+            node_cnt: Dict[_NameValueTuple, int] = {}
+            non_exist_pairs: Set[_AETGValuePair] = set()
             for one_pair in self.__pairs:
                 for value_items in nested_for(*[self.values[name] for name in one_pair]):
-                    pair_items = []
+                    pair_items: List[_NameValueTuple] = []
                     for name, value in zip(one_pair, value_items):
                         tp = _NameValueTuple(name, value)
                         pair_items.append(tp)
@@ -260,7 +289,8 @@ class AETGGenerator(BaseGenerator):
 
         Generates test cases using the AETG algorithm, ensuring all required parameter
         combinations are covered. The algorithm uses a greedy approach to select values
-        that cover the most uncovered pairs.
+        that cover the most uncovered pairs. The order of generated cases can vary due
+        to random tie-breaking.
 
         :return: Iterator yielding test case dictionaries.
         :rtype: Iterator[Mapping[str, object]]
@@ -300,8 +330,8 @@ class AETGGenerator(BaseGenerator):
                     first_pair = _pair
                     break
 
-            tnames = []
-            seqs = []
+            tnames: List[str] = []
+            seqs: List[_NameValueTuple] = []
             for pair_item in first_pair.items:
                 tnames.append(pair_item.name)
                 seqs.append(pair_item)

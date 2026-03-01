@@ -1,17 +1,31 @@
 """
-This module provides a lightweight implementation of tqdm progress bar functionality.
+Lightweight progress bar utilities with optional tqdm integration.
 
-It includes a SimpleTqdm class that mimics the basic behavior of the popular tqdm library,
-allowing for progress tracking in loops and iterable operations. If the actual tqdm library
-is available, it will be used; otherwise, this simplified version serves as a fallback.
+This module provides a minimal yet practical progress bar implementation that
+mimics the core behavior of :mod:`tqdm`. When the real tqdm library is
+available, it is used directly; otherwise, a built-in fallback is provided.
 
-The module supports:
+The module contains the following main components:
 
-- Progress bars with percentage, elapsed time, and ETA
-- Unit scaling for better readability
-- Terminal width detection
-- Thread-safe multi-progress bar management
-- Context manager and iterator protocols
+* :class:`SimpleTqdm` - Lightweight progress bar with timing and ETA support
+* :func:`tqdm` - Unified progress bar factory using tqdm when installed
+* :func:`trange` - Convenience wrapper for iterating over ranges with progress
+
+.. note::
+   The fallback implementation is intentionally lightweight and does not
+   support all tqdm features. Unsupported keyword arguments are ignored
+   with a warning.
+
+Example::
+
+    >>> from hbutils.logging.progress import tqdm, trange
+    >>> for i in tqdm(range(3), desc="Processing"):
+    ...     pass
+    Processing: 100.0% |====================| 3/3 [00:00<00:00, 3.0it/s]
+    >>> for i in trange(2, desc="Counting"):
+    ...     pass
+    Counting: 100.0% |====================| 2/2 [00:00<00:00, 2.0it/s]
+
 """
 
 import os
@@ -20,6 +34,7 @@ import sys
 import threading
 import time
 import warnings
+from typing import Any, Iterable, Iterator, List, Optional, TextIO, Union
 
 try:
     from tqdm import tqdm as _origin_tqdm
@@ -36,10 +51,10 @@ __all__ = [
 class SimpleTqdm:
     """
     A lightweight implementation of tqdm progress bar.
-    
+
     This class provides basic progress bar functionality similar to tqdm,
     with support for iteration tracking, time estimation, and customizable display.
-    
+
     :ivar _instances: Global list of all active SimpleTqdm instances
     :vartype _instances: list
     :ivar _lock: Thread lock for managing concurrent progress bar updates
@@ -51,17 +66,32 @@ class SimpleTqdm:
     """
 
     # Global manager for handling multiple progress bars
-    _instances = []
+    _instances: List["SimpleTqdm"] = []
     _lock = threading.Lock()
-    _last_print_time = 0
+    _last_print_time = 0.0
     _update_interval = 0.1  # Update interval
 
-    def __init__(self, iterable=None, desc=None, total=None, leave=True,
-                 file=None, ncols=None, mininterval=0.1, ascii=None, disable=False, unit='it',
-                 unit_scale=False, initial=0, position=None, unit_divisor=1000, **kwargs):
+    def __init__(
+        self,
+        iterable: Optional[Iterable[Any]] = None,
+        desc: Optional[str] = None,
+        total: Optional[int] = None,
+        leave: bool = True,
+        file: Optional[TextIO] = None,
+        ncols: Optional[int] = None,
+        mininterval: float = 0.1,
+        ascii: Optional[bool] = None,
+        disable: bool = False,
+        unit: str = 'it',
+        unit_scale: bool = False,
+        initial: int = 0,
+        position: Optional[int] = None,
+        unit_divisor: int = 1000,
+        **kwargs: Any,
+    ):
         """
         Initialize a SimpleTqdm progress bar.
-        
+
         :param iterable: Iterable to decorate with a progress bar
         :type iterable: iterable, optional
         :param desc: Prefix for the progress bar
@@ -91,19 +121,23 @@ class SimpleTqdm:
         :param unit_divisor: Divisor for unit scaling (1000 or 1024)
         :type unit_divisor: int
         :param kwargs: Additional keyword arguments (will trigger a warning if provided)
-        
+
+        .. warning::
+           Extra keyword arguments are ignored by this lightweight implementation.
+
         Example::
-            >>> with SimpleTqdm(range(100), desc="Processing") as pbar:
+            >>> with SimpleTqdm(range(5), desc="Processing") as pbar:
             ...     for item in pbar:
             ...         time.sleep(0.01)
-            Processing: 100.0% |====================>| 100/100 [00:01<00:00, 99.5it/s]
+            Processing: 100.0% |====================| 5/5 [00:00<00:00, 5.0it/s]
         """
-
         if kwargs:
-            warnings.warn(f'You are using {self.__class__.__name__} provided by hbutils library, '
-                          f'which is an lightweight alternative of real tqdm. '
-                          f'Arguments {kwargs!r} are ignored because they are not supported. '
-                          f'If you really need them, we suggest you can use tqdm by installing it with `pip install tqdm`.')
+            warnings.warn(
+                f'You are using {self.__class__.__name__} provided by hbutils library, '
+                f'which is an lightweight alternative of real tqdm. '
+                f'Arguments {kwargs!r} are ignored because they are not supported. '
+                f'If you really need them, we suggest you can use tqdm by installing it with `pip install tqdm`.'
+            )
 
         self.iterable = iterable
         self.desc = desc or ""
@@ -121,14 +155,14 @@ class SimpleTqdm:
 
         # Internal state
         self.n = initial
-        self.start_time = None
-        self.last_print_time = 0
+        self.start_time: Optional[float] = None
+        self.last_print_time = 0.0
         self.last_print_n = 0
 
         # If an iterable is provided and total is not specified, try to get its length
         if iterable is not None and total is None:
             try:
-                self.total = len(iterable)
+                self.total = len(iterable)  # type: ignore[arg-type]
             except (TypeError, AttributeError):
                 self.total = None
 
@@ -137,20 +171,19 @@ class SimpleTqdm:
             with SimpleTqdm._lock:
                 SimpleTqdm._instances.append(self)
 
-    def _format_sizeof(self, num, suffix="", divisor=None):
+    def _format_sizeof(self, num: float, suffix: str = "", divisor: Optional[int] = None) -> str:
         """
         Format number size with unit scaling support.
-        
+
         :param num: The number to format
         :type num: float
         :param suffix: Suffix to append to the formatted number
         :type suffix: str
         :param divisor: Divisor for unit scaling (1000 or 1024)
         :type divisor: int, optional
-        
         :return: Formatted string with appropriate unit
         :rtype: str
-        
+
         Example::
             >>> pbar = SimpleTqdm(total=1000, unit_scale=True)
             >>> pbar._format_sizeof(1500, "B")
@@ -178,13 +211,13 @@ class SimpleTqdm:
 
         return f"{num:.1f}{units[-1]}{suffix}"
 
-    def _get_terminal_width(self):
+    def _get_terminal_width(self) -> int:
         """
         Get the terminal width.
-        
+
         :return: Terminal width in characters
         :rtype: int
-        
+
         Example::
             >>> pbar = SimpleTqdm()
             >>> width = pbar._get_terminal_width()
@@ -205,18 +238,17 @@ class SimpleTqdm:
                 # Default width
                 return 80
 
-    def _create_progress_bar(self, percentage, bar_width):
+    def _create_progress_bar(self, percentage: float, bar_width: int) -> str:
         """
         Create a progress bar string.
-        
+
         :param percentage: Completion percentage (0-100)
         :type percentage: float
         :param bar_width: Width of the progress bar in characters
         :type bar_width: int
-        
         :return: Formatted progress bar string
         :rtype: str
-        
+
         Example::
             >>> pbar = SimpleTqdm()
             >>> pbar._create_progress_bar(50, 20)
@@ -246,13 +278,13 @@ class SimpleTqdm:
 
         return f"|{bar}|"
 
-    def __enter__(self):
+    def __enter__(self) -> "SimpleTqdm":
         """
         Enter the context manager.
-        
+
         :return: Self instance
         :rtype: SimpleTqdm
-        
+
         Example::
             >>> with SimpleTqdm(range(10)) as pbar:
             ...     for item in pbar:
@@ -262,17 +294,17 @@ class SimpleTqdm:
             self.start_time = time.time()
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(self, exc_type: Optional[type], exc_val: Optional[BaseException], exc_tb: Optional[Any]) -> None:
         """
         Exit the context manager.
-        
+
         :param exc_type: Exception type if an exception occurred
         :type exc_type: type, optional
         :param exc_val: Exception value if an exception occurred
         :type exc_val: Exception, optional
         :param exc_tb: Exception traceback if an exception occurred
         :type exc_tb: traceback, optional
-        
+
         Example::
             >>> with SimpleTqdm(range(10)) as pbar:
             ...     for item in pbar:
@@ -280,13 +312,14 @@ class SimpleTqdm:
         """
         self.close()
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[Any]:
         """
         Iterate over the wrapped iterable with progress tracking.
-        
+
         :return: Iterator yielding items from the wrapped iterable
+        :rtype: iterator
         :raises TypeError: If no iterable was provided during initialization
-        
+
         Example::
             >>> for item in SimpleTqdm(range(5)):
             ...     print(item)
@@ -310,13 +343,13 @@ class SimpleTqdm:
             if not self.leave:
                 self.close()
 
-    def update(self, n=1):
+    def update(self, n: int = 1) -> None:
         """
         Update the progress bar by incrementing the counter.
-        
+
         :param n: Increment to add to the internal counter
         :type n: int
-        
+
         Example::
             >>> pbar = SimpleTqdm(total=100)
             >>> pbar.update(10)
@@ -336,10 +369,10 @@ class SimpleTqdm:
         if (current_time - self.last_print_time) >= self.mininterval:
             self.refresh()
 
-    def refresh(self):
+    def refresh(self) -> None:
         """
         Force refresh of the progress bar display.
-        
+
         Example::
             >>> pbar = SimpleTqdm(total=100)
             >>> pbar.n = 50
@@ -355,15 +388,15 @@ class SimpleTqdm:
         with SimpleTqdm._lock:
             self._display()
 
-    def _display(self):
+    def _display(self) -> None:
         """
         Display the current progress bar state.
-        
+
         This internal method formats and outputs the progress bar to the file stream.
         It calculates the terminal width, builds the progress bar components including
         description, percentage, progress numbers, time information, ETA, and speed,
         then outputs the formatted string to the specified file.
-        
+
         Example::
             >>> pbar = SimpleTqdm(total=100, desc="Processing")
             >>> pbar.n = 50
@@ -468,16 +501,15 @@ class SimpleTqdm:
 
     _ACTIVITY = ['|', '/', '-', '\\', '|', '/', '-', '\\']
 
-    def _create_activity_bar(self, speed: float = 3.0):
+    def _create_activity_bar(self, speed: float = 3.0) -> str:
         """
         Create an activity indicator for cases without a known total.
-        
+
         :param speed: Speed of the animation (cycles per second)
         :type speed: float
-        
         :return: Current activity indicator character
         :rtype: str
-        
+
         Example::
             >>> pbar = SimpleTqdm()
             >>> indicator = pbar._create_activity_bar()
@@ -489,16 +521,15 @@ class SimpleTqdm:
         idx = int((time.time() - self.start_time) * speed) % len(self._ACTIVITY)
         return self._ACTIVITY[idx]
 
-    def _format_time(self, seconds):
+    def _format_time(self, seconds: float) -> str:
         """
         Format time display.
-        
+
         :param seconds: Time in seconds
         :type seconds: float
-        
         :return: Formatted time string in format HH:MM:SS or MM:SS or SS.SSs
         :rtype: str
-        
+
         Example::
             >>> pbar = SimpleTqdm()
             >>> pbar._format_time(65)
@@ -516,15 +547,15 @@ class SimpleTqdm:
             mins, secs = divmod(remainder, 60)
             return f"{hours:02d}:{mins:02d}:{secs:02d}"
 
-    def set_description(self, desc=None, refresh=True):
+    def set_description(self, desc: Optional[str] = None, refresh: bool = True) -> None:
         """
         Set the progress bar description.
-        
+
         :param desc: New description text
         :type desc: str, optional
         :param refresh: Whether to refresh the display immediately
         :type refresh: bool
-        
+
         Example::
             >>> pbar = SimpleTqdm(range(100))
             >>> pbar.set_description("Processing files")
@@ -533,19 +564,19 @@ class SimpleTqdm:
         if refresh:
             self.refresh()
 
-    def set_postfix(self, ordered_dict=None, refresh=True, **kwargs):
+    def set_postfix(self, ordered_dict: Optional[dict] = None, refresh: bool = True, **kwargs: Any) -> None:
         """
         Set postfix information (simplified implementation, not actually displayed).
-        
+
         This method exists for API compatibility with tqdm but does not display
         the postfix information in SimpleTqdm.
-        
+
         :param ordered_dict: Dictionary of postfix key-value pairs
         :type ordered_dict: dict, optional
         :param refresh: Whether to refresh the display immediately
         :type refresh: bool
         :param kwargs: Additional postfix key-value pairs
-        
+
         Example::
             >>> pbar = SimpleTqdm(range(100))
             >>> pbar.set_postfix(loss=0.5, accuracy=0.95)
@@ -553,14 +584,14 @@ class SimpleTqdm:
         if refresh:
             self.refresh()
 
-    def close(self):
+    def close(self) -> None:
         """
         Close the progress bar and clean up resources.
-        
+
         This method performs a final refresh of the progress bar, adds a newline
         if leave is True, or clears the line if leave is False, and removes the
         instance from the global manager.
-        
+
         Example::
             >>> pbar = SimpleTqdm(range(100))
             >>> for item in pbar:
@@ -590,13 +621,13 @@ class SimpleTqdm:
             except ValueError:
                 pass
 
-    def clear(self):
+    def clear(self) -> None:
         """
         Clear the current display.
-        
+
         This method clears the progress bar from the terminal by overwriting
         the current line with spaces.
-        
+
         Example::
             >>> pbar = SimpleTqdm(range(100))
             >>> pbar.clear()  # Clear the progress bar from terminal
@@ -606,14 +637,14 @@ class SimpleTqdm:
             self.file.write("\r" + " " * terminal_width + "\r")
             self.file.flush()
 
-    def write(self, s, file=None, end="\n", nolock=False):
+    def write(self, s: str, file: Optional[TextIO] = None, end: str = "\n", nolock: bool = False) -> None:
         """
         Write text without disrupting the progress bar display.
-        
+
         This method allows writing messages to the output stream without
         interfering with the progress bar. It temporarily clears the progress
         bar, writes the message, and then refreshes the progress bar.
-        
+
         :param s: String to write
         :type s: str
         :param file: File object to write to
@@ -622,7 +653,7 @@ class SimpleTqdm:
         :type end: str
         :param nolock: If True, don't use the global lock
         :type nolock: bool
-        
+
         Example::
             >>> pbar = SimpleTqdm(range(100))
             >>> pbar.write("Processing complete")
@@ -640,16 +671,30 @@ class SimpleTqdm:
             fp.flush()
 
 
-def tqdm(iterable=None, desc=None, total=None, leave=True,
-         file=None, ncols=None, mininterval=0.1, ascii=None, disable=False, unit='it',
-         unit_scale=False, initial=0, position=None, unit_divisor=1000, **kwargs):
+def tqdm(
+    iterable: Optional[Iterable[Any]] = None,
+    desc: Optional[str] = None,
+    total: Optional[int] = None,
+    leave: bool = True,
+    file: Optional[TextIO] = None,
+    ncols: Optional[int] = None,
+    mininterval: float = 0.1,
+    ascii: Optional[bool] = None,
+    disable: bool = False,
+    unit: str = 'it',
+    unit_scale: bool = False,
+    initial: int = 0,
+    position: Optional[int] = None,
+    unit_divisor: int = 1000,
+    **kwargs: Any,
+) -> Union["SimpleTqdm", Any]:
     """
     tqdm-compatible interface for creating progress bars.
-    
+
     This function provides a unified interface that uses the real tqdm library if available,
     otherwise falls back to SimpleTqdm. It maintains API compatibility with the standard
     tqdm library while providing a lightweight alternative when tqdm is not installed.
-    
+
     :param iterable: Iterable to decorate with a progress bar
     :type iterable: iterable, optional
     :param desc: Prefix for the progress bar
@@ -679,44 +724,68 @@ def tqdm(iterable=None, desc=None, total=None, leave=True,
     :param unit_divisor: Divisor for unit scaling (1000 or 1024)
     :type unit_divisor: int
     :param kwargs: Additional keyword arguments passed to the underlying implementation
-    
     :return: Progress bar instance (either real tqdm or SimpleTqdm)
     :rtype: tqdm or SimpleTqdm
-    
+
     Example::
-        >>> for i in tqdm(range(100), desc="Processing"):
+        >>> for i in tqdm(range(3), desc="Processing"):
         ...     time.sleep(0.01)
-        Processing: 100.0% |====================>| 100/100 [00:01<00:00, 99.5it/s]
+        Processing: 100.0% |====================| 3/3 [00:00<00:00, 3.0it/s]
     """
     if _origin_tqdm:
-        return _origin_tqdm(iterable=iterable, desc=desc, total=total, leave=leave,
-                            file=file, ncols=ncols, mininterval=mininterval,
-                            ascii=ascii, disable=disable, unit=unit, unit_scale=unit_scale,
-                            initial=initial, position=position, unit_divisor=unit_divisor, **kwargs)
+        return _origin_tqdm(
+            iterable=iterable,
+            desc=desc,
+            total=total,
+            leave=leave,
+            file=file,
+            ncols=ncols,
+            mininterval=mininterval,
+            ascii=ascii,
+            disable=disable,
+            unit=unit,
+            unit_scale=unit_scale,
+            initial=initial,
+            position=position,
+            unit_divisor=unit_divisor,
+            **kwargs,
+        )
     else:
-        return SimpleTqdm(iterable=iterable, desc=desc, total=total, leave=leave,
-                          file=file, ncols=ncols, mininterval=mininterval,
-                          ascii=ascii, disable=disable, unit=unit, unit_scale=unit_scale,
-                          initial=initial, position=position, unit_divisor=unit_divisor, **kwargs)
+        return SimpleTqdm(
+            iterable=iterable,
+            desc=desc,
+            total=total,
+            leave=leave,
+            file=file,
+            ncols=ncols,
+            mininterval=mininterval,
+            ascii=ascii,
+            disable=disable,
+            unit=unit,
+            unit_scale=unit_scale,
+            initial=initial,
+            position=position,
+            unit_divisor=unit_divisor,
+            **kwargs,
+        )
 
 
-def trange(*args, **kwargs):
+def trange(*args: int, **kwargs: Any) -> Union["SimpleTqdm", Any]:
     """
     Shortcut for tqdm(range(*args), **kwargs).
-    
+
     This is a convenience function that creates a progress bar for a range iterator.
     It's equivalent to calling tqdm(range(*args), **kwargs).
-    
+
     :param args: Positional arguments passed to range()
     :type args: int
     :param kwargs: Keyword arguments passed to tqdm()
-    
     :return: Progress bar instance wrapping a range iterator
     :rtype: tqdm or SimpleTqdm
-    
+
     Example::
-        >>> for i in trange(100, desc="Counting"):
+        >>> for i in trange(3, desc="Counting"):
         ...     time.sleep(0.01)
-        Counting: 100.0% |====================>| 100/100 [00:01<00:00, 99.5it/s]
+        Counting: 100.0% |====================| 3/3 [00:00<00:00, 3.0it/s]
     """
     return tqdm(range(*args), **kwargs)
