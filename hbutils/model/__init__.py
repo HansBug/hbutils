@@ -1,26 +1,29 @@
 """
-Overview:
-    Modeling module, includes useful utilities for building data models.
+Modeling utilities for data model construction and representation.
 
-    This module provides various utilities for creating and managing data models,
-    including class utilities, comparison operations, enum handling, raw data processing,
-    and representation utilities.
+This package module provides a unified interface for a collection of model-related
+utilities. It re-exports public symbols from several submodules that cover class
+modeling helpers, comparison interfaces, enum utilities, raw value handling, and
+representation helpers. Importing from :mod:`hbutils.model` allows consumers to
+access these utilities in a single namespace.
 
-    The module exports functionality from the following submodules:
+The module re-exports the following submodules:
 
-    - clazz: Utilities for building class models with decorators for field access,
-      visual representation, constructors, hash/equality operations, and property accessors
-    - compare: Base interface for implementing comparable objects with comparison operations
-    - enum: Utilities for working with Python enum classes, including AutoIntEnum and
-      int_enum_loads decorator
-    - raw: Support for wrapping and unwrapping raw values based on conditions
-    - repr: Utilities for generating string representations of custom classes
+* :mod:`hbutils.model.clazz` - Class-building utilities and decorators
+* :mod:`hbutils.model.compare` - Comparable interface and comparison helpers
+* :mod:`hbutils.model.enum` - Enum-related helpers such as :class:`AutoIntEnum`
+* :mod:`hbutils.model.raw` - Raw value wrapping and unwrapping helpers
+* :mod:`hbutils.model.repr` - String representation utilities
 
-    Example::
-        >>> from hbutils.model import IComparable, AutoIntEnum, int_enum_loads
-        >>> # Use IComparable for easy comparison implementation
-        >>> # Use AutoIntEnum for auto-incrementing integer enums
-        >>> # Use int_enum_loads for flexible enum parsing
+Example::
+
+    >>> from hbutils.model import AutoIntEnum, IComparable  # doctest: +SKIP
+    >>> # Use AutoIntEnum for auto-incrementing enum values
+    >>> # Use IComparable to simplify implementing comparison operations
+
+.. note::
+   This module only aggregates symbols from submodules. Refer to each submodule's
+   documentation for detailed usage and API references.
 """
 from .clazz import *
 from .compare import *

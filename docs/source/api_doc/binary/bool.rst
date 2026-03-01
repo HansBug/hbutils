@@ -1,20 +1,27 @@
 hbutils.binary.bool
-==========================
+========================================================
 
 .. currentmodule:: hbutils.binary.bool
 
 .. automodule:: hbutils.binary.bool
 
 
-CBoolType
-------------------------
+\_\_all\_\_
+-----------------------------------------------------
 
-.. autoclass:: CBoolType
-    :members: __init__, size, read, write
+.. autodata:: __all__
 
 
-c_bool
-------------------------
+c\_bool
+-----------------------------------------------------
 
 .. autodata:: c_bool
+
+
+CBoolType
+-----------------------------------------------------
+
+.. autoclass:: CBoolType
+    :members: __init__,read,write
+
 

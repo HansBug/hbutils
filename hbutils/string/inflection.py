@@ -1,12 +1,41 @@
 """
-Overview:
-    Useful utilities for word inflections.
+English word inflection utilities and string formatting helpers.
 
-    Extended based on `jpvanhal/inflection <https://github.com/jpvanhal/inflection>`_.
+This module provides a comprehensive set of functions for manipulating English
+words, including pluralization, singularization, case conversion, and string
+formatting utilities. It handles various irregular forms and special cases in
+English grammar. The implementation is extended based on
+`jpvanhal/inflection <https://github.com/jpvanhal/inflection>`_.
 
-    This module provides a comprehensive set of functions for manipulating English words,
-    including pluralization, singularization, case conversion, and string formatting utilities.
-    It handles various irregular forms and special cases in English grammar.
+The module contains the following main components:
+
+* :func:`camelize` - Convert underscore-separated strings to CamelCase
+* :func:`dasherize` - Convert underscores to dashes
+* :func:`humanize` - Convert technical identifiers to human-readable text
+* :func:`ordinal` - Get ordinal suffix for a number
+* :func:`ordinalize` - Convert numbers to ordinal strings
+* :func:`parameterize` - Create URL-safe slugs
+* :func:`pluralize` - Convert singular words to plural
+* :func:`singularize` - Convert plural words to singular
+* :func:`tableize` - Generate table names from class-like names
+* :func:`titleize` - Convert strings to title case
+* :func:`transliterate` - Convert Unicode text to ASCII approximations
+* :func:`underscore` - Convert CamelCase to underscore-separated text
+
+Example::
+
+    >>> from hbutils.string.inflection import pluralize, underscore, camelize
+    >>> pluralize("octopus")
+    'octopi'
+    >>> underscore("DeviceType")
+    'device_type'
+    >>> camelize("device_type", uppercase_first_letter=False)
+    'deviceType'
+
+.. note::
+   Several functions preserve or infer casing, and the pluralization rules
+   include irregular patterns and uncountable nouns.
+
 """
 import re
 import unicodedata
@@ -583,7 +612,7 @@ _irregular('move', 'moves')
 _irregular('cow', 'kine')
 _irregular('zombie', 'zombies')
 
-# self added patterns
+# Additional custom patterns
 _irregular('it', 'they', 'them')
 _irregular('this', 'these')
 _irregular('that', 'those')

@@ -1,21 +1,27 @@
 """
-Overview:
-    Scale unit module, include some useful utilities for the units in IT area, such as memory unit (MB/KB/B) \
-    and time unit (h/m/s).
+Scale unit utilities for IT-oriented size and time conversions.
 
-This module provides utilities for handling and converting various scale units commonly used in IT:
+This package module consolidates scale-related utilities that handle common
+units used in the IT domain. It provides convenient access to functions and
+classes implemented in the :mod:`hbutils.scale.size` and :mod:`hbutils.scale.time`
+submodules, re-exporting their public APIs for direct use.
 
-- **Size units**: Bytes, Kilobytes, Megabytes, Gigabytes, etc.
-- **Time units**: Seconds, Minutes, Hours, Days, etc.
+The module primarily supports:
 
-The module exports all functions and classes from its submodules for convenient access.
+* **Size units** - Bytes, Kilobytes, Megabytes, Gigabytes, etc.
+* **Time units** - Seconds, Minutes, Hours, Days, etc.
+
+.. note::
+   All public members from the :mod:`hbutils.scale.size` and
+   :mod:`hbutils.scale.time` modules are imported into this namespace
+   for easier access.
 
 Example::
-    >>> from hbutils.scale import size_to_bytes, time_to_delta
+
+    >>> from hbutils.scale import size_to_bytes
     >>> size_to_bytes('1KB')
     1024
-    >>> time_to_delta('1h30m')
-    datetime.timedelta(seconds=5400)
+
 """
 from .size import *
 from .time import *

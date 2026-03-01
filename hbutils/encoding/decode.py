@@ -1,9 +1,27 @@
 """
-Overview:
-    Functions to deal with encoding binary data easily.
-    This module provides utilities for automatically decoding binary data to strings
-    by detecting the appropriate encoding, with support for preferred encodings and
-    fallback mechanisms.
+Automatic binary decoding utilities.
+
+This module provides helpers for decoding binary data into text by attempting
+multiple encodings. The primary entry point is :func:`auto_decode`, which
+tries an explicit encoding if provided, then a list of preferred encodings,
+and finally uses system defaults and the :mod:`chardet` detector.
+
+The module contains the following main components:
+
+* :func:`auto_decode` - Automatically decode bytes into text using multiple strategies
+
+.. note::
+   Decoding results depend on the provided byte stream and the available
+   encodings in the runtime environment.
+
+Example::
+
+    >>> from hbutils.encoding.decode import auto_decode
+    >>> auto_decode(b'kdsfjldsjflkdsmgds')
+    'kdsfjldsjflkdsmgds'
+    >>> auto_decode(b'\\xd0\\x94\\xd0\\xbe\\xd0\\xb1\\xd1\\x80\\xd1\\x8b\\xd0\\xb9')
+    'Добрый'
+
 """
 import sys
 from typing import Optional, List
@@ -13,7 +31,7 @@ import chardet
 from ..collection import unique
 
 _DEFAULT_ENCODING = 'utf-8'
-_DEFAULT_PREFERRED_ENCODINGS = ['utf-8', 'gbk', 'gb2312', 'gb18030', 'big5']  # common encodings for chinese
+_DEFAULT_PREFERRED_ENCODINGS = ['utf-8', 'gbk', 'gb2312', 'gb18030', 'big5']  # common encodings for Chinese text
 
 __all__ = [
     'auto_decode'
@@ -31,46 +49,59 @@ def _decode(data: bytes, encoding: str) -> str:
     :return: Decoded string.
     :rtype: str
     :raises UnicodeDecodeError: If decoding fails with the specified encoding.
+    :raises LookupError: If the specified encoding is unknown.
+
+    Example::
+
+        >>> _decode(b'hello', 'utf-8')
+        'hello'
     """
     return data.decode(encoding)
 
 
 def auto_decode(data: bytes, encoding: Optional[str] = None, prefers: Optional[List[str]] = None) -> str:
     r"""
-    Auto decode binary data to string, the encoding mode will be automatically detected.
+    Automatically decode binary data into text.
 
     This function attempts to decode binary data using multiple strategies:
-    1. If an encoding is explicitly specified, use it directly
-    2. Otherwise, try preferred encodings in order
-    3. Fall back to system default encoding
-    4. Use chardet library to detect the encoding
 
-    The function will try each encoding until one succeeds, keeping track of the
-    best partial match in case all attempts fail.
+    1. If an ``encoding`` is explicitly specified, it is used directly.
+    2. Otherwise, preferred encodings are tried in order.
+    3. The system default encoding is tried next.
+    4. Finally, the :mod:`chardet` library is used to detect a likely encoding.
+
+    The function tries each encoding until one succeeds. If all attempts fail,
+    the :class:`UnicodeDecodeError` with the longest successful decode position
+    is raised.
 
     :param data: Original binary data to be decoded.
     :type data: bytes
-    :param encoding: Encoding mode to be used, default is ``None`` which means this function 
-        needs to automatically detect the encoding.
+    :param encoding: Encoding to use explicitly. If ``None``, the encoding will
+        be automatically detected using the described strategy.
     :type encoding: Optional[str]
-    :param prefers: Preferred encodings to try first. If ``None``, uses default preferred 
-        encodings (utf-8, gbk, gb2312, gb18030, big5).
+    :param prefers: Preferred encodings to try first. If ``None``, the default
+        preferred encodings (``utf-8``, ``gbk``, ``gb2312``, ``gb18030``,
+        ``big5``) are used.
     :type prefers: Optional[List[str]]
     :return: Decoded string.
     :rtype: str
-    :raises UnicodeDecodeError: If all decoding attempts fail, raises the error with the 
-        longest successful decode position.
+    :raises UnicodeDecodeError: If all decoding attempts fail.
+    :raises LookupError: If any attempted encoding is unknown.
+
+    .. note::
+       The detection step uses :func:`chardet.detect`, which may return ``None``
+       as the detected encoding; such values are ignored.
 
     Examples::
 
         >>> auto_decode(b'kdsfjldsjflkdsmgds')
         'kdsfjldsjflkdsmgds'
-        >>> auto_decode(b'\xd0\x94\xd0\xbe\xd0\xb1\xd1\x80\xd1\x8b\xd0\xb9 \xd0'
-        ...             b'\xb2\xd0\xb5\xd1\x87\xd0\xb5\xd1\x80')
+        >>> auto_decode(b'\\xd0\\x94\\xd0\\xbe\\xd0\\xb1\\xd1\\x80\\xd1\\x8b\\xd0\\xb9 \\xd0'
+        ...             b'\\xb2\\xd0\\xb5\\xd1\\x87\\xd0\\xb5\\xd1\\x80')
         'Добрый вечер'
-        >>> auto_decode(b'\xa4\xb3\xa4\xf3\xa4\xd0\xa4\xf3\xa4\xcf')
+        >>> auto_decode(b'\\xa4\\xb3\\xa4\\xf3\\xa4\\xd0\\xa4\\xf3\\xa4\\xcf')
         'こんばんは'
-        >>> auto_decode(b'\xcd\xed\xc9\xcf\xba\xc3')
+        >>> auto_decode(b'\\xcd\\xed\\xc9\\xcf\\xba\\xc3')
         '晚上好'
     """
     if encoding:
@@ -84,7 +115,7 @@ def auto_decode(data: bytes, encoding: Optional[str] = None, prefers: Optional[L
             chardet.detect(data)['encoding']
         ]))
 
-        last_err = None
+        last_err: Optional[UnicodeDecodeError] = None
         for enc in _elist:
             try:
                 return _decode(data, enc)

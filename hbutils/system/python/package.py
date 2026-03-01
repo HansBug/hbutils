@@ -1,15 +1,36 @@
 """
-This module provides utilities for managing Python package requirements and pip operations.
+Utilities for managing Python package requirements and invoking pip commands.
 
-It includes functions for:
-- Checking package versions
-- Loading and parsing requirements files
-- Running pip commands programmatically
-- Checking if requirements are satisfied
-- Installing packages and requirements files
+This module offers a lightweight API for interacting with Python packaging
+metadata, parsing requirements files, evaluating environment markers, and
+running pip commands programmatically. It is designed to simplify dependency
+management tasks within Python applications and scripts.
 
-The module handles requirement parsing, dependency checking, and pip command execution
-in a programmatic way, making it easier to manage dependencies in Python projects.
+The module contains the following main components:
+
+* :func:`package_version` - Retrieve the installed version of a package
+* :func:`load_req_file` - Parse a requirements file into requirement strings
+* :func:`pip` - Invoke the ``pip`` command with arbitrary arguments
+* :func:`check_reqs` - Verify whether a list of requirements is satisfied
+* :func:`check_req_file` - Verify requirements from a file
+* :func:`pip_install` - Install requirements programmatically
+* :func:`pip_install_req_file` - Install requirements from a file
+
+.. note::
+   Requirement marker evaluation follows PEP 508. Requirements with markers
+   that do not evaluate to true in the current environment are ignored.
+
+Example::
+
+    >>> from hbutils.system.python.package import (
+    ...     package_version, load_req_file, check_reqs, pip_install
+    ... )
+    >>> package_version('pip')
+    <Version('...')>
+    >>> reqs = load_req_file('requirements.txt')
+    >>> if not check_reqs(reqs):
+    ...     pip_install(reqs)
+
 """
 
 import functools
@@ -18,7 +39,7 @@ import os
 import pathlib
 import subprocess
 import sys
-from typing import List, Optional
+from typing import Iterable, Iterator, List, Optional
 
 from packaging.requirements import Requirement
 from packaging.utils import canonicalize_name
@@ -75,14 +96,16 @@ def _nonblank(text: str) -> bool:
 
 
 @functools.singledispatch
-def yield_lines(iterable):
+def yield_lines(iterable: Iterable[str]) -> Iterator[str]:
     """
     Yield valid lines of a string or iterable.
 
     Based on https://github.com/jaraco/jaraco.text/blob/main/jaraco/text/__init__.py#L537 .
 
     :param iterable: An iterable of strings or a string.
+    :type iterable: Iterable[str]
     :return: Generator yielding valid non-blank lines.
+    :rtype: Iterator[str]
 
     Examples::
         >>> list(yield_lines(''))
@@ -100,13 +123,14 @@ def yield_lines(iterable):
 
 
 @yield_lines.register(str)
-def _(text: str):
+def _(text: str) -> Iterator[str]:
     """
     Yield valid lines from a string.
 
     :param text: Text string to process.
     :type text: str
     :return: Generator yielding valid non-blank lines.
+    :rtype: Iterator[str]
     """
     return filter(_nonblank, map(str.strip, text.splitlines()))
 
@@ -133,14 +157,16 @@ def drop_comment(line: str) -> str:
     return line.partition(' #')[0]
 
 
-def join_continuation(lines):
+def join_continuation(lines: Iterable[str]) -> Iterator[str]:
     """
     Join lines continued by a trailing backslash.
 
     Based on https://github.com/jaraco/jaraco.text/blob/main/jaraco/text/__init__.py#L575 .
 
     :param lines: Iterable of lines to process.
+    :type lines: Iterable[str]
     :return: Generator yielding joined lines.
+    :rtype: Iterator[str]
 
     Examples::
         >>> list(join_continuation(['foo \\\\', 'bar', 'baz']))
@@ -190,11 +216,12 @@ def load_req_file(requirements_file: str) -> List[str]:
         ))
 
 
-def pip(*args, silent: bool = False):
+def pip(*args: str, silent: bool = False) -> None:
     """
     Run pip command with code.
 
     :param args: Command line arguments for ``pip`` command.
+    :type args: str
     :param silent: Do not print anything. Default is False, which means print the output to ``sys.stdout`` \
         and ``sys.stderr``.
     :type silent: bool
@@ -222,7 +249,7 @@ def pip(*args, silent: bool = False):
     process.check_returncode()
 
 
-def _yield_reqs_to_install(req: Requirement, current_extra: str = ''):
+def _yield_reqs_to_install(req: Requirement, current_extra: str = '') -> Iterator[Requirement]:
     """
     Yield requirements that need to be installed.
 
@@ -234,6 +261,7 @@ def _yield_reqs_to_install(req: Requirement, current_extra: str = ''):
     :param current_extra: Current extra being evaluated.
     :type current_extra: str
     :return: Generator yielding requirements that need installation.
+    :rtype: Iterator[Requirement]
     """
     if req.marker and not req.marker.evaluate({'extra': current_extra}):
         return
@@ -318,7 +346,7 @@ def check_req_file(requirements_file: str) -> bool:
     return check_reqs(load_req_file(requirements_file))
 
 
-def pip_install(reqs: List[str], silent: bool = False, force: bool = False, user: bool = False):
+def pip_install(reqs: List[str], silent: bool = False, force: bool = False, user: bool = False) -> None:
     """
     Pip install requirements with code.
 
@@ -352,7 +380,12 @@ def pip_install(reqs: List[str], silent: bool = False, force: bool = False, user
         pip('install', *(('--user',) if user else ()), *reqs, silent=silent)
 
 
-def pip_install_req_file(requirements_file: str, silent: bool = False, force: bool = False, user: bool = False):
+def pip_install_req_file(
+    requirements_file: str,
+    silent: bool = False,
+    force: bool = False,
+    user: bool = False
+) -> None:
     """
     Pip install requirements from file with code.
 

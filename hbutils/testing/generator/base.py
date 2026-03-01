@@ -1,12 +1,32 @@
 """
-Module for generating test cases with different combinations of values.
+Test case generation utilities for combinatorial testing workflows.
 
-This module provides base functionality for creating test case generators that can produce
-various combinations of input values. It includes utilities for converting single values
-to tuples and processing dictionaries of values for test case generation.
+This module provides foundational utilities and a base class for building
+test case generators that emit combinations of values. It focuses on
+normalizing user-provided values into tuples and providing a structured
+interface for derived generators that implement concrete combination
+strategies.
 
-The main class :class:`BaseGenerator` serves as a foundation for implementing specific
-test case generation strategies in derived classes.
+The module contains the following main public components:
+
+* :class:`BaseGenerator` - Base class for implementing test case generators
+
+Example::
+
+    >>> class SimpleGenerator(BaseGenerator):
+    ...     def cases(self):
+    ...         for a in self.values['a']:
+    ...             for b in self.values['b']:
+    ...                 yield {'a': a, 'b': b}
+    ...
+    >>> gen = SimpleGenerator({'a': [1, 2], 'b': ['x', 'y']})
+    >>> list(gen.tuple_cases())
+    [(1, 'x'), (1, 'y'), (2, 'x'), (2, 'y')]
+
+.. note::
+   This module is intended to be extended. The :meth:`BaseGenerator.cases`
+   method must be implemented in subclasses.
+
 """
 
 from types import GeneratorType
@@ -19,12 +39,12 @@ def _single_to_tuple(s: object) -> Tuple[object, ...]:
 
     :param s: The value to convert. Can be a single value, list, tuple, generator, or range.
     :type s: object
-
-    :return: A tuple containing the value(s). If input is already iterable (list, tuple, 
+    :return: A tuple containing the value(s). If input is already iterable (list, tuple,
         generator, or range), returns it as a tuple. Otherwise, wraps the single value in a tuple.
     :rtype: Tuple[object, ...]
 
     Example::
+
         >>> _single_to_tuple(5)
         (5,)
         >>> _single_to_tuple([1, 2, 3])
@@ -44,18 +64,18 @@ def _single_dict_process(s: Mapping[str, object]) -> Mapping[str, Tuple[object, 
 
     :param s: A dictionary with string keys and arbitrary values.
     :type s: Mapping[str, object]
-
     :return: A new dictionary with the same keys, but all values converted to tuples.
     :rtype: Mapping[str, Tuple[object, ...]]
 
     Example::
+
         >>> _single_dict_process({'a': 1, 'b': [2, 3]})
         {'a': (1,), 'b': (2, 3)}
     """
     return {key: _single_to_tuple(value) for key, value in s.items()}
 
 
-def _check_keys(item: Mapping[str, object], names: Set[str]):
+def _check_keys(item: Mapping[str, object], names: Set[str]) -> None:
     """
     Validate that all keys in the item exist in the allowed names set.
 
@@ -63,10 +83,10 @@ def _check_keys(item: Mapping[str, object], names: Set[str]):
     :type item: Mapping[str, object]
     :param names: A set of valid key names.
     :type names: Set[str]
-
     :raises KeyError: If any key in item is not present in the names set.
 
     Example::
+
         >>> _check_keys({'a': 1, 'b': 2}, {'a', 'b', 'c'})  # No error
         >>> _check_keys({'a': 1, 'd': 2}, {'a', 'b', 'c'})  # Raises KeyError
         Traceback (most recent call last):
@@ -88,9 +108,30 @@ class BaseGenerator:
 
     Subclasses should implement the :meth:`cases` method to define the specific strategy
     for generating test case combinations.
+
+    :param values: A mapping of parameter names to their possible values. Each value can be
+        a single item or an iterable (list, tuple, generator, range). Single values will be
+        automatically converted to tuples. For example: ``{'a': [2, 3], 'b': ['x', 'y']}``.
+    :type values: Mapping[str, object]
+    :param names: Optional list of parameter names to define the order of parameters.
+        If not provided, uses the sorted keys from values. Default is ``None``.
+    :type names: Optional[List[str]]
+
+    :ivar values: Mapping of parameter names to tuples of possible values.
+    :vartype values: Mapping[str, Tuple[object, ...]]
+    :ivar names: Ordered list of parameter names to be used for output tuples.
+    :vartype names: List[str]
+
+    Example::
+
+        >>> gen = BaseGenerator({'a': [1, 2], 'b': ['x', 'y']})
+        >>> gen.names
+        ['a', 'b']
+        >>> gen.values
+        {'a': (1, 2), 'b': ('x', 'y')}
     """
 
-    def __init__(self, values: Mapping[str, object], names: Optional[List[str]] = None):
+    def __init__(self, values: Mapping[str, object], names: Optional[List[str]] = None) -> None:
         """
         Initialize the BaseGenerator with values and optional names.
 
@@ -103,6 +144,7 @@ class BaseGenerator:
         :type names: Optional[List[str]]
 
         Example::
+
             >>> gen = BaseGenerator({'a': [1, 2], 'b': ['x', 'y']})
             >>> gen.names
             ['a', 'b']
@@ -121,6 +163,7 @@ class BaseGenerator:
         :rtype: Mapping[str, Tuple[object, ...]]
 
         Example::
+
             >>> gen = BaseGenerator({'a': [1, 2], 'b': 'x'})
             >>> gen.values
             {'a': (1, 2), 'b': ('x',)}
@@ -136,6 +179,7 @@ class BaseGenerator:
         :rtype: List[str]
 
         Example::
+
             >>> gen = BaseGenerator({'b': [1, 2], 'a': [3, 4]})
             >>> gen.names
             ['a', 'b']
@@ -152,10 +196,10 @@ class BaseGenerator:
         :return: An iterator yielding dictionaries where keys are parameter names
             and values are the selected values for that test case.
         :rtype: Iterator[Mapping[str, object]]
-
         :raises NotImplementedError: This method must be implemented by subclasses.
 
         Example::
+
             >>> # In a subclass implementation:
             >>> for case in generator.cases():
             ...     print(case)
@@ -176,6 +220,7 @@ class BaseGenerator:
         :rtype: Iterator[Tuple[object, ...]]
 
         Example::
+
             >>> # Assuming cases() yields {'a': 1, 'b': 'x'} and {'a': 2, 'b': 'y'}
             >>> # and names is ['a', 'b']
             >>> for case in generator.tuple_cases():

@@ -1,19 +1,35 @@
 """
-Overview:
-    Algorithm module, including the generic implementation of some useful algorithms and data structures.
+Algorithm utilities and data structures.
 
-    This module provides various algorithmic utilities including:
+This package module serves as the public entry point for the
+:mod:`hbutils.algorithm` namespace. It re-exports commonly used algorithmic
+helpers from submodules to provide a convenient import surface. The primary
+utilities include:
 
-    - Linear algorithms and data structures (piecewise linear mapping functions)
-    - Topological sorting and related algorithms
+* :func:`linear_map` - Create piecewise linear mapping functions.
+* :func:`topoids` - Perform topological sorting on integer-indexed nodes.
+* :func:`topo` - Perform topological sorting on arbitrary hashable objects.
 
-    The module serves as a central import point for algorithm-related functionality,
-    exposing implementations from submodules for convenient access.
+The concrete implementations live in the :mod:`hbutils.algorithm.linear` and
+:mod:`hbutils.algorithm.topological` submodules, and are imported into this
+namespace for easy access.
 
-    Exported Functions:
-        - :func:`linear_map`: Creates piecewise linear mapping functions
-        - :func:`topoids`: Performs topological sort on integer-indexed nodes
-        - :func:`topo`: Performs topological sort on arbitrary objects
+Example::
+
+    >>> from hbutils.algorithm import linear_map, topo
+    >>> mapping = linear_map([(0, 0), (1, 10)])
+    >>> mapping(0.5)
+    5.0
+    >>> order = topo({'a': ['b'], 'b': []})
+    >>> order
+    ['b', 'a']
+
+.. note::
+   This module only re-exports public APIs from its submodules. Refer to the
+   respective submodule documentation for detailed parameter and return type
+   descriptions.
+
 """
+
 from .linear import *
 from .topological import *

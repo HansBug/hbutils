@@ -1,69 +1,75 @@
 hbutils.binary.uint
-==========================
+========================================================
 
 .. currentmodule:: hbutils.binary.uint
 
 .. automodule:: hbutils.binary.uint
 
 
-CUnsignedIntType
-------------------------
+\_\_all\_\_
+-----------------------------------------------------
 
-.. autoclass:: CUnsignedIntType
-    :members: __init__, size, read, write
-
-
-c_ubyte
-------------------------
-
-.. autodata:: c_ubyte
+.. autodata:: __all__
 
 
-c_ushort
-------------------------
-
-.. autodata:: c_ushort
-
-
-c_uint
-------------------------
-
-.. autodata:: c_uint
-
-
-c_ulong
-------------------------
-
-.. autodata:: c_ulong
-
-
-c_ulonglong
-------------------------
-
-.. autodata:: c_ulonglong
-
-
-c_uint8
-------------------------
+c\_uint8
+-----------------------------------------------------
 
 .. autodata:: c_uint8
 
 
-c_uint16
-------------------------
+c\_uint16
+-----------------------------------------------------
 
 .. autodata:: c_uint16
 
 
-c_uint32
-------------------------
+c\_uint32
+-----------------------------------------------------
 
 .. autodata:: c_uint32
 
 
-c_uint64
-------------------------
+c\_uint64
+-----------------------------------------------------
 
 .. autodata:: c_uint64
+
+
+c\_ubyte
+-----------------------------------------------------
+
+.. autodata:: c_ubyte
+
+
+c\_ushort
+-----------------------------------------------------
+
+.. autodata:: c_ushort
+
+
+c\_uint
+-----------------------------------------------------
+
+.. autodata:: c_uint
+
+
+c\_ulong
+-----------------------------------------------------
+
+.. autodata:: c_ulong
+
+
+c\_ulonglong
+-----------------------------------------------------
+
+.. autodata:: c_ulonglong
+
+
+CUnsignedIntType
+-----------------------------------------------------
+
+.. autoclass:: CUnsignedIntType
+    :members: __init__,read,write
 
 

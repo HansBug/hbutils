@@ -1,18 +1,34 @@
 """
-This module provides convenient wrapper functions for various cryptographic hash algorithms.
+Cryptographic hash utilities for binary data.
 
-It offers easy-to-use interfaces for MD5, SHA1, SHA2 family (SHA224, SHA256, SHA384, SHA512),
-and SHA3 hash functions. All functions take binary data as input and return hexadecimal digest strings.
+This module provides convenient wrapper functions for various cryptographic hash
+algorithms and exposes a uniform, easy-to-use interface for common hashing tasks.
+It wraps Python's :mod:`hashlib` and returns hexadecimal digest strings for all
+supported algorithms.
 
-The module simplifies the usage of Python's hashlib by providing a consistent interface across
-different hash algorithms.
+The module contains the following main components:
 
-Examples::
-    >>> from hbutils.encoding import md5, sha256
+* :func:`md5` - MD5 hashing of binary data
+* :func:`sha1` - SHA1 hashing of binary data
+* :func:`sha224` - SHA224 hashing of binary data
+* :func:`sha256` - SHA256 hashing of binary data
+* :func:`sha384` - SHA384 hashing of binary data
+* :func:`sha512` - SHA512 hashing of binary data
+* :func:`sha3` - SHA3 hashing with selectable bit length
+
+.. note::
+   All functions require input as :class:`bytes` and return hexadecimal strings.
+
+Example::
+
+    >>> from hbutils.encoding.hash import md5, sha256, sha3
     >>> md5(b'hello world')
     '5eb63bbbe01eeed093cb22bb8f5acdc3'
     >>> sha256(b'hello world')
     'b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9'
+    >>> sha3(b'hello world', n=224)
+    'dfb7f18c77e928bb56faeb2da27291bd790bc1045cde45f3210bb6c5'
+
 """
 
 import hashlib
@@ -27,9 +43,13 @@ __all__ = [
 
 def _hash_algorithm(algo: Callable, binary: bytes) -> str:
     """
-    Internal helper function to compute hash digest using the specified algorithm.
+    Compute a hash digest using the specified algorithm constructor.
 
-    :param algo: Hash algorithm constructor from hashlib module.
+    This internal helper creates a hashing object using the provided
+    algorithm constructor, updates it with the given binary data, and
+    returns the hexadecimal digest.
+
+    :param algo: Hash algorithm constructor from :mod:`hashlib` (e.g. :func:`hashlib.md5`).
     :type algo: Callable
     :param binary: Binary data to be hashed.
     :type binary: bytes
@@ -43,14 +63,15 @@ def _hash_algorithm(algo: Callable, binary: bytes) -> str:
 
 def md5(binary: bytes) -> str:
     """
-    Compute MD5 hash of binary data.
+    Compute the MD5 hash of binary data.
 
     :param binary: Binary data to be hashed.
     :type binary: bytes
     :return: MD5 digest string in hexadecimal format.
     :rtype: str
 
-    Examples::
+    Example::
+
         >>> from hbutils.encoding import md5
         >>> md5(b'')
         'd41d8cd98f00b204e9800998ecf8427e'
@@ -62,14 +83,15 @@ def md5(binary: bytes) -> str:
 
 def sha1(binary: bytes) -> str:
     """
-    Compute SHA1 hash of binary data.
+    Compute the SHA1 hash of binary data.
 
     :param binary: Binary data to be hashed.
     :type binary: bytes
     :return: SHA1 digest string in hexadecimal format.
     :rtype: str
 
-    Examples::
+    Example::
+
         >>> from hbutils.encoding import sha1
         >>> sha1(b'')
         'da39a3ee5e6b4b0d3255bfef95601890afd80709'
@@ -81,14 +103,15 @@ def sha1(binary: bytes) -> str:
 
 def sha224(binary: bytes) -> str:
     """
-    Compute SHA224 hash of binary data.
+    Compute the SHA224 hash of binary data.
 
     :param binary: Binary data to be hashed.
     :type binary: bytes
     :return: SHA224 digest string in hexadecimal format.
     :rtype: str
 
-    Examples::
+    Example::
+
         >>> from hbutils.encoding import sha224
         >>> sha224(b'')
         'd14a028c2a3a2bc9476102bb288234c415a2b01f828ea62ac5b3e42f'
@@ -100,14 +123,15 @@ def sha224(binary: bytes) -> str:
 
 def sha256(binary: bytes) -> str:
     """
-    Compute SHA256 hash of binary data.
+    Compute the SHA256 hash of binary data.
 
     :param binary: Binary data to be hashed.
     :type binary: bytes
     :return: SHA256 digest string in hexadecimal format.
     :rtype: str
 
-    Examples::
+    Example::
+
         >>> from hbutils.encoding import sha256
         >>> sha256(b'')
         'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
@@ -119,14 +143,15 @@ def sha256(binary: bytes) -> str:
 
 def sha384(binary: bytes) -> str:
     """
-    Compute SHA384 hash of binary data.
+    Compute the SHA384 hash of binary data.
 
     :param binary: Binary data to be hashed.
     :type binary: bytes
     :return: SHA384 digest string in hexadecimal format.
     :rtype: str
 
-    Examples::
+    Example::
+
         >>> from hbutils.encoding import sha384
         >>> sha384(b'')
         '38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b'
@@ -138,14 +163,15 @@ def sha384(binary: bytes) -> str:
 
 def sha512(binary: bytes) -> str:
     """
-    Compute SHA512 hash of binary data.
+    Compute the SHA512 hash of binary data.
 
     :param binary: Binary data to be hashed.
     :type binary: bytes
     :return: SHA512 digest string in hexadecimal format.
     :rtype: str
 
-    Examples::
+    Example::
+
         >>> from hbutils.encoding import sha512
         >>> sha512(b'')
         'cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e'
@@ -157,16 +183,19 @@ def sha512(binary: bytes) -> str:
 
 def sha3(binary: bytes, n: int = 256) -> str:
     """
-    Compute SHA3 hash of binary data with configurable bit length.
+    Compute the SHA3 hash of binary data with a configurable bit length.
 
     :param binary: Binary data to be hashed.
     :type binary: bytes
-    :param n: Bit length of SHA3 hash. Valid values are 224, 256, 384, or 512. Default is 256.
+    :param n: Bit length of SHA3 hash. Valid values are ``224``, ``256``, ``384``,
+              or ``512``. Defaults to ``256``.
     :type n: int
     :return: SHA3 digest string in hexadecimal format.
     :rtype: str
+    :raises AttributeError: If the specified bit length is unsupported by :mod:`hashlib`.
 
-    Examples::
+    Example::
+
         >>> from hbutils.encoding import sha3
         >>> sha3(b'')
         'a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a'

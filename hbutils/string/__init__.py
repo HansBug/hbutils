@@ -1,19 +1,34 @@
 """
-Overview:
-    String process module, include some useful utilities for string processing.
-    This module provides various string manipulation utilities including inflection,
-    pluralization, templating, tree structure representation, and truncation functions.
+String processing package entry point for :mod:`hbutils.string`.
 
-The module exports functionality from the following submodules:
-    - inflection: String inflection utilities (e.g., camelCase, snake_case conversions)
-    - plural: Pluralization and singularization utilities
-    - template: String templating utilities
-    - tree: Tree structure string representation utilities
-    - trunc: String truncation utilities
+This module aggregates and re-exports the public utilities from the string
+processing submodules, providing a unified interface for common string
+manipulation tasks such as inflection, pluralization, templating, tree
+representation, and truncation.
 
-This is the main entry point for the hbutils.string package, providing a unified
-interface to all string processing utilities through wildcard imports from its
-submodules.
+The main components are re-exported from the following submodules:
+
+* :mod:`hbutils.string.inflection` - String inflection utilities such as case conversions.
+* :mod:`hbutils.string.plural` - Pluralization and singularization helpers.
+* :mod:`hbutils.string.template` - String templating utilities.
+* :mod:`hbutils.string.tree` - Tree structure string representation helpers.
+* :mod:`hbutils.string.trunc` - String truncation utilities.
+
+This module serves as the primary access point for the package, enabling
+wildcard imports to pull in all public APIs from the submodules.
+
+Example::
+
+    >>> from hbutils.string import camelize, pluralize
+    >>> camelize('hello_world')
+    'HelloWorld'
+    >>> pluralize('box')
+    'boxes'
+
+.. note::
+   The actual public functions and classes are defined in the submodules and
+   are re-exported here for convenience. Refer to each submodule's
+   documentation for detailed API references and usage.
 """
 from .inflection import *
 from .plural import *

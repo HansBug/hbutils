@@ -17,28 +17,8 @@ Overview
     :maxdepth: 2
     :caption: Best Practice
 
-.. toctree::
-    :maxdepth: 2
-    :caption: API Documentation
 
-    api_doc/algorithm/index
-    api_doc/binary/index
-    api_doc/collection/index
-    api_doc/color/index
-    api_doc/concurrent/index
-    api_doc/config/index
-    api_doc/design/index
-    api_doc/encoding/index
-    api_doc/expression/index
-    api_doc/file/index
-    api_doc/logging/index
-    api_doc/model/index
-    api_doc/random/index
-    api_doc/reflection/index
-    api_doc/scale/index
-    api_doc/string/index
-    api_doc/system/index
-    api_doc/testing/index
+.. include:: api_doc.rst
 
 
 .. toctree::

@@ -1,12 +1,43 @@
 """
-Overview:
-    Useful functions for building class models. This module provides decorators and utilities
-    for enhancing Python classes with features like automatic field access, visual representation,
-    constructor generation, hash/equality operations, and property accessors.
+Class modeling utilities for declarative Python objects.
+
+This module provides decorators and helper functions that simplify the creation
+of lightweight data-centric classes. It focuses on generating commonly needed
+behaviors such as automatic field access, visual representations, constructor
+generation, hash/equality support, and property accessors, all while supporting
+name-mangled private attributes.
+
+The module contains the following main public components:
+
+* :func:`get_field` - Retrieve attributes with support for private name mangling
+* :func:`asitems` - Declare class-level field names
+* :func:`visual` - Generate a human-friendly ``__repr__`` implementation
+* :func:`constructor` - Generate an ``__init__`` constructor from field specs
+* :func:`hasheq` - Generate ``__hash__``, ``__eq__``, and ``__ne__`` methods
+* :func:`accessor` - Generate property accessors for private fields
+
+Example::
+
+    >>> @accessor(readonly=True)
+    >>> @visual()
+    >>> @constructor(['x', ('y', 2)])
+    >>> class Point:
+    ...     pass
+    >>> p = Point(1)
+    >>> p
+    <Point x: 1, y: 2>
+    >>> p.x
+    1
+
+.. note::
+   These decorators are designed to cooperate. For example, using
+   :func:`asitems` enables automatic field discovery by :func:`constructor`,
+   :func:`visual`, and :func:`hasheq`.
+
 """
 import os
 import textwrap
-from typing import Optional, Iterable
+from typing import Optional, Iterable, Callable, Any, List, Tuple, Union, Type
 
 from ._info import _PACKAGE_RST
 from ..config.meta import __VERSION__
@@ -21,9 +52,13 @@ __all__ = [
 CLASS_WRAPPER_UPDATES = ()
 
 
-def _cls_field_name(cls: type, name: str):
+def _cls_field_name(cls: Type[Any], name: str) -> str:
     """
     Get the mangled field name for a class.
+
+    This function applies Python's name mangling rules to private attributes
+    (names starting with ``__``) so that the correct attribute name can be used
+    for reflection or attribute access.
 
     :param cls: The class type.
     :type cls: type
@@ -33,7 +68,7 @@ def _cls_field_name(cls: type, name: str):
     :rtype: str
 
     .. note::
-        This function handles Python's name mangling for private attributes (those starting with __).
+        Private attributes are transformed into ``_{ClassName}__{name}``.
     """
     if name.startswith('__'):
         return f'_{cls.__name__.lstrip("_")}__{name[2:]}'
@@ -44,19 +79,27 @@ def _cls_field_name(cls: type, name: str):
 _NO_DEFAULT_VALUE = SingletonMark('no_default_value')
 
 
-def get_field(obj, name: str, default=_NO_DEFAULT_VALUE):
+def get_field(obj: Any, name: str, default: Any = _NO_DEFAULT_VALUE) -> Any:
     """
-    Get field from object. Private field is supported.
+    Get field from object with support for private attributes.
+
+    This function resolves name-mangled private attributes and uses ``getattr``
+    to fetch the field. When a ``default`` is provided, it will be returned
+    instead of raising :class:`AttributeError`.
 
     :param obj: The given object.
     :type obj: object
-    :param name: Field to be got.
+    :param name: Field to be retrieved.
     :type name: str
-    :param default: Default value when failed. Defaults to _NO_DEFAULT_VALUE.
-    :return: Field value of the field.
+    :param default: Default value to return if the field does not exist.
+        If not provided, the absence of the field raises :class:`AttributeError`.
+    :type default: Any, optional
+    :return: Field value for the requested field.
+    :rtype: Any
     :raises AttributeError: If the field does not exist and no default is provided.
 
     Example::
+
         >>> class MyClass:
         ...     def __init__(self):
         ...         self.__private_field = 42
@@ -73,38 +116,42 @@ def get_field(obj, name: str, default=_NO_DEFAULT_VALUE):
         return getattr(obj, _field_name, default)
 
 
-def _cls_private_prefix(cls):
+def _cls_private_prefix(cls: Type[Any]) -> str:
     """
     Get the private field prefix for a class.
+
+    This prefix is the internal name-mangling prefix used for private
+    attributes, e.g., ``_ClassName__``.
 
     :param cls: The class type.
     :type cls: type
     :return: The private field prefix string.
     :rtype: str
-
-    .. note::
-        This returns the prefix used for name-mangled private attributes.
     """
     cls_name = cls.__name__.lstrip('_')
     return f'_{cls_name}__'
 
 
-def _auto_get_items_from_cls(cls):
+def _auto_get_items_from_cls(cls: Type[Any]) -> List[str]:
     """
-    Get items from class's __items__ attribute.
+    Get items from class's ``__items__`` attribute.
 
     :param cls: The class type.
     :type cls: type
     :return: The items list.
-    :rtype: list
-    :raises AttributeError: If the class does not have __items__ attribute.
+    :rtype: list[str]
+    :raises AttributeError: If the class does not have ``__items__`` attribute.
     """
     return cls.__items__
 
 
-def _auto_get_items(obj, cls_prefix=None):
+def _auto_get_items(obj: Any, cls_prefix: Optional[str] = None) -> List[str]:
     """
-    Automatically get items from an object by inspecting its attributes.
+    Automatically determine item names from an object.
+
+    The function first tries to retrieve items from ``__items__`` on the class.
+    If not available, it inspects the object's attributes and extracts private
+    attribute names based on the class's private prefix.
 
     :param obj: The object to inspect.
     :type obj: object
@@ -112,10 +159,6 @@ def _auto_get_items(obj, cls_prefix=None):
     :type cls_prefix: Optional[str]
     :return: Sorted list of item names.
     :rtype: list[str]
-
-    .. note::
-        This function first tries to get items from the class's __items__ attribute.
-        If that fails, it inspects the object's attributes and extracts private field names.
     """
     _type = type(obj)
     try:
@@ -131,7 +174,7 @@ def _auto_get_items(obj, cls_prefix=None):
         return sorted(items)
 
 
-def _get_value(self, vname: str, cls_prefix=None):
+def _get_value(self: Any, vname: str, cls_prefix: Optional[str] = None) -> Any:
     """
     Get value from object by name, supporting both regular and private attributes.
 
@@ -142,6 +185,7 @@ def _get_value(self, vname: str, cls_prefix=None):
     :param cls_prefix: The class private prefix. Defaults to None.
     :type cls_prefix: Optional[str]
     :return: The attribute value.
+    :rtype: Any
     :raises AttributeError: If the attribute does not exist.
     """
     cls_prefix = cls_prefix or _cls_private_prefix(type(self))
@@ -151,9 +195,13 @@ def _get_value(self, vname: str, cls_prefix=None):
         return getattr(self, cls_prefix + vname)
 
 
-def asitems(items: Iterable[str]):
+def asitems(items: Iterable[str]) -> Callable[[Type[Any]], Type[Any]]:
     """
     Define fields in the class level.
+
+    This decorator assigns the provided field names to ``__items__``, which
+    can be consumed by other decorators such as :func:`constructor`,
+    :func:`visual`, :func:`hasheq`, and :func:`accessor`.
 
     :param items: Field name items.
     :type items: Iterable[str]
@@ -161,6 +209,7 @@ def asitems(items: Iterable[str]):
     :rtype: Callable
 
     Example::
+
         >>> @visual()
         >>> @constructor(doc='''
         ...     Overview:
@@ -177,11 +226,19 @@ def asitems(items: Iterable[str]):
         ...         return self.__second
 
     .. note::
-        This decorator sets the __items__ attribute on the class, which is used by other
-        decorators to determine which fields to process.
+        This decorator sets ``__items__`` on the class, which is used by
+        other decorators to determine which fields to process.
     """
 
-    def _decorator(cls):
+    def _decorator(cls: Type[Any]) -> Type[Any]:
+        """
+        Attach the given item list to ``cls.__items__``.
+
+        :param cls: Class to decorate.
+        :type cls: type
+        :return: The decorated class.
+        :rtype: type
+        """
         _cls_prefix = _cls_private_prefix(cls)
         cls.__items__ = list(items)
         return cls
@@ -189,18 +246,22 @@ def asitems(items: Iterable[str]):
     return _decorator
 
 
-def visual(items: Optional[Iterable] = None, show_id: bool = False):
+def visual(items: Optional[Iterable[Union[str, Tuple[str, Callable[[Any], str]]]]] = None,
+           show_id: bool = False) -> Callable[[Type[Any]], Type[Any]]:
     """
     Decorate class to be visible by ``repr``.
 
-    :param items: Items to be displayed. Default is None, which means automatically find the private fields and display them.
-    :type items: Optional[Iterable]
+    :param items: Items to be displayed. Default is None, which means
+        automatically find the private fields and display them. Items can be
+        strings (field names) or ``(name, repr_func)`` pairs.
+    :type items: Optional[Iterable[Union[str, Tuple[str, Callable[[Any], str]]]]]
     :param show_id: Show hex id in representation string or not. Defaults to False.
     :type show_id: bool
     :return: Decorator to decorate the given class.
     :rtype: Callable
 
     Example::
+
         >>> @visual()
         >>> class T:
         ...     def __init__(self, x, y):
@@ -217,22 +278,38 @@ def visual(items: Optional[Iterable] = None, show_id: bool = False):
         '<T2 0x... x: 42>'
 
     .. note::
-        This decorator automatically generates a __repr__ method for the class that displays
+        This decorator generates a ``__repr__`` method that displays
         the specified fields or all private fields if none are specified.
     """
 
-    def _decorator(cls):
+    def _decorator(cls: Type[Any]) -> Type[Any]:
+        """
+        Add a dynamic ``__repr__`` implementation to ``cls``.
+
+        :param cls: Class to decorate.
+        :type cls: type
+        :return: The decorated class.
+        :rtype: type
+        """
         _cls_prefix = _cls_private_prefix(cls)
 
-        def _get_items(self):
+        def _get_items(self: Any) -> Iterable[Union[str, Tuple[str, Callable[[Any], str]]]]:
+            """
+            Resolve items for representation.
+
+            :param self: Instance of the decorated class.
+            :type self: object
+            :return: Iterable of field names or ``(name, repr_func)`` pairs.
+            :rtype: Iterable[Union[str, Tuple[str, Callable[[Any], str]]]]
+            """
             if items is None:
                 return _auto_get_items(self, _cls_prefix)
             else:
                 return items
 
-        def __repr__(self):
-            f"""
-            Get representation format of class {cls.__name__}.
+        def __repr__(self: Any) -> str:
+            """
+            Return representation format of the decorated class.
 
             .. note::
                 Created by {_PACKAGE_RST}, v{__VERSION__}.
@@ -272,18 +349,22 @@ def visual(items: Optional[Iterable] = None, show_id: bool = False):
 _INDENT = ' ' * 4
 
 
-def constructor(params: Optional[Iterable] = None, doc: Optional[str] = None):
+def constructor(params: Optional[Iterable[Union[str, Tuple[str, Any]]]] = None,
+                doc: Optional[str] = None) -> Callable[[Type[Any]], Type[Any]]:
     r"""
     Decorate class to create an init function.
 
-    :param params: Parameters of constructor, should be an iterator of items, each item should be a single string or a tuple of string and default value. Default is None, which means no arguments.
-    :type params: Optional[Iterable]
+    :param params: Parameters of constructor. Each item should be a string
+        (argument name) or a tuple of ``(name, default_value)``. Default is None,
+        which means no arguments (unless ``__items__`` is defined on the class).
+    :type params: Optional[Iterable[Union[str, Tuple[str, Any]]]]
     :param doc: Documentation of constructor function. Defaults to None.
     :type doc: Optional[str]
     :return: Decorator to decorate the given class.
     :rtype: Callable
 
     Example::
+
         >>> @constructor(['x', ('y', 2)], '''
         ...     Overview:
         ...         This is the constructor of class :class:`T`.
@@ -306,11 +387,19 @@ def constructor(params: Optional[Iterable] = None, doc: Optional[str] = None):
         (1, 2)
 
     .. note::
-        This decorator automatically generates an __init__ method for the class that initializes
-        the specified fields with the provided parameters.
+        This decorator generates an ``__init__`` method that stores
+        argument values into private attributes using name mangling.
     """
 
-    def _decorator(cls):
+    def _decorator(cls: Type[Any]) -> Type[Any]:
+        """
+        Create and attach an ``__init__`` method to ``cls``.
+
+        :param cls: Class to decorate.
+        :type cls: type
+        :return: The decorated class.
+        :rtype: type
+        """
         _cls_prefix = _cls_private_prefix(cls)
 
         if params is None:
@@ -355,16 +444,18 @@ def __init__(self, {', '.join(arg_items)}):
     return _decorator
 
 
-def hasheq(items: Optional[Iterable] = None):
+def hasheq(items: Optional[Iterable[str]] = None) -> Callable[[Type[Any]], Type[Any]]:
     """
     Decorate class to support hashing and equality comparison.
 
-    :param items: Items to be hashed and compared. Default is None, which means automatically find the private fields and use them.
-    :type items: Optional[Iterable]
+    :param items: Items to be hashed and compared. Default is None, which means
+        automatically find the private fields and use them.
+    :type items: Optional[Iterable[str]]
     :return: Decorator to decorate the given class.
     :rtype: Callable
 
     Example::
+
         >>> @hasheq(['x', 'y'])
         >>> class T:
         ...     def __init__(self, x, y):
@@ -390,25 +481,48 @@ def hasheq(items: Optional[Iterable] = None):
         True
 
     .. note::
-        This decorator generates __hash__, __eq__, and __ne__ methods for the class based on
-        the specified fields. Objects are considered equal if they are of the same class and
-        all specified field values are equal.
+        This decorator generates ``__hash__``, ``__eq__``, and ``__ne__`` methods
+        for the class based on the specified fields.
     """
 
-    def _decorator(cls):
+    def _decorator(cls: Type[Any]) -> Type[Any]:
+        """
+        Add hash and equality methods to ``cls``.
+
+        :param cls: Class to decorate.
+        :type cls: type
+        :return: The decorated class.
+        :rtype: type
+        """
         _cls_prefix = _cls_private_prefix(cls)
 
-        def _get_items(self):
+        def _get_items(self: Any) -> Iterable[str]:
+            """
+            Resolve items to be used for hashing and equality.
+
+            :param self: Instance of the decorated class.
+            :type self: object
+            :return: Iterable of field names.
+            :rtype: Iterable[str]
+            """
             if items is None:
                 return _auto_get_items(self, _cls_prefix)
             else:
                 return items
 
-        def _get_obj_values(self):
+        def _get_obj_values(self: Any) -> Tuple[Any, ...]:
+            """
+            Collect values of fields participating in hash/equality.
+
+            :param self: Instance of the decorated class.
+            :type self: object
+            :return: Tuple of field values.
+            :rtype: tuple
+            """
             return tuple(_get_value(self, name, _cls_prefix) for name in _get_items(self))
 
-        def __hash__(self):
-            f"""
+        def __hash__(self: Any) -> int:
+            """
             Hash value of class {cls.__name__}'s instances.
 
             .. note::
@@ -419,16 +533,16 @@ def hasheq(items: Optional[Iterable] = None):
             """
             return hash(_get_obj_values(self))
 
-        def __eq__(self, other):
-            f"""
+        def __eq__(self: Any, other: Any) -> bool:
+            """
             Equality between class {cls.__name__}'s instances.
 
             .. note::
                 Created by {_PACKAGE_RST}, v{__VERSION__}.
 
-                Currently, the return value is True only if both objects \\
-                are of class {cls.__name__} (subclasses are not permitted) and the \\
-                values of the internally specified fields are all equal; \\
+                Currently, the return value is True only if both objects \
+                are of class {cls.__name__} (subclasses are not permitted) and the \
+                values of the internally specified fields are all equal; \
                 otherwise, it is always False.
             """
             if self is other:
@@ -438,16 +552,16 @@ def hasheq(items: Optional[Iterable] = None):
             else:
                 return False
 
-        def __ne__(self, other):
-            f"""
+        def __ne__(self: Any, other: Any) -> bool:
+            """
             Non-equality between class {cls.__name__}'s instances.
 
             .. note::
                 Created by {_PACKAGE_RST}, v{__VERSION__}.
 
-                Currently, the return value is False only if both objects \\
-                are of class {cls.__name__} (subclasses are not permitted) and the \\
-                values of the internally specified fields are all equal; \\
+                Currently, the return value is False only if both objects \
+                are of class {cls.__name__} (subclasses are not permitted) and the \
+                values of the internally specified fields are all equal; \
                 otherwise, it is always True.
             """
             return not __eq__(self, other)
@@ -465,7 +579,7 @@ _READONLY_MARKS = {'r', 'ro', 'readonly'}
 _WRITABLE_MARKS = {'w', 'rw', 'writable'}
 
 
-def _is_writable(mark: str):
+def _is_writable(mark: str) -> bool:
     """
     Check if an accessibility mark indicates writable access.
 
@@ -476,8 +590,8 @@ def _is_writable(mark: str):
     :raises ValueError: If the mark is not recognized.
 
     .. note::
-        Valid readonly marks: 'r', 'ro', 'readonly'
-        Valid writable marks: 'w', 'rw', 'writable'
+        Valid readonly marks: ``'r'``, ``'ro'``, ``'readonly'``.
+        Valid writable marks: ``'w'``, ``'rw'``, ``'writable'``.
     """
     if mark.lower() in _READONLY_MARKS:
         return False
@@ -487,18 +601,23 @@ def _is_writable(mark: str):
         raise ValueError(f'Unknown accessible mark - {repr(mark)}.')
 
 
-def accessor(items: Optional[Iterable] = None, readonly: bool = False):
+def accessor(items: Optional[Iterable[Union[str, Tuple[str, str]]]] = None,
+             readonly: bool = False) -> Callable[[Type[Any]], Type[Any]]:
     """
     Decorate class to be accessible by property accessors.
 
-    :param items: Items to be accessed. Default is None, which means automatically find the private fields and create accessors for them.
-    :type items: Optional[Iterable]
-    :param readonly: Default readonly or not. Default is False, which means make the accessor be writable when ``rw`` option is not given.
+    :param items: Items to be accessed. Default is None, which means automatically
+        find the private fields and create accessors for them. Each item can be a
+        string (field name) or a ``(name, access_mode)`` tuple.
+    :type items: Optional[Iterable[Union[str, Tuple[str, str]]]]
+    :param readonly: Default readonly or not. Default is False, which means make
+        the accessor writable when ``rw`` option is not given.
     :type readonly: bool
     :return: Decorator to decorate the given class.
     :rtype: Callable
 
     Example::
+
         >>> @accessor(readonly=True)
         >>> @asitems(['x', 'y'])
         >>> class T:
@@ -511,7 +630,7 @@ def accessor(items: Optional[Iterable] = None, readonly: bool = False):
         >>> t.y  # 100
         100
 
-        With writable access:
+        With writable access::
 
         >>> @accessor(readonly=False)
         >>> @asitems(['x', 'y'])
@@ -524,7 +643,7 @@ def accessor(items: Optional[Iterable] = None, readonly: bool = False):
         >>> t.x
         42
 
-        With mixed access control:
+        With mixed access control::
 
         >>> @accessor([('x', 'ro'), ('y', 'rw')])
         >>> class T3:
@@ -536,12 +655,20 @@ def accessor(items: Optional[Iterable] = None, readonly: bool = False):
         >>> # t.x = 10  # This would raise AttributeError
 
     .. note::
-        This decorator automatically generates property accessors for the specified fields.
-        Each item can be either a string (field name) or a tuple of (field name, access mode).
-        Access modes: 'r'/'ro'/'readonly' for read-only, 'w'/'rw'/'writable' for read-write.
+        This decorator automatically generates property accessors for the
+        specified fields. Access modes: ``'r'``/``'ro'``/``'readonly'`` for
+        read-only, ``'w'``/``'rw'``/``'writable'`` for read-write.
     """
 
-    def _decorator(cls):
+    def _decorator(cls: Type[Any]) -> Type[Any]:
+        """
+        Add property accessors to ``cls``.
+
+        :param cls: Class to decorate.
+        :type cls: type
+        :return: The decorated class.
+        :rtype: type
+        """
         _cls_prefix = _cls_private_prefix(cls)
 
         if items is None:
@@ -575,7 +702,7 @@ def get_{itn}(self):
             .. note::
                 Created by {_PACKAGE_RST}, v{__VERSION__}.
 
-                {'Both reading and writing are' if itv else 'Only reading is'} \\
+                {'Both reading and writing are' if itv else 'Only reading is'} \
                 permitted with the accessor ``{itn}``.
             """)(getter_func)
 

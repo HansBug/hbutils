@@ -1,21 +1,26 @@
 """
-Overview:
-    Utilities for filesystem operations.
+Filesystem utilities for hbutils.system.
 
-    This module provides a comprehensive set of utilities for working with filesystems,
-    including binary file operations, directory management, file handling, and temporary
-    file creation. It serves as a central import point for all filesystem-related
-    functionality in the hbutils.system package.
+This module serves as the public aggregation point for filesystem-related
+utilities in the :mod:`hbutils.system` package. It re-exports the public
+functions and classes from submodules that provide binary file inspection,
+directory management, general file operations, and temporary file utilities.
 
-    The module aggregates functionality from:
+The following main components are re-exported from submodules:
 
-    - binary: Binary file operations and utilities for detecting file types
-    - directory: Directory creation, traversal, and management operations
-    - file: General file operations and manipulation utilities
-    - tempfile: Temporary file and directory creation utilities with cross-platform support
+* :class:`TemporaryDirectory` - Temporary directory creation with resilient cleanup
 
-    This module re-exports all public functions and classes from its submodules,
-    providing a convenient single import point for filesystem operations.
+.. note::
+   This module only re-exports public symbols from its submodules and does not
+   implement filesystem operations directly. Refer to the specific submodules
+   for detailed behavior.
+
+Example::
+
+    >>> from hbutils.system.filesystem import TemporaryDirectory
+    >>> with TemporaryDirectory() as tmpdir:
+    ...     # Use tmpdir for temporary operations
+    ...     pass
 """
 from .binary import *
 from .directory import *

@@ -1,55 +1,61 @@
 hbutils.random.state
-========================================
+========================================================
 
 .. currentmodule:: hbutils.random.state
 
 .. automodule:: hbutils.random.state
 
 
-register_random_source
---------------------------------------------
+T
+-----------------------------------------------------
+
+.. autodata:: T
+
+
+\_\_all\_\_
+-----------------------------------------------------
+
+.. autodata:: __all__
+
+
+register\_random\_source
+-----------------------------------------------------
 
 .. autofunction:: register_random_source
 
 
-
-register_random_instance
---------------------------------------------
+register\_random\_instance
+-----------------------------------------------------
 
 .. autofunction:: register_random_instance
 
 
-
-get_global_state
---------------------------------------------
+get\_global\_state
+-----------------------------------------------------
 
 .. autofunction:: get_global_state
 
 
-
-set_global_state
---------------------------------------------
+set\_global\_state
+-----------------------------------------------------
 
 .. autofunction:: set_global_state
 
 
-
-keep_global_state
---------------------------------------------
+keep\_global\_state
+-----------------------------------------------------
 
 .. autofunction:: keep_global_state
 
 
-
-global_seed
---------------------------------------------
+global\_seed
+-----------------------------------------------------
 
 .. autofunction:: global_seed
 
 
-
-seedable_func
---------------------------------------------
+seedable\_func
+-----------------------------------------------------
 
 .. autofunction:: seedable_func
 

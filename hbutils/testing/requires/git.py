@@ -1,14 +1,30 @@
 """
-This module provides utility functions for checking Git and Git LFS installations and versions.
+Git availability and version query utilities for testing environments.
 
-It includes functions to:
-1. Check if Git is installed.
-2. Get the Git version.
-3. Check if Git LFS is installed.
-4. Get the Git LFS version.
+This module provides lightweight helpers built on top of
+:func:`hbutils.system.git.info.git_info` to query Git and Git LFS installation
+status as well as retrieve their versions. The functions are intentionally
+minimal and designed for use in test requirements checks where a concise
+boolean or version object is more convenient than the full metadata dictionary.
 
-These functions utilize the git_info function from the system.git.info module and provide
-a more convenient interface for common Git-related queries.
+The module contains the following main components:
+
+* :func:`is_git_installed` - Determine whether Git is available
+* :func:`git_version` - Retrieve the Git version as a :class:`VersionInfo`
+* :func:`is_git_lfs_installed` - Determine whether Git LFS is available
+* :func:`git_lfs_version` - Retrieve the Git LFS version as a :class:`VersionInfo`
+
+.. note::
+   These helpers depend on :func:`hbutils.system.git.info.git_info` and therefore
+   inherit its path resolution and caching behavior.
+
+Example::
+
+    >>> from hbutils.testing.requires.git import is_git_installed, git_version
+    >>> if is_git_installed():
+    ...     print(git_version())
+    2.34.1
+
 """
 
 from typing import Optional
@@ -28,14 +44,19 @@ def is_git_installed(git_path: Optional[str] = None) -> bool:
     """
     Check if Git is installed.
 
-    :param git_path: Optional path to the Git executable. If not provided, the function
-                     will attempt to find Git in the system PATH.
-    :type git_path: Optional[str]
+    The function delegates to :func:`hbutils.system.git.info.git_info` and
+    reports whether Git is available. When ``git_path`` is provided, it is used
+    as the candidate Git executable path; otherwise, the system ``PATH`` is
+    searched.
 
-    :return: True if Git is installed, False otherwise.
+    :param git_path: Optional path to the Git executable. If not provided, the
+        function will attempt to find Git in the system ``PATH``.
+    :type git_path: Optional[str]
+    :return: ``True`` if Git is installed, ``False`` otherwise.
     :rtype: bool
 
     Example::
+
         >>> is_git_installed()
         True
         >>> is_git_installed('/custom/path/to/git')
@@ -48,19 +69,24 @@ def git_version(git_path: Optional[str] = None) -> Optional[VersionInfo]:
     """
     Get the Git version.
 
-    :param git_path: Optional path to the Git executable. If not provided, the function
-                     will attempt to find Git in the system PATH.
-    :type git_path: Optional[str]
+    This function returns a :class:`VersionInfo` instance for the parsed Git
+    version when Git is installed and its version information can be parsed.
+    If Git is not installed or the version string cannot be recognized, it
+    returns ``None``.
 
-    :return: A VersionInfo object representing the Git version, or None if Git is not installed
-             or the version cannot be determined.
+    :param git_path: Optional path to the Git executable. If not provided, the
+        function will attempt to find Git in the system ``PATH``.
+    :type git_path: Optional[str]
+    :return: Git version wrapped as :class:`VersionInfo`, or ``None`` if Git is
+        not installed or the version cannot be determined.
     :rtype: Optional[VersionInfo]
 
     .. note::
-        This function may return None even if Git is installed, in cases where the
-        'git --version' output is unrecognizable.
+        This function may return ``None`` even if Git is installed, in cases
+        where the ``git --version`` output is unrecognizable.
 
     Example::
+
         >>> version = git_version()
         >>> if version:
         ...     print(f"Git version: {version}")
@@ -79,14 +105,17 @@ def is_git_lfs_installed(git_path: Optional[str] = None) -> bool:
     """
     Check if Git LFS is installed.
 
-    :param git_path: Optional path to the Git executable. If not provided, the function
-                     will attempt to find Git in the system PATH.
-    :type git_path: Optional[str]
+    The function reports ``True`` only when both Git and Git LFS are installed.
+    It uses :func:`hbutils.system.git.info.git_info` to obtain this information.
 
-    :return: True if both Git and Git LFS are installed, False otherwise.
+    :param git_path: Optional path to the Git executable. If not provided, the
+        function will attempt to find Git in the system ``PATH``.
+    :type git_path: Optional[str]
+    :return: ``True`` if Git and Git LFS are installed, ``False`` otherwise.
     :rtype: bool
 
     Example::
+
         >>> is_git_lfs_installed()
         True
         >>> is_git_lfs_installed('/custom/path/to/git')
@@ -100,19 +129,24 @@ def git_lfs_version(git_path: Optional[str] = None) -> Optional[VersionInfo]:
     """
     Get the Git LFS version.
 
-    :param git_path: Optional path to the Git executable. If not provided, the function
-                     will attempt to find Git in the system PATH.
-    :type git_path: Optional[str]
+    This function returns a :class:`VersionInfo` instance for the parsed Git LFS
+    version when Git LFS is installed and its version information can be parsed.
+    If Git LFS is not installed or the version string cannot be recognized, it
+    returns ``None``.
 
-    :return: A VersionInfo object representing the Git LFS version, or None if Git LFS is not installed
-             or the version cannot be determined.
+    :param git_path: Optional path to the Git executable. If not provided, the
+        function will attempt to find Git in the system ``PATH``.
+    :type git_path: Optional[str]
+    :return: Git LFS version wrapped as :class:`VersionInfo`, or ``None`` if Git
+        LFS is not installed or the version cannot be determined.
     :rtype: Optional[VersionInfo]
 
     .. note::
-        This function may return None even if Git LFS is installed, in cases where the
-        'git lfs version' output is unrecognizable.
+        This function may return ``None`` even if Git LFS is installed, in cases
+        where the ``git lfs version`` output is unrecognizable.
 
     Example::
+
         >>> version = git_lfs_version()
         >>> if version:
         ...     print(f"Git LFS version: {version}")

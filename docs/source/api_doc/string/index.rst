@@ -1,9 +1,10 @@
 hbutils.string
-=====================
+========================================================
 
 .. currentmodule:: hbutils.string
 
 .. automodule:: hbutils.string
+
 
 .. toctree::
     :maxdepth: 3
@@ -13,3 +14,4 @@ hbutils.string
     template
     tree
     trunc
+

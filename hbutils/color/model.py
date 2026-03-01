@@ -1,13 +1,47 @@
 """
-Overview:
-    Color model, include rgb, hsv, hls color system.
+Color model utilities for RGB/HSV/HLS conversion and CSS3 name handling.
 
-    More color system will be supported soon.
+This module provides a high-level :class:`Color` class that represents colors in
+RGB space and offers convenient conversions to HSV and HLS color models. It
+supports construction from CSS3 color names, hex strings, RGB tuples, or other
+:class:`Color` instances, and optionally manages alpha (transparency) values.
+
+The module is designed to keep component values within valid ranges:
+
+* RGB, HSV, HLS components are clamped to ``[0.0, 1.0]``.
+* Hue values are wrapped (cyclic) to ``[0.0, 1.0]``.
+* Alpha values are clamped to ``[0.0, 1.0]``.
+
+Main components:
+
+* :class:`Color` - Color representation with RGB/HSV/HLS conversion support.
+
+.. note::
+   The RGB/HSV/HLS component proxies returned by :attr:`Color.rgb`,
+   :attr:`Color.hsv`, and :attr:`Color.hls` allow in-place modifications
+   of the underlying color instance.
+
+Example::
+
+    >>> from hbutils.color import Color
+    >>> c = Color('red')
+    >>> str(c)
+    '#ff0000'
+    >>> c.rgb.red
+    1.0
+    >>> c.hsv.hue
+    0.0
+    >>> c.alpha is None
+    True
+    >>> c.alpha = 0.5
+    >>> str(c)
+    '#ff000080'
+
 """
 import colorsys
 import math
 import re
-from typing import Optional, Union, Tuple, Callable
+from typing import Optional, Union, Tuple, Callable, Iterator, Any
 
 from .base import _name_to_hex, _CSS3_NAME_MAPS
 from ..reflection.func import post_process, raising, freduce, dynamic_call, warning_
@@ -17,26 +51,31 @@ __all__ = ['Color']
 
 def _round_mapper(min_: float, max_: float) -> Callable[[float], float]:
     """
-    Create a mapper function that rounds values to a specified range.
+    Create a cyclic range mapper for a numeric interval.
 
-    :param min_: Minimum value of the range.
+    This mapper wraps values into the given interval rather than clamping them.
+    Values less than ``min_`` or greater than ``max_`` are wrapped by repeatedly
+    adding or subtracting the interval length.
+
+    :param min_: Minimum value of the interval.
     :type min_: float
-    :param max_: Maximum value of the range.
+    :param max_: Maximum value of the interval.
     :type max_: float
-    :return: A function that maps input values to the specified range.
+    :return: A function that maps input values into the interval.
     :rtype: Callable[[float], float]
 
     Example::
+
         >>> mapper = _round_mapper(0.0, 1.0)
-        >>> mapper(1.5)  # Value greater than max
+        >>> mapper(1.5)
         0.5
-        >>> mapper(-0.5)  # Value less than min
+        >>> mapper(-0.5)
         0.5
     """
     min_, max_ = min(min_, max_), max(min_, max_)
     round_ = max_ - min_
 
-    def _func(v):
+    def _func(v: float) -> float:
         if v < min_:
             v += math.ceil((min_ - v) / round_) * round_
         if v > max_:
@@ -50,29 +89,34 @@ def _round_mapper(min_: float, max_: float) -> Callable[[float], float]:
 def _range_mapper(min_: Optional[float], max_: Optional[float], warning: Optional[Callable] = None) -> Callable[
     [float], float]:
     """
-    Create a mapper function that clamps values to a specified range with optional warning.
+    Create a clamping mapper for a numeric interval with optional warnings.
 
-    :param min_: Minimum value of the range, or None for no minimum limit.
+    Values outside the provided interval are clamped to the nearest bound.
+    When a value is out of range, the provided warning callback is invoked
+    via :func:`warning_`.
+
+    :param min_: Minimum value of the range, or ``None`` for no minimum limit.
     :type min_: Optional[float]
-    :param max_: Maximum value of the range, or None for no maximum limit.
+    :param max_: Maximum value of the range, or ``None`` for no maximum limit.
     :type max_: Optional[float]
-    :param warning: Optional warning function to call when value is out of range.
+    :param warning: Optional warning callback executed when a value is clamped.
     :type warning: Optional[Callable]
     :return: A function that clamps input values to the specified range.
     :rtype: Callable[[float], float]
 
     Example::
+
         >>> mapper = _range_mapper(0.0, 1.0)
-        >>> mapper(1.5)  # Value greater than max
+        >>> mapper(1.5)
         1.0
-        >>> mapper(-0.5)  # Value less than min
+        >>> mapper(-0.5)
         0.0
     """
     if min_ is not None and max_ is not None:
         min_, max_ = min(min_, max_), max(min_, max_)
     warning = dynamic_call(warning_(warning if warning is not None else lambda: None))
 
-    def _func(v):
+    def _func(v: float) -> float:
         if max_ is not None and v > max_:
             warning(v, min_, max_)
             return max_
@@ -87,8 +131,16 @@ def _range_mapper(min_: Optional[float], max_: Optional[float], warning: Optiona
 
 class GetSetProxy:
     """
-    Overview:
-        A proxy class that provides getter and setter functionality.
+    A lightweight getter/setter proxy.
+
+    This class provides a unified interface to a getter callable and an optional
+    setter callable. If no setter is provided, attempting to set will raise
+    :class:`NotImplementedError`.
+
+    :param getter: Function to retrieve the value.
+    :type getter: Callable
+    :param setter: Optional function to update the value.
+    :type setter: Optional[Callable]
     """
 
     def __init__(self, getter: Callable, setter: Optional[Callable] = None):
@@ -97,26 +149,30 @@ class GetSetProxy:
 
         :param getter: Function to get the value.
         :type getter: Callable
-        :param setter: Optional function to set the value. If None, setter will raise NotImplementedError.
+        :param setter: Optional function to set the value. If ``None``, the setter
+                       raises :class:`NotImplementedError`.
         :type setter: Optional[Callable]
         """
         self.__getter = getter
         self.__setter = setter or raising(lambda x: NotImplementedError)
 
-    def set(self, value):
+    def set(self, value: Any) -> Any:
         """
         Set the value using the setter function.
 
         :param value: Value to set.
+        :type value: Any
         :return: Result of the setter function.
+        :rtype: Any
         """
         return self.__setter(value)
 
-    def get(self):
+    def get(self) -> Any:
         """
         Get the value using the getter function.
 
         :return: The retrieved value.
+        :rtype: Any
         """
         return self.__getter()
 
@@ -133,8 +189,19 @@ _a_mapper = _range_mapper(0.0, 1.0, lambda v, min_, max_: Warning(
 
 class RGBColorProxy:
     """
-    Overview:
-        Color proxy for RGB space.
+    RGB color component proxy for :class:`Color`.
+
+    Instances of this class are returned by :attr:`Color.rgb` and provide
+    readable and writable access to the RGB components.
+
+    :param this: Original color object.
+    :type this: Color
+    :param r: Get-set proxy for red.
+    :type r: GetSetProxy
+    :param g: Get-set proxy for green.
+    :type g: GetSetProxy
+    :param b: Get-set proxy for blue.
+    :type b: GetSetProxy
     """
 
     def __init__(self, this: 'Color', r: GetSetProxy, g: GetSetProxy, b: GetSetProxy):
@@ -224,7 +291,7 @@ class RGBColorProxy:
         """
         self.__bp.set(new)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[float]:
         """
         Iterator for this proxy.
 
@@ -232,6 +299,7 @@ class RGBColorProxy:
         :rtype: Iterator[float]
 
         Examples::
+
             >>> from hbutils.color import Color
             >>>
             >>> c = Color('green')
@@ -243,7 +311,7 @@ class RGBColorProxy:
         yield self.green
         yield self.blue
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
         Representation format.
 
@@ -251,6 +319,7 @@ class RGBColorProxy:
         :rtype: str
 
         Examples::
+
             >>> from hbutils.color import Color
             >>>
             >>> c = Color('green')
@@ -274,8 +343,19 @@ _hsv_v_mapper = _range_mapper(0.0, 1.0, lambda v, min_, max_: Warning(
 
 class HSVColorProxy:
     """
-    Overview:
-        Color proxy for HSV space.
+    HSV color component proxy for :class:`Color`.
+
+    Instances of this class are returned by :attr:`Color.hsv` and provide
+    readable and writable access to HSV components.
+
+    :param this: Original color object.
+    :type this: Color
+    :param h: Get-set proxy for hue.
+    :type h: GetSetProxy
+    :param s: Get-set proxy for saturation.
+    :type s: GetSetProxy
+    :param v: Get-set proxy for value.
+    :type v: GetSetProxy
     """
 
     def __init__(self, this: 'Color', h: GetSetProxy, s: GetSetProxy, v: GetSetProxy):
@@ -345,7 +425,7 @@ class HSVColorProxy:
     @property
     def value(self) -> float:
         """
-        Value value (within :math:`\\left[0.0, 1.0\\right]`).
+        Value (brightness) value (within :math:`\\left[0.0, 1.0\\right]`).
 
         .. note::
             Setter is available, the change will affect the :class:`Color` object.
@@ -368,7 +448,7 @@ class HSVColorProxy:
     @property
     def brightness(self) -> float:
         """
-        Alias for ``value``.
+        Alias for :attr:`value`.
 
         :return: Brightness (value) component value.
         :rtype: float
@@ -385,7 +465,7 @@ class HSVColorProxy:
         """
         self.value = new
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[float]:
         """
         Iterator for this proxy.
 
@@ -393,6 +473,7 @@ class HSVColorProxy:
         :rtype: Iterator[float]
 
         Examples::
+
             >>> from hbutils.color import Color
             >>>
             >>> c = Color('green')
@@ -404,7 +485,7 @@ class HSVColorProxy:
         yield self.saturation
         yield self.value
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
         Representation format.
 
@@ -412,6 +493,7 @@ class HSVColorProxy:
         :rtype: str
 
         Examples::
+
             >>> from hbutils.color import Color
             >>>
             >>> c = Color('green')
@@ -435,8 +517,19 @@ _hls_s_mapper = _range_mapper(0.0, 1.0, lambda v, min_, max_: Warning(
 
 class HLSColorProxy:
     """
-    Overview:
-        Color proxy for HLS space.
+    HLS color component proxy for :class:`Color`.
+
+    Instances of this class are returned by :attr:`Color.hls` and provide
+    readable and writable access to HLS components.
+
+    :param this: Original color object.
+    :type this: Color
+    :param h: Get-set proxy for hue.
+    :type h: GetSetProxy
+    :param l: Get-set proxy for lightness.
+    :type l: GetSetProxy
+    :param s: Get-set proxy for saturation.
+    :type s: GetSetProxy
     """
 
     def __init__(self, this: 'Color', h: GetSetProxy, l: GetSetProxy, s: GetSetProxy):
@@ -526,7 +619,7 @@ class HLSColorProxy:
         """
         self.__sp.set(new)
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[float]:
         """
         Iterator for this proxy.
 
@@ -534,6 +627,7 @@ class HLSColorProxy:
         :rtype: Iterator[float]
 
         Examples::
+
             >>> from hbutils.color import Color
             >>>
             >>> c = Color('green')
@@ -545,7 +639,7 @@ class HLSColorProxy:
         yield self.lightness
         yield self.saturation
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
         Representation format.
 
@@ -553,6 +647,7 @@ class HLSColorProxy:
         :rtype: str
 
         Examples::
+
             >>> from hbutils.color import Color
             >>>
             >>> c = Color('green')
@@ -576,23 +671,34 @@ _RGB_COLOR_PATTERN = re.compile(r'^#?([a-fA-F\d]{2})([a-fA-F\d]{2})([a-fA-F\d]{2
 
 
 @freduce(init=None)
-def _ratio_or(a, b):
+def _ratio_or(a: Optional[float], b: float) -> float:
     """
-    Return b if a is None, otherwise return a.
+    Return ``b`` if ``a`` is ``None``, otherwise return ``a``.
+
+    This utility is used to keep the current value when no new component is
+    provided.
 
     :param a: First value.
+    :type a: Optional[float]
     :param b: Second value.
-    :return: a if a is not None, otherwise b.
+    :type b: float
+    :return: ``a`` if not ``None``, otherwise ``b``.
+    :rtype: float
     """
     return b if a is None else a
 
 
 class Color:
     """
-    Overview:
-        Color utility object.
+    Color utility object supporting RGB/HSV/HLS and CSS3 names.
+
+    A :class:`Color` instance can be created from CSS3 color names, hexadecimal
+    strings, RGB tuples, or another :class:`Color` object. Component values
+    are normalized to floats in ``[0.0, 1.0]``, and optional alpha values are
+    supported.
 
     Examples::
+
         >>> from hbutils.color import Color
         >>>
         >>> c = Color('red')  # from name
@@ -604,9 +710,8 @@ class Color:
         (1.0, 0.0, 0.0)
         >>> (c.hls.hue, c.hls.lightness, c.hls.saturation)  # hls format
         (0.0, 0.5, 1.0)
-        >>> (c.hsv.hue, c.hsv.value, c.hsv.saturation)      # hsv format
+        >>> (c.hsv.hue, c.hsv.saturation, c.hsv.value)      # hsv format
         (0.0, 1.0, 1.0)
-
 
         >>> c1 = Color('#56a3f0')  # from hex
         >>> c1
@@ -617,11 +722,10 @@ class Color:
         (0.33725490196078434, 0.6392156862745098, 0.9411764705882353)
         >>> (c1.hls.hue, c1.hls.lightness, c1.hls.saturation)  # hls format
         (0.5833333333333334, 0.6392156862745098, 0.8369565217391304)
-        >>> (c1.hsv.hue, c1.hsv.value, c1.hsv.saturation)      # hsv format
-        (0.5833333333333334, 0.9411764705882353, 0.6416666666666666)
+        >>> (c1.hsv.hue, c1.hsv.saturation, c1.hsv.value)      # hsv format
+        (0.5833333333333334, 0.6416666666666666, 0.9411764705882353)
 
-
-        >>> c2 = Color('#56a3f077')  # from hex
+        >>> c2 = Color('#56a3f077')  # from hex with alpha
         >>> c2
         <Color #56a3f0, alpha: 0.467>
         >>> c2.alpha  # alpha value
@@ -632,14 +736,14 @@ class Color:
 
     def __init__(self, c: Union[str, Tuple[float, float, float], 'Color'], alpha: Optional[float] = None):
         """
-        Constructor of ``Color``.
+        Constructor of :class:`Color`.
 
-        :param c: Color value, can be hex string value, tuple rgb value, or another Color object.
+        :param c: Color value; may be a hex string, an RGB tuple, or a :class:`Color` object.
         :type c: Union[str, Tuple[float, float, float], Color]
-        :param alpha: Alpha value of color, default is None which means no alpha value.
+        :param alpha: Alpha value; ``None`` means no alpha is stored.
         :type alpha: Optional[float]
-        :raises TypeError: If c is not a valid color type.
-        :raises ValueError: If c is an invalid string color format.
+        :raises TypeError: If ``c`` is not a supported color type.
+        :raises ValueError: If ``c`` is a string but not a valid hex or CSS3 color name.
         """
         if isinstance(c, tuple):
             self.__r, self.__g, self.__b = _r_mapper(c[0]), _g_mapper(c[1]), _b_mapper(c[2])
@@ -674,12 +778,12 @@ class Color:
     @property
     def alpha(self) -> Optional[float]:
         """
-        Alpha value, which means the transparent ratio (within :math:`\\left[0.0, 1.0\\right]`).
+        Alpha value (transparent ratio) within :math:`\\left[0.0, 1.0\\right]`.
 
         .. note::
             Setter is available.
 
-        :return: Alpha value, or None if no alpha is set.
+        :return: Alpha value, or ``None`` if no alpha is set.
         :rtype: Optional[float]
         """
         return self.__alpha
@@ -705,15 +809,15 @@ class Color:
         """
         return self.__r, self.__g, self.__b
 
-    def __set_rgb(self, r: Optional[float] = None, g: Optional[float] = None, b: Optional[float] = None):
+    def __set_rgb(self, r: Optional[float] = None, g: Optional[float] = None, b: Optional[float] = None) -> None:
         """
         Set RGB values.
 
-        :param r: Red value, or None to keep current value.
+        :param r: Red value, or ``None`` to keep current value.
         :type r: Optional[float]
-        :param g: Green value, or None to keep current value.
+        :param g: Green value, or ``None`` to keep current value.
         :type g: Optional[float]
-        :param b: Blue value, or None to keep current value.
+        :param b: Blue value, or ``None`` to keep current value.
         :type b: Optional[float]
         """
         self.__r, self.__g, self.__b = map(lambda args: _ratio_or(*args), zip((r, g, b), self.__get_rgb()))
@@ -721,10 +825,11 @@ class Color:
     @property
     def rgb(self) -> RGBColorProxy:
         """
-        Get rgb color system based color proxy.
-        See :class:`RGBColorProxy`.
+        RGB color proxy.
 
-        :return: Rgb color proxy.
+        See :class:`RGBColorProxy` for component access and mutation.
+
+        :return: RGB color proxy.
         :rtype: RGBColorProxy
         """
         return RGBColorProxy(
@@ -752,15 +857,15 @@ class Color:
         """
         return colorsys.rgb_to_hsv(self.__r, self.__g, self.__b)
 
-    def __set_hsv(self, h: Optional[float] = None, s: Optional[float] = None, v: Optional[float] = None):
+    def __set_hsv(self, h: Optional[float] = None, s: Optional[float] = None, v: Optional[float] = None) -> None:
         """
         Set HSV values.
 
-        :param h: Hue value, or None to keep current value.
+        :param h: Hue value, or ``None`` to keep current value.
         :type h: Optional[float]
-        :param s: Saturation value, or None to keep current value.
+        :param s: Saturation value, or ``None`` to keep current value.
         :type s: Optional[float]
-        :param v: Value (brightness) value, or None to keep current value.
+        :param v: Value (brightness) value, or ``None`` to keep current value.
         :type v: Optional[float]
         """
         h, s, v = map(lambda args: _ratio_or(*args), zip((h, s, v), self.__get_hsv()))
@@ -769,10 +874,11 @@ class Color:
     @property
     def hsv(self) -> HSVColorProxy:
         """
-        Get hsv color system based color proxy.
-        See :class:`HSVColorProxy`.
+        HSV color proxy.
 
-        :return: Hsv color proxy.
+        See :class:`HSVColorProxy` for component access and mutation.
+
+        :return: HSV color proxy.
         :rtype: HSVColorProxy
         """
         return HSVColorProxy(
@@ -800,15 +906,15 @@ class Color:
         """
         return colorsys.rgb_to_hls(self.__r, self.__g, self.__b)
 
-    def __set_hls(self, h: Optional[float] = None, l_: Optional[float] = None, s: Optional[float] = None):
+    def __set_hls(self, h: Optional[float] = None, l_: Optional[float] = None, s: Optional[float] = None) -> None:
         """
         Set HLS values.
 
-        :param h: Hue value, or None to keep current value.
+        :param h: Hue value, or ``None`` to keep current value.
         :type h: Optional[float]
-        :param l_: Lightness value, or None to keep current value.
+        :param l_: Lightness value, or ``None`` to keep current value.
         :type l_: Optional[float]
-        :param s: Saturation value, or None to keep current value.
+        :param s: Saturation value, or ``None`` to keep current value.
         :type s: Optional[float]
         """
         h, l, s = map(lambda args: _ratio_or(*args), zip((h, l_, s), self.__get_hls()))
@@ -817,10 +923,11 @@ class Color:
     @property
     def hls(self) -> HLSColorProxy:
         """
-        Get hls color system based color proxy.
-        See :class:`HLSColorProxy`.
+        HLS color proxy.
 
-        :return: Hls color proxy.
+        See :class:`HLSColorProxy` for component access and mutation.
+
+        :return: HLS color proxy.
         :rtype: HLSColorProxy
         """
         return HLSColorProxy(
@@ -843,7 +950,7 @@ class Color:
         """
         Get hexadecimal representation of the color.
 
-        :param include_alpha: Whether to include alpha channel in the hex string.
+        :param include_alpha: Whether to include the alpha channel.
         :type include_alpha: bool
         :return: Hexadecimal color string.
         :rtype: str
@@ -886,25 +993,25 @@ class Color:
         """
         Hex format of this :class:`Color` object.
 
-        :return: Hexadecimal color string.
+        :return: Hexadecimal color string (includes alpha when present).
         :rtype: str
         """
         return self.__get_hex(True)
 
     def __getstate__(self) -> Tuple[float, float, float, Optional[float]]:
         """
-        Dump color as pickle object.
+        Dump color as a pickle-compatible tuple.
 
-        :return: Dumped data object containing (r, g, b, alpha).
+        :return: Tuple containing (r, g, b, alpha).
         :rtype: Tuple[float, float, float, Optional[float]]
         """
         return self.__r, self.__g, self.__b, self.__alpha
 
-    def __setstate__(self, v: Tuple[float, float, float, Optional[float]]):
+    def __setstate__(self, v: Tuple[float, float, float, Optional[float]]) -> None:
         """
-        Load color from pickle object.
+        Load color from a pickle-compatible tuple.
 
-        :param v: Dumped data object containing (r, g, b, alpha).
+        :param v: Tuple containing (r, g, b, alpha).
         :type v: Tuple[float, float, float, Optional[float]]
         """
         self.__r, self.__g, self.__b, self.__alpha = v
@@ -918,12 +1025,13 @@ class Color:
         """
         return hash(self.__getstate__())
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: object) -> bool:
         """
-        Get equality between colors.
+        Check equality between colors.
 
         :param other: Another object to compare with.
-        :return: True if equal, False otherwise.
+        :type other: object
+        :return: ``True`` if equal, ``False`` otherwise.
         :rtype: bool
         """
         if other is self:
@@ -936,16 +1044,15 @@ class Color:
     @classmethod
     def from_rgb(cls, r: float, g: float, b: float, alpha: Optional[float] = None) -> 'Color':
         """
-        Load color from rgb system.
+        Load color from RGB system.
 
-        :param r: Red value, should be a float value in :math:`\\left[0, 1\\right]`.
+        :param r: Red value in :math:`\\left[0, 1\\right]`.
         :type r: float
-        :param g: Green value, should be a float value in :math:`\\left[0, 1\\right]`.
+        :param g: Green value in :math:`\\left[0, 1\\right]`.
         :type g: float
-        :param b: Blue value, should be a float value in :math:`\\left[0, 1\\right]`.
+        :param b: Blue value in :math:`\\left[0, 1\\right]`.
         :type b: float
-        :param alpha: Alpha value, should be a float value in :math:`\\left[0, 1\\right]`, \
-            default is None which means no alpha value is used.
+        :param alpha: Alpha value in :math:`\\left[0, 1\\right]`; ``None`` means no alpha.
         :type alpha: Optional[float]
         :return: Color object.
         :rtype: Color
@@ -955,9 +1062,9 @@ class Color:
     @classmethod
     def from_hex(cls, hex_: str) -> 'Color':
         r"""
-        Load color from hexadecimal rgb string.
+        Load color from a hexadecimal RGB string.
 
-        :param hex\_: Hexadecimal string, maybe starts with ``#``.
+        :param hex\_: Hexadecimal string, may start with ``#``.
         :type hex\_: str
         :return: Color object.
         :rtype: Color
@@ -967,16 +1074,15 @@ class Color:
     @classmethod
     def from_hsv(cls, h: float, s: float, v: float, alpha: Optional[float] = None) -> 'Color':
         """
-        Load color from hsv system.
+        Load color from HSV system.
 
-        :param h: Hue value, should be a float value in :math:`\\left[0, 1\\right)`.
+        :param h: Hue value in :math:`\\left[0, 1\\right)`.
         :type h: float
-        :param s: Saturation value, should be a float value in :math:`\\left[0, 1\\right]`.
+        :param s: Saturation value in :math:`\\left[0, 1\\right]`.
         :type s: float
-        :param v: Brightness (value) value, should be a float value in :math:`\\left[0, 1\\right]`.
+        :param v: Brightness (value) in :math:`\\left[0, 1\\right]`.
         :type v: float
-        :param alpha: Alpha value, should be a float value in :math:`\\left[0, 1\\right]`, \
-            default is None which means no alpha value is used.
+        :param alpha: Alpha value in :math:`\\left[0, 1\\right]`; ``None`` means no alpha.
         :type alpha: Optional[float]
         :return: Color object.
         :rtype: Color
@@ -986,16 +1092,15 @@ class Color:
     @classmethod
     def from_hls(cls, h: float, l: float, s: float, alpha: Optional[float] = None) -> 'Color':
         """
-        Load color from hls system.
+        Load color from HLS system.
 
-        :param h: Hue value, should be a float value in :math:`\\left[0, 1\\right)`.
+        :param h: Hue value in :math:`\\left[0, 1\\right)`.
         :type h: float
-        :param l: Lightness value, should be a float value in :math:`\\left[0, 1\\right]`.
+        :param l: Lightness value in :math:`\\left[0, 1\\right]`.
         :type l: float
-        :param s: Saturation value, should be a float value in :math:`\\left[0, 1\\right]`.
+        :param s: Saturation value in :math:`\\left[0, 1\\right]`.
         :type s: float
-        :param alpha: Alpha value, should be a float value in :math:`\\left[0, 1\\right]`, \
-            default is None which means no alpha value is used.
+        :param alpha: Alpha value in :math:`\\left[0, 1\\right]`; ``None`` means no alpha.
         :type alpha: Optional[float]
         :return: Color object.
         :rtype: Color

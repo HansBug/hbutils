@@ -1,24 +1,32 @@
 hbutils.string.plural
-========================================
+========================================================
 
 .. currentmodule:: hbutils.string.plural
 
 .. automodule:: hbutils.string.plural
 
-plural_form
------------------------
+
+\_\_all\_\_
+-----------------------------------------------------
+
+.. autodata:: __all__
+
+
+plural\_form
+-----------------------------------------------------
 
 .. autofunction:: plural_form
 
 
-singular_form
-------------------------
+singular\_form
+-----------------------------------------------------
 
 .. autofunction:: singular_form
 
 
-plural_word
------------------------
+plural\_word
+-----------------------------------------------------
 
 .. autofunction:: plural_word
+
 

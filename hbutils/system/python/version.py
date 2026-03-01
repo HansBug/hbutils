@@ -1,8 +1,27 @@
 """
-This module provides utilities for retrieving system-related information, particularly Python version details.
+Python version inspection utilities.
 
-The module uses the `platform` module to obtain Python version information and returns it in a structured
-format using the `packaging.version.Version` class for easy version comparison and manipulation.
+This module provides a lightweight helper for retrieving the current Python
+interpreter version as a :class:`packaging.version.Version` instance. The
+returned object offers rich comparison semantics, making it suitable for
+version checks and conditional logic in system-dependent workflows.
+
+The module contains the following main components:
+
+* :func:`python_version` - Retrieve the interpreter version as a
+  :class:`packaging.version.Version` object.
+
+Example::
+
+    >>> from hbutils.system.python.version import python_version
+    >>> ver = python_version()
+    >>> ver >= Version("3.8")
+    True
+
+.. note::
+   This module relies on :mod:`platform` to query the interpreter version and
+   uses :class:`packaging.version.Version` for standardized parsing.
+
 """
 
 import platform
@@ -16,19 +35,21 @@ __all__ = [
 
 def python_version() -> Version:
     """
-    Get version of python.
+    Retrieve the current Python interpreter version.
 
-    This function retrieves the current Python interpreter version and returns it as a
-    `Version` object from the `packaging` library, which allows for easy version comparison
-    and manipulation.
+    This function queries the running Python interpreter using
+    :func:`platform.python_version` and returns a parsed
+    :class:`packaging.version.Version` instance. The returned object can be
+    compared directly with other version strings or :class:`Version` instances.
 
-    :return: Version of python.
+    :return: The current Python interpreter version.
     :rtype: Version
 
-    Examples::
-        >>> from hbutils.system import python_version
-        >>>
-        >>> python_version()
-        Version('3.8.1')  # for example
+    Example::
+
+        >>> from hbutils.system.python.version import python_version
+        >>> python_version()  # doctest: +ELLIPSIS
+        Version('...')
+
     """
     return Version(platform.python_version())

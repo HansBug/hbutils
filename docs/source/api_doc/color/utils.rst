@@ -1,27 +1,32 @@
 hbutils.color.utils
-==========================
+========================================================
 
 .. currentmodule:: hbutils.color.utils
 
 .. automodule:: hbutils.color.utils
 
 
-visual_distance
----------------------------------------------------
+\_\_all\_\_
+-----------------------------------------------------
+
+.. autodata:: __all__
+
+
+visual\_distance
+-----------------------------------------------------
 
 .. autofunction:: visual_distance
 
 
-rnd_colors
----------------------------------------------------
+rnd\_colors
+-----------------------------------------------------
 
 .. autofunction:: rnd_colors
 
 
-linear_gradient
----------------------------------------------------
+linear\_gradient
+-----------------------------------------------------
 
 .. autofunction:: linear_gradient
-
 
 

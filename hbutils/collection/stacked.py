@@ -1,15 +1,40 @@
 """
-Overview:
-    This module provides a stacked mapping data structure that allows multiple mapping-like objects 
-    (such as dictionaries) to be layered together and accessed as a single unified mapping. 
-    Later mappings in the stack take precedence over earlier ones when accessing values.
+Stacked mapping utilities for layered lookup behavior.
 
-    The StackedMapping class is read-only and does not support item assignment or deletion operations,
-    as it would be ambiguous which underlying mapping should be modified.
+This module provides a read-only stacked mapping implementation that allows
+multiple mapping-like objects (e.g., dictionaries) to be layered together and
+accessed as a single unified mapping. When a key exists in multiple mappings,
+the value from the most recently stacked mapping takes precedence.
+
+The module contains the following main component:
+
+* :class:`StackedMapping` - Read-only stacked mapping with layered key lookup
+
+.. note::
+   The stacked mapping is read-only. Because it is ambiguous which underlying
+   mapping should be modified, item assignment and deletion are intentionally
+   unsupported.
+
+Example::
+
+    >>> from hbutils.collection.stacked import StackedMapping
+    >>> d1 = {'a': 1, 'b': 2}
+    >>> d2 = {'b': 3, 'c': 4, 'd': 5}
+    >>> d3 = {'c': 6, 'e': 7}
+    >>> s = StackedMapping(d1, d2, d3)  # d3 > d2 > d1
+    >>> s['a']
+    1
+    >>> s['b']
+    3
+    >>> s['c']
+    6
+    >>> list(s)
+    ['a', 'b', 'c', 'd', 'e']
+
 """
 
 from collections.abc import Mapping
-from typing import Iterator, TypeVar
+from typing import Iterator, Tuple, TypeVar
 
 __all__ = [
     'StackedMapping',
@@ -21,109 +46,77 @@ _ValueType = TypeVar('_ValueType')
 
 class StackedMapping(Mapping):
     """
-    Overview:
-        Stacked mapping data structure.
+    Read-only stacked mapping data structure for layered key lookup.
 
-        Multiple mapping-liked object (such as ``dict``) can be stacked together and accessed like one mapping object.
+    Multiple mapping-like objects (such as ``dict``) can be stacked together and
+    accessed as a single mapping. When the same key exists in multiple mappings,
+    the value from the most recently stacked mapping is returned.
 
     .. note::
-        :class:`StackedMapping` is readonly. The ``__setitem__`` and ``__delitem__``'s behaviour cannot be defined, \
-        because which dict to write or delete can not be determined.
+       :class:`StackedMapping` is read-only. The behavior of ``__setitem__`` and
+       ``__delitem__`` cannot be defined because it is ambiguous which
+       underlying mapping should be modified.
 
-    Examples::
+    Example::
+
         >>> from hbutils.collection import StackedMapping
-        >>>
         >>> d1 = {'a': 1, 'b': 2}
         >>> d2 = {'b': 3, 'c': 4, 'd': 5}
         >>> d3 = {'c': 6, 'e': 7}
-        >>> s = StackedMapping(d1, d2, d3)  # stack together, d3 > d2 > d1
-        >>>
-        >>> for key, value in s.items():  # __iter__
-        ...     print(key, value)
-        a 1
-        b 3
-        c 6
-        d 5
-        e 7
-        >>> s['a']  # __getitem__, from d1['a']
-        1
-        >>> s['b']  # from d2['b'], d2 > d1
-        3
-        >>> s['c']  # from d3['c'], d3 > d2
+        >>> s = StackedMapping(d1, d2, d3)  # d3 > d2 > d1
+        >>> list(s.items())
+        [('a', 1), ('b', 3), ('c', 6), ('d', 5), ('e', 7)]
+        >>> s['c']
         6
-        >>> s['d']  # from d2['d']
-        5
-        >>> s['e']  # from d3['e']
-        7
-        >>> 'c' in s  # __contains__
-        True
-        >>> 'f' in s  # 'f' not found in neither d1, d2 nor d3
+        >>> 'f' in s
         False
-        >>> s == {'a': 1, 'b': 3, 'c': 6, 'd': 5, 'e': 7}  # __iter__
-        True
-        >>> len(s)  # __len__
+        >>> len(s)
         5
-        >>>
-        >>> d2['c'] = 11  # update original dicts
-        >>> del d2['b']
-        >>> del d3['c']
-        >>> del d1['b']
-        >>>
-        >>> s['a']  # __getitem__, from d1['a']
-        1
-        >>> s['b']  # 'b' nor found in neither d1, d2 nor d3
-        KeyError: 'b'
-        >>> s['c']  # from d2['c']
-        11
-        >>> s['d']  # from d2['d']
-        5
-        >>> s['e']  # from d3['e']
-        7
-        >>> len(s)  # 'b' is no longer here
-        4
     """
 
-    def __init__(self, *mps: Mapping):
+    def __init__(self, *mps: Mapping) -> None:
         """
-        Constructor of :class:`StackedMapping`.
+        Initialize a stacked mapping instance.
 
-        Later mappings will be stacked on top of the earlier ones, meaning they take precedence
-        when retrieving values for keys that exist in multiple mappings.
+        Later mappings are stacked on top of earlier ones, meaning they take
+        precedence when retrieving values for keys that exist in multiple
+        mappings.
 
-        :param mps: Multiple mapping objects to stack together.
+        :param mps: Mapping objects to stack together, in order of precedence.
         :type mps: Mapping
 
         Example::
+
             >>> d1 = {'a': 1}
             >>> d2 = {'b': 2}
             >>> s = StackedMapping(d1, d2)
             >>> len(s)
             2
         """
-        self._mps = mps
+        self._mps: Tuple[Mapping, ...] = mps
 
     def __getitem__(self, k: _KeyType) -> _ValueType:
         """
         Get the value associated with the given key.
 
-        Searches through the stacked mappings in reverse order (from last to first),
-        returning the value from the first mapping that contains the key.
+        This method searches through the stacked mappings in reverse order
+        (from last to first), returning the value from the first mapping that
+        contains the key.
 
         :param k: The key to look up.
         :type k: _KeyType
-
         :return: The value associated with the key.
         :rtype: _ValueType
-
         :raises KeyError: If the key is not found in any of the stacked mappings.
 
         Example::
+
             >>> d1 = {'a': 1}
             >>> d2 = {'a': 2, 'b': 3}
             >>> s = StackedMapping(d1, d2)
-            >>> s['a']  # Returns value from d2 (last mapping)
+            >>> s['a']  # from d2 (last mapping)
             2
-            >>> s['b']  # Returns value from d2
+            >>> s['b']
             3
         """
         for m in reversed(self._mps):
@@ -136,15 +129,16 @@ class StackedMapping(Mapping):
 
     def _key_iter(self) -> Iterator[_KeyType]:
         """
-        Internal method to iterate over all unique keys in the stacked mappings.
+        Iterate over all unique keys in the stacked mappings.
 
-        Yields keys in the order they first appear across all mappings, ensuring
-        each key is yielded only once even if it appears in multiple mappings.
+        Keys are yielded in the order they first appear across all mappings.
+        Each key is yielded only once, even if it appears in multiple mappings.
 
         :return: An iterator over all unique keys.
         :rtype: Iterator[_KeyType]
 
         Example::
+
             >>> d1 = {'a': 1, 'b': 2}
             >>> d2 = {'b': 3, 'c': 4}
             >>> s = StackedMapping(d1, d2)
@@ -166,10 +160,11 @@ class StackedMapping(Mapping):
         :rtype: int
 
         Example::
+
             >>> d1 = {'a': 1, 'b': 2}
             >>> d2 = {'b': 3, 'c': 4}
             >>> s = StackedMapping(d1, d2)
-            >>> len(s)  # 'a', 'b', 'c' = 3 unique keys
+            >>> len(s)
             3
         """
         return len(list(self._key_iter()))
@@ -182,6 +177,7 @@ class StackedMapping(Mapping):
         :rtype: Iterator[_KeyType]
 
         Example::
+
             >>> d1 = {'a': 1, 'b': 2}
             >>> d2 = {'c': 3}
             >>> s = StackedMapping(d1, d2)

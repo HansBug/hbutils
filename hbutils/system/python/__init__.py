@@ -1,22 +1,26 @@
 """
 Python system utilities module.
 
-This module provides utilities for working with Python implementation details,
-package management, and version information. It aggregates functionality from
-three main submodules:
+This module provides a convenient, unified interface to utilities related to
+Python implementation details, package management, and version handling. It
+acts as a lightweight aggregator that re-exports all public members from the
+following submodules:
 
-- implementation: Python implementation detection and information
-- package: Package management and introspection utilities
-- version: Python version parsing and comparison utilities
+* :mod:`hbutils.system.python.implementation` - Python implementation detection
+  and runtime information helpers.
+* :mod:`hbutils.system.python.package` - Package management and introspection
+  utilities.
+* :mod:`hbutils.system.python.version` - Python version parsing and comparison
+  utilities.
 
-All public functions and classes from these submodules are re-exported at the
-module level for convenient access.
+Because this module simply re-exports members from its submodules, refer to the
+documentation of the respective submodules for detailed information about
+individual functions and classes.
 
-Example::
-    >>> from hbutils.system.python import get_python_version
-    >>> version = get_python_version()
-    >>> print(version)
-    3.8.10
+.. note::
+   The exact set of available functions and classes depends on the public
+   exports defined by the :mod:`implementation`, :mod:`package`, and
+   :mod:`version` submodules.
 """
 
 from .implementation import *

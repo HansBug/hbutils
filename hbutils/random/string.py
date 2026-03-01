@@ -1,26 +1,43 @@
 """
-This module provides utilities for generating random strings in various formats.
+Random string generation utilities for hashes, digits, and timestamps.
 
-It includes functions for creating random digits in different bases (binary, decimal, hexadecimal),
-random hash strings (MD5, SHA1), random base64 strings, and timestamp-prefixed hash strings.
-All functions support custom random number generators for reproducibility.
+This module offers convenience helpers for producing random strings in
+various formats, including base-N digit strings, cryptographic hash strings,
+base64-encoded strings, and timestamp-prefixed hashes. Each public function
+accepts an optional :class:`random.Random` instance to enable deterministic
+output for testing or reproducibility.
 
-The module exports the following functions:
-    - random_digits: Generate random digits in any base from 2 to 36
-    - random_bin_digits: Generate random binary digits
-    - random_hex_digits: Generate random hexadecimal digits
-    - random_md5: Generate random MD5 hash string
-    - random_sha1: Generate random SHA1 hash string
-    - random_base64: Generate random base64 encoded string
-    - random_md5_with_timestamp: Generate random MD5 hash with timestamp prefix
-    - random_sha1_with_timestamp: Generate random SHA1 hash with timestamp prefix
+The module provides the following public utilities:
+
+* :func:`random_digits` - Generate random digits in any base from 2 to 36.
+* :func:`random_bin_digits` - Generate random binary digits.
+* :func:`random_hex_digits` - Generate random hexadecimal digits.
+* :func:`random_md5` - Generate random MD5 hash string.
+* :func:`random_sha1` - Generate random SHA1 hash string.
+* :func:`random_base64` - Generate random base64-encoded string.
+* :func:`random_md5_with_timestamp` - Generate MD5 hash with timestamp prefix.
+* :func:`random_sha1_with_timestamp` - Generate SHA1 hash with timestamp prefix.
+
+.. note::
+   The random hash helpers generate random bytes first and then apply hashing
+   or encoding. They are intended for unique identifiers rather than
+   cryptographically secure tokens.
+
+Example::
+
+    >>> from hbutils.random import random_digits, random_sha1_with_timestamp
+    >>> random_digits(length=8, base=16)
+    '3af27b9c'
+    >>> random_sha1_with_timestamp()
+    '20220116233121916685_fba840b80163b55cd2295d84286a438bf8acb7c0'
+
 """
 import io
 import random
 from datetime import datetime
 from functools import partial
 from random import _inst as _DEFAULT_RANDOM
-from typing import Optional
+from typing import Callable, Optional
 
 from .binary import random_bytes
 from ..encoding import md5, sha1, base64_encode
@@ -32,7 +49,7 @@ __all__ = [
 ]
 
 
-def _check_base(base: int):
+def _check_base(base: int) -> None:
     """
     Validate that the base is a valid integer between 2 and 36 inclusive.
 
@@ -54,7 +71,7 @@ _LOWER_A_ASCII = ord('a')
 _UPPER_A_ASCII = ord('A')
 
 
-def _random_dchar(base: int, upper: bool, rnd: random.Random):
+def _random_dchar(base: int, upper: bool, rnd: random.Random) -> str:
     """
     Generate a single random digit character in the specified base.
 
@@ -78,7 +95,8 @@ def _random_dchar(base: int, upper: bool, rnd: random.Random):
     return chr(_base + _val)
 
 
-def random_digits(length: int = 32, base: int = 10, upper: bool = False, rnd: Optional[random.Random] = None) -> str:
+def random_digits(length: int = 32, base: int = 10, upper: bool = False,
+                  rnd: Optional[random.Random] = None) -> str:
     """
     Create random digits in the specified base.
 
@@ -92,6 +110,8 @@ def random_digits(length: int = 32, base: int = 10, upper: bool = False, rnd: Op
     :type rnd: Optional[random.Random]
     :return: Random digital string.
     :rtype: str
+    :raises ValueError: If ``base`` is less than 2 or greater than 36.
+    :raises TypeError: If ``base`` is not an integer.
 
     Examples::
         >>> from hbutils.random import random_digits
@@ -161,7 +181,8 @@ def random_hex_digits(length: int = 32, upper: bool = False, rnd: Optional[rando
 _RANDOM_BYTES_LENGTH = 64
 
 
-def _random_hash(hash_func, length: int = _RANDOM_BYTES_LENGTH, rnd: Optional[random.Random] = None):
+def _random_hash(hash_func: Callable[[bytes], str], length: int = _RANDOM_BYTES_LENGTH,
+                 rnd: Optional[random.Random] = None) -> str:
     """
     Generate a random hash string using the specified hash function.
 
@@ -232,7 +253,7 @@ def random_base64(length: int = _RANDOM_BYTES_LENGTH, rnd: Optional[random.Rando
     return _random_hash(partial(base64_encode, urlsafe=True), length, rnd)
 
 
-def _timestamp():
+def _timestamp() -> str:
     """
     Get current timestamp in the format 'YYYYMMDDHHMMSSffffff'.
 

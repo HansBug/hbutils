@@ -1,9 +1,10 @@
 hbutils.random
-=====================
+========================================================
 
 .. currentmodule:: hbutils.random
 
 .. automodule:: hbutils.random
+
 
 .. toctree::
     :maxdepth: 3
@@ -12,3 +13,4 @@ hbutils.random
     sequence
     state
     string
+

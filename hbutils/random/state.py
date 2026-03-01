@@ -1,17 +1,50 @@
 """
-Overview:
-    Random state and seed management.
+Random state and seed management utilities.
 
-    Native default random instance (``random._inst``), torch, numpy and faker (default random instance) are supported. \
-    Other random sources can be registered with :func:`register_random_source` and :func:`register_random_instance`.
+This module provides a centralized way to manage and synchronize random number
+generator (RNG) states across multiple libraries. It supports the native Python
+``random`` module by default and can automatically register RNGs from optional
+dependencies such as NumPy, PyTorch, and Faker when they are available. Custom
+random sources or ``random.Random`` instances can also be registered manually.
+
+The module exposes the following public components:
+
+* :func:`register_random_source` - Register an arbitrary RNG interface
+* :func:`register_random_instance` - Register a :class:`random.Random` instance
+* :func:`get_global_state` - Collect current states from all registered RNGs
+* :func:`set_global_state` - Restore RNG states from a mapping
+* :func:`keep_global_state` - Context manager that preserves RNG state
+* :func:`global_seed` - Apply a seed to all registered RNGs
+* :func:`seedable_func` - Decorator for seed-aware functions
+
+.. note::
+   Optional RNGs are only registered if the corresponding libraries are
+   available in the current environment. If a library is missing, it is skipped
+   silently.
+
+Example::
+
+    >>> import random
+    >>> from hbutils.random import global_seed, get_global_state, set_global_state
+    >>>
+    >>> global_seed(0)
+    >>> random.random()
+    0.8444218515250481
+    >>> state = get_global_state()
+    >>> _ = random.random()
+    >>> set_global_state(state)
+    >>> random.random()
+    0.8444218515250481
+
 """
 import random
 import warnings
 from contextlib import contextmanager
 from functools import wraps
-from typing import Callable, Tuple, TypeVar, Dict, Mapping
+from typing import Callable, Tuple, TypeVar, Dict, Mapping, Optional, Any, Generator
 
 T = TypeVar('T')
+R = TypeVar('R')
 
 _SEED_FUNC = Callable[[int], None]
 _GETSTATE_FUNC = Callable[[], T]
@@ -29,18 +62,21 @@ __all__ = [
 ]
 
 
-def register_random_source(name: str, seed: _SEED_FUNC, getstate: _GETSTATE_FUNC, setstate: _SETSTATE_FUNC):
+def register_random_source(name: str, seed: _SEED_FUNC, getstate: _GETSTATE_FUNC, setstate: _SETSTATE_FUNC) -> None:
     """
-    Register random source, providing name, random seed function, state getting function \
-    and state setting function.
+    Register a random source by providing its seed and state interfaces.
 
-    :param name: Name of random source.
+    Each random source is identified by a unique name and must provide
+    callable interfaces compatible with ``seed(x)``, ``getstate()``,
+    and ``setstate(state)``.
+
+    :param name: Name of the random source.
     :type name: str
-    :param seed: Seed function, format: ``seed(x)``.
+    :param seed: Seed function with signature ``seed(x)``.
     :type seed: _SEED_FUNC
-    :param getstate: State getting function, format: ``getstate()``.
+    :param getstate: State retrieval function with signature ``getstate()``.
     :type getstate: _GETSTATE_FUNC
-    :param setstate: State setting function, format: ``setstate(state)``.
+    :param setstate: State restoration function with signature ``setstate(state)``.
     :type setstate: _SETSTATE_FUNC
     :raises NameError: If the name already exists in registered random sources.
 
@@ -70,13 +106,16 @@ def register_random_source(name: str, seed: _SEED_FUNC, getstate: _GETSTATE_FUNC
     _RANDOM_SOURCES[name] = (seed, getstate, setstate)
 
 
-def register_random_instance(name: str, rnd: random.Random):
+def register_random_instance(name: str, rnd: random.Random) -> None:
     """
-    Register custom random instance.
+    Register a custom :class:`random.Random` instance.
+
+    This is a convenience wrapper around :func:`register_random_source` for
+    instances compatible with Python's ``random.Random`` interface.
 
     :param name: Name of random source.
     :type name: str
-    :param rnd: Custom random instance, should be an instance of :class:`random.Random`.
+    :param rnd: Custom random instance.
     :type rnd: random.Random
 
     Examples::
@@ -153,7 +192,7 @@ def get_global_state() -> Dict[str, T]:
     return {name: getstate() for name, (_, getstate, _) in _RANDOM_SOURCES.items()}
 
 
-def set_global_state(states: Mapping[str, T]):
+def set_global_state(states: Mapping[str, T]) -> None:
     """
     Set states of registered random sources.
 
@@ -187,7 +226,7 @@ def set_global_state(states: Mapping[str, T]):
 
 
 @contextmanager
-def keep_global_state():
+def keep_global_state() -> Generator[None, None, None]:
     """
     Context manager to preserve all random states during execution.
 
@@ -196,6 +235,7 @@ def keep_global_state():
     whether the code block completes successfully or raises an exception.
 
     :yields: None
+    :rtype: Generator[None, None, None]
 
     Examples::
         >>> import torch
@@ -227,7 +267,7 @@ def keep_global_state():
         set_global_state(states)
 
 
-def global_seed(seed: int):
+def global_seed(seed: int) -> None:
     """
     Set seed for all registered random sources.
 
@@ -245,7 +285,7 @@ def global_seed(seed: int):
         fseed(seed)
 
 
-def seedable_func(func: Callable) -> Callable:
+def seedable_func(func: Callable[..., R]) -> Callable[..., R]:
     """
     Decorator to add seed support to a function.
 
@@ -254,9 +294,9 @@ def seedable_func(func: Callable) -> Callable:
     executing the function, enabling reproducible results.
 
     :param func: Function to be decorated.
-    :type func: Callable
+    :type func: Callable[..., R]
     :return: Wrapped function with an additional ``seed`` keyword argument.
-    :rtype: Callable
+    :rtype: Callable[..., R]
 
     Examples::
         >>> import torch
@@ -285,7 +325,7 @@ def seedable_func(func: Callable) -> Callable:
     """
 
     @wraps(func)
-    def _new_func(*args, seed: int = None, **kwargs):
+    def _new_func(*args: Any, seed: Optional[int] = None, **kwargs: Any) -> R:
         if seed is not None:
             global_seed(seed)
 

@@ -1,45 +1,51 @@
 hbutils.binary.float
-==========================
+========================================================
 
 .. currentmodule:: hbutils.binary.float
 
 .. automodule:: hbutils.binary.float
 
 
-CFloatType
-------------------------
+\_\_all\_\_
+-----------------------------------------------------
 
-.. autoclass:: CFloatType
-    :members: __init__, size, mark, read, write
-
-
-c_float
-------------------------
-
-.. autodata:: c_float
+.. autodata:: __all__
 
 
-c_double
-------------------------
-
-.. autodata:: c_double
-
-
-c_float16
-------------------------
+c\_float16
+-----------------------------------------------------
 
 .. autodata:: c_float16
 
 
-c_float32
-------------------------
+c\_float32
+-----------------------------------------------------
 
 .. autodata:: c_float32
 
 
-c_float64
-------------------------
+c\_float64
+-----------------------------------------------------
 
 .. autodata:: c_float64
+
+
+c\_float
+-----------------------------------------------------
+
+.. autodata:: c_float
+
+
+c\_double
+-----------------------------------------------------
+
+.. autodata:: c_double
+
+
+CFloatType
+-----------------------------------------------------
+
+.. autoclass:: CFloatType
+    :members: read,write
 
 

@@ -1,24 +1,43 @@
 """
-This module provides a flexible recovery system for Python objects, allowing objects to be restored to their original state after modifications.
+Recovery utilities for restoring Python objects to their original state.
 
-The recovery system supports various built-in types (dict, list, tuple, etc.) and can be extended to support custom types through registration. It works by creating recovery objects that store the original state and can restore it when needed.
+This module implements a flexible recovery system that captures the state of
+objects and provides a callable to restore them later. It supports nested
+structures and common built-in containers, and it can be extended for custom
+classes via registration.
 
-Key Features:
-    - Recursive recovery of nested data structures
-    - Support for built-in types (dict, list, tuple, primitives)
-    - Extensible through custom recovery classes
-    - Generic object recovery via __dict__ attribute
+The module contains the following main components:
+
+* :class:`BaseRecovery` - Abstract base class for recovery implementations.
+* :class:`DictRecovery` - Recovery for dictionaries.
+* :class:`ListRecovery` - Recovery for lists.
+* :class:`TupleRecovery` - Recovery for tuples (recovers mutable children).
+* :class:`NullRecovery` - No-op recovery for immutable primitives.
+* :class:`GenericObjectRecovery` - Recovery for generic objects via ``__dict__``.
+* :func:`register_recovery` - Register custom recovery classes.
+* :func:`get_recovery_func` - Create a recovery callable for an object.
+
+.. note::
+   The recovery mechanism stores references to the original objects and
+   restores them in-place. For mutable containers, this means the identity
+   of the original object is preserved after recovery.
 
 Example::
+
     >>> from hbutils.collection import get_recovery_func
     >>> l = [1, {'a': 1, 'b': 2}, 3, 4, 5]
     >>> f = get_recovery_func(l)
     >>> l[3] = 1
     >>> l.pop()
-    >>> recovered = f()  # Restores original state
+    >>> recovered = f()
+    >>> recovered is l
+    True
+    >>> l
+    [1, {'a': 1, 'b': 2}, 3, 4, 5]
+
 """
 
-from typing import TypeVar, Type, List, Callable, Optional, Any, Dict
+from typing import TypeVar, Type, List, Callable, Optional, Any, Dict, Union
 
 __all__ = [
     'BaseRecovery',
@@ -34,15 +53,17 @@ class BaseRecovery:
     """
     Base class for all recovery implementations.
 
-    This abstract class defines the interface for recovery objects that can restore
-    Python objects to their original state. Subclasses should implement the ``_recover``
-    and ``from_origin`` methods to provide specific recovery logic for different types.
+    This abstract class defines the interface for recovery objects that can
+    restore Python objects to their original state. Subclasses implement the
+    :meth:`_recover` and :meth:`from_origin` methods to provide specific logic
+    for different types.
 
     :ivar __rtype__: The type(s) that this recovery class can handle.
     :type __rtype__: type or tuple of types
     :ivar origin: The original object to be recovered.
     :type origin: _OriginType
     """
+
     __rtype__ = object
 
     def __init__(self, origin: _OriginType):
@@ -54,7 +75,7 @@ class BaseRecovery:
         """
         self.origin = origin
 
-    def _recover(self):
+    def _recover(self) -> None:
         """
         Implementation for recovery.
 
@@ -69,8 +90,8 @@ class BaseRecovery:
         """
         Recover the given object.
 
-        This method calls the internal ``_recover`` method to perform the actual
-        recovery operation and then returns the recovered object.
+        This method calls the internal :meth:`_recover` method to perform the
+        actual recovery operation and then returns the recovered object.
 
         :return: Recovered object.
         :rtype: _OriginType
@@ -79,7 +100,7 @@ class BaseRecovery:
         return self.origin
 
     @classmethod
-    def _recover_child(cls, child):
+    def _recover_child(cls, child: Union['BaseRecovery', Any]) -> Any:
         """
         Get recovered child-level object.
 
@@ -106,8 +127,8 @@ class BaseRecovery:
 
         :param origin: Original object to recover.
         :type origin: _OriginType
-        :param recursive: Recursive or not. Default is ``True`` which means the child-level object \
-            contained in ``origin`` will be recovered as well.
+        :param recursive: Recursive or not. Default is ``True`` which means the
+            child-level object contained in ``origin`` will be recovered as well.
         :type recursive: bool
         :return: Recovery object.
         :rtype: BaseRecovery
@@ -116,7 +137,7 @@ class BaseRecovery:
         raise NotImplementedError  # pragma: no cover
 
     @classmethod
-    def _create_child(cls, child, recursive: bool = True):
+    def _create_child(cls, child: Any, recursive: bool = True) -> Union['BaseRecovery', Any]:
         """
         Create child-level object for storage usage.
 
@@ -125,8 +146,8 @@ class BaseRecovery:
 
         :param child: Original child-level object.
         :type child: Any
-        :param recursive: Recursive or not. Default is ``True`` which means the child-level object \
-            contained in ``origin`` will be recovered as well.
+        :param recursive: Recursive or not. Default is ``True`` which means the
+            child-level object contained in ``origin`` will be recovered as well.
         :type recursive: bool
         :return: Object for storage (either a recovery object or the original child).
         :rtype: Union[BaseRecovery, Any]
@@ -142,7 +163,7 @@ class BaseRecovery:
 _REC_CLASSES: Optional[List[Type[BaseRecovery]]] = None
 
 
-def register_recovery(cls: Type[BaseRecovery]):
+def register_recovery(cls: Type[BaseRecovery]) -> None:
     """
     Register recovery class.
 
@@ -154,8 +175,8 @@ def register_recovery(cls: Type[BaseRecovery]):
     :type cls: Type[BaseRecovery]
 
     .. note::
-        This API is used for customize recovery for other classes. \
-        For more details, you may take a look at the source code of :class:`BaseRecovery`.
+        This API is used for custom recovery for other classes. For more details,
+        you may take a look at the source code of :class:`BaseRecovery`.
     """
     _REC_CLASSES.append(cls)
 
@@ -173,6 +194,7 @@ class DictRecovery(BaseRecovery):
     :ivar mapping: Dictionary mapping of keys to values (or recovery objects).
     :type mapping: Dict
     """
+
     __rtype__ = dict
 
     def __init__(self, origin: _DictType, mp: Dict):
@@ -187,7 +209,7 @@ class DictRecovery(BaseRecovery):
         BaseRecovery.__init__(self, origin)
         self.mapping = mp
 
-    def _recover(self):
+    def _recover(self) -> None:
         """
         Recover the dictionary to its original state.
 
@@ -208,7 +230,7 @@ class DictRecovery(BaseRecovery):
     @classmethod
     def from_origin(cls, origin: _DictType, recursive: bool = True) -> 'DictRecovery':
         """
-        Create a DictRecovery object from a dictionary.
+        Create a :class:`DictRecovery` object from a dictionary.
 
         :param origin: Original dictionary to recover.
         :type origin: _DictType
@@ -233,6 +255,7 @@ class TupleRecovery(BaseRecovery):
     :ivar items: List of items (or recovery objects) in the tuple.
     :type items: List[Any]
     """
+
     __rtype__ = tuple
 
     def __init__(self, origin: _TupleType, items: List[Any]):
@@ -247,7 +270,7 @@ class TupleRecovery(BaseRecovery):
         BaseRecovery.__init__(self, origin)
         self.items = items
 
-    def _recover(self):
+    def _recover(self) -> None:
         """
         Recover the tuple's contained objects.
 
@@ -260,7 +283,7 @@ class TupleRecovery(BaseRecovery):
     @classmethod
     def from_origin(cls, origin: _TupleType, recursive: bool = True) -> 'TupleRecovery':
         """
-        Create a TupleRecovery object from a tuple.
+        Create a :class:`TupleRecovery` object from a tuple.
 
         :param origin: Original tuple to recover.
         :type origin: _TupleType
@@ -285,6 +308,7 @@ class ListRecovery(BaseRecovery):
     :ivar items: List of items (or recovery objects) from the original list.
     :type items: List
     """
+
     __rtype__ = list
 
     def __init__(self, origin: _ListType, items: List):
@@ -299,7 +323,7 @@ class ListRecovery(BaseRecovery):
         BaseRecovery.__init__(self, origin)
         self.items = items
 
-    def _recover(self):
+    def _recover(self) -> None:
         """
         Recover the list to its original state.
 
@@ -315,7 +339,7 @@ class ListRecovery(BaseRecovery):
     @classmethod
     def from_origin(cls, origin: _ListType, recursive: bool = True) -> 'ListRecovery':
         """
-        Create a ListRecovery object from a list.
+        Create a :class:`ListRecovery` object from a list.
 
         :param origin: Original list to recover.
         :type origin: _ListType
@@ -335,9 +359,10 @@ class NullRecovery(BaseRecovery):
     therefore do not need any recovery logic. It simply stores a reference
     to the original object.
     """
+
     __rtype__ = (int, float, str, bool, bytes, complex, range, slice)
 
-    def _recover(self):
+    def _recover(self) -> None:
         """
         Just do nothing.
 
@@ -350,7 +375,7 @@ class NullRecovery(BaseRecovery):
         """
         Just do nothing.
 
-        Create a NullRecovery object for an immutable type.
+        Create a :class:`NullRecovery` object for an immutable type.
 
         :param origin: Original immutable object.
         :type origin: _OriginType
@@ -372,14 +397,16 @@ class GenericObjectRecovery(BaseRecovery):
     and restoring their ``__dict__`` attribute. This works for most custom
     classes but may not be sufficient for objects with special state storage.
 
-    :ivar dict_: Recovery object for the object's __dict__, or None if no __dict__ exists.
+    :ivar dict_: Recovery object for the object's ``__dict__``, or None if no
+        ``__dict__`` exists.
     :type dict_: Optional[DictRecovery]
 
     .. note::
-        If what you need to recover is not only ``__dict__``, may be you need to custom \
-        recovery class by inheriting :class:`BaseRecovery` class, and register it by \
-        :func:`register_recovery` function.
+        If what you need to recover is not only ``__dict__``, you may need to
+        create a custom recovery class by inheriting :class:`BaseRecovery`,
+        and register it by :func:`register_recovery`.
     """
+
     __rtype__ = object
 
     def __init__(self, origin: _OriginType, dict_: Optional['DictRecovery']):
@@ -388,13 +415,14 @@ class GenericObjectRecovery(BaseRecovery):
 
         :param origin: Original object to recover.
         :type origin: _OriginType
-        :param dict_: Recovery object of ``__dict__``, ``None`` when ``origin`` do not have ``__dict__``.
+        :param dict_: Recovery object of ``__dict__``, ``None`` when ``origin`` does
+            not have ``__dict__``.
         :type dict_: Optional[DictRecovery]
         """
         BaseRecovery.__init__(self, origin)
         self.dict_ = dict_
 
-    def _recover(self):
+    def _recover(self) -> None:
         """
         Recover the ``__dict__``.
 
@@ -409,12 +437,13 @@ class GenericObjectRecovery(BaseRecovery):
         """
         Create recovery object.
 
-        Creates a GenericObjectRecovery by storing the object's ``__dict__``
-        if it exists.
+        Creates a :class:`GenericObjectRecovery` by storing the object's
+        ``__dict__`` if it exists.
 
         :param origin: Original object to recover.
         :type origin: _OriginType
-        :param recursive: Whether to recursively create recovery objects for __dict__ values.
+        :param recursive: Whether to recursively create recovery objects for
+            ``__dict__`` values.
         :type recursive: bool
         :return: GenericObjectRecovery object.
         :rtype: GenericObjectRecovery
@@ -432,7 +461,7 @@ if _REC_CLASSES is None:
     register_recovery(ListRecovery)
 
 
-def _get_recovery_class(origin: _OriginType) -> Optional[Type[BaseRecovery]]:
+def _get_recovery_class(origin: _OriginType) -> Type[BaseRecovery]:
     """
     Get the appropriate recovery class for a given object.
 
@@ -441,8 +470,8 @@ def _get_recovery_class(origin: _OriginType) -> Optional[Type[BaseRecovery]]:
 
     :param origin: Object to find a recovery class for.
     :type origin: _OriginType
-    :return: Recovery class that can handle the object, or None if not found.
-    :rtype: Optional[Type[BaseRecovery]]
+    :return: Recovery class that can handle the object.
+    :rtype: Type[BaseRecovery]
     :raises AssertionError: If no recovery class can handle the object.
     """
     for cls in reversed(_REC_CLASSES):
@@ -463,8 +492,8 @@ def get_recovery_func(origin: _OriginType, recursive: bool = True) -> Callable[[
 
     :param origin: Original object to recover.
     :type origin: _OriginType
-    :param recursive: Recursive or not. Default is ``True`` which means the child-level object \
-        contained in ``origin`` will be recovered as well.
+    :param recursive: Recursive or not. Default is ``True`` which means the
+        child-level object contained in ``origin`` will be recovered as well.
     :type recursive: bool
     :return: Recovery function that restores the object when called.
     :rtype: Callable[[], _OriginType]

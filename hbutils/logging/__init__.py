@@ -1,28 +1,29 @@
 """
-Overview:
-    This module serves as the main entry point for the logging utilities package.
-    It exports all functionality from the format and progress modules, which provide colored
-    logging formatters and progress bar utilities for enhanced console output.
+Logging utilities entry point for the :mod:`hbutils.logging` package.
 
-    The module re-exports all public members from the format submodule, including
-    the ColoredFormatter class and Colors class for ANSI color formatting, as well
-    as progress-related utilities from the progress submodule.
+This module serves as the public entry point for the logging utilities package.
+It re-exports the public members from the :mod:`hbutils.logging.format` and
+:mod:`hbutils.logging.progress` submodules, providing a unified namespace for
+colored formatting and progress-related helpers.
+
+The module primarily exposes:
+
+* :class:`~hbutils.logging.format.ANSIColors` - ANSI escape sequences for
+  terminal text coloring and styling.
+
+.. note::
+   The actual available public members depend on the implementations of
+   :mod:`hbutils.logging.format` and :mod:`hbutils.logging.progress`.
 
 Example::
+
     >>> import logging
-    >>> from hbutils.logging import ColoredFormatter
-    >>> 
-    >>> # Set up colored logging
-    >>> logger = logging.getLogger()
-    >>> logger.setLevel(logging.DEBUG)
-    >>> console_handler = logging.StreamHandler()
-    >>> console_handler.setFormatter(ColoredFormatter())
-    >>> logger.addHandler(console_handler)
-    >>> 
-    >>> # Use the logger
-    >>> logger.info("This is an info message")
-    >>> logger.warning("This is a warning message")
-    >>> logger.error("This is an error message")
+    >>> from hbutils.logging import ANSIColors
+    >>>
+    >>> # Use ANSIColors directly to colorize output
+    >>> print(f"{ANSIColors.GREEN}Green text{ANSIColors.RESET}")
+    Green text  # Displayed in green in a compatible terminal
+
 """
 
 from .format import *

@@ -1,20 +1,30 @@
 """
-System utilities module for hbutils.
+System utilities package for hbutils.
 
-This module provides a comprehensive collection of system-level utilities including:
+This package provides a unified interface to a collection of system-level utilities,
+organizing common functionality across filesystem, git, network, OS, and Python
+environment operations. It re-exports public objects from the submodules so they
+can be accessed directly under :mod:`hbutils.system`.
 
-- **filesystem**: File and directory operations, binary file handling, and temporary file management
-- **git**: Git repository information and operations
-- **network**: Network-related utilities including host management, port operations, telnet functionality, and URL handling
-- **os**: Operating system utilities for executable management and OS type detection
-- **python**: Python environment utilities including implementation detection, package management, and version handling
+The package aggregates the following submodules:
 
-The module aggregates functionality from multiple submodules to provide a unified interface
-for common system-level operations in Python applications.
+* :mod:`hbutils.system.filesystem` - File and directory helpers, binary utilities, and temporary file handling
+* :mod:`hbutils.system.git` - Git repository inspection and operations
+* :mod:`hbutils.system.network` - Networking helpers including host/port utilities and URL handling
+* :mod:`hbutils.system.os` - Operating system helpers such as executable discovery and OS type detection
+* :mod:`hbutils.system.python` - Python runtime utilities and package/environment helpers
 
 Example::
+
     >>> from hbutils.system import *
-    >>> # Use various system utilities
+    >>> # Use utilities exposed by the submodules
+    >>> # e.g., urlsplit from the network submodule (if exported there)
+    >>> # split_url = urlsplit('https://example.com/path?q=1')
+
+.. note::
+   This package is a convenience re-exporter. Public objects are defined in
+   the underlying submodules and imported into this namespace.
+
 """
 
 from .filesystem import *

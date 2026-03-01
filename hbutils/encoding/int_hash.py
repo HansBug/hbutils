@@ -1,30 +1,37 @@
 """
-Non-cryptographic hash algorithms module.
+Non-cryptographic integer hash utilities.
 
-This module provides implementations of various fast, non-cryptographic hash algorithms
-commonly used for hash tables, checksums, and data fingerprinting. These algorithms
-prioritize speed over cryptographic security.
+This module provides a collection of fast, non-cryptographic hash functions
+commonly used for hash tables, checksums, and lightweight data fingerprinting.
+The algorithms prioritize speed and distribution quality over cryptographic
+security, and they are exposed through a unified interface.
 
-Available hash algorithms:
+The module contains the following main components:
 
-- FNV-1a (32-bit and 64-bit): Fowler-Noll-Vo hash function
-- DJB2: Daniel J. Bernstein's hash algorithm
-- SDBM: Hash function from the SDBM database library
-- MurmurHash3 (32-bit): Fast non-cryptographic hash by Austin Appleby
-- CRC32 Variant: Modified CRC32 algorithm
-- xxHash32: Extremely fast hash algorithm
-- xs: A tiny and fast but reliable hash algorithm
+* :func:`register_int_hash` - Register custom hash functions by name
+* :func:`int_hash` - Unified entry point for computing integer hashes
 
-The module provides a unified interface through the `int_hash` function, which allows
-selecting different hash algorithms via the method parameter. Custom hash functions
-can be registered using the `register_int_hash` decorator.
+Supported algorithm names include:
+
+* ``FNV-1a-32`` - 32-bit Fowler-Noll-Vo hash
+* ``FNV-1a-64`` - 64-bit Fowler-Noll-Vo hash
+* ``DJB2`` - Daniel J. Bernstein's hash algorithm
+* ``SDBM`` - Hash function from the SDBM database library
+* ``MurmurHash3-32`` - 32-bit MurmurHash3 (simplified)
+* ``CRC32-Variant`` - Modified CRC32-based hash
+* ``xxHash32-Simple`` - 32-bit xxHash (simplified)
+* ``xs`` - Minimal polynomial hash with basic mixing
+
+.. note::
+   These algorithms are **not** cryptographically secure and should not be
+   used for security-sensitive applications.
 
 Example::
+
     >>> from hbutils.encoding import int_hash
     >>> int_hash("hello", method='FNV-1a-32')
-    1335831723
     >>> int_hash(b"world", method='DJB2')
-    279393645
+
 """
 
 import struct
@@ -42,15 +49,16 @@ def _norm_input(data: Union[str, bytes, bytearray]) -> bytes:
 
     :param data: Input data in string, bytes, or bytearray format.
     :type data: Union[str, bytes, bytearray]
-
     :return: Normalized data as bytes.
     :rtype: bytes
 
     Example::
+
         >>> _norm_input("hello")
         b'hello'
         >>> _norm_input(bytearray(b"world"))
         b'world'
+
     """
     if isinstance(data, str):
         return data.encode('utf-8')
@@ -63,7 +71,7 @@ _IntHashTyping = Callable[[Union[str, bytes, bytearray]], int]
 _INT_HASH_FUNCS: Dict[str, _IntHashTyping] = {}
 
 
-def _register(name: str, func: _IntHashTyping):
+def _register(name: str, func: _IntHashTyping) -> None:
     """
     Register a hash function with a given name.
 
@@ -71,39 +79,47 @@ def _register(name: str, func: _IntHashTyping):
     :type name: str
     :param func: The hash function to register.
     :type func: _IntHashTyping
+    :return: ``None``.
+    :rtype: None
     """
     _INT_HASH_FUNCS[name] = func
 
 
-def register_int_hash(name: str, func: Optional[_IntHashTyping] = None) -> Optional[Callable]:
+def register_int_hash(
+    name: str,
+    func: Optional[_IntHashTyping] = None
+) -> Optional[Callable[[_IntHashTyping], _IntHashTyping]]:
     """
     Register an integer hash function decorator.
 
     This function can be used as a decorator to register hash functions,
-    or called directly with both name and function parameters.
+    or called directly with both ``name`` and ``func`` parameters.
 
     :param name: The name to register the hash function under.
     :type name: str
     :param func: The hash function to register (optional).
     :type func: Optional[_IntHashTyping]
-
-    :return: The decorator function if func is None, otherwise None.
-    :rtype: Optional[Callable]
+    :return: A decorator that registers the function if ``func`` is ``None``,
+             otherwise ``None``.
+    :rtype: Optional[Callable[[_IntHashTyping], _IntHashTyping]]
 
     Example::
+
         >>> @register_int_hash('my_hash')
         ... def my_hash_func(data):
         ...     return hash(data)
         >>> register_int_hash('another_hash', lambda x: hash(x))
+
     """
     if func is None:
-        def _decorator(f):
+        def _decorator(f: _IntHashTyping) -> _IntHashTyping:
             _register(name, f)
             return f
 
         return _decorator
     else:
         _register(name, func)
+        return None
 
 
 @register_int_hash('FNV-1a-32')
@@ -116,15 +132,14 @@ def _int_hash_fnv1a_32(data: Union[str, bytes, bytearray]) -> int:
 
     :param data: Input data to hash.
     :type data: Union[str, bytes, bytearray]
-
     :return: 32-bit hash value.
     :rtype: int
 
     Example::
+
         >>> _int_hash_fnv1a_32("hello")
-        1335831723
         >>> _int_hash_fnv1a_32(b"world")
-        2166136261
+
     """
     data = _norm_input(data)
     hash_val = 0x811c9dc5  # FNV offset basis
@@ -147,15 +162,14 @@ def _int_hash_fnv1a_64(data: Union[str, bytes, bytearray]) -> int:
 
     :param data: Input data to hash.
     :type data: Union[str, bytes, bytearray]
-
     :return: 64-bit hash value.
     :rtype: int
 
     Example::
+
         >>> _int_hash_fnv1a_64("hello")
-        11831194018420276491
         >>> _int_hash_fnv1a_64(b"world")
-        14687969915205230528
+
     """
     data = _norm_input(data)
     hash_val = 0xcbf29ce484222325  # FNV offset basis
@@ -178,15 +192,14 @@ def _int_hash_djb2(data: Union[str, bytes, bytearray]) -> int:
 
     :param data: Input data to hash.
     :type data: Union[str, bytes, bytearray]
-
     :return: 32-bit hash value.
     :rtype: int
 
     Example::
+
         >>> _int_hash_djb2("hello")
-        210676686969
         >>> _int_hash_djb2(b"world")
-        894552257
+
     """
     data = _norm_input(data)
     hash_val = 5381
@@ -207,15 +220,14 @@ def _int_hash_sdbm(data: Union[str, bytes, bytearray]) -> int:
 
     :param data: Input data to hash.
     :type data: Union[str, bytes, bytearray]
-
     :return: 32-bit hash value.
     :rtype: int
 
     Example::
+
         >>> _int_hash_sdbm("hello")
-        430867652
         >>> _int_hash_sdbm(b"world")
-        4031760169
+
     """
     data = _norm_input(data)
     hash_val = 0
@@ -239,15 +251,14 @@ def _int_hash_murmur3_32(data: Union[str, bytes, bytearray], seed: int = 0) -> i
     :type data: Union[str, bytes, bytearray]
     :param seed: Seed value for hash initialization (default: 0).
     :type seed: int
-
     :return: 32-bit hash value.
     :rtype: int
 
     Example::
+
         >>> _int_hash_murmur3_32("hello")
-        613153351
         >>> _int_hash_murmur3_32("hello", seed=42)
-        1335626643
+
     """
     data = _norm_input(data)
     length = len(data)
@@ -305,15 +316,14 @@ def _int_hash_crc32_variant(data: Union[str, bytes, bytearray]) -> int:
 
     :param data: Input data to hash.
     :type data: Union[str, bytes, bytearray]
-
     :return: 32-bit hash value.
     :rtype: int
 
     Example::
+
         >>> _int_hash_crc32_variant("hello")
-        907060870
         >>> _int_hash_crc32_variant(b"world")
-        3134015206
+
     """
     data = _norm_input(data)
 
@@ -345,15 +355,14 @@ def _int_hash_xxhash32_simple(data: Union[str, bytes, bytearray], seed: int = 0)
     :type data: Union[str, bytes, bytearray]
     :param seed: Seed value for hash initialization (default: 0).
     :type seed: int
-
     :return: 32-bit hash value.
     :rtype: int
 
     Example::
+
         >>> _int_hash_xxhash32_simple("hello")
-        4211111929
         >>> _int_hash_xxhash32_simple("hello", seed=42)
-        3252879916
+
     """
     data = _norm_input(data)
     length = len(data)
@@ -420,21 +429,20 @@ def _int_hash_xs(data: Union[str, bytes, bytearray]) -> int:
     Compute a minimal but functional hash using simple polynomial hashing.
 
     This is a lightweight hash function that uses a simple polynomial hash
-    (hash = hash * 31 + byte) with a single bit mixing operation to improve
+    (``hash = hash * 31 + byte``) with a single bit mixing operation to improve
     the avalanche effect. It satisfies basic hash properties while maintaining
     simplicity and speed.
 
     :param data: The input data to hash. Can be string, bytes, or bytearray.
     :type data: Union[str, bytes, bytearray]
-
     :return: A 32-bit unsigned integer hash value.
     :rtype: int
 
     Example::
+
         >>> _int_hash_xs('hello')  # Hash a string
-        123456789
         >>> _int_hash_xs(b'hello')  # Hash bytes
-        123456789
+
     """
     # Convert all input types to bytes
     if isinstance(data, str):
@@ -458,25 +466,24 @@ def int_hash(data: Union[str, bytes, bytearray], method: str = 'FNV-1a-32') -> i
     Compute integer hash using the specified method.
 
     This is the main entry point for computing hashes. It dispatches to the
-    appropriate hash function based on the method parameter.
+    appropriate hash function based on the ``method`` parameter.
 
     :param data: Input data to hash.
     :type data: Union[str, bytes, bytearray]
-    :param method: Hash algorithm to use (default: 'FNV-1a-32').
-                   Available methods: 'FNV-1a-32', 'FNV-1a-64', 'DJB2', 'SDBM',
-                   'MurmurHash3-32', 'CRC32-Variant', 'xxHash32-Simple', 'xs'.
+    :param method: Hash algorithm to use (default: ``'FNV-1a-32'``).
+                   Available methods: ``'FNV-1a-32'``, ``'FNV-1a-64'``, ``'DJB2'``,
+                   ``'SDBM'``, ``'MurmurHash3-32'``, ``'CRC32-Variant'``,
+                   ``'xxHash32-Simple'``, ``'xs'``.
     :type method: str
-
     :return: Hash value computed by the specified method.
     :rtype: int
     :raises KeyError: If the specified method is not registered.
 
     Example::
+
         >>> int_hash("hello")
-        1335831723
         >>> int_hash("hello", method='FNV-1a-32')
-        1335831723
         >>> int_hash(b"world", method='DJB2')
-        279393645
+
     """
     return _INT_HASH_FUNCS[method](data)

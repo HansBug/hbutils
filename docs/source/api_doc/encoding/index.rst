@@ -1,9 +1,10 @@
 hbutils.encoding
-=====================
+========================================================
 
 .. currentmodule:: hbutils.encoding
 
 .. automodule:: hbutils.encoding
+
 
 .. toctree::
     :maxdepth: 3
@@ -14,3 +15,4 @@ hbutils.encoding
     hash
     int_hash
     int_hash_val
+

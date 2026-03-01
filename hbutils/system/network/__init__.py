@@ -1,24 +1,28 @@
 """
-Overview:
-    This module provides useful tools for network operations, including:
+Network utility package aggregating common system-level networking helpers.
 
-    - Host management utilities
-    - Port utilities for network connections
-    - Telnet connection helpers
-    - URL parsing and manipulation tools
+This package exposes a unified interface to several network-related utilities
+implemented in its submodules. It re-exports public APIs from the following
+modules for convenience:
 
-    All utilities are imported and exposed at the package level for convenient access.
+* :mod:`hbutils.system.network.hosts` - Host file management and lookup helpers
+* :mod:`hbutils.system.network.port` - Port availability and allocation tools
+* :mod:`hbutils.system.network.telnet_` - Telnet-like connectivity checks
+* :mod:`hbutils.system.network.url` - URL parsing and manipulation utilities
 
-Main Components:
+The main goal of this package is to provide a centralized access point for
+network operations commonly used in system scripts, diagnostics, and tooling.
 
-    - Host file management and localhost IP retrieval
-    - Port availability checking and allocation
-    - Telnet-like connectivity checks
-    - URL parsing and splitting utilities
+.. note::
+   The package re-exports public symbols from its submodules. You may also
+   import the submodules directly if you need module-scoped names.
 
-The module aggregates functionality from multiple submodules to provide a comprehensive
-set of network-related utilities for common tasks such as checking port availability,
-parsing URLs, managing host files, and testing network connectivity.
+Example::
+
+    >>> import hbutils.system.network as network
+    >>> network.__name__
+    'hbutils.system.network'
+
 """
 from .hosts import *
 from .port import *

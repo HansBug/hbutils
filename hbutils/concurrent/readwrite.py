@@ -1,16 +1,33 @@
 """
-This module provides a read-write lock implementation for controlling concurrent access to shared resources.
+Read-write lock utilities for coordinating concurrent access to shared resources.
 
-The ReadWriteLock class implements a reader-writer lock that allows multiple concurrent readers
-or a single exclusive writer, following these rules:
+This module provides a :class:`ReadWriteLock` implementation that allows
+multiple concurrent readers or a single exclusive writer. It is useful for
+scenarios where read operations are frequent and write operations are
+occasional, improving overall throughput by permitting concurrent reads while
+preserving consistency for writes.
 
-- Read-Read: Non-exclusive, allows concurrent access
-- Read-Write: Exclusive, write operations wait for all read operations to complete
-- Write-Write: Exclusive, write operations execute serially
-- Write-Read: Exclusive, read operations wait for write operations to complete
+The module contains the following main component:
 
-This is useful for scenarios where you have frequent read operations and occasional write operations,
-allowing better performance through concurrent reads while maintaining data consistency.
+* :class:`ReadWriteLock` - Reader-writer lock with convenience context managers
+
+Example::
+
+    >>> from hbutils.concurrent.readwrite import ReadWriteLock
+    >>> lock = ReadWriteLock()
+    >>> # Concurrent readers
+    >>> with lock.read_lock():
+    ...     # read shared state
+    ...     pass
+    >>> # Exclusive writer
+    >>> with lock.write_lock():
+    ...     # modify shared state
+    ...     pass
+
+.. note::
+   The lock factory must return a lock object supporting ``acquire`` and
+   ``release`` and acting as a context manager (e.g., :func:`threading.Lock`).
+
 """
 
 import threading
@@ -38,16 +55,26 @@ class ReadWriteLock:
     write operations, providing better performance through concurrent reads while maintaining
     data consistency during writes.
 
-    :param lock_factory: Factory function to create lock objects, defaults to threading.Lock
-    :type lock_factory: Callable
+    :param lock_factory: Factory function to create lock objects, defaults to :func:`threading.Lock`
+    :type lock_factory: Callable[[], threading.Lock]
+
+    Example::
+
+        >>> lock = ReadWriteLock()
+        >>> lock.acquire_read()
+        >>> try:
+        ...     # perform read operations
+        ...     pass
+        ... finally:
+        ...     lock.release_read()
     """
 
-    def __init__(self, lock_factory: Callable = threading.Lock):
+    def __init__(self, lock_factory: Callable[[], threading.Lock] = threading.Lock) -> None:
         """
         Initialize the ReadWriteLock.
 
-        :param lock_factory: Factory function to create lock objects, defaults to threading.Lock
-        :type lock_factory: Callable
+        :param lock_factory: Factory function to create lock objects, defaults to :func:`threading.Lock`
+        :type lock_factory: Callable[[], threading.Lock]
         """
         # Lock to protect the reader count
         self._read_ready = lock_factory()
@@ -63,6 +90,9 @@ class ReadWriteLock:
         This method allows multiple threads to acquire read locks concurrently.
         The first reader will block any potential writers by acquiring the write lock.
         Subsequent readers can proceed without blocking as long as no writer is waiting.
+
+        :return: None
+        :rtype: None
         """
         with self._read_ready:
             self._readers += 1
@@ -77,6 +107,8 @@ class ReadWriteLock:
         This method decrements the reader count and releases the write lock
         when the last reader finishes, allowing pending write operations to proceed.
 
+        :return: None
+        :rtype: None
         :raises RuntimeError: If there are no active readers to release
         """
         with self._read_ready:
@@ -94,6 +126,9 @@ class ReadWriteLock:
         This method provides exclusive access for write operations. It will block
         until all current readers have finished and no other writers are active.
         Once acquired, no new readers or writers can proceed until the write lock is released.
+
+        :return: None
+        :rtype: None
         """
         self._write_ready.acquire()
 
@@ -103,6 +138,9 @@ class ReadWriteLock:
 
         This method releases the exclusive write lock, allowing pending readers
         and writers to proceed according to the lock's scheduling policy.
+
+        :return: None
+        :rtype: None
         """
         self._write_ready.release()
 
@@ -112,17 +150,18 @@ class ReadWriteLock:
         Context manager for read lock operations.
 
         This method provides a convenient way to acquire and automatically release
-        a read lock using the 'with' statement. The lock is guaranteed to be
+        a read lock using the ``with`` statement. The lock is guaranteed to be
         released even if an exception occurs within the context.
 
         :return: Generator for context management
         :rtype: Generator[None, None, None]
 
-        Example:
+        Example::
+
             >>> rwlock = ReadWriteLock()
             >>> with rwlock.read_lock():
             ...     # Perform read operations
-            ...     data = shared_resource.read()
+            ...     pass
         """
         self.acquire_read()
         try:
@@ -136,17 +175,18 @@ class ReadWriteLock:
         Context manager for write lock operations.
 
         This method provides a convenient way to acquire and automatically release
-        a write lock using the 'with' statement. The lock is guaranteed to be
+        a write lock using the ``with`` statement. The lock is guaranteed to be
         released even if an exception occurs within the context.
 
         :return: Generator for context management
         :rtype: Generator[None, None, None]
 
-        Example:
+        Example::
+
             >>> rwlock = ReadWriteLock()
             >>> with rwlock.write_lock():
             ...     # Perform write operations
-            ...     shared_resource.write(new_data)
+            ...     pass
         """
         self.acquire_write()
         try:

@@ -1,11 +1,26 @@
 """
-Overview:
-    Functions for ansi escaping and unescapes.
-    See `ANSI escape code - Wikipedia <https://en.wikipedia.org/wiki/ANSI_escape_code>`_.
+ANSI escape sequence utilities.
 
-    This module provides utilities to remove ANSI escape codes from strings, which are commonly
-    used for terminal text formatting (colors, styles, etc.). The main functionality is to clean
-    strings by removing these escape sequences, leaving only the plain text content.
+This module provides lightweight utilities for removing ANSI escape sequences
+from text. ANSI escape codes are commonly used by terminals to apply formatting
+such as colors and styles. The primary public API is :func:`ansi_unescape`,
+which strips these sequences and returns plain text.
+
+The module contains the following main components:
+
+* :func:`ansi_unescape` - Remove ANSI escape sequences from a string.
+
+.. note::
+   This module focuses on the most common CSI "SGR" color/style sequences
+   (e.g., ``\\x1b[31m`` or ``\\x1b[1;32m``). Other escape sequences are not
+   processed by the current implementation.
+
+Example::
+
+    >>> from hbutils.encoding.ansi import ansi_unescape
+    >>> ansi_unescape("\\x1b[1;31mHello\\x1b[0m")
+    'Hello'
+
 """
 import re
 
@@ -18,25 +33,31 @@ _ANSI_PATTERN = re.compile(r'\x1B\[\d+(;\d+){0,2}m')
 
 def ansi_unescape(string: str) -> str:
     """
-    Unescape ansi string by removing ANSI escape codes.
+    Remove ANSI escape codes from a string.
 
-    This function removes ANSI escape sequences from the input string, which are typically
-    used for terminal text formatting such as colors, bold, underline, etc. The function
-    uses a regular expression pattern to match and remove these escape codes.
+    This function strips common ANSI SGR (Select Graphic Rendition) escape
+    sequences used for terminal text formatting. It operates by matching
+    sequences such as ``\\x1b[31m`` or ``\\x1b[1;32m`` and removing them,
+    returning only the unformatted text.
 
     See `ANSI escape code - Wikipedia <https://en.wikipedia.org/wiki/ANSI_escape_code>`_.
 
-    :param string: Original output string containing ANSI escape codes.
+    :param string: Original string that may contain ANSI escape sequences.
     :type string: str
-
-    :return: Unescaped ansi string with all ANSI escape codes removed.
+    :return: String with ANSI escape sequences removed.
     :rtype: str
 
-    Examples::
+    Example::
+
         >>> from hbutils.encoding import ansi_unescape
-        >>> ansi_unescape("\x1b[1;31mHello")  # Remove red bold formatting
+        >>> ansi_unescape("\\x1b[1;31mHello")  # Remove red bold formatting
         'Hello'
-        >>> ansi_unescape("\x1b[2;37;41mWorld")  # Remove dim white text on red background
+        >>> ansi_unescape("\\x1b[2;37;41mWorld")  # Remove dim white on red background
         'World'
+
+    .. warning::
+       Only ANSI SGR sequences matching the pattern ``\\x1b[...m`` with up to
+       two semicolon-separated numeric parameters are removed. Other ANSI
+       control sequences are left intact.
     """
     return _ANSI_PATTERN.sub('', string)

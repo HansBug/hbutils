@@ -1,18 +1,24 @@
 """
-This module provides native expression utilities for the hbutils library.
+Native expression utilities for the :mod:`hbutils.expression` package.
 
-It aggregates and exports functionalities from three main submodules:
+This module aggregates and re-exports the public APIs from the native
+expression submodules, providing a convenient entry point for users who want
+to access the entire native expression toolkit in a single import.
 
-- base: Base expression classes and utilities
-- feature: Feature-related expression components
-- general: General-purpose expression utilities
+The following public modules are re-exported:
 
-This module serves as a convenient entry point to access all native expression
-functionalities without needing to import from individual submodules.
+* :mod:`hbutils.expression.native.base` - Base expression classes and utilities
+* :mod:`hbutils.expression.native.feature` - Feature-related expression components
+* :mod:`hbutils.expression.native.general` - General-purpose expression utilities
+
+This design allows users to write expressive and compact imports while keeping
+the internal organization modular.
 
 Example::
+
     >>> from hbutils.expression.native import *
-    >>> # Now you can use all exported classes and functions from base, feature, and general
+    >>> # You now have access to public classes and functions
+    >>> # defined in base, feature, and general submodules.
 """
 
 from .base import *

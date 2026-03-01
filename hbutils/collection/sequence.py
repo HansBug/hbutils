@@ -1,11 +1,28 @@
 """
-Collection utility module providing functions for sequence manipulation and grouping operations.
+Sequence collection utilities for deduplication and grouping operations.
 
-This module offers utilities for working with collections, including:
-- Removing duplicates while preserving order
-- Grouping elements by custom criteria with optional post-processing
+This module provides lightweight helpers for manipulating sequences and
+iterables. The focus is on preserving ordering and offering flexible grouping
+behavior with optional post-processing of each group.
 
-The functions are designed to be type-safe and work with various sequence types.
+The module contains the following public functions:
+
+* :func:`unique` - Remove duplicate elements while preserving original order
+* :func:`group_by` - Group elements by a key function with optional post-processing
+
+.. note::
+   The :func:`unique` function relies on hashing for membership checks. Elements
+   must therefore be hashable, and the input sequence type must be constructible
+   from a list for the result to be returned with the same type.
+
+Example::
+
+    >>> from hbutils.collection.sequence import unique, group_by
+    >>> unique([1, 2, 3, 1, 2])
+    [1, 2, 3]
+    >>> group_by(['apple', 'pear', 'peach'], key=lambda x: x[0])
+    {'a': ['apple'], 'p': ['pear', 'peach']}
+
 """
 
 from typing import Union, TypeVar, Sequence, Callable, Optional, Dict, List, Iterable
@@ -20,12 +37,19 @@ _ElementType = TypeVar('_ElementType')
 
 def unique(s: Union[Sequence[_ElementType]]) -> Sequence[_ElementType]:
     """
-    Unique all the values in the given ``s``, preserving its original order.
+    Remove duplicate elements from a sequence while preserving original order.
 
-    :param s: Original sequence.
+    This function iterates through the input sequence, keeping the first
+    occurrence of each element. The returned sequence is constructed by calling
+    ``type(s)`` on the list of unique items, preserving the original sequence
+    type where possible.
+
+    :param s: Original sequence to be deduplicated.
     :type s: Union[Sequence[_ElementType]]
-    :return: Unique sequence, with the original type.
+    :return: Unique sequence with the original input type when constructible.
     :rtype: Sequence[_ElementType]
+    :raises TypeError: If elements are unhashable or if ``type(s)`` cannot be
+        constructed from a list.
 
     Examples::
         >>> from hbutils.collection import unique
@@ -54,16 +78,21 @@ def group_by(s: Iterable[_ElementType],
              key: Callable[[_ElementType], _GroupType],
              gfunc: Optional[Callable[[List[_ElementType]], _ResultType]] = None) -> Dict[_GroupType, _ResultType]:
     """
-    Divide the elements into groups.
+    Group iterable elements by a key function with optional post-processing.
+
+    Elements from the input iterable are collected into lists keyed by the
+    result of ``key``. If ``gfunc`` is provided, each group list is passed to
+    this function and the returned value is used as the group result. When
+    ``gfunc`` is ``None``, the raw lists are returned.
 
     :param s: Elements to be grouped.
     :type s: Iterable[_ElementType]
-    :param key: Group key, should be a callable object that extracts the grouping key from each element.
+    :param key: Callable that computes the grouping key for each element.
     :type key: Callable[[_ElementType], _GroupType]
-    :param gfunc: Post-process function for groups, should be a callable object. Default is ``None`` which means \
-        no post-processing will be performed and raw lists will be returned.
+    :param gfunc: Optional post-processing function for each group. If ``None``,
+        group values are returned as raw lists. Defaults to ``None``.
     :type gfunc: Optional[Callable[[List[_ElementType]], _ResultType]]
-    :return: Grouping result as a dictionary mapping group keys to processed group values.
+    :return: Dictionary mapping group keys to processed group values.
     :rtype: Dict[_GroupType, _ResultType]
 
     Examples::
@@ -82,7 +111,6 @@ def group_by(s: Iterable[_ElementType],
         >>> group_by(foods, lambda x: x[0], len)  # group and get length
         {'a': 1, 'o': 1, 'p': 2, 'b': 1, 'f': 1, 'm': 1}
     """
-
     gfunc = gfunc or (lambda x: x)
 
     _result_dict: Dict[_GroupType, List[_ElementType]] = {}

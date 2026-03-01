@@ -1,17 +1,37 @@
 """
-This module provides basic IO types for binary file operations.
+Binary IO type definitions and helpers for fixed-size data structures.
 
-It defines a hierarchy of classes for reading and writing binary data with different characteristics:
-- CIOType: Base class for all IO types
-- CFixedType: Types with fixed size (int, uint, float, etc.)
-- CRangedIntType: Fixed-size types with value range constraints
-- CMarkedType: Types that can be read/written using Python's struct module
+This module defines a small hierarchy of IO types designed to read and write
+binary data from file-like objects (e.g., :class:`io.BytesIO` or any
+:class:`typing.BinaryIO`). The core abstractions help describe fixed-size
+data structures, integer ranges, and types that can be directly packed
+with the :mod:`struct` module.
 
-These classes are designed to work with binary file objects and io.BytesIO instances.
+The module contains the following main components:
+
+* :class:`CIOType` - Base class defining the read/write interface
+* :class:`CFixedType` - Fixed-size IO type with a known byte width
+* :class:`CRangedIntType` - Fixed-size integer type with value constraints
+* :class:`CMarkedType` - Fixed-size type using a struct format mark
+
+Example::
+
+    >>> import io
+    >>> int_type = CMarkedType('i', 4)
+    >>> buffer = io.BytesIO()
+    >>> int_type.write(buffer, 5)
+    >>> buffer.seek(0)
+    0
+    >>> int_type.read(buffer)
+    5
+
+.. note::
+   All IO types operate on binary streams. Text streams are not supported.
+
 """
 
 import struct
-from typing import BinaryIO
+from typing import Any, BinaryIO
 
 
 class CIOType:
@@ -22,13 +42,14 @@ class CIOType:
     and writing to binary IO objects.
     """
 
-    def read(self, file: BinaryIO):
+    def read(self, file: BinaryIO) -> Any:
         """
         Read from binary IO object.
 
         :param file: Binary file, ``io.BytesIO`` is supported as well.
         :type file: BinaryIO
         :return: Reading result.
+        :rtype: Any
 
         .. warning::
             Need to be implemented in subclasses.
@@ -37,13 +58,16 @@ class CIOType:
         """
         raise NotImplementedError  # pragma: no cover
 
-    def write(self, file: BinaryIO, val):
+    def write(self, file: BinaryIO, val: Any) -> None:
         """
         Write object to binary IO object.
 
         :param file: Binary file, ``io.BytesIO`` is supported as well.
         :type file: BinaryIO
         :param val: Object to write.
+        :type val: Any
+        :return: ``None``.
+        :rtype: None
 
         .. warning::
             Need to be implemented in subclasses.
@@ -80,13 +104,14 @@ class CFixedType(CIOType):
         """
         return self.__size
 
-    def read(self, file: BinaryIO):
+    def read(self, file: BinaryIO) -> Any:
         """
         Read from binary IO object.
 
         :param file: Binary file, ``io.BytesIO`` is supported as well.
         :type file: BinaryIO
         :return: Reading result.
+        :rtype: Any
 
         .. warning::
             Need to be implemented in subclasses.
@@ -95,13 +120,16 @@ class CFixedType(CIOType):
         """
         raise NotImplementedError  # pragma: no cover
 
-    def write(self, file: BinaryIO, val):
+    def write(self, file: BinaryIO, val: Any) -> None:
         """
         Write object to binary IO object.
 
         :param file: Binary file, ``io.BytesIO`` is supported as well.
         :type file: BinaryIO
         :param val: Object to write.
+        :type val: Any
+        :return: ``None``.
+        :rtype: None
 
         .. warning::
             Need to be implemented in subclasses.
@@ -155,13 +183,14 @@ class CRangedIntType(CFixedType):
         """
         return self.__maximum
 
-    def read(self, file: BinaryIO):
+    def read(self, file: BinaryIO) -> Any:
         """
         Read from binary IO object.
 
         :param file: Binary file, ``io.BytesIO`` is supported as well.
         :type file: BinaryIO
         :return: Reading result.
+        :rtype: Any
 
         .. warning::
             Need to be implemented in subclasses.
@@ -170,13 +199,16 @@ class CRangedIntType(CFixedType):
         """
         raise NotImplementedError  # pragma: no cover
 
-    def write(self, file: BinaryIO, val):
+    def write(self, file: BinaryIO, val: Any) -> None:
         """
         Write object to binary IO object.
 
         :param file: Binary file, ``io.BytesIO`` is supported as well.
         :type file: BinaryIO
         :param val: Object to write.
+        :type val: Any
+        :return: ``None``.
+        :rtype: None
 
         .. warning::
             Need to be implemented in subclasses.
@@ -221,7 +253,7 @@ class CMarkedType(CFixedType):
         """
         Mark of the type.
 
-        The format character that will be used to read from and write to binary data 
+        The format character that will be used to read from and write to binary data
         with the ``struct`` module.
 
         :return: The struct format character.
@@ -229,13 +261,14 @@ class CMarkedType(CFixedType):
         """
         return self.__mark
 
-    def read(self, file: BinaryIO):
+    def read(self, file: BinaryIO) -> Any:
         """
         Read from binary with ``struct`` module.
 
         :param file: Binary file, ``io.BytesIO`` is supported as well.
         :type file: BinaryIO
         :return: Result value read from the binary file.
+        :rtype: Any
 
         Example::
             >>> import io
@@ -247,13 +280,16 @@ class CMarkedType(CFixedType):
         r, = struct.unpack(self.mark, file.read(self.size))
         return r
 
-    def write(self, file: BinaryIO, val):
+    def write(self, file: BinaryIO, val: Any) -> None:
         """
         Write value to binary IO with ``struct`` module.
 
         :param file: Binary file, ``io.BytesIO`` is supported as well.
         :type file: BinaryIO
         :param val: Writing value. Will be converted to float before packing.
+        :type val: Any
+        :return: ``None``.
+        :rtype: None
 
         Example::
             >>> import io

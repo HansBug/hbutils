@@ -1,37 +1,63 @@
 """
-This module provides network utility functions for checking port availability and waiting for ports to come online.
+Network connectivity helpers for port availability checks.
 
-It includes functions to perform telnet-like connectivity checks and wait for network services to become available.
+This module provides lightweight, telnet-like connectivity checks to determine
+whether a TCP port is open and accepting connections. It also provides a polling
+utility to wait for a port to become available within a specified timeout.
+
+The module contains the following main components:
+
+* :func:`telnet` - Check connectivity to a TCP host and port.
+* :func:`wait_for_port_online` - Poll a host and port until it becomes available.
+
+.. note::
+   These utilities establish a TCP connection only. They do not perform any
+   protocol-level handshake beyond the TCP connect operation.
+
+Example::
+
+    >>> from hbutils.system.network.telnet_ import telnet, wait_for_port_online
+    >>> telnet('127.0.0.1', 8080, timeout=1.0)
+    False
+    >>> wait_for_port_online('127.0.0.1', 8080, timeout=5.0, interval=0.5)
 """
 
 import socket
 import time
+from typing import Optional
 
 __all__ = [
     'telnet', 'wait_for_port_online',
 ]
 
-from typing import Optional
-
 
 def telnet(host: str, port: int, timeout: float = 5.0) -> bool:
     """
-    Perform a telnet operation on the given port and return ``True`` if a response is received
-    within the timeout period, otherwise return ``False``.
+    Attempt to connect to a TCP host and port.
 
-    :param host: Host address to connect to, e.g. ``127.0.0.1``.
+    This function performs a TCP connection attempt, similar to a telnet check,
+    and returns whether the connection was successfully established within the
+    provided timeout.
+
+    :param host: Host address to connect to, for example ``"127.0.0.1"``.
     :type host: str
-    :param port: Port number to test, e.g. ``32768``.
+    :param port: TCP port number to test, for example ``8080``.
     :type port: int
-    :param timeout: Maximum timeout duration in seconds, defaults to 5.0.
+    :param timeout: Maximum timeout duration in seconds, defaults to ``5.0``.
     :type timeout: float
-    :return: ``True`` if port is online and responding, ``False`` otherwise.
+    :return: ``True`` if the port is online and responding, ``False`` otherwise.
     :rtype: bool
+    :raises OSError: For unexpected socket errors not related to refusal or timeout.
+
+    .. note::
+       This function only checks for the ability to establish a TCP connection.
+       It does not validate application-level protocols.
 
     Example::
-        >>> telnet('127.0.0.1', 8080, timeout=3.0)  # Check if port 8080 is available
+
+        >>> telnet('127.0.0.1', 8080, timeout=3.0)
         True
-        >>> telnet('127.0.0.1', 9999, timeout=1.0)  # Check unavailable port
+        >>> telnet('127.0.0.1', 9999, timeout=1.0)
         False
     """
     try:
@@ -48,26 +74,32 @@ def telnet(host: str, port: int, timeout: float = 5.0) -> bool:
         return False
 
 
-def wait_for_port_online(host: str, port: int, timeout: Optional[float] = 5, interval: float = 0.3):
+def wait_for_port_online(host: str, port: int, timeout: Optional[float] = 5,
+                         interval: float = 0.3) -> None:
     """
-    Wait for the given interface to be in an online state.
+    Wait until a TCP port becomes available.
 
-    This function continuously checks if a port is available by performing telnet operations
-    at regular intervals until the port comes online or the timeout is reached.
+    This function repeatedly calls :func:`telnet` at a fixed interval until the
+    target port is online or the timeout is reached.
 
-    :param host: Host address to connect to, e.g. ``127.0.0.1``.
+    :param host: Host address to connect to, for example ``"127.0.0.1"``.
     :type host: str
-    :param port: Port number to test, e.g. ``32768``.
+    :param port: TCP port number to test, for example ``8080``.
     :type port: int
-    :param timeout: Maximum timeout duration in seconds. ``None`` means wait forever, defaults to 5.
+    :param timeout: Maximum timeout duration in seconds. ``None`` means wait
+        indefinitely, defaults to ``5``.
     :type timeout: Optional[float]
-    :param interval: Time interval between consecutive telnet checks in seconds, defaults to 0.3.
+    :param interval: Time interval between consecutive checks in seconds,
+        defaults to ``0.3``.
     :type interval: float
-    :raises TimeoutError: Raised when timeout is reached and the port is still offline.
+    :return: ``None``. The function returns when the port is online.
+    :rtype: None
+    :raises TimeoutError: If the timeout is reached and the port is still offline.
 
     Example::
-        >>> wait_for_port_online('127.0.0.1', 8080, timeout=10, interval=0.5)  # Wait up to 10 seconds
-        >>> wait_for_port_online('localhost', 3306, timeout=None)  # Wait indefinitely
+
+        >>> wait_for_port_online('127.0.0.1', 8080, timeout=10, interval=0.5)
+        >>> wait_for_port_online('localhost', 3306, timeout=None)
     """
     _start_time = time.time()
     while True:

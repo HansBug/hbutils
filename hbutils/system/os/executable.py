@@ -1,14 +1,27 @@
 """
-Overview:
-    Some useful utils to locate the executable files.
+Executable discovery utilities for system PATH inspection.
 
-    Based on `hweickert/where <https://github.com/hweickert/where>`_, \
-    and this version below will be long-term maintained here.
+This module provides utilities to locate executable files in the system ``PATH``,
+similar to the Unix ``which``/``where`` commands and the Windows ``where`` command.
+It supports both Unix-like systems and Windows, handling platform-specific search
+behavior and executable file extensions.
 
-    This module provides functionality to search for executable files in the system PATH,
-    similar to the Unix 'which' and 'where' commands. It supports both Unix-like systems
-    and Windows, handling platform-specific differences in executable file extensions and
-    search paths.
+The module contains the following main public components:
+
+* :func:`where` - Return all matching executable paths in ``PATH``
+* :func:`which` - Return the first matching executable path (deprecated)
+
+.. note::
+   On Windows, the search includes the current directory and checks common
+   executable extensions (``.bat``, ``.cmd``, ``.com``, ``.exe``) as defined by
+   the implementation.
+
+Example::
+
+    >>> from hbutils.system.os.executable import where
+    >>> where('python')  # doctest: +SKIP
+    ['/usr/bin/python', '/bin/python']
+
 """
 import itertools
 import os
@@ -26,27 +39,27 @@ __all__ = [
 
 def where(execfile: str) -> List[str]:
     """
-    Returns all matching file paths for the given executable file.
+    Return all matching file paths for the given executable.
 
-    This function searches through all directories in the system PATH environment
-    variable and returns a list of all absolute paths where the executable file
-    can be found. On Windows, it also checks for common executable extensions
-    (.bat, .cmd, .com, .exe).
+    This function searches through all directories in the system ``PATH`` environment
+    variable and returns a list of all absolute paths where the executable file can
+    be found. On Windows, it also checks for common executable extensions
+    (``.bat``, ``.cmd``, ``.com``, ``.exe``) and includes the current directory in
+    the search path.
 
     :param execfile: Executable file to locate (such as ``python``).
     :type execfile: str
-    :return: The list of absolute paths of the executable files.
+    :return: A list of normalized absolute paths to executable files.
     :rtype: List[str]
 
-    Examples::
-        >>> from hbutils.system import where
-        >>>
-        >>> where('apt-get')
-        ['/usr/bin/apt-get', '/bin/apt-get']
-        >>> where('bash')
+    Example::
+
+        >>> from hbutils.system.os.executable import where
+        >>> where('bash')  # doctest: +SKIP
         ['/usr/bin/bash', '/bin/bash']
         >>> where('not_installed')
         []
+
     """
     return list(_iter_where(execfile))
 
@@ -55,29 +68,29 @@ def where(execfile: str) -> List[str]:
             details="Use the native :func:`shutil.which` instead")
 def which(execfile: str) -> Optional[str]:
     """
-    Returns first matching file path, which is the one when we operate in terminal.
+    Return the first matching executable path in the system ``PATH`` (deprecated).
 
-    This function returns the first executable file found in the system PATH,
+    This function returns the first executable file found in the system ``PATH``,
     which is typically the one that would be executed when running the command
-    in a terminal. Returns None if no matching executable is found.
+    in a terminal. Returns ``None`` if no matching executable is found.
 
     .. deprecated:: 0.9
-        Use the native :func:`shutil.which` instead. This function will be removed in version 1.0.
+        Use the native :func:`shutil.which` instead. This function will be removed
+        in version 1.0.
 
     :param execfile: Executable file to locate (such as ``python``).
     :type execfile: str
-    :return: Absolute path of the executable file, or None if not found.
+    :return: Absolute path of the executable file, or ``None`` if not found.
     :rtype: Optional[str]
 
-    Examples::
-        >>> from hbutils.system import which
-        >>>
-        >>> which('apt-get')
-        '/usr/bin/apt-get'
-        >>> which('bash')
+    Example::
+
+        >>> from hbutils.system.os.executable import which
+        >>> which('bash')  # doctest: +SKIP
         '/usr/bin/bash'
-        >>> which('not_installed')
-        None
+        >>> which('not_installed') is None
+        True
+
     """
     try:
         return next(_iter_where(execfile))
@@ -87,11 +100,10 @@ def which(execfile: str) -> Optional[str]:
 
 def _iter_where(filename: str) -> Iterator[str]:
     """
-    Like where() but returns an iterator.
+    Iterate over matching executable paths.
 
-    This is an internal helper function that generates an iterator of all matching
-    executable file paths. It was originally named ``iwhere`` but is now hidden
-    as :func:`where` is the preferred public interface.
+    This internal helper yields all matching executable file paths for the given
+    filename, applying the same logic used by :func:`where`.
 
     :param filename: The executable filename to search for.
     :type filename: str
@@ -105,16 +117,17 @@ def _iter_where(filename: str) -> Iterator[str]:
 
 def _is_executable(filename: str) -> bool:
     """
-    Check if the file is an executable file.
+    Determine whether the given path points to an executable file.
 
-    A file is considered executable if it:
+    A path is considered executable if it:
+
     * Exists
     * Is a file (not a directory)
-    * Has executable permissions (not a common file)
+    * Has executable permissions
 
     :param filename: The file path to check.
     :type filename: str
-    :return: True if the file is executable, False otherwise.
+    :return: ``True`` if the file is executable, ``False`` otherwise.
     :rtype: bool
     """
     return os.path.exists(filename) and os.path.isfile(filename) and os.access(filename, os.X_OK)
@@ -122,15 +135,15 @@ def _is_executable(filename: str) -> bool:
 
 def _normpath(filename: str) -> str:
     """
-    Normalize a file path to a canonical form.
+    Normalize a file path to a canonical absolute form.
 
     This function applies both case normalization and path normalization to ensure
-    consistent path representation across different platforms. This is especially
-    important on Windows where path representations can vary significantly.
+    consistent path representation across different platforms, which is especially
+    important on Windows where path representations can vary.
 
-    Note:
-        os.path.normcase and os.path.normpath are VERY important here,
-        because the expression form of a path is actually not unique, especially on Windows.
+    .. note::
+       ``os.path.normcase`` and ``os.path.normpath`` are critical here because
+       the expression form of a path is not unique, especially on Windows.
 
     :param filename: The file path to normalize.
     :type filename: str
@@ -142,7 +155,7 @@ def _normpath(filename: str) -> str:
 
 def _unique_str(siter: Iterable[str]) -> Iterator[str]:
     """
-    Filter an iterable of strings to yield only unique values.
+    Yield unique strings from an iterable, preserving order.
 
     This function maintains the order of first occurrence while removing duplicates
     from the input iterable.
@@ -161,12 +174,13 @@ def _unique_str(siter: Iterable[str]) -> Iterator[str]:
 
 def _gen_possible_matches(filename: str) -> Iterator[str]:
     """
-    Generate all possible file paths where the executable might be located.
+    Generate all possible executable path candidates.
 
     This function generates potential paths by combining the filename with all
-    directories in the system PATH. On Windows, it also:
+    directories in the system ``PATH``. On Windows, it also:
+
     * Includes the current directory in the search
-    * Appends common executable extensions (.bat, .cmd, .com, .exe)
+    * Appends common executable extensions (``.bat``, ``.cmd``, ``.com``, ``.exe``)
 
     All generated paths are normalized to ensure uniqueness and consistency.
 

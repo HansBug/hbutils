@@ -1,12 +1,31 @@
 """
-Overview:
-    Base interface to quickly implement a comparable object.
+Comparable object utilities.
 
-    This module provides the IComparable interface class that allows easy implementation
-    of comparison operations (__eq__, __ne__, __lt__, __le__, __gt__, __ge__) for custom
-    objects by only requiring the implementation of a single _cmpkey() method.
+This module provides a lightweight base interface for implementing rich
+comparison operations on custom objects. Subclasses only need to implement
+the :meth:`IComparable._cmpkey` method, and all comparison operators
+(``==``, ``!=``, ``<``, ``<=``, ``>``, ``>=``) will be derived from it.
+
+The module contains the following main components:
+
+* :class:`IComparable` - Base interface for defining comparable objects
+
+Example::
+
+    >>> from hbutils.model.compare import IComparable
+    >>> class MyValue(IComparable):
+    ...     def __init__(self, v: int) -> None:
+    ...         self._v = v
+    ...
+    ...     def _cmpkey(self):
+    ...         return self._v
+    ...
+    >>> MyValue(1) < MyValue(2)
+    True
 """
+
 import operator as ops
+from typing import Any, Callable
 
 __all__ = [
     'IComparable',
@@ -15,12 +34,12 @@ __all__ = [
 
 class IComparable:
     """
-    Overview:
-        Interface for a comparable object.
+    Interface for a comparable object.
 
-        This class provides a base interface for creating comparable objects. Subclasses
-        only need to implement the _cmpkey() method to enable all comparison operations.
-        The comparison is based on the key values returned by _cmpkey().
+    This class provides a base interface for creating comparable objects. Subclasses
+    only need to implement the :meth:`_cmpkey` method to enable all comparison
+    operations. The comparison is based on the key values returned by
+    :meth:`_cmpkey`.
 
     Examples::
         >>> from hbutils.model import IComparable
@@ -48,11 +67,12 @@ class IComparable:
         True
     """
 
-    def _cmpkey(self):
+    def _cmpkey(self) -> Any:
         """
         Function for getting a key value which is used for comparison.
 
         :return: A value used to compare.
+        :rtype: Any
         :raises NotImplementedError: This method must be implemented by subclasses.
 
         .. note::
@@ -61,7 +81,7 @@ class IComparable:
         """
         raise NotImplementedError  # pragma: no cover
 
-    def _cmpcheck(self, op, other, default=False):
+    def _cmpcheck(self, op: Callable[[Any, Any], bool], other: Any, default: bool = False) -> bool:
         """
         Internal method to perform comparison check between two objects.
 
@@ -84,7 +104,7 @@ class IComparable:
         else:
             return default
 
-    def __eq__(self, other):
+    def __eq__(self, other: Any) -> bool:
         """
         Check equality between two objects.
 
@@ -96,14 +116,14 @@ class IComparable:
 
         .. note::
             Returns True immediately if comparing with self (identity check).
-            Otherwise, compares using _cmpkey() values if types match.
+            Otherwise, compares using :meth:`_cmpkey` values if types match.
         """
         if self is other:
             return True
         else:
             return self._cmpcheck(ops.__eq__, other, default=False)
 
-    def __ne__(self, other):
+    def __ne__(self, other: Any) -> bool:
         """
         Check inequality between two objects.
 
@@ -115,14 +135,14 @@ class IComparable:
 
         .. note::
             Returns False immediately if comparing with self (identity check).
-            Otherwise, compares using _cmpkey() values if types match.
+            Otherwise, compares using :meth:`_cmpkey` values if types match.
         """
         if self is other:
             return False
         else:
             return self._cmpcheck(ops.__ne__, other, default=True)
 
-    def __lt__(self, other):
+    def __lt__(self, other: Any) -> bool:
         """
         Check if this object is less than another object.
 
@@ -134,7 +154,7 @@ class IComparable:
         """
         return self._cmpcheck(ops.__lt__, other)
 
-    def __le__(self, other):
+    def __le__(self, other: Any) -> bool:
         """
         Check if this object is less than or equal to another object.
 
@@ -146,7 +166,7 @@ class IComparable:
         """
         return self._cmpcheck(ops.__le__, other)
 
-    def __gt__(self, other):
+    def __gt__(self, other: Any) -> bool:
         """
         Check if this object is greater than another object.
 
@@ -158,7 +178,7 @@ class IComparable:
         """
         return self._cmpcheck(ops.__gt__, other)
 
-    def __ge__(self, other):
+    def __ge__(self, other: Any) -> bool:
         """
         Check if this object is greater than or equal to another object.
 
