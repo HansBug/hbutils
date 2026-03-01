@@ -1,33 +1,39 @@
 hbutils.binary.str
-==========================
+========================================================
 
 .. currentmodule:: hbutils.binary.str
 
 .. automodule:: hbutils.binary.str
 
 
-CStringType
-------------------------
+\_\_all\_\_
+-----------------------------------------------------
 
-.. autoclass:: CStringType
-    :members: __init__, encoding, read, write
+.. autodata:: __all__
 
 
-c_str
-------------------------
+c\_str
+-----------------------------------------------------
 
 .. autodata:: c_str
 
 
+CStringType
+-----------------------------------------------------
+
+.. autoclass:: CStringType
+    :members: __init__,encoding,read,write
+
+
 CSizedStringType
-------------------------
+-----------------------------------------------------
 
 .. autoclass:: CSizedStringType
-    :members: __init__, size, encoding, read, write
+    :members: __init__,encoding,read,write
 
 
-c_sized_str
-------------------------
+c\_sized\_str
+-----------------------------------------------------
 
 .. autofunction:: c_sized_str
 

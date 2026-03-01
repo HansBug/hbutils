@@ -1,25 +1,31 @@
 hbutils.collection.dimension
-=================================
+========================================================
 
 .. currentmodule:: hbutils.collection.dimension
 
 .. automodule:: hbutils.collection.dimension
 
 
-cube_shape
------------------
+\_\_all\_\_
+-----------------------------------------------------
+
+.. autodata:: __all__
+
+
+cube\_shape
+-----------------------------------------------------
 
 .. autofunction:: cube_shape
 
 
-dimension_switch
------------------------
+dimension\_switch
+-----------------------------------------------------
 
 .. autofunction:: dimension_switch
 
 
-swap_2d
------------------------
+swap\_2d
+-----------------------------------------------------
 
 .. autofunction:: swap_2d
 

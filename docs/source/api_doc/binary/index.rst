@@ -1,9 +1,10 @@
 hbutils.binary
-=====================
+========================================================
 
 .. currentmodule:: hbutils.binary
 
 .. automodule:: hbutils.binary
+
 
 .. toctree::
     :maxdepth: 3
