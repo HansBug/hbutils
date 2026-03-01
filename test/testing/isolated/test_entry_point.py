@@ -1,11 +1,19 @@
 import inspect
+import sys
 
-import pkg_resources
 import pytest
 
 from hbutils.reflection import quick_import_object
 from hbutils.system import is_binary_file
 from hbutils.testing import isolated_entry_points
+
+# Skip tests on Python 3.12+ where pkg_resources is not available
+try:
+    import pkg_resources
+    _has_pkg_resources = True
+except (ModuleNotFoundError, ImportError):
+    _has_pkg_resources = False
+    pkg_resources = None
 
 try:
     import importlib_metadata as _py37_metadata
@@ -22,7 +30,8 @@ else:
 
 
 def _test_for_all(group, name=None, expected=None):
-    assert {entry.name: entry.load() for entry in pkg_resources.iter_entry_points(group, name)} == expected
+    if _has_pkg_resources:
+        assert {entry.name: entry.load() for entry in pkg_resources.iter_entry_points(group, name)} == expected
 
     _metadata_kwargs = {'group': group}
     if name:
@@ -42,7 +51,8 @@ def _test_for_all(group, name=None, expected=None):
 
 
 def _test_for_unnamed_set(group, name=None, expected=None):
-    assert {entry.load() for entry in pkg_resources.iter_entry_points(group, name)} == expected
+    if _has_pkg_resources:
+        assert {entry.load() for entry in pkg_resources.iter_entry_points(group, name)} == expected
     _metadata_kwargs = {'group': group}
     if name:
         _metadata_kwargs['name'] = name
@@ -61,6 +71,7 @@ def _test_for_unnamed_set(group, name=None, expected=None):
 
 
 @pytest.mark.unittest
+@pytest.mark.skipif(not _has_pkg_resources, reason="pkg_resources not available (Python 3.12+)")
 class TestTestingIsolatedEntryPoint:
     def test_isolated_entry_points(self):
         with isolated_entry_points('my_plugin', [
