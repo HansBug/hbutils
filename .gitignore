@@ -1211,3 +1211,4 @@ fabric.properties
 /docs/source/**/*.dat.*
 /docs/source/**/*.auto.rst
 .llmconfig.yaml
+.claude
